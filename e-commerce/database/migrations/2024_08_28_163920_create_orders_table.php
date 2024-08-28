@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('phone')->nullable();
-            $table->text('address')->nullable();
-            $table->enum('role', ['admin', 'seller', 'customer'])->default('customer');
+            $table->foreignId('user_id')->constrained();
+            $table->enum('status', ['pending', 'completed', 'shipped', 'returned'])->default('pending');
+            $table->decimal('total_amount', 10, 2);
+            $table->text('shipping_address');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('orders');
     }
 };
