@@ -34,7 +34,7 @@
 								<div class="card-body">
 									<p class="demo">
 										<div class="avatar avatar-xxl">
-											<img src="../assets/img/jm_denis.jpg" alt="..." class="avatar-img rounded-circle">
+											<img src="{{ asset('../assets/img/jm_denis.jpg') }}" alt="..." class="avatar-img rounded-circle">
 										</div>
 
 										<div class="avatar avatar-xl">

@@ -49,68 +49,69 @@ Route::get('/home-03', function () {
 // <================================= view for the pages admin ============================================>
 Route::get('/adminDashboard', function () {
     return view('adminDashboard/index');
-});
-Route::get('/adminDashboard/sidebarstyle2', function () {
+})->name('adminDashboard');
+Route::get('/test', function () {
+    return view('adminDashboard/test');
+})->name('test');
+Route::get('sidebarstyle2', function () {
     return view('adminDashboard/sidebar-style-2');
 })->name('sidebarTwo');
-Route::get('/adminDashboard/starter-template', function () {
+Route::get('starter-template', function () {
     return view('adminDashboard/starter-template');
 });
-Route::get('/adminDashboard/icon-menu', function () {
+Route::get('icon-menu', function () {
     return view('adminDashboard/icon-menu');
 })->name('iconMenu');
-Route::get('/adminDashboard/widgets', function () {
+Route::get('widgets', function () {
     return view('adminDashboard/widgets');
 })->name('widgets');
-Route::get('/adminDashboard/tables/tables', function () {
+Route::get('tables', function () {
     return view('adminDashboard/tables/tables');
 })->name('tables');
-Route::get('/adminDashboard/tables/datatables', function () {
+Route::get('datatables', function () {
     return view('adminDashboard/tables/datatables');
 })->name('dataTables');
-Route::get('/adminDashboard/maps/googlemaps', function () {
+Route::get('googlemaps', function () {
     return view('adminDashboard/maps/googlemaps');
 })->name('googlemaps');
-Route::get('/adminDashboard/maps/jsvectormap', function () {
+Route::get('jsvectormap', function () {
     return view('adminDashboard/maps/jsvectormap');
 })->name('jsvectormap');
-Route::get('/adminDashboard/charts/sparkline', function () {
+Route::get('sparkline', function () {
     return view('adminDashboard/charts/sparkline');
 })->name('sparkline');
-Route::get('/adminDashboard/charts/charts', function () {
+Route::get('charts', function () {
     return view('adminDashboard/charts/charts');
 })->name('charts');
-Route::get('/adminDashboard/components/avatars', function () {
+Route::get('avatars', function () {
     return view('adminDashboard/components/avatars');
 })->name('avatars');
-Route::get('/adminDashboard/components/buttons', function () {
+Route::get('buttons', function () {
     return view('adminDashboard/components/buttons');
 })->name('buttons');
-Route::get('/adminDashboard/components/font-awesome-icons', function () {
+Route::get('font-awesome-icons', function () {
     return view('adminDashboard/components/font-awesome-icons');
 })->name('fontAwesomeIcons');
-Route::get('/adminDashboard/components/gridsystem', function () {
+Route::get('gridsystem', function () {
     return view('adminDashboard/components/gridsystem');
 })->name('gridsystem');
-Route::get('/adminDashboard/components/notifications', function () {
+Route::get('notifications', function () {
     return view('adminDashboard/components/notifications');
 })->name('notifications');
-Route::get('/adminDashboard/components/panels', function () {
+Route::get('panels', function () {
     return view('adminDashboard/components/panels');
 })->name('panels');
-Route::get('/adminDashboard/components/simple-line-icons', function () {
+Route::get('simple-line-icons', function () {
     return view('adminDashboard/components/simple-line-icons');
 })->name('simpleLineIcons');
-Route::get('/adminDashboard/components/sweetalert', function () {
+Route::get('sweetalert', function () {
     return view('adminDashboard/components/sweetalert');
 })->name('sweetalert');
-Route::get('/adminDashboard/components/typography', function () {
+Route::get('typography', function () {
     return view('adminDashboard/components/typography');
 })->name('typography');
-Route::get('/adminDashboard/components/typography', function () {
-    return view('adminDashboard/components/typography');
-})->name('typography');
-Route::get('/adminDashboard/forms/forms', function () {
+
+Route::get('forms', function () {
     return view('adminDashboard/forms/forms');
 })->name('forms');
 // <=================================  End view for the pages admin ============================================>

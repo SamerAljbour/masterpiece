@@ -8,14 +8,17 @@
       name="viewport"
     />
     <link
-      rel="icon"
-      href="assets/img/kaiadmin/favicon.ico"
-      type="image/x-icon"
-    />
+  rel="icon"
+  href="{{ asset('assets/img/kaiadmin/favicon.ico') }}"
+  type="image/x-icon"
+/>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMcZ6ZKKjCz3WXABHgPfcu7z5aGA4m1ZZkFfgzL" crossorigin="anonymous">
 
     <!-- Fonts and icons -->
     <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js') }}"></script>
-
+<!-- Sweet Alert -->
+{{-- <script src="{{ asset('assets/js/plugin/sweetalert/sweetalert.min.js') }}"></script> --}}
     <script>
       WebFont.load({
         google: { families: ["Public Sans:300,400,500,600,700"] },
@@ -37,6 +40,7 @@
 <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/css/plugins.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/css/kaiadmin.min.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
 <!-- CSS Just for demo purpose, don't include it in your project -->
 <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
@@ -82,7 +86,7 @@
                   aria-expanded="false"
                 >
                   <i class="fas fa-home"></i>
-                  <p>Dashboard</p>
+                  <p>Dashboard Admin</p>
                   <span class="caret"></span>
                 </a>
                 <div class="collapse" id="dashboard">
@@ -95,11 +99,29 @@
                   </ul>
                 </div>
               </li>
-              <li class="nav-section">
-                <span class="sidebar-mini-icon">
-                  <i class="fa fa-ellipsis-h"></i>
-                </span>
-                <h4 class="text-section">Components</h4>
+            <ul class="nav nav-secondary">
+              <li class="nav-item ">
+                <a
+                  data-bs-toggle="collapse"
+                  href="#base"
+                  class="collapsed"
+                  aria-expanded="false"
+                >
+                  <i class="fas fa-home"></i>
+                  <p>Dashboard Admin</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="dashboard">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="../demo1/index.html">
+                        <span class="sub-item">Dashboard 1</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+
               </li>
               <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#base">
@@ -157,6 +179,13 @@
                   </ul>
                 </div>
               </li>
+              <li class="nav-section">
+                <span class="sidebar-mini-icon">
+                  <i class="fa fa-ellipsis-h"></i>
+                </span>
+                <h4 class="text-section">Components</h4>
+              </li>
+
               <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarLayouts">
                   <i class="fas fa-th-list"></i>
