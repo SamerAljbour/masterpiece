@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -191,6 +192,8 @@ Route::get('test', function () {
     return view('adminDashboard/test');
 })->name('test');
 // <=================================  End view for the pages admin ============================================>
-Route::get('loginRegister', function () {
-    return view('regAndLogin/loginRegister');
-})->name('loginRegister');
+// Route::get('loginRegister', function () {
+//     return view('regAndLogin/loginRegister');
+// })->name('loginRegister');
+Route::get('/loginRegister', [UserController::class, 'viewReg'])->name('loginRegister');
+Route::post('/loginRegister', [UserController::class, 'register'])->name('createUser');

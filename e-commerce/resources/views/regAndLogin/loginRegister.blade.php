@@ -3,11 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script
       src="https://kit.fontawesome.com/64d58efce2.js"
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="{{ asset('assets/css/loginReg.css') }}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ECoi6ZVpu19Qy15Q9MvwmZzdbxg+we6DoY+6z1kr4Uw5lD4bLgAjbF43Jlf+qS+X" crossorigin="anonymous">
 
     <title>Sign in & Sign up Form</title>
   </head>
@@ -16,6 +18,7 @@
       <div class="forms-container">
         <div class="signin-signup">
           <form action="#" class="sign-in-form">
+
             <h2 class="title">Sign in</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
@@ -42,20 +45,24 @@
               </a>
             </div>
           </form>
-          <form action="#" class="sign-up-form">
-            <h2 class="title">Sign up</h2>
+
+          <form action="{{ route('createUser') }}" method="POST" class="sign-up-form">
+              @csrf
+              <h2 class="title">Sign up</h2>
+
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="text" placeholder="Username" />
+              <input type="text" placeholder="name" name="name"/>
             </div>
             <div class="input-field">
               <i class="fas fa-envelope"></i>
-              <input type="email" placeholder="Email" />
+              <input type="email" placeholder="Email" name="email"/>
             </div>
             <div class="input-field">
               <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Password" />
+              <input type="password" placeholder="Password"name="password" />
             </div>
+
             <input type="submit" class="btn" value="Sign up" />
             <p class="social-text">Or Sign up with social platforms</p>
             <div class="social-media">
@@ -103,5 +110,35 @@
     </div>
 
     <script src="{{ asset('assets/js/loginReg.js') }}"></script>
+     <!-- SweetAlert for displaying messages -->
+     @if($errors->any())
+     <script>
+         Swal.fire({
+             icon: 'error',
+             title: 'Oops...',
+             html: '{!! implode("<br>", $errors->all()) !!}'
+         });
+     </script>
+ @endif
+
+ @if(session('successRegister'))
+     <script>
+         Swal.fire({
+             icon: 'success',
+             title: 'Success!',
+             text: '{{ session('successRegister') }}'
+         });
+     </script>
+ @endif
+
+ @if(session('failedRegister'))
+     <script>
+         Swal.fire({
+             icon: 'error',
+             title: 'Registration Failed',
+             text: '{{ session('failedRegister') }}'
+         });
+     </script>
+ @endif
   </body>
 </html>
