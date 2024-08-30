@@ -17,7 +17,7 @@ use App\Http\Controllers\UserController;
 // <================================= view for the pages home ============================================>
 Route::get('/home', function () {
     return view('index');
-});
+})->name('home');
 Route::get('/cart', function () {
     return view('shoping-cart');
 });
@@ -197,3 +197,5 @@ Route::get('test', function () {
 // })->name('loginRegister');
 Route::get('/loginRegister', [UserController::class, 'viewReg'])->name('loginRegister');
 Route::post('/loginRegister', [UserController::class, 'register'])->name('createUser');
+Route::post('/loginRegister/login', [UserController::class, 'login'])->name('login');
+Route::post('/logout', [UserController::class, 'logout'])->name('logout');

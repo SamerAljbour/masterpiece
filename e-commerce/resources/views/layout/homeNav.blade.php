@@ -55,10 +55,20 @@
                     <a href="#" class="flex-c-m trans-04 p-lr-25">
                         My Account
                     </a>
+                    @if (Auth::user())
+                    <form action="{{ route('logout') }}" method="POST"class="flex-c-m trans-04 p-lr-25" >
+                        @csrf
+                        <button type="submit" >
+                            Logout
+                        </button>
+                    </form>
 
-                    <a href="#" class="flex-c-m trans-04 p-lr-25">
-                        EN
+                    @else
+                    <a href="{{ route('loginRegister') }}" class="flex-c-m trans-04 p-lr-25">
+                        login
                     </a>
+
+                    @endif
 
                     <a href="#" class="flex-c-m trans-04 p-lr-25">
                         USD

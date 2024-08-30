@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Session;
 class UserController extends Controller
 {
     public function viewReg(){
@@ -23,7 +24,7 @@ class UserController extends Controller
             $user->email = $validateData['email'];
             $user->password = $validateData['password'];
             $user->save();
-                return redirect()->route('home')->with('successRegister' , "you created account successfully");
+                return redirect()->route('loginRegister')->with('successRegister' , "you created account successfully");
 
 
 
@@ -47,15 +48,22 @@ class UserController extends Controller
         $user = User::where('email' , $validateData['email'])->first();
         if($user){
             if($validateData['password'] == $user->password){
-                return redirect('dashboard');
+                Auth::login($user);
+                return redirect('home');
 
             }else {
-                return back()->with('fail','Password not match!');
+                return back()->with('failedLogin','Password not match!');
 
             }
         }else {
-            return back()->with('fail','This email is not register.');
+            return back()->with('failedLogin','This email is not register.');
 
         }
+    }
+    public function logout(){
+        Auth::logout();
+        Session::flush(); // Clear all session data
+        Session::regenerate(); // Regenerate the session ID
+        return redirect()->route('home');
     }
 }
