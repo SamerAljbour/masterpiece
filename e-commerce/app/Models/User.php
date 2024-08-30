@@ -19,7 +19,7 @@ class User extends Authenticatable
      */
 
      protected $fillable = [
-        'name', 'email', 'password', 'address', 'phone_number', 'profile_badge', 'role'
+        'name', 'email', 'password', 'address', 'phone_number', 'profile_badge', 'role_id',
     ];
     /**
      * The attributes that should be hidden for serialization.
@@ -68,4 +68,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Seller::class);
     }
+    public function role()
+{
+    return $this->belongsTo(Role::class, 'role_id');
+}
 }

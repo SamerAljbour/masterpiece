@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -193,9 +194,28 @@ Route::get('test', function () {
 })->name('test');
 // <=================================  End view for the pages admin ============================================>
 // Route::get('loginRegister', function () {
-//     return view('regAndLogin/loginRegister');
-// })->name('loginRegister');
-Route::get('/loginRegister', [UserController::class, 'viewReg'])->name('loginRegister');
-Route::post('/loginRegister', [UserController::class, 'register'])->name('createUser');
-Route::post('/loginRegister/login', [UserController::class, 'login'])->name('login');
-Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+    //     return view('regAndLogin/loginRegister');
+    // })->name('loginRegister');
+
+    // <=================================  register for user ============================================>
+    Route::get('/loginRegister', [UserController::class, 'viewReg'])->name('loginRegister');
+    Route::post('/loginRegister', [UserController::class, 'register'])->name('createUser');
+    Route::post('/loginRegister/login', [UserController::class, 'login'])->name('login');
+    Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+    // <================================= End of register for user ============================================>
+
+
+    // <================================= admin  ============================================>
+
+
+
+    // <================================= user crud  ============================================>
+    Route::get('/allUsers', [AdminController::class, 'allUsers'])->name('allUsers');
+    Route::get('/createUser', [AdminController::class, 'createUser'])->name('createUser');
+    Route::post('/storeUser', [AdminController::class, 'storeNewUser'])->name('storeUser');
+    Route::get('/updateUser/{id}', [AdminController::class, 'editUser'])->name('updateUser');
+    Route::put('/updateUser/{id}', [AdminController::class, 'updateUser'])->name('updateUserData');
+    Route::post('/deleteUser/{id}', [AdminController::class, 'deleteUser'])->name('deleteUser');
+    // <================================= End of user crud  ============================================>
+
+    // <================================= End of admin ============================================>
