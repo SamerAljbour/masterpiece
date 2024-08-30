@@ -46,6 +46,79 @@ Route::get('/home-03', function () {
 });
 // <================================= End of view for the pages home ============================================>
 
+// <================================= view for the pages sellerDashboard ============================================>
+Route::get('/sellerDashboard', function () {
+    return view('sellerDashboard/index');
+})->name('sellerDashboard');
+Route::get('/test', function () {
+    return view('sellerDashboard/test');
+})->name('test');
+Route::get('sidebarstyle2', function () {
+    return view('sellerDashboard/sidebar-style-2');
+})->name('sidebarTwo');
+Route::get('starter-template', function () {
+    return view('sellerDashboard/starter-template');
+});
+Route::get('icon-menu', function () {
+    return view('sellerDashboard/icon-menu');
+})->name('iconMenu');
+Route::get('widgets', function () {
+    return view('sellerDashboard/widgets');
+})->name('widgets');
+Route::get('tables', function () {
+    return view('sellerDashboard/tables/tables');
+})->name('tables');
+Route::get('datatables', function () {
+    return view('sellerDashboard/tables/datatables');
+})->name('dataTables');
+Route::get('googlemaps', function () {
+    return view('sellerDashboard/maps/googlemaps');
+})->name('googlemaps');
+Route::get('jsvectormap', function () {
+    return view('sellerDashboard/maps/jsvectormap');
+})->name('jsvectormap');
+Route::get('sparkline', function () {
+    return view('sellerDashboard/charts/sparkline');
+})->name('sparkline');
+Route::get('charts', function () {
+    return view('sellerDashboard/charts/charts');
+})->name('charts');
+Route::get('avatars', function () {
+    return view('sellerDashboard/components/avatars');
+})->name('avatars');
+Route::get('buttons', function () {
+    return view('sellerDashboard/components/buttons');
+})->name('buttons');
+Route::get('font-awesome-icons', function () {
+    return view('sellerDashboard/components/font-awesome-icons');
+})->name('fontAwesomeIcons');
+Route::get('gridsystem', function () {
+    return view('sellerDashboard/components/gridsystem');
+})->name('gridsystem');
+Route::get('notifications', function () {
+    return view('sellerDashboard/components/notifications');
+})->name('notifications');
+Route::get('panels', function () {
+    return view('sellerDashboard/components/panels');
+})->name('panels');
+Route::get('simple-line-icons', function () {
+    return view('sellerDashboard/components/simple-line-icons');
+})->name('simpleLineIcons');
+Route::get('sweetalert', function () {
+    return view('sellerDashboard/components/sweetalert');
+})->name('sweetalert');
+Route::get('typography', function () {
+    return view('sellerDashboard/components/typography');
+})->name('typography');
+
+Route::get('forms', function () {
+    return view('sellerDashboard/forms/forms');
+})->name('forms');
+Route::get('test', function () {
+    return view('sellerDashboard/test');
+})->name('test');
+// <=================================  End view for the pages sellerDashboard ============================================>
+
 // <================================= view for the pages admin ============================================>
 Route::get('/adminDashboard', function () {
     return view('adminDashboard/index');
@@ -114,4 +187,10 @@ Route::get('typography', function () {
 Route::get('forms', function () {
     return view('adminDashboard/forms/forms');
 })->name('forms');
+Route::get('test', function () {
+    return view('adminDashboard/test');
+})->name('test');
 // <=================================  End view for the pages admin ============================================>
+Route::get('loginRegister', function () {
+    return view('regAndLogin/loginRegister');
+})->name('loginRegister');

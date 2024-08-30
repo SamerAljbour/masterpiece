@@ -100,10 +100,10 @@
                 </div>
               </li>
             <ul class="nav nav-secondary">
-              <li class="nav-item ">
+              <li class="nav-item active">
                 <a
                   data-bs-toggle="collapse"
-                  href="#base"
+                  href="#dashboard"
                   class="collapsed"
                   aria-expanded="false"
                 >
@@ -114,7 +114,7 @@
                 <div class="collapse" id="dashboard">
                   <ul class="nav nav-collapse">
                     <li>
-                      <a href="../demo1/index.html">
+                      <a href="{{ route('test') }}">
                         <span class="sub-item">Dashboard 1</span>
                       </a>
                     </li>
