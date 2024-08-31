@@ -7,6 +7,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DiscountCouponController;
 use App\Models\DiscountCoupon;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -238,13 +240,23 @@ Route::get('test', function () {
 
     // <================================= Category crud  ============================================>
 
-
     Route::get('allCategories', [CategoryController::class, 'index'])->name('allCategories');
     Route::get('categories', [CategoryController::class, 'create'])->name('createCategory');
     Route::post('categories', [CategoryController::class, 'store'])->name('storeCategories');
     Route::get('editCategories/{id}', [CategoryController::class, 'edit'])->name('editCategories');
     Route::put('updateCategories/{id}', [CategoryController::class, 'update'])->name('updateCategories');
     Route::post('DeleteCategories/{id}', [CategoryController::class, 'destroy'])->name('deleteCategories');
+
     // <================================= End of Category crud  ============================================>
+    // <=================================  Products crud  ============================================>
+
+    Route::get('allProducts', [ProductController::class, 'index'])->name('allProducts');
+    Route::get('createProduct', [ProductController::class, 'create'])->name('createProduct');
+    Route::post('storeProduct', [ProductController::class, 'store'])->name('storeProduct');
+    Route::get('editProduct/{id}', [ProductController::class, 'edit'])->name('editProduct');
+    Route::post('deleteProduct/{id}', [ProductController::class, 'destroy'])->name('deleteProduct');
+
+
+    // <================================= End of Products crud  ============================================>
 
     // <================================= End of admin ============================================>

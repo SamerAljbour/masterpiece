@@ -121,6 +121,16 @@
 
 
               </li>
+              <li class="nav-item ">
+                <a href="{{ route('allProducts') }}">
+                  <i class="fas fa-th"></i>
+                  <p>Manage Products</p>
+                  <span class=""></span>
+                </a>
+
+
+
+              </li>
 {{--  --}}
               </li>
 

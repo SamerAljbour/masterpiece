@@ -6,8 +6,10 @@
     margin-left: 20%
 }
 #btnLeft{
-    margin-left: 74%;
+    display: flex;
+   justify-content: end
 }
+
 </style>
 <div class="container">
     @if ($errors->any())
