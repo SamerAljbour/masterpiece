@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DiscountCouponController;
+use App\Models\DiscountCoupon;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -217,5 +220,16 @@ Route::get('test', function () {
     Route::put('/updateUser/{id}', [AdminController::class, 'updateUser'])->name('updateUserData');
     Route::post('/deleteUser/{id}', [AdminController::class, 'deleteUser'])->name('deleteUser');
     // <================================= End of user crud  ============================================>
+
+
+    // <================================= discount crud  ============================================>
+    Route::get('/alldiscounts', [DiscountCouponController::class, 'index'])->name('alldiscounts');
+    Route::get('/createDiscount', [DiscountCouponController::class, 'create'])->name('createDiscount');
+    Route::post('/storeDiscount', [DiscountCouponController::class, 'store'])->name('storeDiscount');
+
+
+
+    // <================================= discount crud  ============================================>
+
 
     // <================================= End of admin ============================================>
