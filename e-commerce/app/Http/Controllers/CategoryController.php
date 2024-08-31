@@ -12,7 +12,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        // Retrieve all categories from the database
+        $categories = Category::all();
+        return view('adminDashboard/category/indexCategory', compact('categories'));
     }
 
     /**
@@ -20,7 +22,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        // Show the form for creating a new category
+        return view('adminDashboard/category/createCategory');
     }
 
     /**
@@ -28,7 +31,18 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate the request
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        // Create a new category
+        Category::create([
+            'name' => $request->name,
+        ]);
+
+        // Redirect to the categories index page
+        return redirect()->route('allCategories')->with('success', 'Category created successfully.');
     }
 
     /**
@@ -36,30 +50,47 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        // Show details of a specific category
+        return view('categories.show', compact('category'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Category $category)
+    public function edit(Category $category , string $id)
     {
-        //
+        $category = Category::find($id);
+        return view('adminDashboard/category/editCategories', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, string $id)
     {
-        //
+        // Validate the request
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+       $category = Category::find($id);
+        $category->update([
+            'name' => $request->name,
+        ]);
+
+        // Redirect to the categories index page
+        return redirect()->route('allCategories')->with('success', 'Category updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy(Category $category ,string $id)
     {
-        //
+        $category= Category::find($id);
+        $category->delete();
+
+        // Redirect to the categories index page
+        return redirect()->route('allCategories')->with('success', 'Category deleted successfully.');
     }
 }

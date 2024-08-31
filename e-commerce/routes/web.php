@@ -6,7 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DiscountCouponController;
 use App\Models\DiscountCoupon;
-
+use App\Http\Controllers\CategoryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -202,7 +202,7 @@ Route::get('test', function () {
 
     // <=================================  register for user ============================================>
     Route::get('/loginRegister', [UserController::class, 'viewReg'])->name('loginRegister');
-    Route::post('/loginRegister', [UserController::class, 'register'])->name('createUser');
+    Route::post('/loginRegister', [UserController::class, 'register'])->name('storNeweUser');
     Route::post('/loginRegister/login', [UserController::class, 'login'])->name('login');
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
     // <================================= End of register for user ============================================>
@@ -226,10 +226,25 @@ Route::get('test', function () {
     Route::get('/alldiscounts', [DiscountCouponController::class, 'index'])->name('alldiscounts');
     Route::get('/createDiscount', [DiscountCouponController::class, 'create'])->name('createDiscount');
     Route::post('/storeDiscount', [DiscountCouponController::class, 'store'])->name('storeDiscount');
+    Route::get('/editDiscount/{id}', [DiscountCouponController::class, 'edit'])->name('editDiscount');
+    Route::put('/updateDiscount/{id}', [DiscountCouponController::class, 'update'])->name('updateDiscount');
+    Route::post('/deleteDiscount/{id}', [DiscountCouponController::class, 'destroy'])->name('deleteDiscount');
 
 
 
-    // <================================= discount crud  ============================================>
+    // <================================= End of discount crud  ============================================>
 
+
+
+    // <================================= Category crud  ============================================>
+
+
+    Route::get('allCategories', [CategoryController::class, 'index'])->name('allCategories');
+    Route::get('categories', [CategoryController::class, 'create'])->name('createCategory');
+    Route::post('categories', [CategoryController::class, 'store'])->name('storeCategories');
+    Route::get('editCategories/{id}', [CategoryController::class, 'edit'])->name('editCategories');
+    Route::put('updateCategories/{id}', [CategoryController::class, 'update'])->name('updateCategories');
+    Route::post('DeleteCategories/{id}', [CategoryController::class, 'destroy'])->name('deleteCategories');
+    // <================================= End of Category crud  ============================================>
 
     // <================================= End of admin ============================================>

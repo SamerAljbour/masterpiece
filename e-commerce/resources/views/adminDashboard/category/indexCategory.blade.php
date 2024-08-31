@@ -1,28 +1,73 @@
 @extends('adminLayout.navAndsidebar')
 @section('content')
-<div class="container">
-    <style>
-        #statusStyle{
-            color: green;
-            text-align: center;
-            display: flex;
-            margin: auto;
-            align-content: center
-
-        }
+<style>
+    .emptyRow{
+        text-align: center;
+        font-size: 1.3rem !important;
+    }
+    #centerTable{
+        display: flex;
+        flex-direction: row;
+        /* align-content: center; */
+        margin-left: 20%;
+        width: 100%
+    }
+    #btnLeft{
+        margin-left: 4%;
+        margin-top: 27px;
+        align-content: center;
+    }
+     .form-group{
+        width: 80%;
+     }
     </style>
+<div class="container">
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+<form action="{{ route('storeCategories') }}" method="POST">
+    @csrf
+        <div id="centerTable" class="col-md-12">
+            <div class="form-group">
+              <label for="name">Category Name</label>
+              <input
+              name="name"
+                type="text"
+                class="form-control"
+                id="name"
+                placeholder="Enter Category Name"
+              />
+
+            </div>
+
+            <div class="form-group" id="btnLeft">
+            <button
+
+              class="btn btn-black btn-round ms-auto"
+            >
+              <i class="fa far fa-user"></i>
+              create category
+            </button>
+        </div>
+
+
+
+
+    </div>
+</form>
+
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
-              <h4 class="card-title">Discounts</h4>
-              <a
-              href="{{ route('createDiscount') }}"
-                class="btn btn-black btn-round ms-auto"
-              >
-                <i class="fas fa-money-bill"></i>
-                Add discount
-              </a>
+              <h4 class="card-title">Categories</h4>
+
             </div>
           </div>
           <div class="card-body">
@@ -120,57 +165,49 @@
               >
                 <thead>
                   <tr>
-                    {{-- <th>ID</th> --}}
-                    <th>Code</th>
-                    <th>Amount</th>
-                    <th>valid from</th>
-                    <th>valid to</th>
-                    <th>status</th>
+                    <th>ID</th>
+                    <th>name</th>
                     <th style="width: 10%;">Action</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
-                    {{-- <<th>ID</th> --}}
-                    <th>Code</th>
-                    <th>Amount</th>
-                    <th>valid from</th>
-                    <th>valid to</th>
-                    <th>status</th>
+                    <th>ID</th>
+                    <th>name</th>
                     <th style="width: 10%;">Action</th>
                   </tr>
                 </tfoot>
                 <tbody>
-                    @foreach ($discounts as $discount)
-                    <tr>
-                        {{-- <td>{{ $discount->id }}</td> --}}
-                        <td>{{ $discount->code }}</td>
-                        <td>{{ $discount->discount_amount }}</td>
-                        <td>{{ $discount->valid_from }}</td>
-                        <td>{{ $discount->valid_until  }}</td>
-                        <td>
-                        @if ($discount->is_active)
-                        <i class="fas fa-check-circle" id="statusStyle" ></i>
-                        @else
-                        <i class="fas fa-check-circle" style="color: red" id="statusStyle"></i>
+                    @if (count($categories) > 0)
 
-                        @endif
-                      </td>
+
+                    @foreach ($categories as $category)
+                    <tr>
+                        <td>{{ $category->id }}</td>
+                        <td>{{ $category->name }}</td>
+
                         <td>
                             <div class="form-button-action">
-                                <a href="{{ route('editDiscount', $discount->id)}}" class="btn btn-link btn-primary btn-lg">
+                                <a href="{{ route('editCategories', $category->id)}}" class="btn btn-link btn-primary btn-lg">
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <form action="{{ route('deleteDiscount', $discount->id) }}" method="POST">
+                                <form action="{{ route('deleteCategories', $category->id) }}" method="POST">
                                     @csrf
-                                    <button id="deleteDiscount" type="submit" class="btn btn-link btn-danger">
+                                    <button  type="submit" class="btn btn-link btn-danger">
                                         <i class="fa fa-times"></i>
                                     </button>
                                 </form>
                             </div>
                         </td>
                     </tr>
+
                 @endforeach
+                @else
+                <tr>
+
+                    <th colspan="3" class="emptyRow">No data found</th>
+                </tr>
+                @endif
 
 
 
@@ -181,6 +218,7 @@
           </div>
         </div>
       </div>
+
 
 
     <script>

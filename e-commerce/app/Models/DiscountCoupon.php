@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class DiscountCoupon extends Model
 {
@@ -16,4 +17,14 @@ class DiscountCoupon extends Model
         'valid_until',
         'is_active',
     ];
+    public function updateActivity()
+    {
+        $today = Carbon::today();
+
+        // Check if today's date is within the valid date range
+        $isActive = $this->valid_from <= $today && $this->valid_until >= $today;
+
+        $this->is_active = $isActive;
+        $this->save();
+    }
 }
