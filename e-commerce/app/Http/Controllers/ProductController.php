@@ -196,5 +196,10 @@ class ProductController extends Controller
     // Redirect to the list of products with a success message
     return redirect()->route('allProducts')->with('success', 'Product deleted successfully');
 }
-
+public function deleteProductImage(string $productId, string $imageId)
+{
+    // Your logic to delete the image by $imageId for the product $productId
+    ProductPhoto::where('id' , $imageId)->delete();
+    return redirect()->route('editProduct', $productId)->with('success', 'Image deleted');
+}
 }

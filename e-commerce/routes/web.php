@@ -255,6 +255,7 @@ Route::get('test', function () {
     Route::post('storeProduct', [ProductController::class, 'store'])->name('storeProduct');
     Route::get('editProduct/{id}', [ProductController::class, 'edit'])->name('editProduct');
     Route::post('deleteProduct/{id}', [ProductController::class, 'destroy'])->name('deleteProduct');
+    Route::delete('deleteProductImage/{productId}/{imageId}', [ProductController::class, 'deleteProductImage'])->name('deleteProductImage');
 
 
     // <================================= End of Products crud  ============================================>

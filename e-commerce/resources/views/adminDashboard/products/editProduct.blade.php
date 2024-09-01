@@ -12,6 +12,28 @@
 #widthGroup {
     width: 100% !important
 }
+.image-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Adjust the gap between image items */
+}
+
+.image-item {
+    display: flex;
+    align-items: center;
+}
+
+.icons {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px; /* Adjust the space between the image and the icons */
+    gap: 5px; /* Adjust the gap between the icons */
+}
+
+.icons i {
+    cursor: pointer;
+}
+
 </style>
 <div class="container">
     @if ($errors->any())
@@ -58,16 +80,30 @@
             </div>
             <div class="form-group">
                 <label for="image_url">Main Image</label>
-                <input name="image_url" type="file" class="form-control" placeholder="Main image of the product" />
-                <img src="{{ Storage::url($product->image_url) }}" alt="Product Image" width="180px" height="150px">
+                {{-- try input hidden --}}
+                <input name="image_url" type="file" class="form-control" placeholder="Main image of the product"  />
+                <img src="{{ Storage::url($product->image_url) }}" alt="Product Image" width="280px" height="250px">
             </div>
             <div class="form-group">
                 <label for="images">Secondary Images</label>
                 <input name="images[]" type="file" class="form-control" placeholder="Secondary images of the product" multiple />
-            @foreach ($product->photos as $photo)
-                 <img src="{{ Storage::url($photo->photo_url) }}" alt="Product Image" width="180px" height="150px">
-            @endforeach
+                <div class="image-container">
+                    @foreach ($product->photos as $photo)
+                        <div class="image-item">
+                            <img src="{{ Storage::url($photo->photo_url) }}" alt="Product Image" width="280px" height="250px">
+                            <div class="icons">
+                                <a href=""><i class="fa fa-edit"></i></a>
+                                <form action="{{ route('deleteProductImage', ['productId' => $product->id, 'imageId' => $photo->id]) }}">
+
+                                        <button type="submit"  class="fa fa-times"><i class="fa fa-times"></i></button>
+                                    </a>
+                                </form>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
+
             <div class="form-group" id="btnLeft">
                 <button class="btn btn-black btn-round ms-auto">
                     <i class="fa far fa-user"></i>
