@@ -5,6 +5,16 @@
         margin-left: 4%;
 
     }
+    .outlined-button {
+    color: #d9534f; /* Red color for the text */
+    border: 2px solid #d9534f; /* Red border */
+    background-color: transparent; /* Transparent background */
+    padding: 5px 10px; /* Adjust padding to make it look like a button */
+    border-radius: 5px; /* Rounded corners */
+    text-align: center; /* Center the text */
+    display: inline-block; /* Inline block to fit the content */
+    font-weight: bold; /* Make the text bold */
+}
 
 
     </style>
@@ -135,10 +145,10 @@
                   <tr>
                     <th>ID</th>
                     <th>name</th>
-                    <th style="width:30%">description</th>
+                    <th style="width:20%">description</th>
                     <th>price</th>
-                    <th>category_id </th>
-                    <th>stock_quantity</th>
+                    <th>category name </th>
+                    <th>stock quantity</th>
                     <th >Action</th>
                   </tr>
                 </thead>
@@ -151,10 +161,16 @@
                     <tr>
                         <td>{{ $product->id }}</td>
                         <td>{{ $product->name }}</td>
-                        <td  style="width:30%">{{ $product->description }}</td>
+                        <td  style="width:20%">{{ $product->description }}</td>
                         <td>{{ $product->price }}</td>
-                        <td>{{ $product->category_id }}</td>
+                        <td>{{ $product->category->name }}</td>
+                        @if ($product->stock_quantity)
+
                         <td>{{ $product->stock_quantity }}</td>
+                        @else
+                        <td><p  class=" btn btn-sm btn-rounded btn-outline-danger disabled" >out of stock</p></td>
+
+                        @endif
 
                         <td>
                             <div class="form-button-action">

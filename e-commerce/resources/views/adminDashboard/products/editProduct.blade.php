@@ -93,11 +93,10 @@
                             <img src="{{ Storage::url($photo->photo_url) }}" alt="Product Image" width="280px" height="250px">
                             <div class="icons">
                                 <a href=""><i class="fa fa-edit"></i></a>
-                                <form action="{{ route('deleteProductImage', ['productId' => $product->id, 'imageId' => $photo->id]) }}">
 
                                         <button type="submit"  class="fa fa-times"><i class="fa fa-times"></i></button>
                                     </a>
-                                </form>
+
                             </div>
                         </div>
                     @endforeach

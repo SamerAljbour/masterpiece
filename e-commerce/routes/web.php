@@ -8,6 +8,7 @@ use App\Http\Controllers\DiscountCouponController;
 use App\Models\DiscountCoupon;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +22,9 @@ use App\Http\Controllers\ProductController;
 */
 
 // <================================= view for the pages home ============================================>
-Route::get('/home', function () {
-    return view('index');
-})->name('home');
+// Route::get('/home', function () {
+//     return view('index');
+// })->name('home');
 Route::get('/cart', function () {
     return view('shoping-cart');
 });
@@ -210,7 +211,16 @@ Route::get('test', function () {
     // <================================= End of register for user ============================================>
 
 
+
+
+
+
+
     // <================================= admin  ============================================>
+
+
+
+
 
 
 
@@ -231,10 +241,9 @@ Route::get('test', function () {
     Route::get('/editDiscount/{id}', [DiscountCouponController::class, 'edit'])->name('editDiscount');
     Route::put('/updateDiscount/{id}', [DiscountCouponController::class, 'update'])->name('updateDiscount');
     Route::post('/deleteDiscount/{id}', [DiscountCouponController::class, 'destroy'])->name('deleteDiscount');
-
-
-
     // <================================= End of discount crud  ============================================>
+
+
 
 
 
@@ -248,6 +257,11 @@ Route::get('test', function () {
     Route::post('DeleteCategories/{id}', [CategoryController::class, 'destroy'])->name('deleteCategories');
 
     // <================================= End of Category crud  ============================================>
+
+
+
+
+
     // <=================================  Products crud  ============================================>
 
     Route::get('allProducts', [ProductController::class, 'index'])->name('allProducts');
@@ -261,3 +275,16 @@ Route::get('test', function () {
     // <================================= End of Products crud  ============================================>
 
     // <================================= End of admin ============================================>
+
+
+
+
+
+    // <================================= Home  ============================================>
+    Route::get('home', [HomeController::class, 'index'])->name('home');
+
+
+
+
+
+    // <================================= End of Home  ============================================>
