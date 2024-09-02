@@ -43,7 +43,6 @@
 
 								</div>
 
-								<div class="slick3 gallery-lb">
 									<!-- Main Product Image -->
 									<div  data-thumb="{{ Storage::url($product->image_url) }}">
 										<div class="wrap-pic-w pos-relative">
@@ -65,7 +64,7 @@
 											</div>
 										</div>
 									@endforeach
-								</div>
+
 
 
 							</div>

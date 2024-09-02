@@ -94,13 +94,16 @@
                   <p>Home</p>
                   <span class=""></span>
                 </a>
-              <li class="nav-item ">
-                <a href="{{ route('allUsers') }}">
-                  <i class="fas fa-user-circle"></i>
-                  <p>Manage Users</p>
-                  <span class=""></span>
-                </a>
-              </li>
+                @if (Auth::user()->role_id == 3)
+
+                <li class="nav-item ">
+                  <a href="{{ route('allUsers') }}">
+                    <i class="fas fa-user-circle"></i>
+                    <p>Manage Users</p>
+                    <span class=""></span>
+                  </a>
+                </li>
+                @endif
               <li class="nav-item ">
                 <a href="{{ route('alldiscounts') }}">
                   <i class="fas fa-money-bill-wave"></i>
@@ -111,20 +114,25 @@
 
 
               </li>
+              @if (Auth::user()->role_id == 3)
               <li class="nav-item ">
-                <a href="{{ route('allCategories') }}">
-                  <i class="fas fa-th"></i>
-                  <p>Manage Categories</p>
-                  <span class=""></span>
-                </a>
-
-
-
-              </li>
+                  <a href="{{ route('allCategories') }}">
+                      <i class="fas fa-th"></i>
+                      <p>Manage Categories</p>
+                      <span class=""></span>
+                    </a>
+                </li>
+                @endif
               <li class="nav-item ">
                 <a href="{{ route('allProducts') }}">
                   <i class="fas fa-th"></i>
                   <p>Manage Products</p>
+                  <span class=""></span>
+                </a>
+              <li class="nav-item ">
+                <a href="{{ route('allreviews') }}">
+                  <i class="fas fa-th"></i>
+                  <p>Manage Reviews</p>
                   <span class=""></span>
                 </a>
 

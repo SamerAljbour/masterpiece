@@ -9,6 +9,7 @@ use App\Models\DiscountCoupon;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,71 +61,71 @@ Route::get('/dashboard', function () {
     return view('dashboard/index');
 })->name('dashboard');
 Route::get('/test', function () {
-    return view('adminDashboard/test');
+    return view('dashboard/test');
 })->name('test');
 Route::get('sidebarstyle2', function () {
-    return view('adminDashboard/sidebar-style-2');
+    return view('dashboard/sidebar-style-2');
 })->name('sidebarTwo');
 Route::get('starter-template', function () {
-    return view('adminDashboard/starter-template');
+    return view('dashboard/starter-template');
 });
 Route::get('icon-menu', function () {
-    return view('adminDashboard/icon-menu');
+    return view('dashboard/icon-menu');
 })->name('iconMenu');
 Route::get('widgets', function () {
-    return view('adminDashboard/widgets');
+    return view('dashboard/widgets');
 })->name('widgets');
 Route::get('tables', function () {
-    return view('adminDashboard/tables/tables');
+    return view('dashboard/tables/tables');
 })->name('tables');
 Route::get('datatables', function () {
-    return view('adminDashboard/tables/datatables');
+    return view('dashboard/tables/datatables');
 })->name('dataTables');
 Route::get('googlemaps', function () {
-    return view('adminDashboard/maps/googlemaps');
+    return view('dashboard/maps/googlemaps');
 })->name('googlemaps');
 Route::get('jsvectormap', function () {
-    return view('adminDashboard/maps/jsvectormap');
+    return view('dashboard/maps/jsvectormap');
 })->name('jsvectormap');
 Route::get('sparkline', function () {
-    return view('adminDashboard/charts/sparkline');
+    return view('dashboard/charts/sparkline');
 })->name('sparkline');
 Route::get('charts', function () {
-    return view('adminDashboard/charts/charts');
+    return view('dashboard/charts/charts');
 })->name('charts');
 Route::get('avatars', function () {
-    return view('adminDashboard/components/avatars');
+    return view('dashboard/components/avatars');
 })->name('avatars');
 Route::get('buttons', function () {
-    return view('adminDashboard/components/buttons');
+    return view('dashboard/components/buttons');
 })->name('buttons');
 Route::get('font-awesome-icons', function () {
-    return view('adminDashboard/components/font-awesome-icons');
+    return view('dashboard/components/font-awesome-icons');
 })->name('fontAwesomeIcons');
 Route::get('gridsystem', function () {
-    return view('adminDashboard/components/gridsystem');
+    return view('dashboard/components/gridsystem');
 })->name('gridsystem');
 Route::get('notifications', function () {
-    return view('adminDashboard/components/notifications');
+    return view('dashboard/components/notifications');
 })->name('notifications');
 Route::get('panels', function () {
-    return view('adminDashboard/components/panels');
+    return view('dashboard/components/panels');
 })->name('panels');
 Route::get('simple-line-icons', function () {
-    return view('adminDashboard/components/simple-line-icons');
+    return view('dashboard/components/simple-line-icons');
 })->name('simpleLineIcons');
 Route::get('sweetalert', function () {
-    return view('adminDashboard/components/sweetalert');
+    return view('dashboard/components/sweetalert');
 })->name('sweetalert');
 Route::get('typography', function () {
-    return view('adminDashboard/components/typography');
+    return view('dashboard/components/typography');
 })->name('typography');
 
 Route::get('forms', function () {
-    return view('adminDashboard/forms/forms');
+    return view('dashboard/forms/forms');
 })->name('forms');
 Route::get('test', function () {
-    return view('adminDashboard/test');
+    return view('dashboard/test');
 })->name('test');
 // <=================================  End view for the pages admin ============================================>
 // Route::get('loginRegister', function () {
@@ -144,7 +145,7 @@ Route::get('test', function () {
 
 
 
-    // <================================= admin  ============================================>
+    // <================================= dashboard  ============================================>
 
 
 
@@ -202,7 +203,16 @@ Route::get('test', function () {
 
     // <================================= End of Products crud  ============================================>
 
-    // <================================= End of admin ============================================>
+
+
+
+    // <=================================  reviews crud  ============================================>
+    Route::get('allreviews', [ReviewController::class, 'index'])->name('allreviews');
+
+
+    // <================================= End of reviews crud  ============================================>
+
+    // <================================= End of dashboard ============================================>
 
 
 

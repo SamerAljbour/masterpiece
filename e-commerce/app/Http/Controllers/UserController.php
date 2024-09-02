@@ -54,8 +54,10 @@ class UserController extends Controller
         if($user){
             if($validateData['password'] == $user->password){
                 Auth::login($user);
+                if($user->role_id == 1)
                 return redirect('home');
-
+            else
+            return redirect('dashboard');
             }else {
                 return back()->with('failedLogin','Password not match!');
 
