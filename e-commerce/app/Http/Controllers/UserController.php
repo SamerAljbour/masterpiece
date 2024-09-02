@@ -17,14 +17,19 @@ class UserController extends Controller
             $validateData = $request->validate([
                 'name'=>'required',
                 'email'=>'required|email:users',
-                'password'=>'required|min:8|max:12'
+                'password'=>'required|min:8|max:12',
+                'role_id' => 'required'
             ]);
             $user = new User();
             $user->name = $validateData['name'];
             $user->email = $validateData['email'];
             $user->password = $validateData['password'];
+            $user->role_id = $validateData['role_id'];
             $user->save();
+
                 return redirect()->route('loginRegister')->with('successRegister' , "you created account successfully");
+
+
 
 
 

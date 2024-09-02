@@ -32,35 +32,42 @@
 							<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
 
 							<div class="slick3 gallery-lb">
-								<div class="item-slick3" data-thumb="images/product-detail-01.jpg">
+								<div class="item-slick3" data-thumb="{{ Storage::url($product->image_url) }}">
 									<div class="wrap-pic-w pos-relative">
-										<img src="images/product-detail-01.jpg" alt="IMG-PRODUCT">
+										<img src="{{ Storage::url($product->image_url) }}" alt="IMG-PRODUCT">
 
-										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-01.jpg">
+										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="{{ Storage::url($product->image_url) }}">
 											<i class="fa fa-expand"></i>
 										</a>
 									</div>
+
 								</div>
 
-								<div class="item-slick3" data-thumb="images/product-detail-02.jpg">
-									<div class="wrap-pic-w pos-relative">
-										<img src="images/product-detail-02.jpg" alt="IMG-PRODUCT">
-
-										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-02.jpg">
-											<i class="fa fa-expand"></i>
-										</a>
+								<div class="slick3 gallery-lb">
+									<!-- Main Product Image -->
+									<div  data-thumb="{{ Storage::url($product->image_url) }}">
+										<div class="wrap-pic-w pos-relative">
+											<img src="{{ Storage::url($product->image_url) }}" alt="IMG-PRODUCT">
+											<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="{{ Storage::url($product->image_url) }}">
+												<i class="fa fa-expand"></i>
+											</a>
+										</div>
 									</div>
+
+									<!-- Product Photos -->
+									@foreach ($product->photos as $photo)
+										<div  data-thumb="{{ Storage::url($photo->photo_url) }}">
+											<div class="wrap-pic-w pos-relative">
+												<img src="{{ Storage::url($photo->photo_url) }}" alt="IMG-PRODUCT">
+												<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="{{ Storage::url($photo->photo_url) }}">
+													<i class="fa fa-expand"></i>
+												</a>
+											</div>
+										</div>
+									@endforeach
 								</div>
 
-								<div class="item-slick3" data-thumb="images/product-detail-03.jpg">
-									<div class="wrap-pic-w pos-relative">
-										<img src="images/product-detail-03.jpg" alt="IMG-PRODUCT">
 
-										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-03.jpg">
-											<i class="fa fa-expand"></i>
-										</a>
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -69,15 +76,16 @@
 				<div class="col-md-6 col-lg-5 p-b-30">
 					<div class="p-r-50 p-t-5 p-lr-0-lg">
 						<h4 class="mtext-105 cl2 js-name-detail p-b-14">
-							Lightweight Jacket
+							{{ $product->name }}
 						</h4>
 
 						<span class="mtext-106 cl2">
-							$58.79
+							${{ $product->price }}
+
 						</span>
 
 						<p class="stext-102 cl3 p-t-23">
-							Nulla eget sem vitae eros pharetra viverra. Nam vitae luctus ligula. Mauris consequat ornare feugiat.
+							{{ $product->description }}
 						</p>
 
 						<!--  -->
@@ -466,9 +474,9 @@
 							<div class="block2-pic hov-img0">
 								<img src="images/product-04.jpg" alt="IMG-PRODUCT">
 
-								<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+								<button href="#" data-id="{{ $product->id }}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
 									Quick View
-								</a>
+								</button>
 							</div>
 
 							<div class="block2-txt flex-w flex-t p-t-14">

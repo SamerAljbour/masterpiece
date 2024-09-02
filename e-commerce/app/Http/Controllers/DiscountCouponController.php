@@ -20,7 +20,7 @@ class DiscountCouponController extends Controller
             $discount->updateActivity();
         }
 
-        return view('adminDashboard/discount/indexDiscount', compact('discounts'));
+        return view('dashboard/discount/indexDiscount', compact('discounts'));
     }
 
     /**
@@ -28,7 +28,7 @@ class DiscountCouponController extends Controller
      */
     public function create()
     {
-        return view('adminDashboard/discount/createDiscount');
+        return view('dashboard/discount/createDiscount');
     }
 
     /**
@@ -74,7 +74,7 @@ class DiscountCouponController extends Controller
         $discountCoupon = DiscountCoupon::find($id);
         $discountCoupon->valid_from = \Carbon\Carbon::parse($discountCoupon->valid_from)->format('Y-m-d');
         $discountCoupon->valid_until = \Carbon\Carbon::parse($discountCoupon->valid_from)->format('Y-m-d');
-        return view('adminDashboard/discount/updateDiscount' ,compact('discountCoupon'));
+        return view('dashboard/discount/updateDiscount' ,compact('discountCoupon'));
     }
 
     /**

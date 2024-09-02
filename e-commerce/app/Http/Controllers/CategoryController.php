@@ -14,7 +14,7 @@ class CategoryController extends Controller
     {
         // Retrieve all categories from the database
         $categories = Category::all();
-        return view('adminDashboard/category/indexCategory', compact('categories'));
+        return view('dashboard/category/indexCategory', compact('categories'));
     }
 
     /**
@@ -23,7 +23,7 @@ class CategoryController extends Controller
     public function create()
     {
         // Show the form for creating a new category
-        return view('adminDashboard/category/createCategory');
+        return view('dashboard/category/createCategory');
     }
 
     /**
@@ -60,7 +60,7 @@ class CategoryController extends Controller
     public function edit(Category $category , string $id)
     {
         $category = Category::find($id);
-        return view('adminDashboard/category/editCategories', compact('category'));
+        return view('dashboard/category/editCategories', compact('category'));
     }
 
     /**

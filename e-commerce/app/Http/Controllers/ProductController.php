@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('category')->get();
-        return view('adminDashboard/products/indexProducts',  compact('products'));
+        return view('dashboard/products/indexProducts',  compact('products'));
     }
 
     /**
@@ -25,7 +25,7 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('adminDashboard/products/createProduct' , compact('categories'));
+        return view('dashboard/products/createProduct' , compact('categories'));
     }
 
     /**
@@ -102,7 +102,7 @@ class ProductController extends Controller
         $product = Product::with('photos')->where('id', $id)->first();
         // dd($product);
         $categories = Category::all();
-        return view('adminDashboard/products/editProduct' , compact('product' ,'categories'));
+        return view('dashboard/products/editProduct' , compact('product' ,'categories'));
     }
 
     /**
@@ -202,4 +202,5 @@ public function deleteProductImage(string $productId, string $imageId)
     ProductPhoto::where('id' , $imageId)->delete();
     return redirect()->route('editProduct', $productId)->with('success', 'Image deleted');
 }
+// public function show
 }

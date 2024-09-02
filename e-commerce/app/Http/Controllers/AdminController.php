@@ -15,13 +15,13 @@ class AdminController extends Controller
         // foreach ($users as $user) {
         //     echo $user->role->name; // Access the role name
         // }
-        return view('adminDashboard/user/userIndex', compact('users'));
+        return view('dashboard/user/userIndex', compact('users'));
     }
 
     public function createUser(){
         $roles = Role::all();
 
-        return view('adminDashboard/user/createUser', compact('roles'));
+        return view('dashboard/user/createUser', compact('roles'));
     }
 
     public function storeNewUser(Request $request){

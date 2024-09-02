@@ -46,7 +46,7 @@
             </div>
           </form>
 
-          <form action="{{ route('createUser') }}" method="POST" class="sign-up-form">
+          <form action="{{ route('storeNeweUser') }}" method="POST" class="sign-up-form">
               @csrf
               <h2 class="title">Sign up</h2>
 
@@ -62,7 +62,7 @@
               <i class="fas fa-lock"></i>
               <input type="password" placeholder="Password"name="password" />
             </div>
-
+            <input type="hidden" name="role_id" value="1">
             <input type="submit" class="btn" value="Sign up" />
             <p class="social-text">Or Sign up with social platforms</p>
             <div class="social-media">
