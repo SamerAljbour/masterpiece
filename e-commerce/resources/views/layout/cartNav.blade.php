@@ -1223,4 +1223,7 @@
         </div>
     </div>
 </div>
-@yield('content')
+
+
+
+

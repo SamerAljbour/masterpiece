@@ -35,27 +35,16 @@ Route::get('/productList', function () {
 Route::get('/productListTwo', function () {
     return view('frontend/productListTwo');
 });
-// Route::get('/productdetail', function () {
-//     return view('product-detail');
-// });
+Route::get('/productdetail', function () {
+    return view('frontend/productdetail');
+});
 Route::get('/contactus', function () {
     return view('frontend/contactUs');
 });
-Route::get('/aboutus', function () {
-    return view('about');
+Route::get('/notFound', function () {
+    return view('frontend/notFound');
 });
-Route::get('/blog', function () {
-    return view('blog');
-});
-Route::get('/blogdetail', function () {
-    return view('blog-detail');
-});
-Route::get('productdetail', function () {
-    return view('frontend/productDetail');
-});
-Route::get('/home-03', function () {
-    return view('home-03');
-});
+
 // <================================= End of view for the pages home ============================================>
 
 
