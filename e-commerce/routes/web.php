@@ -23,20 +23,23 @@ use App\Http\Controllers\ReviewController;
 */
 
 // <================================= view for the pages home ============================================>
-// Route::get('/home', function () {
-//     return view('index');
-// })->name('home');
+Route::get('/home', function () {
+    return view('frontend/home');
+})->name('home');
 Route::get('/cart', function () {
-    return view('shoping-cart');
+    return view('frontend/cart');
 });
-Route::get('/productpage', function () {
-    return view('product');
+Route::get('/productList', function () {
+    return view('frontend/productList');
+});
+Route::get('/productListTwo', function () {
+    return view('frontend/productListTwo');
 });
 // Route::get('/productdetail', function () {
 //     return view('product-detail');
 // });
 Route::get('/contactus', function () {
-    return view('contact');
+    return view('frontend/contactUs');
 });
 Route::get('/aboutus', function () {
     return view('about');
@@ -47,8 +50,8 @@ Route::get('/blog', function () {
 Route::get('/blogdetail', function () {
     return view('blog-detail');
 });
-Route::get('/home-02', function () {
-    return view('home-02');
+Route::get('productdetail', function () {
+    return view('frontend/productDetail');
 });
 Route::get('/home-03', function () {
     return view('home-03');
@@ -219,8 +222,8 @@ Route::get('test', function () {
 
 
     // <================================= Home  ============================================>
-    Route::get('home', [HomeController::class, 'index'])->name('home');
-    Route::get('productdetail/{id}', [HomeController::class, 'productDetails'])->name('productdetail');
+    // Route::get('home', [HomeController::class, 'index'])->name('home');
+    // Route::get('productdetail/{id}', [HomeController::class, 'productDetails'])->name('productdetail');
 
 
 
