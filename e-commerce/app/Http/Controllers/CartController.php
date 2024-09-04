@@ -2,40 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
-use App\Models\OrderItem;
-// use Dotenv\Validator;
-use Illuminate\Support\Facades\Validator;
+use App\Models\Cart;
+use App\Models\CartProduct;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
-class OrderController extends Controller
+class CartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function storeToCart(Request $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
+        $products = Product::all();
         // Validate the request data
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|integer|exists:users,id',
+            'cart_id' => 'required|integer|exists:users,id',
             'product_id' => 'required|integer|exists:products,id',
-            'status' => 'required|string|max:255',
             'quantity' => 'required|integer|min:1',
             'price' => 'required|numeric|min:0',
         ]);
@@ -46,66 +28,46 @@ class OrderController extends Controller
         }
 
         // Extract inputs
+        $userId = Auth::user()->id;
+        $productId = $request->input('product_id');
         $quantity = $request->input('quantity');
         $price = $request->input('price');
 
-        // Calculate total_amount
+        // Calculate the total amount for the current product
         $totalAmount = $price * $quantity;
 
+        // Create or find the cart for the user
+        $cart = Cart::firstOrCreate([
+            'user_id' => $userId,
+        ]);
 
-        // Create a new order record
-        $order = Order::create([
-            'user_id' => $request->input('user_id'),
-            'status' => $request->input('status'),
-            'total_amount' => $totalAmount,
-            'shipping_address' => $request->input('shipping_address', ''), // Add this line if shipping address is needed
-        ]);
-        $orderItem = OrderItem::create([
-            'order_id' => $order->id,
-            'product_id' => $request->input('product_id'),
-            'quantity' => $quantity,
-            'price' => $price,
-        ]);
-        // dd($order);
+        // Check if the product is already in the cart
+        $existingProduct = $cart->products()->where('product_id', $productId)->first();
+
+        if ($existingProduct) {
+            // Update the existing product's quantity and price in the cart
+            $cart->products()->updateExistingPivot($productId, [
+                'quantity' => $existingProduct->pivot->quantity + $quantity,
+                'price' => $price, // You can decide whether to update the price or not
+            ]);
+
+            // Update the cart's total amount
+            $cart->total_amount += $totalAmount;
+        } else {
+            // Attach the new product to the cart
+            $cart->products()->attach($productId, [
+                'quantity' => $quantity,
+                'price' => $price,
+            ]);
+
+            // Update the cart's total amount
+            $cart->total_amount += $totalAmount;
+        }
+
+        // Save the updated cart total
+        $cart->save();
+
         // Return a success response
-        return response()->json(['message' => 'Order created successfully', 'order' => $order, 'orderItem' => $orderItem], 201);
+        return view('frontend.productList', compact('products'))->with('success', 'Product added to the cart');
     }
-
-
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Order $order, Request $request) {}
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Order $order)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Order $order)
-    {
-        //
-    }
-    // newCart.productId = productId;
-    //     newCart.productName = productName;
-    //     newCart.productPrice = productPrice;
-    //     newCart.productImage = productImage;
-    //     newCart.productImage = productImage;
-
 }

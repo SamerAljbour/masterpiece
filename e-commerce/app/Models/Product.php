@@ -28,10 +28,10 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function cartProducts()
-    {
-        return $this->hasMany(CartProduct::class);
-    }
+    // public function cartProducts()
+    // {
+    //     return $this->belongsToMany(CartProduct::class);
+    // }
 
     public function reviews()
     {
@@ -41,5 +41,10 @@ class Product extends Model
     public function photos()
     {
         return $this->hasMany(ProductPhoto::class);
+    }
+    public function carts()
+    {
+        return $this->belongsToMany(Cart::class, 'cart_product')
+            ->withPivot('quantity', 'price');
     }
 }

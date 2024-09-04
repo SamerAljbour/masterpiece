@@ -9,7 +9,7 @@ use App\Models\DiscountCoupon;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductListController;
 use App\Http\Controllers\ReviewController;
 
@@ -230,6 +230,7 @@ Route::get('allreviews', [ReviewController::class, 'index'])->name('allreviews')
 // <================================= product list page  ============================================>
 Route::get('productList', [ProductListController::class, 'index'])->name('productList');
 Route::get('productdetail/{id}', [ProductListController::class, 'productDetails'])->name('productdetail');
+Route::post('addtocart', [CartController::class, 'storeToCart'])->name('storeToCart');
 
 
 

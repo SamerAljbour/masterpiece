@@ -1,6 +1,15 @@
 @extends('layout.mainTwo')
 @section('content')
     <!-- BREADCRUMBS -->
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
     <div id="sns_breadcrumbs" class="wrap">
         <div class="container">
             <div class="row">
@@ -794,37 +803,47 @@
                                                         </p>
                                                     </div>
                                                     <div class="actions">
-                                                        <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="qty">
+                                                        <form action="{{ route('storeToCart') }}" method="POST">
+                                                            @csrf
+                                                            <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="quantity">
+                                                            <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
+                                                            <input type="hidden" value="{{ $product->id }}" name="product_id">
+                                                            <input type="hidden" value="{{ $product->price }}" name="price">
+                                                            <button class="btn-cart" title="Add to Cart"  type="submit">
+                                                                Add to Cart
+                                                            </button>
 
-                                                        <button class="btn-cart" title="Add to Cart" onclick="addToCart({{ $product->id }}, '{{ $product->name }}', {{ $product->price }}, '{{ $product->image_url }}')">
-                                                            Add to Cart
-                                                        </button>
-                                                        </button>
-                                                        <ul class="add-to-links">
-                                                            <li>
-                                                                <a class="link-wishlist"
-                                                                    data-original-title="Add to Wishlist"
-                                                                    data-toggle="tooltip" href="#"
-                                                                    title=""></a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="link-compare"
-                                                                    data-original-title="Add to Compare"
-                                                                    data-toggle="tooltip" href="#"
-                                                                    title=""></a>
-                                                            </li>
-                                                            <li>
-                                                                <div class="wrap-quickview" data-id="qv_item_8">
-                                                                    <div class="quickview-wrap">
-                                                                        <a class="sns-btn-quickview qv_btn"
-                                                                            data-original-title="View"
-                                                                            data-toggle="tooltip" href="#">
-                                                                            <span>View</span>
-                                                                        </a>
+                                                            <ul class="add-to-links">
+                                                                <li>
+                                                                    <a class="link-wishlist"
+                                                                        data-original-title="Add to Wishlist"
+                                                                        data-toggle="tooltip" href="#"
+                                                                        title=""></a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="link-compare"
+                                                                        data-original-title="Add to Compare"
+                                                                        data-toggle="tooltip" href="#"
+                                                                        title=""></a>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="wrap-quickview" data-id="qv_item_8">
+                                                                        <div class="quickview-wrap">
+                                                                            <a class="sns-btn-quickview qv_btn"
+                                                                                data-original-title="View"
+                                                                                data-toggle="tooltip" href="#">
+                                                                                <span>View</span>
+                                                                            </a>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </form>
+                                                        {{-- <button class="btn-cart" title="Add to Cart" onclick="addToCart({{ $product->id }}, '{{ $product->name }}', {{ $product->price }}, '{{ $product->image_url }}')">
+                                                            Add to Cart
+                                                        </button> --}}
+
+
                                                     </div>
                                                 </div>
                                             </div>
