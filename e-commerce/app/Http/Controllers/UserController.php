@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -32,7 +33,7 @@ class UserController extends Controller
             $user->password = $validateData['password'];
             $user->role_id = $validateData['role_id'];
             $user->save();
-            $cart = Order::create([
+            $cart = Cart::create([
                 'user_id' => $user->id
             ]);
 

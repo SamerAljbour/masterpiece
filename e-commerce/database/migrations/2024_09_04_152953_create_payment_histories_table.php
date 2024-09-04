@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('payment_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
+            $table->foreignId('cart_id')->constrained('carts')->onDelete('cascade');
             $table->decimal('amount', 10, 2);
             $table->string('payment_method'); // e.g., credit card, PayPal
             $table->timestamps();

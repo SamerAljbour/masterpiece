@@ -17,7 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->integer('stock_quantity')->nullable();
             $table->decimal('price', 10, 2);
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade'); // Add this line to link with the categories table
+            $table->text('image_url')->nullable();
             $table->timestamps();
         });
     }
