@@ -177,5 +177,6 @@
 <script src="js/owl-carousel/owl.carousel.min.js"></script>
 <script src="js/sns-extend.js"></script>
 <script src="js/custom.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

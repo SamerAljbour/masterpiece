@@ -140,7 +140,7 @@
                                                         <button class="qty-increase" onclick="var qty_el = document.getElementById('qty'); var qty = qty_el.value; if( !isNaN( qty )) qty_el.value++;return false;" type="button">+</button>
                                                     </div>
 
-                                                    <button class="btn-cart" title="Add to Cart" data-id="qv_item_8">
+                                                    <button class="btn-cart" title="Add to Cart" type=""   onclick="addToCart()">
                                                         Add to Cart
                                                     </button>
                                                     <ul class="add-to-links">

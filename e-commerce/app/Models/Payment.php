@@ -16,8 +16,8 @@ class Payment extends Model
         'status',
     ];
 
-    public function order()
+    public function Cart()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Cart::class);
     }
 }

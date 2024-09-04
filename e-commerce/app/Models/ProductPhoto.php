@@ -9,13 +9,20 @@ use Illuminate\Support\Arr;
 class ProductPhoto extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'product_id',
+        'photo_url',
+        'alt_text'
+    ];
+
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
+
     public function getImageAttribute()
     {
-        $image = Arr::get($this->attributes, 'image');
+        $image = Arr::get($this->attributes, 'photo_url'); // Fixed attribute name
         if ($image) {
             $imagePath = ltrim($image, '/');
             return config('app.url') . '/storage/' . $imagePath;

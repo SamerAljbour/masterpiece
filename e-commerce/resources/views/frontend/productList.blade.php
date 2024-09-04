@@ -794,8 +794,11 @@
                                                         </p>
                                                     </div>
                                                     <div class="actions">
-                                                        <button class="btn-cart" title="Add to Cart" data-id="qv_item_8">
+                                                        <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="qty">
+
+                                                        <button class="btn-cart" title="Add to Cart" onclick="addToCart({{ $product->id }}, '{{ $product->name }}', {{ $product->price }}, '{{ $product->image_url }}')">
                                                             Add to Cart
+                                                        </button>
                                                         </button>
                                                         <ul class="add-to-links">
                                                             <li>

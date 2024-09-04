@@ -9,7 +9,11 @@ class Seller extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id', 'store_name', 'store_description', 'store_logo', 'store_address'
+        'user_id',
+        'store_name',
+        'store_description',
+        'store_logo',
+        'store_address'
     ];
 
     public function user()
@@ -22,9 +26,9 @@ class Seller extends Model
         return $this->hasMany(Product::class);
     }
 
-    public function orders()
+    public function Cart()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Cart::class);
     }
 
     public function ratings()

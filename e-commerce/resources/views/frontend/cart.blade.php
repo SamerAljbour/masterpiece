@@ -46,6 +46,7 @@
                                     <li class="text2"><a href="#">QTY</a></li>
                                     <li class="text2"><a href="#">SUB TOTAL</a></li>
                                 </ul>
+                                @if (false)
 
                                 <ul class="nav-mid clearfix">
                                     <li class="image"><a href="#"><img src="images/placehoder.jpg" alt=""></a></li>
@@ -56,24 +57,7 @@
                                     <li class="price2">$659.00</li>
                                     <li class="icon2"><i class="btn-remove fa fa-remove"></i></li>
                                 </ul>
-                                <ul class="nav-mid clearfix">
-                                    <li class="image"><a href="#"><img src="images/placehoder.jpg" alt=""></a></li>
-                                    <li class="item-title"><a href="#">Modular Modern</a></li>
-                                    <li class="icon1"><i class="btn-edit fa fa-edit"></i></li>
-                                    <li class="price1">$659.00</li>
-                                    <li class="number"><a href="#">1</a></li>
-                                    <li class="price2">$659.00</li>
-                                    <li class="icon2"><i class="btn-remove fa fa-remove"></i></li>
-                                </ul>
-                                <ul class="nav-mid clearfix">
-                                    <li class="image"><a href="#"><img src="images/placehoder.jpg" alt=""></a></li>
-                                    <li class="item-title"><a href="#">Modular Modern</a></li>
-                                    <li class="icon1"><i class="btn-edit fa fa-edit"></i></li>
-                                    <li class="price1">$659.00</li>
-                                    <li class="number"><a href="#">1</a></li>
-                                    <li class="price2">$659.00</li>
-                                    <li class="icon2"><i class="btn-remove fa fa-remove"></i></li>
-                                </ul>
+                                @endif
                                  <ul class="nav-bot clearfix">
                                     <li class="continue"><a href="#">Continue shopping</a></li>
                                     <li class="clear"><a href="#">clear shopping cart</a></li>
