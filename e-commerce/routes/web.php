@@ -9,6 +9,7 @@ use App\Models\DiscountCoupon;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductListController;
 use App\Http\Controllers\ReviewController;
 
 /*
@@ -29,9 +30,9 @@ Route::get('/home', function () {
 Route::get('/cart', function () {
     return view('frontend/cart');
 });
-Route::get('/productList', function () {
-    return view('frontend/productList');
-});
+// Route::get('/productList', function () {
+//     return view('frontend/productList');
+// });
 Route::get('/productListTwo', function () {
     return view('frontend/productListTwo');
 });
@@ -43,6 +44,9 @@ Route::get('/contactus', function () {
 });
 Route::get('/notFound', function () {
     return view('frontend/notFound');
+});
+Route::get('/userProfile', function () {
+    return view('frontend/userProfile');
 });
 
 // <================================= End of view for the pages home ============================================>
@@ -219,3 +223,15 @@ Route::get('test', function () {
 
 
     // <================================= End of Home  ============================================>
+
+
+
+    // <================================= product list page  ============================================>
+    Route::get('productList', [ProductListController::class, 'index'])->name('productList');
+    Route::get('productdetail/{id}', [ProductListController::class, 'productDetails'])->name('productdetail');
+
+
+
+
+
+    // <================================= End of product list page  ============================================>
