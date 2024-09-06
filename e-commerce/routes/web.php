@@ -231,6 +231,7 @@ Route::get('allreviews', [ReviewController::class, 'index'])->name('allreviews')
 Route::get('productList', [ProductListController::class, 'index'])->name('productList');
 Route::get('productdetail/{id}', [ProductListController::class, 'productDetails'])->name('productdetail');
 Route::post('addtocart', [CartController::class, 'storeToCart'])->name('storeToCart');
+Route::post('addtocartQua', [CartController::class, 'storeToCartQua'])->name('storeToCartQua');
 
 
 

@@ -133,37 +133,45 @@
 
 
                                                 <div class="actions">
-                                                    <label class="gfont" for="qty">Qty : </label>
-                                                    <div class="qty-container">
-                                                        <button class="qty-decrease" onclick="var qty_el = document.getElementById('qty'); var qty = qty_el.value; if( !isNaN( qty ) && qty > 1 ) qty_el.value--;return false;" type="button"></button>
-                                                        <input id="qty" class="input-text qty" type="text" title="Qty" value="1" name="qty">
-                                                        <button class="qty-increase" onclick="var qty_el = document.getElementById('qty'); var qty = qty_el.value; if( !isNaN( qty )) qty_el.value++;return false;" type="button">+</button>
-                                                    </div>
-
-                                                    <button class="btn-cart" title="Add to Cart" type=""   onclick="addToCart()">
-                                                        Add to Cart
-                                                    </button>
-                                                    <ul class="add-to-links">
-                                                        <li>
-                                                            <a class="link-wishlist" data-original-title="Add to Wishlist"
-                                                                data-toggle="tooltip" href="#" title=""></a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="link-compare" data-original-title="Add to Compare"
-                                                                data-toggle="tooltip" href="#" title=""></a>
-                                                        </li>
-                                                        <li>
-                                                            <div class="wrap-quickview" data-id="qv_item_8">
-                                                                <div class="quickview-wrap">
-                                                                    <a class="sns-btn-quickview qv_btn"
-                                                                        data-original-title="View" data-toggle="tooltip"
-                                                                        href="#">
-                                                                        <span>View</span>
-                                                                    </a>
+                                                    <form action="{{ route('storeToCartQua') }}" method="POST">
+                                                        @csrf
+                                                        <label class="gfont" for="qty">Qty : </label>
+                                                        <div class="qty-container">
+                                                            <button class="qty-decrease" onclick="var qty_el = document.getElementById('qty'); var qty = qty_el.value; if( !isNaN( qty ) && qty > 1 ) qty_el.value--;return false;" type="button"></button>
+                                                            <input id="qty"name="quantity" class="input-text qty" type="text" title="Qty" value="1" name="qty">
+                                                            <button class="qty-increase" onclick="var qty_el = document.getElementById('qty'); var qty = qty_el.value; if( !isNaN( qty )) qty_el.value++;return false;" type="button">+</button>
+                                                        </div>                                                        <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
+                                                        <input type="hidden" value="{{ $product->id }}" name="product_id">
+                                                        <input type="hidden" value="{{ $product->price }}" name="price">
+                                                        <button class="btn-cart" title="Add to Cart"  type="submit">
+                                                            Add to Cart
+                                                        </button>
+                                                        <ul class="add-to-links">
+                                                            <li>
+                                                                <a class="link-wishlist" data-original-title="Add to Wishlist"
+                                                                    data-toggle="tooltip" href="#" title=""></a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="link-compare" data-original-title="Add to Compare"
+                                                                    data-toggle="tooltip" href="#" title=""></a>
+                                                            </li>
+                                                            <li>
+                                                                <div class="wrap-quickview" data-id="qv_item_8">
+                                                                    <div class="quickview-wrap">
+                                                                        <a class="sns-btn-quickview qv_btn"
+                                                                            data-original-title="View" data-toggle="tooltip"
+                                                                            href="#">
+                                                                            <span>View</span>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </form>
+
+
+
+
                                                 </div>
                                                 <div class="addthis_native_toolbox"></div>
 
