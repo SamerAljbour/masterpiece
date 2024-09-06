@@ -233,6 +233,7 @@ Route::get('productdetail/{id}', [ProductListController::class, 'productDetails'
 Route::post('addtocart', [CartController::class, 'storeToCart'])->name('storeToCart');
 Route::post('addtocartQua', [CartController::class, 'storeToCartQua'])->name('storeToCartQua');
 Route::post('submitreview', [ReviewController::class, 'store'])->name('submitreview');
+Route::post('deletereview/{id}', [ReviewController::class, 'destroy'])->name('deletereview');
 
 
 

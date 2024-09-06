@@ -2,42 +2,26 @@
 @section('content')
     <!-- AND HEADER -->
 <style>
-    .numberofstock{
-        font-size: 15px
-    }
-    .instock{
-        color: green;
-        font-size: 15px
-    }
-    .outofstock{
-        color: red;
-        font-size: 15px
-    }
-    .user_name{
-    font-size:14px;
-    font-weight: bold;
-}
-.comments-list .media{
-    border-bottom: 1px dotted #ccc;
-}
-    .stars i {
-    font-size: 20px;
-    color: #ccc; /* Default star color */
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-.stars i.selected,
-.stars i:hover,
-.stars i:hover ~ i {
-    color: #f39c12; /* Color for selected or hovered stars */
-}
-
-.stars i:hover ~ i {
-    color: #ccc; /* Revert color of stars to the right */
-}
-
+   
 </style>
+
+@if ($errors->any())
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let errorMessages = '';
+            @foreach ($errors->all() as $error)
+                errorMessages += '{{ $error }}\n';
+            @endforeach
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: errorMessages,
+            });
+        });
+    </script>
+@endif
+
     <!-- BREADCRUMBS -->
     <div id="sns_breadcrumbs" class="wrap">
         <div class="container">
@@ -116,10 +100,10 @@
                                                 <div class="rating-block">
                                                     <div class="ratings">
                                                         <div class="rating-box">
-                                                            <div class="rating" style="width:50%"></div>
+                                                            <div class="rating" style="width:{{ ($reviews->sum('rating') / $reviews->count()) * 20 }}%;"></div>
                                                         </div>
                                                         <span class="amount">
-                                                            <a href="#">(1 Reviews)</a>
+                                                            <a href="#">({{ $reviews->count() }} Reviews)</a>
                                                             <span class="separator">|</span>
                                                             <a href="">Add Your Review</a>
                                                         </span>
@@ -699,6 +683,7 @@
                                         <div class="collateral-box">
                                             <div class="form-add">
                                                 <h2>Write Your Own Review</h2>
+
                                                 <form id="review-form" action="{{ route('submitreview') }}" method="POST">
                                                     @csrf
                                                     <input type="hidden" value="8haZqMXtybxMqfBa" name="form_key">
@@ -725,13 +710,13 @@
                                                                     Your Rating
                                                                 </label>
                                                                 <div class="stars">
-                                                                    <i class="fa fa-star" data-value="1"></i>
+                                                                    <i class="fa fa-star selected" data-value="1"></i>
                                                                     <i class="fa fa-star" data-value="2"></i>
                                                                     <i class="fa fa-star" data-value="3"></i>
                                                                     <i class="fa fa-star" data-value="4"></i>
                                                                     <i class="fa fa-star" data-value="5"></i>
                                                                 </div>
-                                                                <input type="hidden" id="rating-value" name="rating" value="0">
+                                                                <input type="hidden" id="rating-value" name="rating" value="1">
 
                                                             </li>
                                                         </ul>
@@ -1469,71 +1454,119 @@
                     </div>
                 </div>
             </div>
+            <div class="collateral-box">
+                <div class="form-add">
+                    <h2>Write Your Own Review</h2>
+                    <form id="review-form" action="{{ route('submitreview') }}" method="POST">
+                        @csrf
+                        <fieldset>
+                            <h3>
+                                You're reviewing:
+                                <span><b>{{ $product->name }}</b></span>
+                            </h3>
+                            <ul class="form-list">
+                                <li>
+                                    <label class="required" for="review_field">
+                                        <em>*</em> Review
+                                    </label>
+                                    <div class="input-box">
+                                        <textarea id="review_field" name="comment" class="form-control" rows="3" placeholder="Write your review here..."></textarea>
+                                    </div>
+                                </li>
+                                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <li>
+                                    <label class="required" for="rating_field">
+                                        <em>*</em> Your Rating
+                                    </label>
+                                    <div class="stars" id="rating-stars">
+                                        <i class="fa fa-star" data-value="1"></i>
+                                        <i class="fa fa-star" data-value="2"></i>
+                                        <i class="fa fa-star" data-value="3"></i>
+                                        <i class="fa fa-star" data-value="4"></i>
+                                        <i class="fa fa-star" data-value="5"></i>
+                                    </div>
+                                    <input type="hidden" id="rating-value" name="rating" value="1">
+                                </li>
+                            </ul>
+                            <div class="buttons-set">
+                                <button class="btn-custom btn-sm" type="submit" title="Submit Review">
+                                    Submit Review
+                                </button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+
+
+
+            <div class="col-md-12  ">
+                <div class="page-header">
+                    @if ( $reviews->count()  == 0)
+                    <h1 class="commentTitle"><small class="pull-right ">0 comments</small> Comments </h1>
+                    @elseif ( $reviews->count()  == 1)
+                    <h1 class="commentTitle"><small class="pull-right clearfix">1 comment</small> Comments </h1>
+                    @else
+                    <h1 class="commentTitle"><small class="pull-right clearfix">{{ $reviews->count() }} comments</small> Comments </h1>
+                    @endif
+                </div>
+                 <div class="comments-list">
+                    {{-- in productlist cont --}}
+                    @foreach ($reviews as $review)
+
+                    <div class="media">
+                        <p class="pull-right clearfix"><small>{{ \Carbon\Carbon::parse($review->created_at)->format('d M Y')}} </small> </p>
+                        <div class="photoAndName">
+
+                            <a class="media-left" href="#">
+                                <img width="50px"class="profilePhoto" src="{{ Storage::url($review->user->user_image) }}">
+                            </a>
+                            <h4 class="media-heading user_name">{{ $review->user->name }}</h4>
+                        </div>
+                        <div class="media-body">
+                            <div  class="col-md-12 ">
+                                <p >{{$review->comment}}</p>
+
+                            </div>
+                            <br>
+                            <div class="rating-box" >
+                                <div class="rating" style="width: {{ $review->rating * 20 }}%; "></div>
+                            </div>
+                            <div class="pull-right"  id="iconReview">
+
+                                <p >
+                                    <form action="{{ route('deletereview' , $review->id) }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="productId" value="{{ $product->id }}">
+                                        <button type="submit"  style="background: none; border: none; cursor: pointer;" title="Delete">
+                                            <i class="fa fa-trash" id="iconsize" style="color:red; margin-bottom:4px"></i>
+                                        </button>
+
+                                    </form>
+                                    <a href="" ><i class="fa fa-edit" id="iconsize"  style="color:blue"></i></a>
+                            </p>
+                            </div>
+
+
+                         </div>
+
+                       </div>
+                    @endforeach
+
+
+                 </div>
+
+
+
+              </div>
+
+
         </div>
+
     </div>
     <!-- AND CONTENT -->
-    <div class="col-md-10 ">
-        <div class="page-header">
-          <h1><small class="pull-right">45 comments</small> Comments </h1>
-        </div>
-         <div class="comments-list">
-             <div class="media">
-                 <p class="pull-right"><small>5 days ago</small></p>
-                  <a class="media-left" href="#">
-                    <img src="http://lorempixel.com/40/40/people/1/">
-                  </a>
-                  <div class="media-body">
 
-                    <h4 class="media-heading user_name">Baltej Singh</h4>
-                    Wow! this is really great.
-
-                    <p><small><a href="">Like</a> - <a href="">Share</a></small></p>
-                  </div>
-                </div>
-             <div class="media">
-                 <p class="pull-right"><small>5 days ago</small></p>
-                  <a class="media-left" href="#">
-                    <img src="http://lorempixel.com/40/40/people/2/">
-                  </a>
-                  <div class="media-body">
-
-                    <h4 class="media-heading user_name">Baltej Singh</h4>
-                    Wow! this is really great.
-
-                    <p><small><a href="">Like</a> - <a href="">Share</a></small></p>
-                  </div>
-                </div>
-             <div class="media">
-                 <p class="pull-right"><small>5 days ago</small></p>
-                  <a class="media-left" href="#">
-                    <img src="http://lorempixel.com/40/40/people/3/">
-                  </a>
-                  <div class="media-body">
-
-                    <h4 class="media-heading user_name">Baltej Singh</h4>
-                    Wow! this is really great.
-
-                    <p><small><a href="">Like</a> - <a href="">Share</a></small></p>
-                  </div>
-                </div>
-             <div class="media">
-                 <p class="pull-right"><small>5 days ago</small></p>
-                  <a class="media-left" href="#">
-                    <img src="http://lorempixel.com/40/40/people/4/">
-                  </a>
-                  <div class="media-body">
-
-                    <h4 class="media-heading user_name">Baltej Singh</h4>
-                    Wow! this is really great.
-
-                    <p><small><a href="">Like</a> - <a href="">Share</a></small></p>
-                  </div>
-                </div>
-         </div>
-
-
-
-      </div>
     <!-- PARTNERS -->
     <div id="sns_partners" class="wrap">
         <div class="container">
@@ -1579,43 +1612,51 @@
     <!-- AND PARTNERS -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-    const stars = document.querySelectorAll('.stars i');
-    const ratingInput = document.getElementById('rating-value');
+            const stars = document.querySelectorAll('.stars i');
+            const ratingInput = document.getElementById('rating-value');
 
-    stars.forEach(star => {
-        star.addEventListener('click', function() {
-            const selectedValue = this.getAttribute('data-value');
-
-            // Update the hidden input with the selected rating value
-            ratingInput.value = selectedValue;
-
-            // Remove the 'selected' class from all stars
-            stars.forEach(star => star.classList.remove('selected'));
-
-            // Add 'selected' class to the clicked star and all previous ones
-            for (let i = 0; i < selectedValue; i++) {
-                stars[i].classList.add('selected');
+            // Initialize the stars based on the current rating value
+            function updateStars(rating) {
+                stars.forEach(star => star.classList.remove('selected'));
+                for (let i = 0; i < rating; i++) {
+                    stars[i].classList.add('selected');
+                }
             }
-        });
 
-        // Handle hover effects
-        star.addEventListener('mouseover', function() {
-            stars.forEach(star => star.classList.remove('selected'));
-            for (let i = 0; i < this.getAttribute('data-value'); i++) {
-                stars[i].classList.add('selected');
-            }
-        });
+            // Set initial rating
+            updateStars(ratingInput.value);
 
-        // Reset the stars to the saved rating on mouseout
-        star.addEventListener('mouseout', function() {
-            const ratingValue = ratingInput.value;
-            stars.forEach(star => star.classList.remove('selected'));
-            for (let i = 0; i < ratingValue; i++) {
-                stars[i].classList.add('selected');
-            }
-        });
-    });
-});
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const selectedValue = parseInt(this.getAttribute('data-value'));
 
+                    // Update the hidden input with the selected rating value
+                    ratingInput.value = selectedValue;
+
+                    console.log(`Star clicked: ${selectedValue}`); // Debugging output
+
+                    // Update stars
+                    updateStars(selectedValue);
+                });
+
+                // Handle hover effects
+                star.addEventListener('mouseover', function() {
+                    const hoverValue = parseInt(this.getAttribute('data-value'));
+
+                    console.log(`Star hovered: ${hoverValue}`); // Debugging output
+
+                    updateStars(hoverValue);
+                });
+
+                // Reset the stars to the saved rating on mouseout
+                star.addEventListener('mouseout', function() {
+                    const ratingValue = parseInt(ratingInput.value);
+
+                    console.log(`Mouseout, current rating: ${ratingValue}`); // Debugging output
+
+                    updateStars(ratingValue);
+                });
+            });
+        });
     </script>
 @endsection

@@ -39,7 +39,7 @@ class ReviewController extends Controller
         ]);
         if ($validator->fails()) {
             return redirect()
-                ->route('productdetail')
+                ->back()
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -81,8 +81,13 @@ class ReviewController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Review $review)
+    public function destroy(Review $review, string $id, Request $request)
     {
-        //
+        $productId = $request->input('productId');
+        $review = Review::find($id);
+        if ($review) {
+            $review->delete();
+            return redirect()->route('productdetail', $productId)->with('deletedReview', "you successfully deleted you review");
+        }
     }
 }

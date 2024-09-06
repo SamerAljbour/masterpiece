@@ -8,9 +8,12 @@
         <link href='https://fonts.googleapis.com/css?family=Poppins:300,700' rel='stylesheet' type='text/css'>
 
         <!-- Style Sheets -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <link rel="stylesheet" type="text/css" href="{{ asset('font/font-awesome/css/font-awesome.min.css') }}" />
         <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/main.css') }}">
         <link rel="stylesheet" href="{{ asset('js/owl-carousel/owl.carousel.css') }}">
         <link rel="stylesheet" href="{{ asset('js/owl-carousel/owl.theme.css') }}">
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
