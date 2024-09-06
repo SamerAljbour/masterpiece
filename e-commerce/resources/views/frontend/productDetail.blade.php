@@ -2,7 +2,7 @@
 @section('content')
     <!-- AND HEADER -->
 <style>
-   
+
 </style>
 
 @if ($errors->any())
@@ -100,7 +100,12 @@
                                                 <div class="rating-block">
                                                     <div class="ratings">
                                                         <div class="rating-box">
+                                                            @if ($reviews->count() > 0)
                                                             <div class="rating" style="width:{{ ($reviews->sum('rating') / $reviews->count()) * 20 }}%;"></div>
+                                                            @else
+                                                            <div class="rating" style="width:0%;"></div>
+
+                                                            @endif
                                                         </div>
                                                         <span class="amount">
                                                             <a href="#">({{ $reviews->count() }} Reviews)</a>
@@ -657,7 +662,7 @@
                                    <!-- Nav tabs -->
                                    <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active style-detail"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Product Description</a></li>
-                                    <li role="presentation" class="style-detail"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Reviews</a></li>
+                                    {{-- <li role="presentation" class="style-detail"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Reviews</a></li> --}}
                                     <li role="presentation" class="style-detail"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Product Tags</a></li>
                                 </ul>
 
@@ -679,59 +684,7 @@
                                             </p>
                                         </div>
                                     </div>
-                                    <div role="tabpanel" class="tab-pane" id="profile">
-                                        <div class="collateral-box">
-                                            <div class="form-add">
-                                                <h2>Write Your Own Review</h2>
 
-                                                <form id="review-form" action="{{ route('submitreview') }}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" value="8haZqMXtybxMqfBa" name="form_key">
-                                                    <fieldset>
-                                                        <h3>
-                                                            You're reviewing:
-                                                            <span><b>{{ $product->name }}</b></span>
-                                                        </h3>
-                                                        <ul class="form-list">
-                                                            <li>
-                                                                <label class="required" for="review_field">
-                                                                    <em>*</em>
-                                                                    Review
-                                                                </label>
-                                                                <div class="input-box">
-                                                                    <textarea id="review_field" name="comment" class="required-entry" rows="3" cols="5" name="detail"></textarea>
-                                                                </div>
-                                                            </li>
-                                                            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}" >
-                                                            <input type="hidden" name="product_id" value="{{ $product->id }}" >
-                                                            <li>
-                                                                <label class="required" for="rating_field">
-                                                                    <em>*</em>
-                                                                    Your Rating
-                                                                </label>
-                                                                <div class="stars">
-                                                                    <i class="fa fa-star selected" data-value="1"></i>
-                                                                    <i class="fa fa-star" data-value="2"></i>
-                                                                    <i class="fa fa-star" data-value="3"></i>
-                                                                    <i class="fa fa-star" data-value="4"></i>
-                                                                    <i class="fa fa-star" data-value="5"></i>
-                                                                </div>
-                                                                <input type="hidden" id="rating-value" name="rating" value="1">
-
-                                                            </li>
-                                                        </ul>
-                                                    </fieldset>
-                                                    <div class="buttons-set">
-                                                        <button class="button" type="submit" title="Submit Review" type="submit">
-                                                            <span>
-                                                                <span>Submit Review</span>
-                                                            </span>
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div role="tabpanel" class="tab-pane" id="messages">
                                         <div class="collateral-box">
                                             <p>
@@ -1611,52 +1564,6 @@
     </div>
     <!-- AND PARTNERS -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const stars = document.querySelectorAll('.stars i');
-            const ratingInput = document.getElementById('rating-value');
 
-            // Initialize the stars based on the current rating value
-            function updateStars(rating) {
-                stars.forEach(star => star.classList.remove('selected'));
-                for (let i = 0; i < rating; i++) {
-                    stars[i].classList.add('selected');
-                }
-            }
-
-            // Set initial rating
-            updateStars(ratingInput.value);
-
-            stars.forEach(star => {
-                star.addEventListener('click', function() {
-                    const selectedValue = parseInt(this.getAttribute('data-value'));
-
-                    // Update the hidden input with the selected rating value
-                    ratingInput.value = selectedValue;
-
-                    console.log(`Star clicked: ${selectedValue}`); // Debugging output
-
-                    // Update stars
-                    updateStars(selectedValue);
-                });
-
-                // Handle hover effects
-                star.addEventListener('mouseover', function() {
-                    const hoverValue = parseInt(this.getAttribute('data-value'));
-
-                    console.log(`Star hovered: ${hoverValue}`); // Debugging output
-
-                    updateStars(hoverValue);
-                });
-
-                // Reset the stars to the saved rating on mouseout
-                star.addEventListener('mouseout', function() {
-                    const ratingValue = parseInt(ratingInput.value);
-
-                    console.log(`Mouseout, current rating: ${ratingValue}`); // Debugging output
-
-                    updateStars(ratingValue);
-                });
-            });
-        });
     </script>
 @endsection
