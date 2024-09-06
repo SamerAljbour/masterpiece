@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ReviewController extends Controller
 {
@@ -13,7 +14,7 @@ class ReviewController extends Controller
     public function index()
     {
         $reviews = Review::all();
-        return view('dashboard/reviews' , compact('reviews'));
+        return view('dashboard/reviews', compact('reviews'));
     }
 
     /**
@@ -29,7 +30,28 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //store customer review
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'product_id' => 'required',
+            'rating' => 'required',
+            'comment' => "required",
+        ]);
+        if ($validator->fails()) {
+            return redirect()
+                ->route('productdetail')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $validatedData = $validator->validated();
+
+        Review::create([
+            'product_id' => $validatedData['product_id'],
+            'user_id' => $validatedData['user_id'],
+            'rating' => $validatedData['rating'],
+            'comment' => $validatedData['comment'],
+        ]);
+        return redirect()->route('productdetail', $validatedData['product_id'])->with('success', 'review submitted successfully');
     }
 
     /**

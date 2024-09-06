@@ -232,6 +232,7 @@ Route::get('productList', [ProductListController::class, 'index'])->name('produc
 Route::get('productdetail/{id}', [ProductListController::class, 'productDetails'])->name('productdetail');
 Route::post('addtocart', [CartController::class, 'storeToCart'])->name('storeToCart');
 Route::post('addtocartQua', [CartController::class, 'storeToCartQua'])->name('storeToCartQua');
+Route::post('submitreview', [ReviewController::class, 'store'])->name('submitreview');
 
 
 

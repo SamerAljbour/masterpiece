@@ -13,6 +13,30 @@
         color: red;
         font-size: 15px
     }
+    .user_name{
+    font-size:14px;
+    font-weight: bold;
+}
+.comments-list .media{
+    border-bottom: 1px dotted #ccc;
+}
+    .stars i {
+    font-size: 20px;
+    color: #ccc; /* Default star color */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.stars i.selected,
+.stars i:hover,
+.stars i:hover ~ i {
+    color: #f39c12; /* Color for selected or hovered stars */
+}
+
+.stars i:hover ~ i {
+    color: #ccc; /* Revert color of stars to the right */
+}
+
 </style>
     <!-- BREADCRUMBS -->
     <div id="sns_breadcrumbs" class="wrap">
@@ -92,7 +116,7 @@
                                                 <div class="rating-block">
                                                     <div class="ratings">
                                                         <div class="rating-box">
-                                                            <div class="rating" style="width:60%"></div>
+                                                            <div class="rating" style="width:50%"></div>
                                                         </div>
                                                         <span class="amount">
                                                             <a href="#">(1 Reviews)</a>
@@ -675,7 +699,8 @@
                                         <div class="collateral-box">
                                             <div class="form-add">
                                                 <h2>Write Your Own Review</h2>
-                                                <form id="review-form">
+                                                <form id="review-form" action="{{ route('submitreview') }}" method="POST">
+                                                    @csrf
                                                     <input type="hidden" value="8haZqMXtybxMqfBa" name="form_key">
                                                     <fieldset>
                                                         <h3>
@@ -684,40 +709,35 @@
                                                         </h3>
                                                         <ul class="form-list">
                                                             <li>
-                                                                <label class="required" for="nickname_field">
-                                                                    <em>*</em>
-                                                                    Nickname
-                                                                </label>
-                                                                <div class="input-box">
-                                                                    <input id="nickname_field"
-                                                                        class="input-text required-entry" type="text"
-                                                                        value="" name="nickname">
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <label class="required" for="summary_field">
-                                                                    <em>*</em>
-                                                                    Summary of Your Review
-                                                                </label>
-                                                                <div class="input-box">
-                                                                    <input id="summary_field"
-                                                                        class="input-text required-entry" type="text"
-                                                                        value="" name="title">
-                                                                </div>
-                                                            </li>
-                                                            <li>
                                                                 <label class="required" for="review_field">
                                                                     <em>*</em>
                                                                     Review
                                                                 </label>
                                                                 <div class="input-box">
-                                                                    <textarea id="review_field" class="required-entry" rows="3" cols="5" name="detail"></textarea>
+                                                                    <textarea id="review_field" name="comment" class="required-entry" rows="3" cols="5" name="detail"></textarea>
                                                                 </div>
+                                                            </li>
+                                                            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}" >
+                                                            <input type="hidden" name="product_id" value="{{ $product->id }}" >
+                                                            <li>
+                                                                <label class="required" for="rating_field">
+                                                                    <em>*</em>
+                                                                    Your Rating
+                                                                </label>
+                                                                <div class="stars">
+                                                                    <i class="fa fa-star" data-value="1"></i>
+                                                                    <i class="fa fa-star" data-value="2"></i>
+                                                                    <i class="fa fa-star" data-value="3"></i>
+                                                                    <i class="fa fa-star" data-value="4"></i>
+                                                                    <i class="fa fa-star" data-value="5"></i>
+                                                                </div>
+                                                                <input type="hidden" id="rating-value" name="rating" value="0">
+
                                                             </li>
                                                         </ul>
                                                     </fieldset>
                                                     <div class="buttons-set">
-                                                        <button class="button" title="Submit Review" type="submit">
+                                                        <button class="button" type="submit" title="Submit Review" type="submit">
                                                             <span>
                                                                 <span>Submit Review</span>
                                                             </span>
@@ -1452,7 +1472,68 @@
         </div>
     </div>
     <!-- AND CONTENT -->
+    <div class="col-md-10 ">
+        <div class="page-header">
+          <h1><small class="pull-right">45 comments</small> Comments </h1>
+        </div>
+         <div class="comments-list">
+             <div class="media">
+                 <p class="pull-right"><small>5 days ago</small></p>
+                  <a class="media-left" href="#">
+                    <img src="http://lorempixel.com/40/40/people/1/">
+                  </a>
+                  <div class="media-body">
 
+                    <h4 class="media-heading user_name">Baltej Singh</h4>
+                    Wow! this is really great.
+
+                    <p><small><a href="">Like</a> - <a href="">Share</a></small></p>
+                  </div>
+                </div>
+             <div class="media">
+                 <p class="pull-right"><small>5 days ago</small></p>
+                  <a class="media-left" href="#">
+                    <img src="http://lorempixel.com/40/40/people/2/">
+                  </a>
+                  <div class="media-body">
+
+                    <h4 class="media-heading user_name">Baltej Singh</h4>
+                    Wow! this is really great.
+
+                    <p><small><a href="">Like</a> - <a href="">Share</a></small></p>
+                  </div>
+                </div>
+             <div class="media">
+                 <p class="pull-right"><small>5 days ago</small></p>
+                  <a class="media-left" href="#">
+                    <img src="http://lorempixel.com/40/40/people/3/">
+                  </a>
+                  <div class="media-body">
+
+                    <h4 class="media-heading user_name">Baltej Singh</h4>
+                    Wow! this is really great.
+
+                    <p><small><a href="">Like</a> - <a href="">Share</a></small></p>
+                  </div>
+                </div>
+             <div class="media">
+                 <p class="pull-right"><small>5 days ago</small></p>
+                  <a class="media-left" href="#">
+                    <img src="http://lorempixel.com/40/40/people/4/">
+                  </a>
+                  <div class="media-body">
+
+                    <h4 class="media-heading user_name">Baltej Singh</h4>
+                    Wow! this is really great.
+
+                    <p><small><a href="">Like</a> - <a href="">Share</a></small></p>
+                  </div>
+                </div>
+         </div>
+
+
+
+      </div>
     <!-- PARTNERS -->
     <div id="sns_partners" class="wrap">
         <div class="container">
@@ -1496,4 +1577,45 @@
         </div>
     </div>
     <!-- AND PARTNERS -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    const stars = document.querySelectorAll('.stars i');
+    const ratingInput = document.getElementById('rating-value');
+
+    stars.forEach(star => {
+        star.addEventListener('click', function() {
+            const selectedValue = this.getAttribute('data-value');
+
+            // Update the hidden input with the selected rating value
+            ratingInput.value = selectedValue;
+
+            // Remove the 'selected' class from all stars
+            stars.forEach(star => star.classList.remove('selected'));
+
+            // Add 'selected' class to the clicked star and all previous ones
+            for (let i = 0; i < selectedValue; i++) {
+                stars[i].classList.add('selected');
+            }
+        });
+
+        // Handle hover effects
+        star.addEventListener('mouseover', function() {
+            stars.forEach(star => star.classList.remove('selected'));
+            for (let i = 0; i < this.getAttribute('data-value'); i++) {
+                stars[i].classList.add('selected');
+            }
+        });
+
+        // Reset the stars to the saved rating on mouseout
+        star.addEventListener('mouseout', function() {
+            const ratingValue = ratingInput.value;
+            stars.forEach(star => star.classList.remove('selected'));
+            for (let i = 0; i < ratingValue; i++) {
+                stars[i].classList.add('selected');
+            }
+        });
+    });
+});
+
+    </script>
 @endsection

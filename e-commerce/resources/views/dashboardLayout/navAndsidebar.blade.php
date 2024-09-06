@@ -707,7 +707,7 @@
                   >
                     <div class="avatar-sm">
                       <img
-                        src="assets/img/profile.jpg"
+                        src="{{ Storage::url(Auth::user()->user_image) }}"
                         alt="..."
                         class="avatar-img rounded-circle"
                       />

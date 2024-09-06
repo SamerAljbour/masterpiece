@@ -24,14 +24,25 @@ class UserController extends Controller
                 'name' => 'required',
                 'email' => 'required|email:users',
                 'password' => 'required|min:8|max:12',
-                'role_id' => 'required'
+                'role_id' => 'required',
             ]);
+            // dd($request->hasFile('user_image'));
+            $mainImagePath = null;
+            if ($request->hasFile('user_image')) {
+                $file = $request->file('user_image');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $mainImagePath = $file->storeAs('public/usersImages', $filename);
+            } else {
+                $mainImagePath = 'public/usersImages/userDefaultImage.jpeg';
+            }
+
             // dd($validateData);
             $user = new User();
             $user->name = $validateData['name'];
             $user->email = $validateData['email'];
             $user->password = $validateData['password'];
             $user->role_id = $validateData['role_id'];
+            $user->user_image = $mainImagePath;
             $user->save();
             $cart = Cart::create([
                 'user_id' => $user->id
@@ -42,7 +53,7 @@ class UserController extends Controller
             if ($e->errorInfo[1] == 1062) {
                 return redirect()->route('loginRegister')->with('failedRegister', "email already exists");
             }
-            return redirect()->back()->with('failedRegister', 'Something went wrong. Please try again.');
+            return redirect()->back()->with('failedRegister', 'Something went wrong. Please try again: ' . $e->getMessage());
         }
     }
     public function viewLogin()

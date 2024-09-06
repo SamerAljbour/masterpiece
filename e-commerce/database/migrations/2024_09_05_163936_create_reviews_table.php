@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->integer('rating'); // 1 to 5
             $table->text('comment')->nullable();
-            $table->string('image_url')->nullable();
+            // $table->string('image_url')->nullable();
             $table->timestamps();
         });
     }
