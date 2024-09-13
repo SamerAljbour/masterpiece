@@ -4,10 +4,8 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Product;
+use App\Models\Category; // Import Category model
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
- */
 class ProductFactory extends Factory
 {
     protected $model = Product::class;
@@ -19,13 +17,16 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
+        // Retrieve an existing category ID
+        $categoryId = Category::inRandomOrder()->first()->id;
+
         return [
             'name' => $this->faker->word(),
-            'description' => $this->faker->sentence(), // Generates a random sentence
-            'price' => $this->faker->randomFloat(2, 10, 1000), // Generates a random float number for price
-            'category_id' => 2,
-            'stock_quantity' => $this->faker->numberBetween(1, 100), // Random stock quantity
-            'image_url' => $this->faker->imageUrl(), // Generates a random image URL
+            'description' => $this->faker->sentence(),
+            'price' => $this->faker->randomFloat(2, 10, 1000),
+            'category_id' => $categoryId, // Use a valid category ID
+            'stock_quantity' => $this->faker->numberBetween(1, 100),
+            'image_url' => "public/mainProducts/defaultProduct.png",
         ];
     }
 }

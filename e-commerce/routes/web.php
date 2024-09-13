@@ -25,12 +25,16 @@ use App\Http\Controllers\ReviewController;
 */
 
 // <================================= view for the pages home ============================================>
+
+Route::get('/', function () {
+    return view('frontend/home');
+})->name('home');
 Route::get('/home', function () {
     return view('frontend/home');
 })->name('home');
-Route::get('/cart', function () {
-    return view('frontend/cart');
-});
+// Route::get('/cart', function () {
+//     return view('frontend/cart');
+// });
 // Route::get('/productList', function () {
 //     return view('frontend/productList');
 // });
@@ -239,4 +243,17 @@ Route::post('deletereview/{id}', [ReviewController::class, 'destroy'])->name('de
 
 
 
-    // <================================= End of product list page  ============================================>
+// <================================= End of product list page  ============================================>
+
+
+
+
+
+// <================================= cart page  ============================================>
+Route::get('cart/{id}', [CartController::class, 'showCartDAta'])->name('cart');
+
+
+
+
+
+    // <================================= End of cart page  ============================================>

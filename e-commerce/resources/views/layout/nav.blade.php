@@ -136,7 +136,7 @@
                         <div id="sns_custommenu" class="visible-md visible-lg">
                             <ul class="mainnav">
                                 <li class="level0 custom-item active">
-                                    <a class="menu-title-lv0 pd-menu116" href="index3.html" target="_self">
+                                    <a class="menu-title-lv0 pd-menu116" href="{{ route('home') }}" target="_self">
                                         <span class="title">Home</span>
                                     </a>
                                 </li>
@@ -975,7 +975,7 @@
                                             <i class="fa fa-shopping-cart"></i>
                                             <div class="summary">
                                                 <span class="amount">
-                                                    <a href="#">
+                                                    <a href="{{ route('cart', Auth::user()->id) }}">
                                                         <span>3</span>
                                                     </a>
                                                 </span>
@@ -1041,7 +1041,7 @@
                                                             <span>Check out</span>
                                                         </span>
                                                     </a>
-                                                    <a class="button gfont go-to-cart" href="index3-shoppingcart.html">Go to cart</a>
+                                                    <a class="button gfont go-to-cart" href="{{ route('cart' , Auth::user()->id) }}">Go to cart</a>
                                                 </div>
 
                                             </div>

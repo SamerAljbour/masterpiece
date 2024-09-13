@@ -129,4 +129,11 @@ class CartController extends Controller
         // Return a success response
         return redirect()->route('productdetail', $productId)->with('success', 'Product added to the cart');
     }
+    public function showCartData(string $cartId)
+    {
+        $cart = Cart::find($cartId);
+        $cartData = $cart->products;
+        // dd($cartData);
+        return view('frontend/cart', ['cart' => $cart, 'cartData' => $cartData]);
+    }
 }

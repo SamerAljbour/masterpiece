@@ -740,7 +740,7 @@
                                     <ul class="mainnav">
                                         <li class="level0 custom-item">
                                             <div class="accr_header">
-                                                <a class="menu-title-lv0" href="index3.html">
+                                                <a class="menu-title-lv0" href="{{ route('home') }}">
                                                     <span class="title">Home</span>
                                                 </a>
                                             </div>
@@ -1134,7 +1134,7 @@
                                                 <i class="fa fa-shopping-cart"></i>
                                                 <div class="summary">
                                                     <span class="amount">
-                                                        <a href="#">
+                                                        <a href="{{ route('cart', Auth::user()->id) }}">
                                                             <span>3</span>
                                                         </a>
                                                     </span>
@@ -1200,7 +1200,7 @@
                                                                 <span>Check out</span>
                                                             </span>
                                                         </a>
-                                                        <a class="button gfont go-to-cart" href="index3-shoppingcart.html">Go to cart</a>
+                                                        <a class="button gfont go-to-cart" href="{{ route('cart' , Auth::user()->id) }}">Go to cart</a>
                                                     </div>
 
                                                 </div>

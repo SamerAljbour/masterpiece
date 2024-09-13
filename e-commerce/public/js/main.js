@@ -78,3 +78,27 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// increment the quantity in cart page ------------
+// Function to subtract quantity
+// Function to subtract quantity
+function subQua(e) {
+    const quantityInput = e.target.closest('.number').querySelector('.inputQua'); // Get the closest input element in the same li
+    let quantity = parseInt(quantityInput.value); // Get the current value and convert it to an integer
+
+    if (quantity > 1) { // Prevent the quantity from going below 1
+        quantity -= 1; // Decrease quantity by 1
+        quantityInput.value = quantity; // Update the input field with the new quantity
+    } else {
+        alert("Quantity cannot be less than 1");
+    }
+}
+
+// Function to add quantity
+function addQua(e) {
+    const quantityInput = e.target.closest('.number').querySelector('.inputQua');
+    let quantity = parseInt(quantityInput.value);
+    quantity += 1
+    quantityInput.value = quantity
+}
+
+

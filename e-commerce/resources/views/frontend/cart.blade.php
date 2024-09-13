@@ -46,20 +46,27 @@
                                     <li class="text2"><a href="#">QTY</a></li>
                                     <li class="text2"><a href="#">SUB TOTAL</a></li>
                                 </ul>
-                                @if (false)
+                                @foreach ($cartData as $product)
+
+                                @if (true)
 
                                 <ul class="nav-mid clearfix">
-                                    <li class="image"><a href="#"><img src="images/placehoder.jpg" alt=""></a></li>
-                                    <li class="item-title"><a href="#">Modular Modern</a></li>
+                                    <li class="image"><a href="#"><img src="{{ Storage::url($product->image_url) }}" width="122px" alt=""></a></li>
+                                    <li class="item-title" ><a href="#">{{ $product->name }}</a></li>
                                     <li class="icon1"><i class="btn-edit fa fa-edit"></i></li>
-                                    <li class="price1">$659.00</li>
-                                    <li class="number"><a href="#">1</a></li>
-                                    <li class="price2">$659.00</li>
+                                    <li class="price1">JOD {{ $product->price }}</li>
+                                    <li class="number">
+                                        <button onclick="subQua(event)" id="sub" class="btn btn-default btnQua"> -</button>
+                                        <input type="number" value="{{ $product->pivot->quantity }}" class="inputQua">
+                                        <button id="add" onclick="addQua(event)" class="btn btn-default btnQua"> + </button>
+                                    </li>
+                                    <li class="price2">JOD {{ $product->pivot->quantity *  $product->price  }}</li>
                                     <li class="icon2"><i class="btn-remove fa fa-remove"></i></li>
                                 </ul>
                                 @endif
+                                @endforeach
                                  <ul class="nav-bot clearfix">
-                                    <li class="continue"><a href="#">Continue shopping</a></li>
+                                    <li class="continue"><a href="{{ route('home') }}">Continue shopping</a></li>
                                     <li class="clear"><a href="#">clear shopping cart</a></li>
                                     <li class="update"><a href="#">update shopping cart</a></li>
                                 </ul>
