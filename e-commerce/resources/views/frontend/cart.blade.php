@@ -50,10 +50,10 @@
 
                                 @if (true)
 
-                                <ul class="nav-mid clearfix">
+                                <ul class="nav-mid clearfix" >
                                     <li class="image"><a href="#"><img src="{{ Storage::url($product->image_url) }}" width="122px" alt=""></a></li>
                                     <li class="item-title" ><a href="#">{{ $product->name }}</a></li>
-                                    <li class="icon1"><i class="btn-edit fa fa-edit"></i></li>
+                                    {{-- <li class="icon1"><i class="btn-edit fa fa-edit"></i></li> --}}
                                     <li class="price1">JOD {{ $product->price }}</li>
                                     <li class="number">
                                         <button onclick="subQua(event)" id="sub" class="btn btn-default btnQua"> -</button>
@@ -61,14 +61,38 @@
                                         <button id="add" onclick="addQua(event)" class="btn btn-default btnQua"> + </button>
                                     </li>
                                     <li class="price2">JOD {{ $product->pivot->quantity *  $product->price  }}</li>
-                                    <li class="icon2"><i class="btn-remove fa fa-remove"></i></li>
+                                    <li class="icon2" >
+
+                                        <form action="{{ route('updatecart' , $product->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+
+                                            <input type="hidden" name="quantity" class="hiddenQuanitiy"  value="{{ $product->pivot->quantity }}">
+                                            <button type="submit"><i class="btn-save fa fa-save"></i></button>
+                                        </form>
+                                        <form action="{{ route('deleteFromCart' , $product->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+
+                                            <input type="hidden" name="quantity" class="hiddenQuanitiy"  value="{{ $product->pivot->quantity }}">
+                                            <button type="submit"><i class="btn-remove fa fa-remove"></i></button>
+                                        </form>
+                                    </li>
                                 </ul>
                                 @endif
                                 @endforeach
                                  <ul class="nav-bot clearfix">
                                     <li class="continue"><a href="{{ route('home') }}">Continue shopping</a></li>
                                     <li class="clear"><a href="#">clear shopping cart</a></li>
-                                    <li class="update"><a href="#">update shopping cart</a></li>
+                                    <li class="update">
+                                        <form action="" method="POST">
+                                            @method("PUT")
+                                            <input type="hidden" name="">
+                                            <input type="hidden" name="">
+                                            <input type="hidden" name="">
+                                            <button class="btn btn-cart" type="submit">update shopping cart</button>
+                                        </form>
+                                    </li>
                                 </ul>
                                 <div class="row">
                                     <form class="col-md-4">

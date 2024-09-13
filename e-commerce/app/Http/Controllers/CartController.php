@@ -136,4 +136,44 @@ class CartController extends Controller
         // dd($cartData);
         return view('frontend/cart', ['cart' => $cart, 'cartData' => $cartData]);
     }
+    public function updateCart(Request $request, string $productId)
+    {
+        // Retrieve the quantity from the request
+        $quantity = $request->input('quantity');
+        $cartId = Auth::user()->id;
+
+        // Find the cart
+        $cart = Cart::find($cartId);
+
+        if ($cart) {
+            // Update the quantity of the product in the cart
+            $cart->products()->updateExistingPivot($productId, ['quantity' => $quantity]);
+
+            // Recalculate the total amount
+            $totalAmount = $cart->products->sum(function ($product) {
+                return $product->pivot->quantity * $product->price;
+            });
+
+            // Update the cart's total amount
+            $cart->total_amount = $totalAmount;
+            $cart->save();
+        }
+
+        // Retrieve updated cart data
+        $cartData = $cart->products;
+
+        return view('frontend/cart', ['cart' => $cart, 'cartData' => $cartData]);
+    }
+    function deleteFromCart(string $productId)
+    {
+        $cart = Cart::find(Auth::user()->id);
+        $cart->products()->detach($productId);
+        $totalAmount = $cart->products->sum(function ($product) {
+            return $product->pivot->quantity * $product->price;
+        });
+        $cart->total_amount = $totalAmount;
+        $cart->save();
+        $cartData = $cart->products;
+        return view('frontend/cart', ['cart' => $cart, 'cartData' => $cartData]);
+    }
 }

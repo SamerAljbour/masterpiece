@@ -82,23 +82,29 @@ document.addEventListener("DOMContentLoaded", function () {
 // Function to subtract quantity
 // Function to subtract quantity
 function subQua(e) {
-    const quantityInput = e.target.closest('.number').querySelector('.inputQua'); // Get the closest input element in the same li
-    let quantity = parseInt(quantityInput.value); // Get the current value and convert it to an integer
+    const quantityInput = e.target.closest('.number').querySelector('.inputQua'); // Get the quantity input field
+    const hiddenInput = e.target.closest('ul').querySelector('.hiddenQuanitiy'); // Get the hidden input field
+    let quantity = parseInt(quantityInput.value); // Get the current quantity and convert it to an integer
 
     if (quantity > 1) { // Prevent the quantity from going below 1
         quantity -= 1; // Decrease quantity by 1
-        quantityInput.value = quantity; // Update the input field with the new quantity
+        quantityInput.value = quantity; // Update the visible input field with the new quantity
+        hiddenInput.value = quantity; // Update the hidden input field with the new quantity
     } else {
         alert("Quantity cannot be less than 1");
     }
 }
 
+
 // Function to add quantity
 function addQua(e) {
     const quantityInput = e.target.closest('.number').querySelector('.inputQua');
+    const hiddenInput = e.target.closest('ul').querySelector('.hiddenQuanitiy'); // Get the hidden input field
+
     let quantity = parseInt(quantityInput.value);
     quantity += 1
     quantityInput.value = quantity
+    hiddenInput.value = quantity
 }
 
 
