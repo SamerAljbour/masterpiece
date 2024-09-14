@@ -56,23 +56,23 @@
                                 <ul class="nav-mid clearfix" >
                                     <li class="image"><a href="#"><img src="{{ Storage::url($product->image_url) }}" width="122px" alt=""></a></li>
                                     <li class="item-title" ><a href="#">{{ $product->name }}</a></li>
-                                    {{-- <li class="icon1"><i class="btn-edit fa fa-edit"></i></li> --}}
-                                    <li class="price1">JOD {{ $product->price }}</li>
+                                    <li class="icon1"> <form action="{{ route('updatecart' , $product->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+
+                                        <input type="hidden" name="quantity" class="hiddenQuanitiy"  value="{{ $product->pivot->quantity }}">
+                                        <button type="submit"><i class="btn-save fa fa-save"></i></button>
+                                    </form></li>
+                                    <li class="price1">JD {{ $product->price }}</li>
                                     <li class="number">
                                         <button onclick="subQua(event)" id="sub" class="btn btn-default btnQua"> -</button>
                                         <input type="number" value="{{ $product->pivot->quantity }}" class="inputQua">
                                         <button id="add" onclick="addQua(event)" class="btn btn-default btnQua"> + </button>
                                     </li>
-                                    <li class="price2">JOD {{ $product->pivot->quantity *  $product->price  }}</li>
+                                    <li class="price2">JD {{ $product->pivot->quantity *  $product->price  }}</li>
                                     <li class="icon2" >
 
-                                        <form action="{{ route('updatecart' , $product->id) }}" method="POST">
-                                            @csrf
-                                            @method('PUT')
 
-                                            <input type="hidden" name="quantity" class="hiddenQuanitiy"  value="{{ $product->pivot->quantity }}">
-                                            <button type="submit"><i class="btn-save fa fa-save"></i></button>
-                                        </form>
                                         <form action="{{ route('deleteFromCart' , $product->id) }}" method="POST">
                                             @csrf
                                             @method('PUT')
@@ -152,23 +152,31 @@
                                             <span class="style-bd">Get a quote</span>
                                         </div>
                                     </form>
-                                    <form class="col-md-4">
+                                    <form class="col-md-4" method="POST" action="{{ route('addDiscount') }}">
+                                        @method("POST")
+                                        @csrf
                                         <div class="form-bd">
                                             <h3>DISCOUNT CODES</h3>
                                             <p class="formbd2">Enter your coupon code if you have one.</p>
-                                            <input class="styleip" type="text" value="" size="30" />
-                                            <span class="style-bd">Apply coupon</span>
+                                            <input class="styleip" type="text" name="discountCopon"  value="" size="30" />
+                                            <button type="submit" class="style-bd">Apply coupon</button>
                                         </div>
                                     </form>
                                     <form class="form-right col-md-4">
                                         <div class="form-bd">
                                             <p class="subtotal">
                                                 <span class="text1">SUBTOTAL:</span>
-                                                <span class="text2">$1,794.00</span>
+                                                <span class="text2">JD {{ number_format($totalCartPrice->total_amount, 2) }}</span>
                                             </p>
                                             <h3>
                                                 <span class="text3">GRAND TOTAL:</span>
-                                                <span class="text4">$1,794.00</span>
+                                                @if (session('afterDiscount'))
+                                                <span class="text4">JD {{   number_format(session('afterDiscount'), 2)  }}</span>
+
+                                                @else
+                                                <span class="text4">JD {{   number_format($totalCartPrice->total_amount, 2)  }}</span>
+
+                                                @endif
                                             </h3>
                                             <span class="style-bd">Proceed to checkout</span>
                                             <p class="checkout">Checkout with Multiple Addresses</p>

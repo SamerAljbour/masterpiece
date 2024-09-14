@@ -38,6 +38,9 @@ Route::get('/home', function () {
 // Route::get('/productList', function () {
 //     return view('frontend/productList');
 // });
+Route::get('/checkout', function () {
+    return view('frontend.checkout'); // Use dot notation
+});
 Route::get('/productListTwo', function () {
     return view('frontend/productListTwo');
 });
@@ -254,6 +257,7 @@ Route::get('cart/{id}', [CartController::class, 'showCartDAta'])->name('cart');
 Route::put('updatecart/{productId}', [CartController::class, 'updateCart'])->name('updatecart');
 Route::put('deleteFromCart/{productId}', [CartController::class, 'deleteFromCart'])->name('deleteFromCart');
 Route::delete('clearCart', [CartController::class, 'clearCart'])->name('clearCart');
+Route::post('addDiscount', [CartController::class, 'addDiscount'])->name('addDiscount');
 
 
 

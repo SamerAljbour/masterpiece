@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\CartProduct;
+use App\Models\DiscountCoupon;
 use App\Models\Product;
 use Exception;
 use Illuminate\Http\Request;
@@ -149,7 +150,9 @@ class CartController extends Controller
             // echo 'Error: ' . $e->getMessage();
         }
         // dd($cartData);
-        return view('frontend/cart', ['cart' => $cart, 'cartData' => $cartData]);
+        $totalCartPrice = Cart::where('id', Auth::user()->id)->first();
+
+        return view('frontend/cart', ['cart' => $cart, 'cartData' => $cartData, 'totalCartPrice' => $totalCartPrice]);
     }
 
     // update cart quantity
@@ -180,7 +183,6 @@ class CartController extends Controller
         $cartData = $cart->products()
             ->wherePivotNull('deleted_at') // Ensure soft-deleted products are excluded
             ->get();
-
 
         return redirect()->route('cart', Auth::user()->id)->with('successClear', "the data updated");
     }
@@ -234,5 +236,24 @@ class CartController extends Controller
             ->get();
         // return view('frontend/cart', ['cart' => $cart, 'cartData' => $cartData]);
         return redirect()->route('cart', Auth::user()->id)->with('successClear', "the data deleted");
+    }
+
+    // apply discount for the total amount
+    function addDiscount(Request $request)
+    {
+        session()->forget('afterDiscount');
+        $discountCopon = $request->input('discountCopon');
+        $discount = DiscountCoupon::where('code', $discountCopon)->first();
+        if ($discount) {
+            $cart = Cart::find(Auth::user()->id);
+            $totalAmount = $cart->total_amount;
+            // dd($cart->total_amount);
+            $totalAmount = $totalAmount - ($discount->discount_amount *  $totalAmount);
+            session(['afterDiscount' => $totalAmount]);
+        } else {
+            return redirect()->route('cart', Auth::user()->id)->with('error', "not found");
+        }
+        // dd($totalAmount); // the total wrong
+        return redirect()->route('cart', Auth::user()->id)->with('successapply', "applied");
     }
 }

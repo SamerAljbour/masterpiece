@@ -110,7 +110,7 @@
                                                         <span class="amount">
                                                             <a href="#">({{ $reviews->count() }} Reviews)</a>
                                                             <span class="separator">|</span>
-                                                            <a href="">Add Your Review</a>
+                                                            <a href="http://127.0.0.1:8000/productdetail/4#review">Add Your Review</a>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -1407,6 +1407,7 @@
                     </div>
                 </div>
             </div>
+           <section id="review">
             <div class="collateral-box">
                 <div class="form-add">
                     <h2>Write Your Own Review</h2>
@@ -1451,6 +1452,7 @@
                     </form>
                 </div>
             </div>
+           </section>
 
 
 
@@ -1563,7 +1565,5 @@
         </div>
     </div>
     <!-- AND PARTNERS -->
-    <script>
 
-    </script>
 @endsection

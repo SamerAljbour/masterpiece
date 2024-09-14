@@ -1,3 +1,6 @@
+html {
+    scroll-behavior: smooth;
+}
 .btn-custom {
     background-color: white; /* White background by default */
     color: #a69cb9; /* Primary color text */
