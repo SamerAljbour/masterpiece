@@ -253,6 +253,7 @@ Route::post('deletereview/{id}', [ReviewController::class, 'destroy'])->name('de
 Route::get('cart/{id}', [CartController::class, 'showCartDAta'])->name('cart');
 Route::put('updatecart/{productId}', [CartController::class, 'updateCart'])->name('updatecart');
 Route::put('deleteFromCart/{productId}', [CartController::class, 'deleteFromCart'])->name('deleteFromCart');
+Route::delete('clearCart', [CartController::class, 'clearCart'])->name('clearCart');
 
 
 

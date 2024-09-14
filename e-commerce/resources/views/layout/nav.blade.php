@@ -975,8 +975,19 @@
                                             <i class="fa fa-shopping-cart"></i>
                                             <div class="summary">
                                                 <span class="amount">
+                                                    @if (Auth::user())
                                                     <a href="{{ route('cart', Auth::user()->id) }}">
-                                                        <span>3</span>
+                                                        @else
+
+                                                        <a href="{{ route('loginRegister') }}">
+                                                        @endif
+                                                        <span>
+                                                        @if (Auth::user())
+                                                            1
+                                                        @else
+                                                            0
+                                                        @endif
+                                                    </span>
                                                     </a>
                                                 </span>
                                             </div>
@@ -1041,7 +1052,13 @@
                                                             <span>Check out</span>
                                                         </span>
                                                     </a>
+                                                    @if (Auth::user())
                                                     <a class="button gfont go-to-cart" href="{{ route('cart' , Auth::user()->id) }}">Go to cart</a>
+
+                                                    @else
+                                                    <a class="button gfont go-to-cart" href="{{ route('loginRegister') }}">Go to cart</a>
+
+                                                    @endif
                                                 </div>
 
                                             </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\CartProduct;
 use App\Models\Product;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -42,7 +43,7 @@ class CartController extends Controller
         ]);
 
         // Check if the product is already in the cart
-        $existingProduct = $cart->products()->where('product_id', $productId)->first();
+        $existingProduct = $cart->products()->whereNull('deleted_at')->where('product_id', $productId)->first();
 
         if ($existingProduct) {
             // Update the existing product's quantity and price in the cart
@@ -101,7 +102,7 @@ class CartController extends Controller
         ]);
 
         // Check if the product is already in the cart
-        $existingProduct = $cart->products()->where('product_id', $productId)->first();
+        $existingProduct = $cart->products()->whereNull('deleted_at')->where('product_id', $productId)->first();
 
         if ($existingProduct) {
             // Update the existing product's quantity and price in the cart
@@ -129,13 +130,29 @@ class CartController extends Controller
         // Return a success response
         return redirect()->route('productdetail', $productId)->with('success', 'Product added to the cart');
     }
+
+
+    // display cart data
     public function showCartData(string $cartId)
     {
-        $cart = Cart::find($cartId);
-        $cartData = $cart->products;
+
+        try {
+            $cart = Cart::find($cartId);
+
+            // Assuming 'products' is a relation or property
+            $cartData = $cart->products()
+                ->wherePivotNull('deleted_at') // Ensure soft-deleted products are excluded
+                ->get();
+        } catch (Exception $e) {
+            // Handle the error (e.g., log the error, show a message)
+            $cartData = [];
+            // echo 'Error: ' . $e->getMessage();
+        }
         // dd($cartData);
         return view('frontend/cart', ['cart' => $cart, 'cartData' => $cartData]);
     }
+
+    // update cart quantity
     public function updateCart(Request $request, string $productId)
     {
         // Retrieve the quantity from the request
@@ -160,20 +177,62 @@ class CartController extends Controller
         }
 
         // Retrieve updated cart data
-        $cartData = $cart->products;
+        $cartData = $cart->products()
+            ->wherePivotNull('deleted_at') // Ensure soft-deleted products are excluded
+            ->get();
 
-        return view('frontend/cart', ['cart' => $cart, 'cartData' => $cartData]);
+
+        return redirect()->route('cart', Auth::user()->id)->with('successClear', "the data updated");
     }
+
+    // delete from cart
+
     function deleteFromCart(string $productId)
     {
         $cart = Cart::find(Auth::user()->id);
-        $cart->products()->detach($productId);
-        $totalAmount = $cart->products->sum(function ($product) {
+
+        // Find the product in the cart pivot table (cart_product)
+        $cartProduct = CartProduct::where('cart_id', $cart->id)
+            ->where('product_id', $productId)
+            ->first();
+
+        if ($cartProduct) {
+            // Soft delete the pivot record
+            $cartProduct->delete();  // This will set 'deleted_at' without detaching
+        }
+
+        // Recalculate the total amount for the cart
+        $totalAmount = $cart->products()->whereNull('cart_product.deleted_at')->get()->sum(function ($product) {
+            return $product->pivot->quantity * $product->price;
+        });
+
+        $cart->total_amount = $totalAmount;
+        $cart->save();
+
+        // Get the cart data (excluding soft deleted products)
+        $cartData = $cart->products()
+            ->wherePivotNull('deleted_at') // Ensure soft-deleted products are excluded
+            ->get();
+
+        return redirect()->route('cart', Auth::user()->id)->with('successClear', "the one  data deleted");
+    }
+
+    // // clear cart data
+    function clearCart()
+    {
+        $cart = Cart::find(Auth::user()->id);
+        CartProduct::where('cart_id', $cart->id)
+            ->whereNull('deleted_at')
+            ->delete();
+        $totalAmount = $cart->products()->whereNull('cart_product.deleted_at')->get()->sum(function ($product) {
             return $product->pivot->quantity * $product->price;
         });
         $cart->total_amount = $totalAmount;
         $cart->save();
-        $cartData = $cart->products;
-        return view('frontend/cart', ['cart' => $cart, 'cartData' => $cartData]);
+        $cartData = $cart->products()
+            ->wherePivotNull('deleted_at') // Ensure soft-deleted products are excluded
+            ->get();
+        // return view('frontend/cart', ['cart' => $cart, 'cartData' => $cartData]);
+        return redirect()->route('cart', Auth::user()->id)->with('successClear', "the data deleted");
     }
 }

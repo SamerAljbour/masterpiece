@@ -46,9 +46,12 @@
                                     <li class="text2"><a href="#">QTY</a></li>
                                     <li class="text2"><a href="#">SUB TOTAL</a></li>
                                 </ul>
-                                @foreach ($cartData as $product)
 
-                                @if (true)
+
+
+
+                                @if (count($cartData) )
+                                @foreach ($cartData as $product)
 
                                 <ul class="nav-mid clearfix" >
                                     <li class="image"><a href="#"><img src="{{ Storage::url($product->image_url) }}" width="122px" alt=""></a></li>
@@ -79,18 +82,35 @@
                                         </form>
                                     </li>
                                 </ul>
-                                @endif
                                 @endforeach
-                                 <ul class="nav-bot clearfix">
+                                @else
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-12 text-center" style="margin-top: 50px;">
+                                            <img src="{{ asset('images/empty-cart.png') }}" alt="Empty Cart" class="img-responsive center-block" style="width: 150px; height: auto; margin-bottom: 20px;">
+                                            <p class="text-danger" style="font-size: 18px;">No items in the cart.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @endif
+                                <ul class="nav-bot clearfix">
                                     <li class="continue"><a href="{{ route('home') }}">Continue shopping</a></li>
-                                    <li class="clear"><a href="#">clear shopping cart</a></li>
+                                    <li class="clear">
+                                        <form action="{{ route('clearCart') }}" method="POST">
+                                            @csrf
+                                            @method("DELETE")
+
+                                            <button type="submit">clear shopping cart</button></li>
+
+                                        </form>
                                     <li class="update">
                                         <form action="" method="POST">
                                             @method("PUT")
                                             <input type="hidden" name="">
                                             <input type="hidden" name="">
                                             <input type="hidden" name="">
-                                            <button class="btn btn-cart" type="submit">update shopping cart</button>
+                                            {{-- <button class="btn btn-cart" type="submit">update shopping cart</button> --}}
                                         </form>
                                     </li>
                                 </ul>
