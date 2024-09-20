@@ -8,6 +8,7 @@
       src="https://kit.fontawesome.com/64d58efce2.js"
       crossorigin="anonymous"
     ></script>
+    <base href="{{ url('/') }}/">
     <link rel="stylesheet" href="{{ asset('assets/css/loginReg.css') }}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ECoi6ZVpu19Qy15Q9MvwmZzdbxg+we6DoY+6z1kr4Uw5lD4bLgAjbF43Jlf+qS+X" crossorigin="anonymous">
 
@@ -17,7 +18,7 @@
     <div class="container">
       <div class="forms-container">
         <div class="signin-signup">
-          <form action="{{ route('login') }}" method="POST" class="sign-in-form">
+          {{-- <form action="{{ route('login') }}" method="POST" class="sign-up-form">
             @csrf
             <h2 class="title">Sign in</h2>
             <div class="input-field">
@@ -29,7 +30,7 @@
               <input type="password" placeholder="Password" name="password"/>
             </div>
             <input type="submit" value="Login" class="btn solid" />
-            <p class="social-text">Or Sign in with social platforms become a <a href="{{ route('loginRegisterSeller') }}">become a seller</a></p>
+            <p class="social-text">Or Sign in with social platforms</p>
             <div class="social-media">
               <a href="#" class="social-icon">
                 <i class="fab fa-facebook-f"></i>
@@ -44,9 +45,9 @@
                 <i class="fab fa-linkedin-in"></i>
               </a>
             </div>
-          </form>
+          </form> --}}
 
-          <form action="{{ route('storeNeweUser') }}" method="POST" class="sign-up-form" enctype="multipart/form-data">
+          <form action="{{ route('storeNeweUser') }}" method="POST" class="sign-in-form"  enctype="multipart/form-data">
               @csrf
               <h2 class="title">Sign up</h2>
 
@@ -63,10 +64,18 @@
               <input type="password" placeholder="Password"name="password" />
             </div>
             <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="number" placeholder="phoneNumber"name="phone" />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="text" placeholder="address"name="address" />
+            </div>
+            <div class="input-field">
               <i class="fas fa-image"></i>
               <input type="file" name="user_image" />
             </div>
-            <input type="hidden" name="role_id" value="1">
+            <input type="hidden" name="role_id" value="2">
             <input type="submit" class="btn" value="Sign up" />
             <p class="social-text">Or Sign up with social platforms</p>
             <div class="social-media">
@@ -90,12 +99,20 @@
       <div class="panels-container">
         <div class="panel left-panel">
           <div class="content">
-            <h3>New here ?</h3>
+            <h3>already have an account?</h3>
             <p>
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
               ex ratione. Aliquid!
             </p>
-            <button class="btn transparent" id="sign-up-btn">Sign up</button>
+            <a class="btn transparent" href="{{ route('loginRegister') }}" style="font-size: 15px;
+    padding-left: 46px;
+    padding-right: 46px;
+    padding-top: 7px;
+    padding-bottom: 8px;
+    outline: white;
+    text-decoration: none;" >login
+
+            </a>
           </div>
           <img src="img/log.svg" class="image" alt="" />
         </div>

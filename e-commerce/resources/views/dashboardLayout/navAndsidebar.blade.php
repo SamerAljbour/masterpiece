@@ -94,6 +94,12 @@
                   <p>Home</p>
                   <span class=""></span>
                 </a>
+                <li class="nav-item ">
+                  <a href="{{ route('profileStore') }}">
+                    <i class="fas fa-user-circle"></i>
+                    <p>Store</p>
+                    <span class=""></span>
+                  </a>
                 @if (Auth::user()->role_id == 3)
 
                 <li class="nav-item ">

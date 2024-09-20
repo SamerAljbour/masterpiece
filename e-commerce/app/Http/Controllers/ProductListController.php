@@ -10,7 +10,7 @@ class ProductListController extends Controller
 {
     public function index()
     {
-        $products = Product::with('category')->get();
+        $products = Product::with(['category', 'reviews'])->get();
         // dd($products);
         return view('frontend.productList', compact('products'));
     }

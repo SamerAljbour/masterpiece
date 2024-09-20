@@ -12,6 +12,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductListController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\SellerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -141,6 +142,8 @@ Route::get('/loginRegister', [UserController::class, 'viewReg'])->name('loginReg
 Route::post('/loginRegister', [UserController::class, 'register'])->name('storeNeweUser');
 Route::post('/loginRegister/login', [UserController::class, 'login'])->name('login');
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+Route::get('/loginRegisterSeller', [UserController::class, 'viewSellerReg'])->name('loginRegisterSeller');
+// Route::post('/loginRegisterSeller', [UserController::class, 'register'])->name('storeNeweUser');
 // <================================= End of register for user ============================================>
 
 
@@ -207,7 +210,15 @@ Route::delete('deleteProductImage/{productId}/{imageId}', [ProductController::cl
 
 // <================================= End of Products crud  ============================================>
 
+// <=================================  seller store crud  ============================================>
+Route::get('profileStore', [SellerController::class, 'index'])->name('profileStore');
 
+
+
+
+
+
+// <=================================  End of seller store crud  ============================================>
 
 
 // <=================================  reviews crud  ============================================>
@@ -230,7 +241,6 @@ Route::get('allreviews', [ReviewController::class, 'index'])->name('allreviews')
 
 
 
-// <================================= End of Home  ============================================>
 
 
 
@@ -264,3 +274,4 @@ Route::post('addDiscount', [CartController::class, 'addDiscount'])->name('addDis
 
 
     // <================================= End of cart page  ============================================>
+// <================================= End of Home  ============================================>

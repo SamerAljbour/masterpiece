@@ -137,7 +137,7 @@
                             <div id="sns_custommenu" class="visible-md visible-lg">
                                 <ul class="mainnav">
                                     <li class="level0 custom-item">
-                                        <a class="menu-title-lv0 pd-menu116" href="index3.html" target="_self">
+                                        <a class="menu-title-lv0 pd-menu116" href="{{ route('home') }}" target="_self">
                                             <span class="title">Home</span>
                                         </a>
                                     </li>
@@ -307,7 +307,7 @@
                                         </div> -->
                                     </li>
                                     <li class="level0 nav-2 no-group drop-submenu parent">
-                                        <a class=" menu-title-lv0" href="#">
+                                        <a class=" menu-title-lv0" href="{{ route('productList') }}">
                                             <span class="title">All products</span>
                                         </a>
                                         <div class="wrap_submenu">

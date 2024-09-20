@@ -791,7 +791,7 @@
                                                                 <div class="rating" style="width:60%"></div>
                                                             </div>
                                                             <span class="amount">
-                                                                <a href="#">(1 Reviews)</a>
+                                                                <a href="{{ route('productdetail', $product->id) }}#review">({{ $product->reviews->count() }} Reviews)</a>
                                                                 <span class="separator">|</span>
                                                                 <a href="#">Add Your Review</a>
                                                             </span>

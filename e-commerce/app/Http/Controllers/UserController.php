@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Seller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\QueryException;
@@ -17,16 +19,33 @@ class UserController extends Controller
     {
         return view('regAndLogin/loginRegister');
     }
+    public function viewSellerReg()
+    {
+        return view('regAndLogin/sellerRegister');
+    }
     public function register(Request $request)
     {
         try {
-            $validateData = $request->validate([
-                'name' => 'required',
-                'email' => 'required|email:users',
-                'password' => 'required|min:8|max:12',
-                'role_id' => 'required',
-            ]);
-            // dd($request->hasFile('user_image'));
+            // dd($request->input('role_id'));
+            if ($request->input('role_id') == 1) { // as user
+                $validateData = $request->validate([
+                    'name' => 'required',
+                    'email' => 'required|email:users',
+                    'password' => 'required|min:8|max:12',
+                    'role_id' => 'required',
+                ]);
+            } elseif ($request->input('role_id') == 2) { // as seller
+                $validateData = $request->validate([
+                    'name' => 'required',
+                    'email' => 'required|email:users',
+                    'password' => 'required|min:8|max:12',
+                    'phone' => 'required|min:10|max:10',
+                    'address' => 'required',
+                    'role_id' => 'required',
+                ]);
+            }
+
+
             $mainImagePath = null;
             if ($request->hasFile('user_image')) {
                 $file = $request->file('user_image');
@@ -41,12 +60,25 @@ class UserController extends Controller
             $user->name = $validateData['name'];
             $user->email = $validateData['email'];
             $user->password = $validateData['password'];
+            if ($request->input('role_id') == 2) {
+                $user->phone = $validateData['phone'];
+                $user->address = $validateData['address'];
+            }
             $user->role_id = $validateData['role_id'];
             $user->user_image = $mainImagePath;
             $user->save();
-            $cart = Cart::create([
+            Cart::create([
                 'user_id' => $user->id
             ]);
+            if ($request->input('role_id') == 2) {
+                Seller::create([
+                    'user_id' =>  $user->id,
+                    'store_name' =>  "my store",
+                    'store_description' =>  "my store description",
+                    'rating' =>  0,
+
+                ]);
+            }
 
             return redirect()->route('loginRegister')->with('successRegister', "you created account successfully");
         } catch (QueryException $e) {
