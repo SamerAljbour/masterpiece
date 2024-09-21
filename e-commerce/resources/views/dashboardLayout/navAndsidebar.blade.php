@@ -719,8 +719,8 @@
                       />
                     </div>
                     <span class="profile-username">
-                      <span class="op-7">Hi,</span>
-                      <span class="fw-bold">Hizrian</span>
+                      {{-- <span class="op-7">Hi,</span> --}}
+                      <span class="fw-bold">{{ Auth::user()->name }}</span>
                     </span>
                   </a>
                   <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -729,14 +729,14 @@
                         <div class="user-box">
                           <div class="avatar-lg">
                             <img
-                              src="assets/img/profile.jpg"
+                              src="{{ Storage::url(Auth::user()->user_image) }}"
                               alt="image profile"
                               class="avatar-img rounded"
                             />
                           </div>
                           <div class="u-text">
                             <h4>Hizrian</h4>
-                            <p class="text-muted">hello@example.com</p>
+                            <p class="text-muted">{{ Auth::user()->email }}</p>
                             <a
                               href="profile.html"
                               class="btn btn-xs btn-secondary btn-sm"

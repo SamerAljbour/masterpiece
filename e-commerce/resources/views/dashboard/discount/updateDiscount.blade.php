@@ -40,13 +40,15 @@
             <div class="form-group">
               <label for="email">discount amount</label>
               <input
-              name="discount_amount"
-                type="number"
-                class="form-control"
-                id="password"
-                placeholder="discount amount"
-                value="{{ $discountCoupon->discount_amount }}"
-              />
+    name="discount_amount"
+    type="text"
+    class="form-control"
+    id="discount_amount"
+    placeholder="Discount amount"
+    value="{{ $discountCoupon->discount_amount }}"
+    pattern="\d+(\.\d{1,2})?"
+    title="Please enter a valid decimal amount (e.g., 10.00)"
+/>
             </div>
             <div class="form-group">
               <label for="email">valid from</label>

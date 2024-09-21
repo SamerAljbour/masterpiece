@@ -191,6 +191,8 @@ class CartController extends Controller
 
     function deleteFromCart(string $productId)
     {
+        session()->forget('afterDiscount');
+
         $cart = Cart::find(Auth::user()->id);
 
         // Find the product in the cart pivot table (cart_product)
@@ -222,6 +224,8 @@ class CartController extends Controller
     // // clear cart data
     function clearCart()
     {
+        session()->forget('afterDiscount');
+
         $cart = Cart::find(Auth::user()->id);
         CartProduct::where('cart_id', $cart->id)
             ->whereNull('deleted_at')
@@ -244,16 +248,30 @@ class CartController extends Controller
         session()->forget('afterDiscount');
         $discountCopon = $request->input('discountCopon');
         $discount = DiscountCoupon::where('code', $discountCopon)->first();
+        $cart = Cart::find(Auth::user()->id);
+
+        $cartData = $cart->products()
+            ->wherePivotNull('deleted_at')
+            ->get();
+        // dd()
         if ($discount) {
-            $cart = Cart::find(Auth::user()->id);
-            $totalAmount = $cart->total_amount;
-            // dd($cart->total_amount);
-            $totalAmount = $totalAmount - ($discount->discount_amount *  $totalAmount);
-            session(['afterDiscount' => $totalAmount]);
+            if ($discount->is_active) {
+                if ($cartData->count() > 0) {
+                    $cart = Cart::find(Auth::user()->id);
+                    $totalAmount = $cart->total_amount;
+                    // dd($cart->total_amount);
+                    $totalAmount = $totalAmount - ($discount->discount_amount *  $totalAmount);
+                    session(['afterDiscount' => $totalAmount]);
+                } else {
+                    return redirect()->route('cart', Auth::user()->id)->with('error', "You can not apply discount on empty cart");
+                }
+            } else {
+                return redirect()->route('cart', Auth::user()->id)->with('error', "Discount Expired");
+            }
         } else {
             return redirect()->route('cart', Auth::user()->id)->with('error', "not found");
         }
         // dd($totalAmount); // the total wrong
-        return redirect()->route('cart', Auth::user()->id)->with('successapply', "applied");
+        return redirect()->route('cart', Auth::user()->id)->with('successapply', "Discount Applied");
     }
 }

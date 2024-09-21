@@ -156,7 +156,21 @@
                                         @method("POST")
                                         @csrf
                                         <div class="form-bd">
-                                            <h3>DISCOUNT CODES</h3>
+                                            @if (session('error'))
+                                                <div class="alert alert-danger">
+                                                    <ul>
+                                                        {{ session('error') }}
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                            @if (session('successapply'))
+                                                <div class="alert alert-success">
+                                                    <ul>
+                                                        {{ session('successapply') }}
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                                                                        <h3>DISCOUNT CODES</h3>
                                             <p class="formbd2">Enter your coupon code if you have one.</p>
                                             <input class="styleip" type="text" name="discountCopon"  value="" size="30" />
                                             <button type="submit" class="style-bd">Apply coupon</button>
