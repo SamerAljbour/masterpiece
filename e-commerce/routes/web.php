@@ -212,6 +212,7 @@ Route::delete('deleteProductImage/{productId}/{imageId}', [ProductController::cl
 
 // <=================================  seller store crud  ============================================>
 Route::get('profileStore', [SellerController::class, 'index'])->name('profileStore');
+Route::post('searchAboutProduct', [SellerController::class, 'index'])->name('searchAboutProduct');
 
 
 

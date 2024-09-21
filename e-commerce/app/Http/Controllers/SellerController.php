@@ -2,17 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use App\Models\Review;
 use App\Models\Seller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SellerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view("dashboard.store");
+        $sellerId = Auth::user()->id;
+        // $rating = Review::with("Product")->get();
+        $searchInput = $request->input('search');
+        if (trim($searchInput)) {
+            $products = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerId)
+                ->where('name', 'LIKE', '%' . $searchInput . '%')->get();
+        } else {
+            $products = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerId)->get();
+        }
+        $sellerInfo = Seller::where('user_id', $sellerId)->first();
+        $productCount = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerId)->count();
+        // $products = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerId)->get();
+        // dd($sellerInfo);
+        return view("dashboard.store", compact("products", "sellerInfo", "productCount"));
     }
 
     /**
@@ -61,5 +77,12 @@ class SellerController extends Controller
     public function destroy(Seller $seller)
     {
         //
+    }
+    public function searchOnProduct(Request $request)
+    {
+        $sellerId = Auth::user()->id;
+
+
+        return view("dashboard.store", compact("products"));
     }
 }

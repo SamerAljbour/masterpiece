@@ -26,6 +26,7 @@ class ProductFactory extends Factory
             'price' => $this->faker->randomFloat(2, 10, 1000),
             'category_id' => $categoryId, // Use a valid category ID
             'stock_quantity' => $this->faker->numberBetween(1, 100),
+            'seller_id' => $this->faker->numberBetween(1, 2),
             'image_url' => "public/mainProducts/defaultProduct.png",
         ];
     }

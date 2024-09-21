@@ -33,9 +33,9 @@ padding: 0!important;
 margin-top: -3rem!important;
 }
 
-.linear-gradient {
+/* .linear-gradient {
 background-image: linear-gradient(#50b2fc,#f44c66);
-}
+} */
 
 .rounded-circle {
 border-radius: 50%!important;
@@ -179,7 +179,7 @@ margin-left: 30px!important;
                                     ;
                                 >
                                     <img
-                                        src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                                        src="{{ Storage::url(Auth::user()->user_image) }}"
                                         alt
                                         class="w-100 h-100"
                                     />
@@ -188,9 +188,9 @@ margin-left: 30px!important;
                         </div>
                         <div class="text-center">
                             <h5 class="fs-5 mb-0 fw-semibold">
-                                Mathew Anderson
+                               {{Auth::user()->name}}
                             </h5>
-                            <p class="mb-0 fs-4">Designer</p>
+                            <p class="mb-0 fs-4">{{ $sellerInfo->store_name }}</p>
                         </div>
                     </div>
                 </div>
@@ -247,7 +247,7 @@ margin-left: 30px!important;
             >
                 <li class="nav-item" role="presentation">
                     <button id = "removeBorder"
-                        class="nav-link position-relative rounded-0 active d-flex align-items-center justify-content-center bg-transparent fs-3 py-6"
+                        class="nav-link position-relative rounded-0  d-flex align-items-center justify-content-center bg-transparent fs-6 py-6"
                         id="pills-profile-tab"
                         data-bs-toggle="pill"
                         data-bs-target="#pills-profile"
@@ -256,13 +256,13 @@ margin-left: 30px!important;
                         aria-controls="pills-profile"
                         aria-selected="true"
                     >
-                        <i class="fa fa-user me-2 fs-6"></i>
+                        <i class="fa fa-user me-2 fs-3"></i>
                         <span class="d-none d-md-block">Profile</span>
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button id = "removeBorder"
-                        class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-6"
+                        class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-6 py-6"
                         id="pills-followers-tab"
                         data-bs-toggle="pill"
                         data-bs-target="#pills-followers"
@@ -278,7 +278,7 @@ margin-left: 30px!important;
                 </li>
                 <li class="nav-item" role="presentation">
                     <button id = "removeBorder"
-                        class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-6"
+                        class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-6 py-6"
                         id="pills-friends-tab"
                         data-bs-toggle="pill"
                         data-bs-target="#pills-friends"
@@ -294,7 +294,7 @@ margin-left: 30px!important;
                 </li>
                 <li class="nav-item" role="presentation">
                     <button id = "removeBorder"
-                        class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-6"
+                        class="nav-link active position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-6 py-6"
                         id="pills-gallery-tab"
                         data-bs-toggle="pill"
                         data-bs-target="#pills-gallery"
@@ -305,7 +305,7 @@ margin-left: 30px!important;
                         tabindex="-1"
                     >
                         <i class="fa fa-photo me-2 fs-6"></i>
-                        <span class="d-none d-md-block">Gallery</span>
+                        <span class="d-none d-md-block">Products</span>
                     </button>
                 </li>
             </ul>
@@ -325,638 +325,110 @@ margin-left: 30px!important;
                 <h3
                     class="mb-3 mb-sm-0 fw-semibold d-flex align-items-center"
                 >
-                    Gallery
+                    Products
                     <span
                         class="badge text-bg-secondary fs-2 rounded-4 py-1 px-2 ms-2"
-                        >12</span
+                        >{{ $products->count() }}</span
                     >
                 </h3>
-                <form class="position-relative">
+                <form method="POST" action="{{ route('searchAboutProduct') }}" class="position-relative" style="display: flex; gap:10px">
+                    @csrf
                     <input
                         type="text"
                         class="form-control search-chat py-2 ps-5"
                         id="text-srh"
-                        placeholder="Search Friends"
+                        placeholder="Search Products"
+                        name="search"
                     />
+                    <button  class="btn btn-icon btn-round btn-primary" type="submit"><i class="fas fa-search"></i></button>
+
+
                     <i
                         class="ti ti-search position-absolute top-50 start-0 translate-middle-y text-dark ms-3"
                     ></i>
                 </form>
             </div>
             <div class="row">
-                <div class="col-md-6 col-lg-4">
-                    <div
-                        class="card hover-img overflow-hidden rounded-2"
-                    >
-                        <div class="card-body p-0">
-                            <img
-                                src="https://www.bootdey.com/image/580x380/00FFFF/000000"
-                                alt
-                                class="img-fluid w-100 object-fit-cover"
-                                style="height: 220px"
-                            />
-                            <div
-                                class="p-4 d-flex align-items-center justify-content-between"
-                            >
-                                <div>
-                                    <h6 class="fw-semibold mb-0 fs-4">
-                                        Isuava wakceajo fe.jpg
-                                    </h6>
-                                    <span class="text-dark fs-2"
-                                        >Wed, Dec 14, 2023</span
-                                    >
-                                </div>
-                                <div class="dropdown">
-                                    <a
-                                        class="text-muted fw-semibold d-flex align-items-center p-1"
-                                        href="javascript:void(0)"
-                                        role="button"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                    >
-                                        <i
-                                            class="ti ti-dots-vertical"
-                                        ></i>
-                                    </a>
-                                    <ul
-                                        class="dropdown-menu overflow-hidden"
-                                    >
-                                        <li>
-                                            <a
-                                                class="dropdown-item"
-                                                href="javascript:void(0)"
-                                                >Isuava wakceajo
-                                                fe.jpg</a
-                                            >
-                                        </li>
-                                    </ul>
-                                </div>
+                {{-- show the products that seller own --}}
+                @if ($products->count() > 0)
+            @foreach ($products as $product )
+            <div class="col-md-6 col-lg-4">
+                <div
+                    class="card hover-img overflow-hidden rounded-2"
+                >
+                    <div class="card-body p-0">
+                        <img
+                            src="{{ Storage::url($product->image_url) }}"
+                            alt
+                            class="img-fluid w-100 object-fit-cover"
+                            style="height: 220px"
+                        />
+                        <div
+                            class="p-4 d-flex align-items-center justify-content-between"
+                        >
+                            <div>
+                                <h6 class="fw-semibold mb-0 fs-4">
+                                    {{ $product->name }}
+                                </h6>
+                                <span class="text-dark fs-2"
+                                    >{{ $product->description }}</span
+                                ><br>
+                                <span class="text-dark fs-2"
+                                    >    JOD {{ $product->price }}</span
+                                >
+                                <br>
+                                <span class="text-dark fs-2"
+                                    >Rating : {{  $product->reviews->avg('rating') == 0 ? "0" :  $product->reviews->avg('rating')}} of 5 </span
+                                >
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div
-                        class="card hover-img overflow-hidden rounded-2"
-                    >
-                        <div class="card-body p-0">
-                            <img
-                                src="https://www.bootdey.com/image/580x380/00FFFF/000000"
-                                alt
-                                class="img-fluid w-100 object-fit-cover"
-                                style="height: 220px"
-                            />
-                            <div
-                                class="p-4 d-flex align-items-center justify-content-between"
-                            >
-                                <div>
-                                    <h6 class="fw-semibold mb-0 fs-4">
-                                        Ip docmowe vemremrif.jpg
-                                    </h6>
-                                    <span class="text-dark fs-2"
-                                        >Wed, Dec 14, 2023</span
-                                    >
-                                </div>
-                                <div class="dropdown">
-                                    <a
-                                        class="text-muted fw-semibold d-flex align-items-center p-1"
-                                        href="javascript:void(0)"
-                                        role="button"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                    >
-                                        <i
-                                            class="ti ti-dots-vertical"
-                                        ></i>
-                                    </a>
-                                    <ul
-                                        class="dropdown-menu overflow-hidden"
-                                    >
-                                        <li>
-                                            <a
-                                                class="dropdown-item"
-                                                href="javascript:void(0)"
-                                                >Ip docmowe
-                                                vemremrif.jpg</a
-                                            >
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div
-                        class="card hover-img overflow-hidden rounded-2"
-                    >
-                        <div class="card-body p-0">
-                            <img
-                                src="https://www.bootdey.com/image/580x380/00FFFF/000000"
-                                alt
-                                class="img-fluid w-100 object-fit-cover"
-                                style="height: 220px"
-                            />
-                            <div
-                                class="p-4 d-flex align-items-center justify-content-between"
-                            >
-                                <div>
-                                    <h6 class="fw-semibold mb-0 fs-4">
-                                        Duan cosudos utaku.jpg
-                                    </h6>
-                                    <span class="text-dark fs-2"
-                                        >Wed, Dec 14, 2023</span
-                                    >
-                                </div>
-                                <div class="dropdown">
-                                    <a
-                                        class="text-muted fw-semibold d-flex align-items-center p-1"
-                                        href="javascript:void(0)"
-                                        role="button"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                    >
-                                        <i
-                                            class="ti ti-dots-vertical"
-                                        ></i>
-                                    </a>
-                                    <ul
-                                        class="dropdown-menu overflow-hidden"
-                                    >
-                                        <li>
-                                            <a
-                                                class="dropdown-item"
-                                                href="javascript:void(0)"
-                                                >Duan cosudos
-                                                utaku.jpg</a
-                                            >
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div
-                        class="card hover-img overflow-hidden rounded-2"
-                    >
-                        <div class="card-body p-0">
-                            <img
-                                src="https://www.bootdey.com/image/580x380/00FFFF/000000"
-                                alt
-                                class="img-fluid w-100 object-fit-cover"
-                                style="height: 220px"
-                            />
-                            <div
-                                class="p-4 d-flex align-items-center justify-content-between"
-                            >
-                                <div>
-                                    <h6 class="fw-semibold mb-0 fs-4">
-                                        Fu netbuv oggu.jpg
-                                    </h6>
-                                    <span class="text-dark fs-2"
-                                        >Wed, Dec 14, 2023</span
-                                    >
-                                </div>
-                                <div class="dropdown">
-                                    <a
-                                        class="text-muted fw-semibold d-flex align-items-center p-1"
-                                        href="javascript:void(0)"
-                                        role="button"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                    >
-                                        <i
-                                            class="ti ti-dots-vertical"
-                                        ></i>
-                                    </a>
-                                    <ul
-                                        class="dropdown-menu overflow-hidden"
-                                    >
-                                        <li>
-                                            <a
-                                                class="dropdown-item"
-                                                href="javascript:void(0)"
-                                                >Fu netbuv oggu.jpg</a
-                                            >
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div
-                        class="card hover-img overflow-hidden rounded-2"
-                    >
-                        <div class="card-body p-0">
-                            <img
-                                src="https://www.bootdey.com/image/580x380/00FFFF/000000"
-                                alt
-                                class="img-fluid w-100 object-fit-cover"
-                                style="height: 220px"
-                            />
-                            <div
-                                class="p-4 d-flex align-items-center justify-content-between"
-                            >
-                                <div>
-                                    <h6 class="fw-semibold mb-0 fs-4">
-                                        Di sekog do.jpg
-                                    </h6>
-                                    <span class="text-dark fs-2"
-                                        >Wed, Dec 14, 2023</span
-                                    >
-                                </div>
-                                <div class="dropdown">
-                                    <a
-                                        class="text-muted fw-semibold d-flex align-items-center p-1"
-                                        href="javascript:void(0)"
-                                        role="button"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                    >
-                                        <i
-                                            class="ti ti-dots-vertical"
-                                        ></i>
-                                    </a>
-                                    <ul
-                                        class="dropdown-menu overflow-hidden"
-                                    >
-                                        <li>
-                                            <a
-                                                class="dropdown-item"
-                                                href="javascript:void(0)"
-                                                >Di sekog do.jpg</a
-                                            >
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div
-                        class="card hover-img overflow-hidden rounded-2"
-                    >
-                        <div class="card-body p-0">
-                            <img
-                                src="https://www.bootdey.com/image/580x380/00FFFF/000000"
-                                alt
-                                class="img-fluid w-100 object-fit-cover"
-                                style="height: 220px"
-                            />
-                            <div
-                                class="p-4 d-flex align-items-center justify-content-between"
-                            >
-                                <div>
-                                    <h6 class="fw-semibold mb-0 fs-4">
-                                        Lo jogu camhiisi.jpg
-                                    </h6>
-                                    <span class="text-dark fs-2"
-                                        >Thu, Dec 15, 2023</span
-                                    >
-                                </div>
-                                <div class="dropdown">
-                                    <a
-                                        class="text-muted fw-semibold d-flex align-items-center p-1"
-                                        href="javascript:void(0)"
-                                        role="button"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                    >
-                                        <i
-                                            class="ti ti-dots-vertical"
-                                        ></i>
-                                    </a>
-                                    <ul
-                                        class="dropdown-menu overflow-hidden"
-                                    >
-                                        <li>
-                                            <a
-                                                class="dropdown-item"
-                                                href="javascript:void(0)"
-                                                >Lo jogu camhiisi.jpg</a
-                                            >
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div
-                        class="card hover-img overflow-hidden rounded-2"
-                    >
-                        <div class="card-body p-0">
-                            <img
-                                src="https://www.bootdey.com/image/580x380/00FFFF/000000"
-                                alt
-                                class="img-fluid w-100 object-fit-cover"
-                                style="height: 220px"
-                            />
-                            <div
-                                class="p-4 d-flex align-items-center justify-content-between"
-                            >
-                                <div>
-                                    <h6 class="fw-semibold mb-0 fs-4">
-                                        Orewac huosazud robuf.jpg
-                                    </h6>
-                                    <span class="text-dark fs-2"
-                                        >Fri, Dec 16, 2023</span
-                                    >
-                                </div>
-                                <div class="dropdown">
-                                    <a
-                                        class="text-muted fw-semibold d-flex align-items-center p-1"
-                                        href="javascript:void(0)"
-                                        role="button"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                    >
-                                        <i
-                                            class="ti ti-dots-vertical"
-                                        ></i>
-                                    </a>
-                                    <ul
-                                        class="dropdown-menu overflow-hidden"
-                                    >
-                                        <li>
-                                            <a
-                                                class="dropdown-item"
-                                                href="javascript:void(0)"
-                                                >Orewac huosazud
-                                                robuf.jpg</a
-                                            >
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div
-                        class="card hover-img overflow-hidden rounded-2"
-                    >
-                        <div class="card-body p-0">
-                            <img
-                                src="https://www.bootdey.com/image/580x380/00FFFF/000000"
-                                alt
-                                class="img-fluid w-100 object-fit-cover"
-                                style="height: 220px"
-                            />
-                            <div
-                                class="p-4 d-flex align-items-center justify-content-between"
-                            >
-                                <div>
-                                    <h6 class="fw-semibold mb-0 fs-4">
-                                        Nira biolaizo tuzi.jpg
-                                    </h6>
-                                    <span class="text-dark fs-2"
-                                        >Sat, Dec 17, 2023</span
-                                    >
-                                </div>
-                                <div class="dropdown">
-                                    <a
-                                        class="text-muted fw-semibold d-flex align-items-center p-1"
-                                        href="javascript:void(0)"
-                                        role="button"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                    >
-                                        <i
-                                            class="ti ti-dots-vertical"
-                                        ></i>
-                                    </a>
-                                    <ul
-                                        class="dropdown-menu overflow-hidden"
-                                    >
-                                        <li>
-                                            <a
-                                                class="dropdown-item"
-                                                href="javascript:void(0)"
-                                                >Nira biolaizo
-                                                tuzi.jpg</a
-                                            >
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div
-                        class="card hover-img overflow-hidden rounded-2"
-                    >
-                        <div class="card-body p-0">
-                            <img
-                                src="https://www.bootdey.com/image/580x380/00FFFF/000000"
-                                alt
-                                class="img-fluid w-100 object-fit-cover"
-                                style="height: 220px"
-                            />
-                            <div
-                                class="p-4 d-flex align-items-center justify-content-between"
-                            >
-                                <div>
-                                    <h6 class="fw-semibold mb-0 fs-4">
-                                        Peri metu ejvu.jpg
-                                    </h6>
-                                    <span class="text-dark fs-2"
-                                        >Sun, Dec 18, 2023</span
-                                    >
-                                </div>
-                                <div class="dropdown">
-                                    <a
-                                        class="text-muted fw-semibold d-flex align-items-center p-1"
-                                        href="javascript:void(0)"
-                                        role="button"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                    >
-                                        <i
-                                            class="ti ti-dots-vertical"
-                                        ></i>
-                                    </a>
-                                    <ul
-                                        class="dropdown-menu overflow-hidden"
-                                    >
-                                        <li>
-                                            <a
-                                                class="dropdown-item"
-                                                href="javascript:void(0)"
-                                                >Peri metu ejvu.jpg</a
-                                            >
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div
-                        class="card hover-img overflow-hidden rounded-2"
-                    >
-                        <div class="card-body p-0">
-                            <img
-                                src="https://www.bootdey.com/image/580x380/00FFFF/000000"
-                                alt
-                                class="img-fluid w-100 object-fit-cover"
-                                style="height: 220px"
-                            />
-                            <div
-                                class="p-4 d-flex align-items-center justify-content-between"
-                            >
-                                <div>
-                                    <h6 class="fw-semibold mb-0 fs-4">
-                                        Vurnohot tajraje isusufuj.jpg
-                                    </h6>
-                                    <span class="text-dark fs-2"
-                                        >Mon, Dec 19, 2023</span
-                                    >
-                                </div>
-                                <div class="dropdown">
-                                    <a
-                                        class="text-muted fw-semibold d-flex align-items-center p-1"
-                                        href="javascript:void(0)"
-                                        role="button"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                    >
-                                        <i
-                                            class="ti ti-dots-vertical"
-                                        ></i>
-                                    </a>
-                                    <ul
-                                        class="dropdown-menu overflow-hidden"
-                                    >
-                                        <li>
-                                            <a
-                                                class="dropdown-item"
-                                                href="javascript:void(0)"
-                                                >Vurnohot tajraje
-                                                isusufuj.jpg</a
-                                            >
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div
-                        class="card hover-img overflow-hidden rounded-2"
-                    >
-                        <div class="card-body p-0">
-                            <img
-                                src="https://www.bootdey.com/image/580x380/00FFFF/000000"
-                                alt
-                                class="img-fluid w-100 object-fit-cover"
-                                style="height: 220px"
-                            />
-                            <div
-                                class="p-4 d-flex align-items-center justify-content-between"
-                            >
-                                <div>
-                                    <h6 class="fw-semibold mb-0 fs-4">
-                                        Juc oz ma.jpg
-                                    </h6>
-                                    <span class="text-dark fs-2"
-                                        >Tue, Dec 20, 2023</span
-                                    >
-                                </div>
-                                <div class="dropdown">
-                                    <a
-                                        class="text-muted fw-semibold d-flex align-items-center p-1"
-                                        href="javascript:void(0)"
-                                        role="button"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                    >
-                                        <i
-                                            class="ti ti-dots-vertical"
-                                        ></i>
-                                    </a>
-                                    <ul
-                                        class="dropdown-menu overflow-hidden"
-                                    >
-                                        <li>
-                                            <a
-                                                class="dropdown-item"
-                                                href="javascript:void(0)"
-                                                >Juc oz ma.jpg</a
-                                            >
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div
-                        class="card hover-img overflow-hidden rounded-2"
-                    >
-                        <div class="card-body p-0">
-                            <img
-                                src="https://www.bootdey.com/image/580x380/00FFFF/000000"
-                                alt
-                                class="img-fluid w-100 object-fit-cover"
-                                style="height: 220px"
-                            />
-                            <div
-                                class="p-4 d-flex align-items-center justify-content-between"
-                            >
-                                <div>
-                                    <h6 class="fw-semibold mb-0 fs-4">
-                                        Povipvez marjelliz zuuva.jpg
-                                    </h6>
-                                    <span class="text-dark fs-2"
-                                        >Wed, Dec 21, 2023</span
-                                    >
-                                </div>
-                                <div class="dropdown">
-                                    <a
-                                        class="text-muted fw-semibold d-flex align-items-center p-1"
-                                        href="javascript:void(0)"
-                                        role="button"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                    >
-                                        <i
-                                            class="ti ti-dots-vertical"
-                                        ></i>
-                                    </a>
-                                    <ul
-                                        class="dropdown-menu overflow-hidden"
-                                    >
-                                        <li>
-                                            <a
-                                                class="dropdown-item"
-                                                href="javascript:void(0)"
-                                                >Povipvez marjelliz
-                                                zuuva.jpg</a
-                                            >
-                                        </li>
-                                    </ul>
-                                </div>
+                            <div class="dropdown">
+                                <a
+                                    class="text-muted fw-semibold d-flex align-items-center p-1"
+                                    href="javascript:void(0)"
+                                    role="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    <i
+                                        class="ti ti-dots-vertical"
+                                    ></i>
+                                </a>
+                                <ul
+                                    class="dropdown-menu overflow-hidden"
+                                >
+                                    <li>
+                                        <a
+                                            class="dropdown-item"
+                                            href="javascript:void(0)"
+                                            >Ip docmowe
+                                            vemremrif.jpg</a
+                                        >
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+
+                @endforeach
+                @else
+                <div class="text-center mt-5">
+                    {{-- <img src="{{ asset('images/search-result-not-found.png') }}" alt="No Results" class="img-fluid mb-4" style="max-width: 300px; height: auto;"> --}}
+                    <h1 class="text-danger fw-bold">No product with this name</h1>
+                    <p class="text-muted mb-2">Please try a different search term or check back later.</p>
+                    <p class="text-muted">We searched over <strong>{{ $productCount }}</strong> products</p>
+                </div>
+
+                            @endif
+            </div>
         </div>
     </div>
     </div>
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript"></script>
+    <script type="text/javascript"></script> --}}
 @endsection
 
