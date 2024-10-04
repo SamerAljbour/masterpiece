@@ -10,12 +10,25 @@
             align-content: center
 
         }
+
+    .no-discount-message {
+        color: #d10024; /* Change the text color to your specified red */
+        font-size: 18px; /* Adjust font size */
+        font-weight: bold; /* Make the text bold */
+        text-align: center; /* Center the text */
+        margin: 20px 0; /* Add margin for spacing */
+    }
+
+
     </style>
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
               <h4 class="card-title">Discounts</h4>
+              @if(!$discounts->isEmpty())
+
+
               <a
               href="{{ route('createDiscount') }}"
                 class="btn btn-black btn-round ms-auto"
@@ -23,6 +36,7 @@
                 <i class="fas fa-money-bill"></i>
                 Add discount
               </a>
+              @endif
             </div>
           </div>
           <div class="card-body">
@@ -118,6 +132,8 @@
                 id="add-row"
                 class="display table table-striped table-hover"
               >
+              @if(! $discounts->isEmpty())
+
                 <thead>
                   <tr>
                     {{-- <th>ID</th> --}}
@@ -141,6 +157,9 @@
                   </tr>
                 </tfoot>
                 <tbody>
+
+
+
                     @foreach ($discounts as $discount)
                     <tr>
                         {{-- <td>{{ $discount->id }}</td> --}}
@@ -177,6 +196,20 @@
 
                 </tbody>
               </table>
+              @else
+                <p class="no-discount-message">No discount codes available.</p>
+                {{-- @if(!$discounts->isEmpty())
+
+
+              <a
+              href="{{ route('createDiscount') }}"
+                class="btn btn-black btn-round ms-auto"
+              >
+                <i class="fas fa-money-bill"></i>
+                Add discount
+              </a> --}}
+              {{-- @endif --}}
+                @endif
             </div>
           </div>
         </div>

@@ -122,6 +122,7 @@ class ProductController extends Controller
             'images' => 'nullable|array',    // Additional images are optional on update
             'images.*' => 'image',           // Validate each file as an image
         ]);
+
         // Find the existing product
         $product = Product::findOrFail($id);
 
@@ -172,6 +173,7 @@ class ProductController extends Controller
 
         return redirect()->route('allProducts')->with('success', 'Product updated successfully');
     }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -201,9 +203,19 @@ class ProductController extends Controller
     }
     public function deleteProductImage(string $productId, string $imageId)
     {
-        // Your logic to delete the image by $imageId for the product $productId
-        ProductPhoto::where('id', $imageId)->delete();
-        return redirect()->route('editProduct', $productId)->with('success', 'Image deleted');
+        $photo = ProductPhoto::find($imageId); // Retrieve the photo instance
+
+        if ($photo) {
+            // Optionally delete the image from storage if necessary
+            Storage::delete($photo->photo_url);
+
+            // Delete the record from the database
+            $photo->delete();
+
+            return redirect()->back()->with('success', 'Image deleted successfully');
+        } else {
+            return redirect()->back()->with('error', 'Image not found');
+        }
     }
     // public function show
 }

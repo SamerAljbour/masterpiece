@@ -205,6 +205,7 @@ Route::get('allProducts', [ProductController::class, 'index'])->name('allProduct
 Route::get('createProduct', [ProductController::class, 'create'])->name('createProduct');
 Route::post('storeProduct', [ProductController::class, 'store'])->name('storeProduct');
 Route::get('editProduct/{id}', [ProductController::class, 'edit'])->name('editProduct');
+Route::put('updateProduct/{id}', [ProductController::class, 'update'])->name('updateProduct');
 Route::post('deleteProduct/{id}', [ProductController::class, 'destroy'])->name('deleteProduct');
 Route::delete('deleteProductImage/{productId}/{imageId}', [ProductController::class, 'deleteProductImage'])->name('deleteProductImage');
 
