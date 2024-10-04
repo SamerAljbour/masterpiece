@@ -111,11 +111,23 @@
                 </li>
                 @endif
               <li class="nav-item ">
+                {{-- for admin --}}
+                @if (Auth::user()->role_id == 3)
                 <a href="{{ route('alldiscounts') }}">
-                  <i class="fas fa-money-bill-wave"></i>
-                  <p>Manage Discounts</p>
-                  <span class=""></span>
+                    <i class="fas fa-money-bill-wave"></i>
+                    <p>Manage Discounts</p>
+                    <span class=""></span>
                 </a>
+                    @elseif (Auth::user()->role_id == 2)
+                    {{-- for seller --}}
+                    <a href="{{ route('alldiscounts') }}">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <p>Manage Discounts</p>
+                        <span class=""></span>
+                    </a>
+                    @endif
+
+
 
 
 
