@@ -138,7 +138,7 @@ class CartController extends Controller
     {
 
         try {
-            $cart = Cart::find($cartId);
+            $cart = Cart::where("user_id", $cartId)->first();
 
             // Assuming 'products' is a relation or property
             $cartData = $cart->products()
@@ -150,7 +150,7 @@ class CartController extends Controller
             // echo 'Error: ' . $e->getMessage();
         }
         // dd($cartData);
-        $totalCartPrice = Cart::where('id', Auth::user()->id)->first();
+        $totalCartPrice = Cart::where('user_id', Auth::user()->id)->first();
 
         return view('frontend/cart', ['cart' => $cart, 'cartData' => $cartData, 'totalCartPrice' => $totalCartPrice]);
     }

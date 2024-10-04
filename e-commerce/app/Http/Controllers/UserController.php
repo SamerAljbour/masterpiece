@@ -27,21 +27,16 @@ class UserController extends Controller
     {
         try {
             // dd($request->input('role_id'));
-            if ($request->input('role_id') == 1) { // as user
-                $validateData = $request->validate([
-                    'name' => 'required',
-                    'email' => 'required|email:users',
-                    'password' => 'required|min:8|max:12',
-                    'role_id' => 'required',
-                ]);
-            } elseif ($request->input('role_id') == 2) { // as seller
-                $validateData = $request->validate([
-                    'name' => 'required',
-                    'email' => 'required|email:users',
-                    'password' => 'required|min:8|max:12',
+            $validateData = $request->validate([
+                'name' => 'required',
+                'email' => 'required|email:users',
+                'password' => 'required|min:8|max:12',
+                'role_id' => 'required',
+            ]);
+            if ($request->input('role_id') == 2) { // as seller
+                $sellerData = $request->validate([
                     'phone' => 'required|min:10|max:10',
                     'address' => 'required',
-                    'role_id' => 'required',
                 ]);
             }
 
@@ -61,8 +56,8 @@ class UserController extends Controller
             $user->email = $validateData['email'];
             $user->password = $validateData['password'];
             if ($request->input('role_id') == 2) {
-                $user->phone = $validateData['phone'];
-                $user->address = $validateData['address'];
+                $user->phone = $sellerData['phone'];
+                $user->address = $sellerData['address'];
             }
             $user->role_id = $validateData['role_id'];
             $user->user_image = $mainImagePath;

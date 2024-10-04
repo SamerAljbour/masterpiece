@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('code')->unique(); // Unique coupon code
             $table->decimal('discount_amount', 10, 2); // Discount amount
             $table->enum('type', ['percentage', 'fixed']); // Discount type (percentage or fixed)
-            $table->timestamp('valid_from'); // Start date of validity
-            $table->timestamp('valid_until')->nullable(); // Allow NULL values
+            $table->date('valid_from'); // Start date of validity
+            $table->date('valid_until')->nullable(); // Allow NULL values
             $table->boolean('is_active')->default(true); // Coupon status
             $table->timestamps(); // Created at and updated at timestamps
         });
