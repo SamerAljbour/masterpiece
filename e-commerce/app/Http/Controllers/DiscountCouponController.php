@@ -36,26 +36,25 @@ class DiscountCouponController extends Controller
      */
     public function store(Request $request)
     {
-      // Validate the request data
-    $validateData = $request->validate([
-        'code' => 'required|string|max:255', // Ensure code is required, is a string, and has a maximum length of 255 characters
-        'discount_amount' => 'required|numeric|min:0', // Ensure discount_amount is required, is a number, and is non-negative
-        'valid_from' => 'required|date|after_or_equal:today', // Ensure valid_from is required, is a valid date, and is today or in the future
-        'valid_until' => 'required|date|after:valid_from', // Ensure valid_until is required, is a valid date, and is after valid_from
-    ]);
-    $discount = new DiscountCoupon();
-    $discount->code = $validateData['code'];
-    $discount->discount_amount = $validateData['discount_amount'];
-    $discount->valid_from = $validateData['valid_from'];
-    $discount->valid_until = $validateData['valid_until'];
-    $discount->is_active = 1; // means default is active
-    if($discount->save()){
-        $discount->updateActivity();
-        return redirect()->route('alldiscounts')->with('discountCreated' , 'You created an discount');
-    }else{
-        return redirect()->route('alldiscounts')->with('discountFailed' , 'Error occcurs while creating an discount');
-
-    }
+        // Validate the request data
+        $validateData = $request->validate([
+            'code' => 'required|string|max:255', // Ensure code is required, is a string, and has a maximum length of 255 characters
+            'discount_amount' => 'required|numeric|min:0', // Ensure discount_amount is required, is a number, and is non-negative
+            'valid_from' => 'required|date|after_or_equal:today', // Ensure valid_from is required, is a valid date, and is today or in the future
+            'valid_until' => 'required|date|after:valid_from', // Ensure valid_until is required, is a valid date, and is after valid_from
+        ]);
+        $discount = new DiscountCoupon();
+        $discount->code = $validateData['code'];
+        $discount->discount_amount = $validateData['discount_amount'];
+        $discount->valid_from = $validateData['valid_from'];
+        $discount->valid_until = $validateData['valid_until'];
+        $discount->is_active = 1; // means default is active
+        if ($discount->save()) {
+            $discount->updateActivity();
+            return redirect()->route('alldiscounts')->with('discountCreated', 'You created an discount');
+        } else {
+            return redirect()->route('alldiscounts')->with('discountFailed', 'Error occcurs while creating an discount');
+        }
     }
 
     /**
@@ -69,12 +68,12 @@ class DiscountCouponController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(DiscountCoupon $discountCoupon , string $id)
+    public function edit(DiscountCoupon $discountCoupon, string $id)
     {
         $discountCoupon = DiscountCoupon::find($id);
         $discountCoupon->valid_from = \Carbon\Carbon::parse($discountCoupon->valid_from)->format('Y-m-d');
         $discountCoupon->valid_until = \Carbon\Carbon::parse($discountCoupon->valid_from)->format('Y-m-d');
-        return view('dashboard/discount/updateDiscount' ,compact('discountCoupon'));
+        return view('dashboard/discount/updateDiscount', compact('discountCoupon'));
     }
 
     /**
@@ -82,44 +81,41 @@ class DiscountCouponController extends Controller
      */
     public function update(Request $request, string $id)
     {
-          // Validate the request data
-    $validateData = $request->validate([
-        'code' => 'required|string|max:255', // Ensure code is required, is a string, and has a maximum length of 255 characters
-        'discount_amount' => 'required|numeric|min:0', // Ensure discount_amount is required, is a number, and is non-negative
-        'valid_from' => 'required|date|after_or_equal:today', // Ensure valid_from is required, is a valid date, and is today or in the future
-        'valid_until' => 'required|date|after:valid_from', // Ensure valid_until is required, is a valid date, and is after valid_from
-    ]);
-    $discount = DiscountCoupon::find($id);
-    if($discount){
-        $discount->code = $validateData['code'];
-        $discount->discount_amount = $validateData['discount_amount'];
-        $discount->valid_from = $validateData['valid_from'];
-        $discount->valid_until = $validateData['valid_until'];
-        $discount->is_active = 1; // means default is active
-        if($discount->save()){
-            $discount->updateActivity();
-            return redirect()->route('alldiscounts')->with('discountCreated' , 'You created an discount');
-        }else{
-            return redirect()->route('alldiscounts')->with('discountFailed' , 'Error occcurs while creating an discount');
-
+        // Validate the request data
+        $validateData = $request->validate([
+            'code' => 'required|string|max:255', // Ensure code is required, is a string, and has a maximum length of 255 characters
+            'discount_amount' => 'required|numeric|min:0', // Ensure discount_amount is required, is a number, and is non-negative
+            'valid_from' => 'required|date|after_or_equal:today', // Ensure valid_from is required, is a valid date, and is today or in the future
+            'valid_until' => 'required|date|after:valid_from', // Ensure valid_until is required, is a valid date, and is after valid_from
+        ]);
+        $discount = DiscountCoupon::find($id);
+        if ($discount) {
+            $discount->code = $validateData['code'];
+            $discount->discount_amount = $validateData['discount_amount'];
+            $discount->valid_from = $validateData['valid_from'];
+            $discount->valid_until = $validateData['valid_until'];
+            $discount->is_active = 1; // means default is active
+            if ($discount->save()) {
+                $discount->updateActivity();
+                return redirect()->route('alldiscounts')->with('discountCreated', 'You created an discount');
+            } else {
+                return redirect()->route('alldiscounts')->with('discountFailed', 'Error occcurs while creating an discount');
+            }
+        } else {
+            return redirect()->route('alldiscounts')->with('discountFailed', 'discount not found');
         }
-    }else{
-        return redirect()->route('alldiscounts')->with('discountFailed' , 'discount not found');
-    }
-
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DiscountCoupon $discountCoupon , string $id)
+    public function destroy(DiscountCoupon $discountCoupon, string $id)
     {
-       $discount = DiscountCoupon::find($id);
-       if($discount){
-        $discount->delete();
-        return redirect()->route('alldiscounts')->with('deleted' , 'Discount copon Deleted');
-       }else {
-
-       }
+        $discount = DiscountCoupon::find($id);
+        if ($discount) {
+            $discount->delete();
+            return redirect()->route('alldiscounts')->with('deleted', 'Discount copon Deleted');
+        } else {
+        }
     }
 }

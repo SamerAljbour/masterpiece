@@ -9,6 +9,7 @@ use Carbon\Carbon;
 class DiscountCoupon extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'code',
         'discount_amount',
@@ -17,6 +18,7 @@ class DiscountCoupon extends Model
         'valid_until',
         'is_active',
     ];
+    protected $dates = ['valid_from', 'valid_until'];
     public function updateActivity()
     {
         $today = Carbon::today();

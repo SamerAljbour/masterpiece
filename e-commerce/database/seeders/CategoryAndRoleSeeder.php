@@ -14,6 +14,6 @@ class CategoryAndRoleSeeder extends Seeder
         Category::factory()->count(20)->create();
 
         // Create the 3 predefined roles (Customer, Seller, Admin)
-        Role::factory()->count(3)->create();
+        // Role::factory()->count(3)->create();
     }
 }
