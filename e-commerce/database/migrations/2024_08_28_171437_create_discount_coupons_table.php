@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('discount_coupons', function (Blueprint $table) {
             $table->id(); // Primary Key
             $table->string('code')->unique(); // Unique coupon code
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+
             $table->decimal('discount_amount', 10, 2); // Discount amount
             $table->enum('type', ['percentage', 'fixed']); // Discount type (percentage or fixed)
             $table->date('valid_from'); // Start date of validity

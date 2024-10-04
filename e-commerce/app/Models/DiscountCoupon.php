@@ -29,4 +29,8 @@ class DiscountCoupon extends Model
         $this->is_active = $isActive;
         $this->save();
     }
+    public function seller()
+    {
+        return $this->hasMany(Seller::class);
+    }
 }

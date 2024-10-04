@@ -120,7 +120,7 @@
                 </a>
                     @elseif (Auth::user()->role_id == 2)
                     {{-- for seller --}}
-                    <a href="{{ route('alldiscounts') }}">
+                    <a href="{{ route('allsellerdiscounts' , Auth::user()->id) }}">
                         <i class="fas fa-money-bill-wave"></i>
                         <p>Manage Discounts</p>
                         <span class=""></span>

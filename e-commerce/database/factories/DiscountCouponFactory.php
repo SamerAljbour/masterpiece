@@ -17,6 +17,8 @@ class DiscountCouponFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id' => $this->faker->numberBetween(1, 2),
+
             'code' => strtoupper($this->faker->bothify('DISCOUNT-####')), // Generates a code like DISCOUNT-1234
             'discount_amount' => $this->faker->randomFloat(2, 5, 50), // Random discount amount between 5 and 50
             'type' => $this->faker->randomElement(['percentage', 'fixed']), // Randomly selects 'percentage' or 'fixed'

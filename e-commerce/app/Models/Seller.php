@@ -35,4 +35,8 @@ class Seller extends Model
     {
         return $this->hasMany(Review::class);
     }
+    public function discountCopons()
+    {
+        return $this->hasMany(DiscountCoupon::class);
+    }
 }

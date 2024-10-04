@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DiscountCoupon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DiscountCouponController extends Controller
 {
@@ -117,5 +118,13 @@ class DiscountCouponController extends Controller
             return redirect()->route('alldiscounts')->with('deleted', 'Discount copon Deleted');
         } else {
         }
+    }
+    // showing the seller discount that he created
+    public function showsSellerDiscount($sellerId)
+    {
+        $discounts = DiscountCoupon::where("user_id", $sellerId)->get();
+
+
+        return view('dashboard/discount/indexDiscount', compact('discounts'));
     }
 }

@@ -30,9 +30,9 @@ use App\Http\Controllers\SellerController;
 Route::get('/', function () {
     return view('frontend/home');
 })->name('home');
-Route::get('/home', function () {
-    return view('frontend/home');
-})->name('home');
+// Route::get('/home', function () {
+//     return view('frontend/home');
+// })->name('home');
 // Route::get('/cart', function () {
 //     return view('frontend/cart');
 // });
@@ -172,6 +172,7 @@ Route::post('/deleteUser/{id}', [AdminController::class, 'deleteUser'])->name('d
 
 // <================================= discount crud  ============================================>
 Route::get('/alldiscounts', [DiscountCouponController::class, 'index'])->name('alldiscounts');
+Route::get('/allsellerdiscounts/{id}', [DiscountCouponController::class, 'showsSellerDiscount'])->name('allsellerdiscounts');
 Route::get('/createDiscount', [DiscountCouponController::class, 'create'])->name('createDiscount');
 Route::post('/storeDiscount', [DiscountCouponController::class, 'store'])->name('storeDiscount');
 Route::get('/editDiscount/{id}', [DiscountCouponController::class, 'edit'])->name('editDiscount');
