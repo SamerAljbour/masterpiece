@@ -9,7 +9,10 @@ class ShippingOption extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'order_id', 'shipping_address', 'delivery_status', 'estimated_delivery_date'
+        'order_id',
+        'shipping_address',
+        'delivery_status',
+        'estimated_delivery_date'
     ];
 
     public function order()

@@ -10,7 +10,7 @@ class ProductListController extends Controller
 {
     public function index()
     {
-        $products = Product::with(['category', 'reviews'])->get();
+        $products = Product::with(['category', 'reviews'])->paginate(10);
         // dd($products);
         return view('frontend.productList', compact('products'));
     }

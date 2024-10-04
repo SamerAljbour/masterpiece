@@ -1,5 +1,51 @@
 @extends('layout.mainTwo')
 @section('content')
+<style>
+    .flex-fill{
+        display: none
+    }
+    .d-none{
+        display: flex;
+        align-items: center;
+        justify-content: space-between
+        /* flex-direction: row */
+    }
+    .pagination > .active > a, .pagination > .active > span,
+    .pagination > .active > a:hover, .pagination > .active > span:hover,
+    .pagination > .active > a:focus, .pagination > .active > span:focus {
+    position: relative;
+    float: left;
+    padding: 5.7px 16px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    background-color: #e34444 !important;
+    color: white !important;
+    text-decoration: none;
+    background-color: #fff;
+    border: 0px solid #ddd !important;
+    border-color: #e34444 !important
+}
+.pagination > li > a, .pagination > li > span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: black !important;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+.pager li > a, .pager li > span {
+    display: inline-block;
+    padding: 5px 14px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px !important;
+}
+
+
+</style>
     <!-- BREADCRUMBS -->
     @if ($errors->any())
     <div class="alert alert-danger">
@@ -849,6 +895,7 @@
                                             </div>
                                         </li>
                                     @endforeach
+
                                 </ol>
                             </div>
                             <!-- sns-products-container -->
@@ -859,25 +906,7 @@
                             <div class="toolbar clearfix">
                                 <div class="toolbar-inner">
                                     <div class="pager">
-                                        <p class="amount">
-                                            <span>1 to 20 </span>
-                                            123 item (s)
-                                        </p>
-                                        <div class="pages">
-                                            <strong>Pages:</strong>
-                                            <ol>
-                                                <li class="current">1</li>
-                                                <li>
-                                                    <a href="#">2</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">3</a>
-                                                </li>
-                                                <li>
-                                                    <a class="next i-next" title="Next" href="#"> Next </a>
-                                                </li>
-                                            </ol>
-                                        </div>
+                                        <div >{{ $products->links('pagination::bootstrap-5') }}</div>
                                     </div>
                                 </div>
                             </div>
