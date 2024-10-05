@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('store_name');
             $table->text('store_description')->nullable();
+            $table->text("store_thumbnail")->nullable();
             $table->decimal('rating', 2, 1)->default(0);
             $table->timestamps();
         });

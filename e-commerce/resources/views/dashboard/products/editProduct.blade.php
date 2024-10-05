@@ -107,24 +107,42 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    // transfaer it to js fetch
-    function deleteImage(url) {
-        if (confirm('Are you sure you want to delete this image?')) {
-            $.ajax({
-                url: url,
-                type: 'DELETE',
-                data: {
-                    _token: '{{ csrf_token() }}' // Include CSRF token
-                },
-                success: function(response) {
-                    alert('Image deleted successfully');
-                    location.reload(); // Refresh the page to see changes
-                },
-                error: function(xhr) {
-                    alert('Error deleting image: ' + xhr.responseText);
-                }
-            });
-        }
+function deleteImage(url) {
+    if (confirm('Are you sure you want to delete this image?')) {
+        fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Include CSRF token
+            }
+        })
+        .then(response => {
+            // Check if the response is okay
+            if (response.ok) {
+                return response.json(); // Parse JSON if response is okay
+            } else {
+                // Throw an error for non-2xx responses
+                return response.json().then(err => { throw new Error(err.message || 'Error deleting image'); });
+            }
+        })
+        .then(data => {
+            // Show success message
+            const messageArea = document.getElementById('messageArea');
+            messageArea.className = 'alert alert-success'; // Success styling
+            messageArea.innerHTML = 'Image deleted successfully.';
+            messageArea.style.display = 'block'; // Show the message
+            // location.reload(); // Refresh the page to see changes
+        })
+        .catch(error => {
+            // Show error message
+            const messageArea = document.getElementById('messageArea');
+            messageArea.className = 'alert alert-danger'; // Error styling
+            messageArea.innerHTML = 'Error deleting image: ' + error.message;
+            messageArea.style.display = 'block'; // Show the message
+            console.error('Delete image error:', error); // Log the error to the console
+        });
     }
+}
+
 </script>
 @endsection
