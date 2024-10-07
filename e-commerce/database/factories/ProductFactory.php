@@ -2,31 +2,27 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Product;
 use App\Models\Category; // Import Category model
+use App\Models\Seller; // Import Seller model
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory
 {
     protected $model = Product::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
-        // Retrieve an existing category ID
-        $categoryId = Category::inRandomOrder()->first()->id;
+        // Get a random category
+        $category = Category::inRandomOrder()->first(); // Ensure this fetches a valid category
+        $categoryId = $category ? $category->id : null; // Get the category ID or null if no category
 
         return [
             'name' => $this->faker->word(),
             'description' => $this->faker->sentence(),
             'price' => $this->faker->randomFloat(2, 10, 1000),
-            'category_id' => $categoryId, // Use a valid category ID
-            'stock_quantity' => $this->faker->numberBetween(1, 100),
-            'seller_id' => $this->faker->numberBetween(1, 2),
+            'category_id' => $categoryId, // Link to the main category
+            'seller_id' => Seller::inRandomOrder()->first()->id, // Pick a random seller
             'image_url' => "public/mainProducts/defaultProduct.png",
         ];
     }

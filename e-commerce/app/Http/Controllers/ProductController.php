@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\ProductPhoto;
+use App\Models\ProductVariantCombination;
+use App\Models\Subcategory;
+use App\Models\Variant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -16,7 +19,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('category')->get();
+        $products = Product::with(['category'])->get();
+        // dd($products);
         return view('dashboard/products/indexProducts',  compact('products'));
     }
 
@@ -26,6 +30,8 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
+        // $subCategories = Subcategory::all();
+        // dd($categories);
         return view('dashboard/products/createProduct', compact('categories'));
     }
 
@@ -36,17 +42,34 @@ class ProductController extends Controller
     {
         // Validate input data
         $data = $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'price' => 'required|numeric',
-            'stock_quantity' => 'required|integer',
-            'category_id' => 'required|integer',
-            'image_url' => 'required|image',
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric|min:0',
+            'category_id' => 'required|integer|exists:categories,id',
+            'image_url' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'images' => 'required|array',
-            'images.*' => 'image', // Validate each file as an image
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'sizes' => 'nullable|array',
+            'sizes.*' => 'string',
+            'colors' => 'nullable|array',
+            'colors.*' => 'string',
+            'variant_stock' => 'required|array',
+            'variant_stock.*' => 'integer|min:0',
+            'variant_prices' => 'required|array',
+            'variant_prices.*' => 'numeric|min:0',
+            'type' => 'nullable|array',
+            'type.*' => 'string|max:255',
+            'resolution' => 'nullable|array',
+            'resolution.*' => 'string|max:255',
+            'processor' => 'nullable|array',
+            'processor.*' => 'string|max:255',
+            'flavor' => 'nullable|array',
+            'flavor.*' => 'string|max:255',
+            'material' => 'nullable|array',
+            'material.*' => 'string|max:255',
         ]);
 
-        // Handle the main product image (image_url)
+        // Handle the main product image
         $mainImagePath = null;
         if ($request->hasFile('image_url')) {
             $file = $request->file('image_url');
@@ -59,15 +82,14 @@ class ProductController extends Controller
         $product->name = $data['name'];
         $product->description = $data['description'];
         $product->price = $data['price'];
-        $product->stock_quantity = $data['stock_quantity'];
         $product->category_id = $data['category_id'];
         $product->seller_id = Auth::user()->id;
         $product->image_url = $mainImagePath;
         $product->save();
 
-        // Handle multiple product images (images)
-        $imageData = [];
+        // Handle multiple product images
         if ($files = $request->file('images')) {
+            $imageData = [];
             foreach ($files as $key => $file) {
                 $filename = $key . '-' . time() . '.' . $file->getClientOriginalExtension();
                 $path = $file->storeAs('public/multiProducts', $filename);
@@ -77,14 +99,49 @@ class ProductController extends Controller
                     'photo_url' => $path,
                 ];
             }
+            ProductPhoto::insert($imageData);
         }
 
-        // Save additional images to the ProductPhoto model
-        ProductPhoto::insert($imageData);
+        // Handle variants and save them in the ProductVariantCombination table
+        if ($request->has('sizes') || $request->has('colors')) {
+            // Ensure all arrays have the same length
+            $variantCount = max(
+                count($data['sizes'] ?? []),
+                count($data['colors'] ?? []),
+                count($data['variant_stock']),
+                count($data['variant_prices'])
+            );
 
-        return redirect()->route('allProducts')->with('success', 'Product added');
+            // Loop through the arrays and save each variant
+            for ($i = 0; $i < $variantCount; $i++) {
+                // Create a new variant for the product
+                $variant = new ProductVariantCombination();
+                $variant->product_id = $product->id;
+
+                // Set stock and price for each variant
+                $variant->stock = $data['variant_stock'][$i] ?? 0;
+                $variant->price = $data['variant_prices'][$i] ?? 0;
+
+                // Store size, color, and other additional fields as JSON in variant_options
+                $variantOptions = [
+                    'size' => $data['sizes'][$i] ?? null,
+                    'color' => $data['colors'][$i] ?? null,
+                    'type' => $data['type'][$i] ?? null,
+                    'resolution' => $data['resolution'][$i] ?? null,
+                    'processor' => $data['processor'][$i] ?? null,
+                    'flavor' => $data['flavor'][$i] ?? null,
+                    'material' => $data['material'][$i] ?? null,
+                ];
+
+                $variant->variant_options = json_encode($variantOptions);
+
+                // Save variant to ProductVariantCombination table
+                $variant->save();
+            }
+        }
+
+        return redirect()->route('allProducts')->with('success', 'Product added successfully!');
     }
-
 
 
     /**

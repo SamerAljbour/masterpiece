@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('store_description')->nullable();
             $table->text("store_thumbnail")->nullable();
             $table->decimal('rating', 2, 1)->default(0);
+            $table->boolean("is_setup")->default(0);
             $table->timestamps();
         });
     }
