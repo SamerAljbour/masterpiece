@@ -192,7 +192,7 @@
 
                                                 @endif
                                             </h3>
-                                            <span class="style-bd">Proceed to checkout</span>
+                                            <a href="{{ route('viewPayment') }}"><span class="style-bd">Proceed to checkout</span></a>
                                             <p class="checkout">Checkout with Multiple Addresses</p>
                                         </div>
                                     </form>

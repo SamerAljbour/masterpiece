@@ -10,6 +10,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductListController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SellerController;
@@ -57,6 +58,9 @@ Route::get('/notFound', function () {
 Route::get('/userProfile', function () {
     return view('frontend/userProfile');
 });
+Route::get('/payment', function () {
+    return view('frontend/payment');
+})->name('payment');
 
 // <================================= End of view for the pages home ============================================>
 
@@ -145,6 +149,7 @@ Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 Route::get('/loginRegisterSeller', [UserController::class, 'viewSellerReg'])->name('loginRegisterSeller');
 // Route::post('/loginRegisterSeller', [UserController::class, 'register'])->name('storeNeweUser');
 // <================================= End of register for user ============================================>
+Route::get('/viewPayment', [PaymentController::class, 'index'])->name('viewPayment');
 
 
 

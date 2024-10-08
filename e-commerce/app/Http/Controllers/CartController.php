@@ -70,7 +70,8 @@ class CartController extends Controller
         $cart->save();
 
         // Return a success response
-        return view('frontend.productList', compact('products'))->with('success', 'Product added to the cart');
+        return redirect()->back()->with('success', 'added to cart');
+        // return view('frontend.productList', compact('products'))->with('success', 'Product added to the cart');
     }
 
     public function storeToCartQua(Request $request)
@@ -160,10 +161,10 @@ class CartController extends Controller
     {
         // Retrieve the quantity from the request
         $quantity = $request->input('quantity');
-        $cartId = Auth::user()->id;
+        // $cartId = Auth::user()->id;
 
         // Find the cart
-        $cart = Cart::find($cartId);
+        $cart = Cart::where("user_id", Auth::user()->id)->first();
 
         if ($cart) {
             // Update the quantity of the product in the cart
@@ -193,8 +194,8 @@ class CartController extends Controller
     {
         session()->forget('afterDiscount');
 
-        $cart = Cart::find(Auth::user()->id);
-
+        $cart = Cart::where("user_id", Auth::user()->id)->first();
+        // dd($cart);
         // Find the product in the cart pivot table (cart_product)
         $cartProduct = CartProduct::where('cart_id', $cart->id)
             ->where('product_id', $productId)
@@ -226,7 +227,7 @@ class CartController extends Controller
     {
         session()->forget('afterDiscount');
 
-        $cart = Cart::find(Auth::user()->id);
+        $cart = Cart::where("user_id", Auth::user()->id)->first();
         CartProduct::where('cart_id', $cart->id)
             ->whereNull('deleted_at')
             ->delete();

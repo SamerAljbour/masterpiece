@@ -21,6 +21,7 @@ class ProductFactory extends Factory
             'name' => $this->faker->word(),
             'description' => $this->faker->sentence(),
             'price' => $this->faker->randomFloat(2, 10, 1000),
+            'total_stock' => $this->faker->numberBetween(0, 100),
             'category_id' => $categoryId, // Link to the main category
             'seller_id' => Seller::inRandomOrder()->first()->id, // Pick a random seller
             'image_url' => "public/mainProducts/defaultProduct.png",

@@ -102,7 +102,6 @@ class ProductController extends Controller
             ProductPhoto::insert($imageData);
         }
 
-        // Handle variants and save them in the ProductVariantCombination table
         if ($request->has('sizes') || $request->has('colors')) {
             // Ensure all arrays have the same length
             $variantCount = max(
@@ -112,6 +111,8 @@ class ProductController extends Controller
                 count($data['variant_prices'])
             );
 
+            $totalstock = 0; // Initialize total stock accumulator
+
             // Loop through the arrays and save each variant
             for ($i = 0; $i < $variantCount; $i++) {
                 // Create a new variant for the product
@@ -120,6 +121,7 @@ class ProductController extends Controller
 
                 // Set stock and price for each variant
                 $variant->stock = $data['variant_stock'][$i] ?? 0;
+                $totalstock += $data['variant_stock'][$i] ?? 0; // Accumulate total stock
                 $variant->price = $data['variant_prices'][$i] ?? 0;
 
                 // Store size, color, and other additional fields as JSON in variant_options
@@ -138,6 +140,11 @@ class ProductController extends Controller
                 // Save variant to ProductVariantCombination table
                 $variant->save();
             }
+
+            // After all variants have been saved, update the total stock for the product
+            Product::where('id', $product->id)->update([
+                'total_stock' => $totalstock, // Update total stock in the database
+            ]);
         }
 
         return redirect()->route('allProducts')->with('success', 'Product added successfully!');

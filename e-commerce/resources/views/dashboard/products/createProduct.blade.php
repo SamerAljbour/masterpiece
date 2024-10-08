@@ -70,14 +70,10 @@
                 <textarea name="description" class="form-control" placeholder="Description of the product" rows="4"></textarea>
             </div>
             <div class="form-group">
-                <div style="display: flex; gap:4%;">
-                    <div class="form-group" style="width: 100%;">
+                <div >
+                    <div class="form-group">
                         <label for="price">Price</label>
                         <input name="price" type="number" class="form-control" placeholder="Enter Product price" />
-                    </div>
-                    <div class="form-group" style="width: 100%;">
-                        <label for="quantity">Quantity</label>
-                        <input name="stock_quantity" type="number" class="form-control" placeholder="Enter quantity" />
                     </div>
                 </div>
             </div>

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Http\model\Rating;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -18,8 +19,14 @@ class User extends Authenticatable
      * @var array<int, string>
      */
 
-     protected $fillable = [
-        'name', 'email', 'password', 'address', 'phone_number', 'profile_badge', 'role_id',
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'address',
+        'phone_number',
+        'profile_badge',
+        'role_id',
     ];
     /**
      * The attributes that should be hidden for serialization.
@@ -44,10 +51,10 @@ class User extends Authenticatable
 
 
 
-    public function orders()
-    {
-        return $this->hasMany(Order::class);
-    }
+    // public function orders()
+    // {
+    //     return $this->hasMany(Order::class);
+    // }
 
     public function wishlist()
     {
@@ -69,7 +76,7 @@ class User extends Authenticatable
         return $this->hasOne(Seller::class);
     }
     public function role()
-{
-    return $this->belongsTo(Role::class, 'role_id');
-}
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
 }

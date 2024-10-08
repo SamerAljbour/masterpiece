@@ -164,9 +164,9 @@
                         <td  style="width:20%">{{ $product->description }}</td>
                         <td>{{ $product->price }}</td>
                         <td>{{ $product->category->name }}</td>
-                        @if ($product->stock_quantity)
+                        @if ($product->total_stock)
 
-                        <td>{{ $product->stock_quantity }}</td>
+                        <td>{{ $product->total_stock }}</td>
                         @else
                         <td><p  class=" btn btn-sm btn-rounded btn-outline-danger disabled" >out of stock</p></td>
 
