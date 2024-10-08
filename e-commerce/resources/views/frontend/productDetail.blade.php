@@ -90,8 +90,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="availability">
-                                                        @if ( $product->stock_quantity > 0 )
-                                                        <p class="style1 " ><span class="instock">in stock : </span>  <span class="numberofstock">{{ $product->stock_quantity }}</span></p>
+                                                        @if ( $product->total_stock > 0 )
+                                                        <p class="style1 " ><span class="instock">in stock : </span>  <span class="numberofstock">{{ $product->total_stock }}</span></p>
                                                         @else
                                                         <p class="style1 outofstock">out of stock </p>
 
@@ -110,7 +110,7 @@
                                                         <span class="amount">
                                                             <a href="#">({{ $reviews->count() }} Reviews)</a>
                                                             <span class="separator">|</span>
-                                                            <a href="http://127.0.0.1:8000/productdetail/4#review">Add Your Review</a>
+                                                            <a href="http://127.0.0.1:8000/productdetail/{{ $product->id }}#review">Add Your Review</a>
                                                         </span>
                                                     </div>
                                                 </div>

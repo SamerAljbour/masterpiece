@@ -183,7 +183,7 @@
         newVariantGroup.innerHTML = `
             <div class="form-group" style="width: 100%;" >
                 <label for="size">Material</label>
-                <select name="furnitureMaterial[]" id="furnitureMaterial" class="form-select" id="colorSelect">
+                <select name="material[]" id="furnitureMaterial" class="form-select" id="colorSelect">
                 <option value="">Select Material</option>
                 <option value="wood">Wood</option>
                 <option value="metal">Metal</option>
@@ -207,7 +207,7 @@
             </div>
             <div class="form-group" style="width: 100%;" >
                 <label for="furnitureSize">Size</label>
-            <select name="size[]" id="furnitureSize" class="form-select"
+            <select name="sizes[]" id="furnitureSize" class="form-select"
 id="colorSelect">
                 <option value="">Select Size</option>
                 <option value="small">Small</option>
@@ -230,7 +230,7 @@ id="colorSelect">
         newVariantGroup.innerHTML = `
              <div class="form-group" style="width: 100%;" >
                 <label for="size">Material</label>
-                <select name="Material[]" id="furnitureMaterial" class="form-select" id="colorSelect">
+                <select name="material[]" id="furnitureMaterial" class="form-select" id="colorSelect">
                 <option value="">Select Material</option>
                 <option value="stainless_steel">Stainless Steel</option>
                 <option value="plastic">Plastic</option>
@@ -251,7 +251,7 @@ id="colorSelect">
             </div>
             <div class="form-group" style="width: 100%;" >
                 <label for="furnitureSize">Size</label>
-            <select name="size[]" id="furnitureSize" class="form-select" id="colorSelect">
+            <select name="sizes[]" id="furnitureSize" class="form-select" id="colorSelect">
                 <option value="">Select Size</option>
                  <option value="">Select Size</option>
                 <option value="standard">Standard</option>
@@ -292,7 +292,7 @@ id="colorSelect">
             </div>
             <div class="form-group" style="width: 100%;" >
                 <label for="furnitureSize">Size</label>
-            <select name="size[]" id="furnitureSize" class="form-select" id="colorSelect">
+            <select name="sizes[]" id="furnitureSize" class="form-select" id="colorSelect">
                   <option value="">Select Size</option>
                 <option value="table_lamp">Table Lamp</option>
                 <option value="floor_lamp">Floor Lamp</option>
@@ -332,7 +332,7 @@ id="colorSelect">
             </div>
             <div class="form-group" style="width: 100%;" >
                 <label for="furnitureSize">Size</label>
-            <select name="size[]" id="furnitureSize" class="form-select" id="colorSelect">
+            <select name="sizes[]" id="furnitureSize" class="form-select" id="colorSelect">
                 <option value="">Select Screen Size</option>
                 <option value="24">24"</option>
                 <option value="27">27"</option>
@@ -362,7 +362,7 @@ id="colorSelect">
             </div>
             <div class="form-group" style="width: 100%;">
                 <label for="color">Processor</label>
-                <select name="Processor[]" class="form-select" style="width: 100%;" id="colorSelect">
+                <select name="processor[]" class="form-select" style="width: 100%;" id="colorSelect">
                  <option value="">Select </option>
                 <option value="intel_i5">Intel i5</option>
                 <option value="intel_i7">Intel i7</option>
@@ -373,7 +373,7 @@ id="colorSelect">
             </div>
             <div class="form-group" style="width: 100%;" >
                 <label for="furnitureSize">RAM Size</label>
-            <select name="size[]" id="furnitureSize" class="form-select" id="colorSelect">
+            <select name="sizes[]" id="furnitureSize" class="form-select" id="colorSelect">
                <option value="">Select RAM Size</option>
                 <option value="8gb">8GB</option>
                 <option value="16gb">16GB</option>
@@ -403,7 +403,7 @@ id="colorSelect">
             </div>
             <div class="form-group" style="width: 100%;">
                 <label for="color">Processor</label>
-                <select name="Processor[]" class="form-select" style="width: 100%;" id="colorSelect">
+                <select name="processor[]" class="form-select" style="width: 100%;" id="colorSelect">
                  <option value="">Select Processor</option>
                 <option value="intel_i3">Intel i3</option>
                 <option value="intel_i5">Intel i5</option>
@@ -413,7 +413,7 @@ id="colorSelect">
             </div>
             <div class="form-group" style="width: 100%;" >
                 <label for="furnitureSize">screen    Size</label>
-            <select name="size[]" id="furnitureSize" class="form-select" id="colorSelect">
+            <select name="sizes[]" id="furnitureSize" class="form-select" id="colorSelect">
                <option value="13">13"</option>
                 <option value="15">15"</option>
                 <option value="17">17"</option>

@@ -39,7 +39,9 @@ class ProductController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
+
     {
+        // dd($request->all());
         // Validate input data
         $data = $request->validate([
             'name' => 'required|string|max:255',
@@ -68,6 +70,7 @@ class ProductController extends Controller
             'material' => 'nullable|array',
             'material.*' => 'string|max:255',
         ]);
+        // dd($data);
 
         // Handle the main product image
         $mainImagePath = null;
@@ -102,7 +105,7 @@ class ProductController extends Controller
             ProductPhoto::insert($imageData);
         }
 
-        if ($request->has('sizes') || $request->has('colors')) {
+        if ($request->has('sizes') || $request->has('colors') || $request->has('flavor')) {
             // Ensure all arrays have the same length
             $variantCount = max(
                 count($data['sizes'] ?? []),
