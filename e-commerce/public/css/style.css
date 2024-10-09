@@ -4213,9 +4213,9 @@ body.homepage #sns_breadcrumbs {
     position: relative;
     z-index: 2;
 }
-#sns_content .sns-tabs .tabs-navi li:hover:before {
+/* #sns_content .sns-tabs .tabs-navi li:hover:before {
     width: 100%;
-}
+} */
 #sns_content .sns-tabs .tabs-navi li:first-child {
     margin-top: 0;
 }
@@ -4682,7 +4682,7 @@ body.homepage #sns_breadcrumbs {
     position: relative;
 }
 #sns_content .block.block-layered-nav dl#narrow-by-list dd ol li:before {
-    display: block;
+    display: none;
     position: absolute;
     top: 43%;
     left: 0;
@@ -4704,7 +4704,7 @@ body.homepage #sns_breadcrumbs {
     color: #e34444;
     margin-left: 3px;
 }
-#sns_content .block.block-layered-nav dl#narrow-by-list dd ol li:hover:before {
+/* #sns_content .block.block-layered-nav dl#narrow-by-list dd ol li:hover:before {
     border: 1px solid #e34444 !important;
     content: "\f00c";
     display: inline-block;
@@ -4719,7 +4719,7 @@ body.homepage #sns_breadcrumbs {
     line-height: 10px;
     color: #e34444;
     font-size: 11px;
-}
+} */
 #sns_content
     .block.block-layered-nav
     dl#narrow-by-list
@@ -18517,4 +18517,173 @@ body .jqtransformdone {
     .col-lg-offset-2d4 {
         margin-left: 20%;
     }
+}
+/* product details style */
+/* General style for the select dropdown */
+.custom-select {
+    width: 120px; /* Reduced width */
+    padding: 5px 10px; /* Reduced padding for a smaller size */
+    border: 1px solid #eaeaea; /* Add a border */
+    border-radius: 5px; /* Slightly round the corners */
+    background-color: #fff; /* White background */
+    color: #333; /* Text color */
+    font-size: 12px; /* Smaller font size */
+    appearance: none; /* Remove default select arrow */
+    -webkit-appearance: none; /* For Safari */
+    -moz-appearance: none; /* For Firefox */
+    cursor: pointer; /* Add pointer cursor */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Add hover transition */
+    margin-right: 10px; /* Add spacing between select boxes */
+}
+
+/* Add a custom arrow to the select dropdown */
+.custom-select::after {
+    content: "▼"; /* Arrow symbol */
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #999;
+}
+
+/* Style on hover/focus */
+.custom-select:hover,
+.custom-select:focus {
+    border-color: #d10024; /* Change border color on hover/focus */
+    box-shadow: 0 0 5px rgba(209, 0, 36, 0.5); /* Add a shadow effect */
+}
+
+/* Style for the filter button */
+.btn-filterTwo {
+    margin: 0 !important;
+    display: inline-block;
+    vertical-align: middle;
+    width: 120px; /* Adjust button width to match select size */
+    height: 30px; /* Adjust button height */
+    position: relative;
+    font-size: 12px; /* Match font size with select dropdown */
+    background: #fff;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #333;
+    line-height: 30px; /* Adjust line height */
+    margin-top: 10px;
+    border: 1px solid #eaeaea;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-filterTwo:hover {
+    background: #d10024;
+    border: 1px solid #d10024;
+    color: #fff;
+}
+
+#leftSelect {
+    margin-right: 10px;
+}
+
+.btn-filter {
+    display: inline-block;
+    vertical-align: middle;
+    width: 174px;
+    height: 36px;
+    position: relative;
+    font-size: 14px;
+    background: #fff;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #333;
+    line-height: 35px;
+    margin-right: 6px;
+    border: 1px solid #eaeaea;
+    cursor: pointer; /* Add pointer cursor for better UX */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth hover effect */
+}
+.btn-filter:hover {
+    background: #e34444;
+    border: 1px solid #e34444;
+    color: #fff;
+}
+
+.btn-cart:hover {
+    background-color: #d10024; /* Change background on hover */
+    color: #fff; /* Change text color on hover */
+}
+
+.no-products-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.no-products-image {
+    width: 200px; /* Adjust width as needed */
+    height: auto;
+    margin-bottom: 15px; /* Space between image and message */
+    opacity: 0.8; /* Slight transparency for effect */
+    transition: opacity 0.3s ease;
+}
+
+.no-products-image:hover {
+    opacity: 1; /* Restore full opacity on hover */
+}
+
+.no-products-message {
+    color: #d10024; /* Red color */
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.flex-fill {
+    display: none;
+}
+.d-none {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* flex-direction: row */
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    position: relative;
+    float: left;
+    padding: 5.7px 16px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    background-color: #e34444 !important;
+    color: white !important;
+    text-decoration: none;
+    background-color: #fff;
+    border: 0px solid #ddd !important;
+    border-color: #e34444 !important;
+}
+.pagination > li > a,
+.pagination > li > span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: black !important;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+.pager li > a,
+.pager li > span {
+    display: inline-block;
+    padding: 5px 14px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px !important;
 }

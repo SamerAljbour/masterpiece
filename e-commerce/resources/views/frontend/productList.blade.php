@@ -1,48 +1,6 @@
 @extends('layout.mainTwo')
 @section('content')
 <style>
-    .flex-fill{
-        display: none
-    }
-    .d-none{
-        display: flex;
-        align-items: center;
-        justify-content: space-between
-        /* flex-direction: row */
-    }
-    .pagination > .active > a, .pagination > .active > span,
-    .pagination > .active > a:hover, .pagination > .active > span:hover,
-    .pagination > .active > a:focus, .pagination > .active > span:focus {
-    position: relative;
-    float: left;
-    padding: 5.7px 16px;
-    margin-left: -1px;
-    line-height: 1.42857143;
-    background-color: #e34444 !important;
-    color: white !important;
-    text-decoration: none;
-    background-color: #fff;
-    border: 0px solid #ddd !important;
-    border-color: #e34444 !important
-}
-.pagination > li > a, .pagination > li > span {
-    position: relative;
-    float: left;
-    padding: 6px 12px;
-    margin-left: -1px;
-    line-height: 1.42857143;
-    color: black !important;
-    text-decoration: none;
-    background-color: #fff;
-    border: 1px solid #ddd;
-}
-.pager li > a, .pager li > span {
-    display: inline-block;
-    padding: 5px 14px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px !important;
-}
 
 
 </style>
@@ -100,84 +58,41 @@
                             <div class="block-content toggle-content">
                                 <dl id="narrow-by-list">
 
+                                    <form method="GET" action="{{ route('productList') }}">
+                                        @csrf
+                                        <dt class="odd">Category</dt>
+                                        <dd class="odd">
+                                            <ol class="category-list">
+                                                @foreach ($categories as $category)
+                                                    <li>
+                                                        <label>
+                                                            <input type="checkbox" name="categories[]" value="{{ $category->id }}">
+                                                            {{ $category->name }}
+                                                            <span class="count">({{ $category->products_count }})</span>
+                                                        </label>
+                                                    </li>
+                                                @endforeach
+                                            </ol>
+                                        </dd>
 
-                                    <dt class="odd">Category</dt>
-                                    <dd class="odd">
-                                        <ol>
-                                            <li>
-                                                <a href="#">
-                                                    Sofas & Couches
-                                                    <span class="count">(12)</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    Living Room Furniture
-                                                    <span class="count">(12)</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    Television Stands
-                                                    <span class="count">(12)</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    Bedroom Furniture
-                                                    <span class="count">(12)</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    Coffee Tables
-                                                    <span class="count">(12)</span>
-                                                </a>
-                                            </li>
-                                        </ol>
-                                    </dd>
+
+
 
                                     <dt class="odd">Price</dt>
                                     <dd class="odd">
                                         <ol class="js-price">
-                                            <li><input type="text" id="amount-1" readonly style="border:0; color:#666;"
-                                                    value="1250"></li>
-                                            <li><input type="text" id="amount-2" readonly style="border:0; color:#666;"
-                                                    value="9999"></li>
-                                            <li class="style3">FILLTER</li>
+                                            <li><input type="number" id="amount-1" name="minPrice"   style="border:0; color:#666;"
+                                                    value="" placeholder="Min"></li>
+                                            <li><input type="number" id="amount-2" name="maxPrice" style="border:0; color:#666;"
+                                                    value="" placeholder="Max"></li>
+                                            <li class="style3" style="display: none"></li>
                                         </ol>
-                                        <div id="slider-range"></div>
+                                        {{-- <div id="slider-range"></div> --}}
                                     </dd>
-                                    <dt class="even">Manufacturer</dt>
-                                    <dd class="even">
-                                        <ol class="configurable-swatch-list last-child">
-                                            <li>
-                                                <a class="swatch-link" href="#">
-                                                    <span class="swatch-label"> Sofas & Couches </span>
-                                                    <span class="count">(12)</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="swatch-link" href="#">
-                                                    <span class="swatch-label"> Living Room Furniture </span>
-                                                    <span class="count">(12)</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="swatch-link" href="#">
-                                                    <span class="swatch-label"> Television Stands </span>
-                                                    <span class="count">(12)</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="swatch-link" href="#">
-                                                    <span class="swatch-label"> Bedroom Furniture </span>
-                                                    <span class="count">(12)</span>
-                                                </a>
-                                            </li>
-                                        </ol>
-                                    </dd>
-                                    <dt class="last odd">Color</dt>
+                                    <button type="submit" class="btn-filter">Filter Products</button>
+                                </form>
+
+                                    <dt class="last odd">Location</dt>
                                     <dd class="last odd color-img">
                                         <ol class="configurable-swatch-list last-child">
                                             <li style="line-height: 19px;">
@@ -707,68 +622,37 @@
                                         <a class="icon-grid" title="Grid" href="index3-listing-grid.html"></a>
                                         <strong class="icon-list" title="List"></strong>
                                     </p>
-                                    <div class="limiter">
-                                        <label>Show</label>
-                                        <div class="select-new">
-                                            <div class="select-inner jqtransformdone">
-                                                <div class="jqTransformSelectWrapper" style="z-index: 10; width: 80px;">
-                                                    <div>
-                                                        <span style="width: 50px;"> 20 </span>
-                                                        <a class="jqTransformSelectOpen" href="#"></a>
-                                                    </div>
-                                                    <ul style="width: 78px; display: none; visibility: visible;">
-                                                        <li>
-                                                            <a class="selected" href="#"> 20 </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#"> 28 </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#"> 36 </a>
-                                                        </li>
-                                                    </ul>
-                                                    <select class="select-limit-show jqTransformHidden"
-                                                        onchange="setLocation(this.value)" style="">
-                                                        <option selected="selected"> 20 </option>
-                                                        <option> 28 </option>
-                                                        <option> 36 </option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <span>per page</span>
+
+                                        {{-- <span>per page</span> --}}
                                     </div>
-                                    <div class="sort-by">
-                                        <label>Sort by</label>
-                                        <div class="select-new">
-                                            <div class="select-inner jqtransformdone">
-                                                <div class="jqTransformSelectWrapper" style="z-index: 10; width: 118px;">
-                                                    <div>
-                                                        <span style="width: 50px;"> Position </span>
-                                                        <a class="jqTransformSelectOpen" href="#"></a>
-                                                    </div>
-                                                    <ul style="width: 116px; display: none; visibility: visible;">
-                                                        <li class="active">
-                                                            <a class="selected" href="#"> Position </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#"> Name </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#"> Price </a>
-                                                        </li>
-                                                    </ul>
-                                                    <select class="select-sort-by jqTransformHidden"
-                                                        onchange="setLocation(this.value)" style="">
-                                                        <option selected="selected"> Position </option>
-                                                        <option> Name </option>
-                                                        <option> Price </option>
-                                                    </select>
-                                                </div>
+                                    <form action="{{ route('productList') }}" method="GET">
+                                        @csrf
+
+                                        <div class="sort-by">
+                                            <label>Show</label>
+                                            <div class="select-new">
+                                                <select name="show" id="leftSelect" class="custom-select">
+                                                    <option value="">Select show</option>
+                                                    <option value="5">5</option>
+                                                    <option value="10">10</option>
+                                                    <option value="25">25</option>
+                                                    <option value="50">50</option>
+                                                </select>
+
+                                                <label>Sort by</label>
+                                                <select name="sortBy" id="rightSelect" class="custom-select">
+                                                    <option value="">Select sort</option>
+                                                    <option value="Price asc">Price asc</option>
+                                                    <option value="Price desc">Price desc</option>
+                                                    <option value="Rate asc">Rate asc</option>
+                                                    <option value="Rate desc">Rate desc</option>
+                                                </select>
                                             </div>
+                                            <button class="btn-filterTwo" type="submit">Filter</button>
                                         </div>
-                                        <!--  <a class="set-desc" title="Set Descending Direction" href="http://demo.snstheme.com/sns-simen/index.php/women.html?dir=desc&order=position"></a> -->
-                                    </div>
+                                    </form>
+
+
                                     <div class="pager">
                                         <p class="amount">
                                             <span>1 to 20 </span>
@@ -799,6 +683,9 @@
                             <!-- sns-products-container -->
                             <div class="sns-products-container clearfix">
                                 <ol id="products-list" class="products-list clearfix">
+                                    @if ($products->count() > 0)
+
+
                                     @foreach ($products as $product)
                                         <li class="item odd">
                                             <div class="item-inner product_list_style">
@@ -834,12 +721,17 @@
                                                     <div class="rating-block">
                                                         <div class="ratings">
                                                             <div class="rating-box">
-                                                                <div class="rating" style="width:60%"></div>
+                                                                @if ($product->reviews->count() > 0)
+                                                                <div class="rating" style="width:{{ ($product->reviews->sum('rating') / $product->reviews->count()) * 20 }}%;"></div>
+                                                                @else
+                                                                <div class="rating" style="width:0%;"></div>
+
+                                                                @endif
                                                             </div>
                                                             <span class="amount">
                                                                 <a href="{{ route('productdetail', $product->id) }}#review">({{ $product->reviews->count() }} Reviews)</a>
                                                                 <span class="separator">|</span>
-                                                                <a href="#">Add Your Review</a>
+                                                                <a href="http://127.0.0.1:8000/productdetail/{{ $product->id }}#review">Add Your Review</a>
                                                             </span>
                                                         </div>
                                                     </div>
@@ -900,8 +792,15 @@
                                             </div>
                                         </li>
                                     @endforeach
-
+                                    @else
+                                    <div class="no-products-container">
+                                        <img src="{{ asset('assets/img/no product found.png') }}" alt="No Products Found" class="no-products-image">
+                                        <p class="no-products-message">Sorry, no products match your selected filters.
+                                            <br> Please try adjusting the criteria.</p>
+                                    </div>
+                                @endif
                                 </ol>
+
                             </div>
                             <!-- sns-products-container -->
 
