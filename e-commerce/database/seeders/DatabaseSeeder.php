@@ -16,9 +16,9 @@ class DatabaseSeeder extends Seeder
             // SubCategorySeeder::class,             // 2. Seed subcategories
             UserSeeder::class,                    // 3. Seed users
             ProductSeeder::class,                 // 4. Seed products
-            VariantSeeder::class,                 // 5. Seed variants
-            VariantOptionSeeder::class,           // 6. Seed variant options
-            ProductVariantCombinationSeeder::class, // 7. Seed product variant combinations
+            // VariantSeeder::class,                 // 5. Seed variants
+            // VariantOptionSeeder::class,           // 6. Seed variant options
+            // ProductVariantCombinationSeeder::class, // 7. Seed product variant combinations
             // DiscountCouponSeeder::class,          // Optional: can be at the end as it's independent
         ]);
     }

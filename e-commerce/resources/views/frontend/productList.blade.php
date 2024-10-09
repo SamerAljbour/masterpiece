@@ -855,6 +855,11 @@
                                                             <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
                                                             <input type="hidden" value="{{ $product->id }}" name="product_id">
                                                             <input type="hidden" value="{{ $product->price }}" name="price">
+                                                            @if ($product->variants->isNotEmpty() && $product->variants->first())
+                                                                <input type="hidden" value="{{ $product->variants->first()->id }}" name="variant_id">
+                                                            @endif
+
+
                                                             <button class="btn-cart" title="Add to Cart"  type="submit">
                                                                 Add to Cart
                                                             </button>
@@ -962,4 +967,35 @@
         </div>
     </div>
     <!-- AND PARTNERS -->
+    <script>
+         document.addEventListener('DOMContentLoaded', function () {
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: "{{ session('success') }}",
+            });
+        @endif
+
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "{{ session('error') }}",
+            });
+        @endif
+
+        @if($errors->any())
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Errors',
+                html: '<ul>' +
+                    @foreach ($errors->all() as $error)
+                        '<li>{{ $error }}</li>' +
+                    @endforeach
+                '</ul>',
+            });
+        @endif
+    });
+    </script>
 @endsection

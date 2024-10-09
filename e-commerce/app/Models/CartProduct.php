@@ -14,6 +14,8 @@ class CartProduct extends Model
     protected $fillable = [
         'cart_id',  // Renamed from 'order_id' to 'cart_id'
         'product_id',
+        'variant_id', // Add this to link to ProductVariantCombination
+
         'quantity',
         'price'
     ];
@@ -24,6 +26,10 @@ class CartProduct extends Model
     public function cart()
     {
         return $this->belongsTo(Cart::class);
+    }
+    public function variant()
+    {
+        return $this->belongsTo(ProductVariantCombination::class, 'variant_id');
     }
 
     public function product()

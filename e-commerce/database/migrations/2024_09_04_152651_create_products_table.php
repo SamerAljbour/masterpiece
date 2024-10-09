@@ -13,7 +13,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->decimal('price', 10, 2);
-            $table->integer('total_stock');
+            $table->integer('total_stock')->nullable();
             $table->foreignId('seller_id')->constrained(); // Ensure this table exists
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade'); // Foreign key for categories
             // $table->foreignId('sub_category_id')->constrained('sub_categories')->onDelete('cascade'); // Foreign key reference

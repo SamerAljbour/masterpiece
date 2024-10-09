@@ -9,15 +9,17 @@ class PaymentHistory extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'order_id',
+        'cart_id',
+        'user_id',
         'amount',
-        'payment_method',
-        'transaction_id',
-        'status',
     ];
 
     public function Cart()
     {
         return $this->belongsTo(Cart::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

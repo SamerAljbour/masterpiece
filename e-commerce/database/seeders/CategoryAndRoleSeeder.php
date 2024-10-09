@@ -11,7 +11,7 @@ class CategoryAndRoleSeeder extends Seeder
     public function run(): void
     {
         // Create 5 categories
-        Category::factory()->count(9)->create();
+        Category::factory()->count(7)->create();
 
         // Create the 3 predefined roles (Customer, Seller, Admin)
         Role::factory()->count(3)->create();

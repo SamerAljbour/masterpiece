@@ -57,8 +57,8 @@ class ProductController extends Controller
             'colors.*' => 'string',
             'variant_stock' => 'required|array',
             'variant_stock.*' => 'integer|min:0',
-            'variant_prices' => 'required|array',
-            'variant_prices.*' => 'numeric|min:0',
+            // 'variant_prices' => 'required|array',
+            // 'variant_prices.*' => 'numeric|min:0',
             'type' => 'nullable|array',
             'type.*' => 'string|max:255',
             'resolution' => 'nullable|array',
@@ -111,7 +111,7 @@ class ProductController extends Controller
                 count($data['sizes'] ?? []),
                 count($data['colors'] ?? []),
                 count($data['variant_stock']),
-                count($data['variant_prices'])
+                // count($data['variant_prices'])
             );
 
             $totalstock = 0; // Initialize total stock accumulator
@@ -125,7 +125,7 @@ class ProductController extends Controller
                 // Set stock and price for each variant
                 $variant->stock = $data['variant_stock'][$i] ?? 0;
                 $totalstock += $data['variant_stock'][$i] ?? 0; // Accumulate total stock
-                $variant->price = $data['variant_prices'][$i] ?? 0;
+                // $variant->price = $data['variant_prices'][$i] ?? 0;
 
                 // Store size, color, and other additional fields as JSON in variant_options
                 $variantOptions = [
@@ -137,10 +137,10 @@ class ProductController extends Controller
                     'flavor' => $data['flavor'][$i] ?? null,
                     'material' => $data['material'][$i] ?? null,
                 ];
+                // Laravel will handle the JSON conversion
+                // $variant->variant_options = json_encode($variantOptions);
+                $variant->variant_options = $variantOptions;
 
-                $variant->variant_options = json_encode($variantOptions);
-
-                // Save variant to ProductVariantCombination table
                 $variant->save();
             }
 

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->foreignId('cart_id')->constrained('carts')->onDelete('cascade');
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->integer('quantity');
+            // $table->text('variant');
+            $table->foreignId('variant_id')->constrained('product_variant_combinations')->onDelete('cascade');
             $table->decimal('price', 10, 2);
             $table->timestamps();
             $table->softDeletes();  // Add soft deletes
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_product');
+        Schema::dropIfExists('cart_product');
     }
 };

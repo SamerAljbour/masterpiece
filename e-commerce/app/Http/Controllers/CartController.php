@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\CartProduct;
 use App\Models\DiscountCoupon;
 use App\Models\Product;
+use Error;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,122 +16,150 @@ class CartController extends Controller
 {
     public function storeToCart(Request $request)
     {
-        //dont forget to make the stock minus with every buy
-        $products = Product::all();
-        // Validate the request data
-        $validator = Validator::make($request->all(), [
-            'cart_id' => 'required|integer|exists:users,id',
-            'product_id' => 'required|integer|exists:products,id',
-            'quantity' => 'required|integer|min:1',
-            'price' => 'required|numeric|min:0',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        // Extract inputs
-        $userId = Auth::user()->id;
-        $productId = $request->input('product_id');
-        $quantity = $request->input('quantity');
-        $price = $request->input('price');
-
-        // Calculate the total amount for the current product
-        $totalAmount = $price * $quantity;
-
-        // Create or find the cart for the user
-        $cart = Cart::firstOrCreate([
-            'user_id' => $userId,
-        ]);
-
-        // Check if the product is already in the cart
-        $existingProduct = $cart->products()->whereNull('deleted_at')->where('product_id', $productId)->first();
-
-        if ($existingProduct) {
-            // Update the existing product's quantity and price in the cart
-            $cart->products()->updateExistingPivot($productId, [
-                'quantity' => $existingProduct->pivot->quantity + $quantity,
-                'price' => $price, // You can decide whether to update the price or not
+        try {
+            //dont forget to make the stock minus with every buy
+            $products = Product::all();
+            // Validate the request data
+            $validator = Validator::make($request->all(), [
+                'cart_id' => 'required|integer|exists:users,id',
+                'product_id' => 'required|integer|exists:products,id',
+                'quantity' => 'required|integer|min:1',
+                'price' => 'required|numeric|min:0',
             ]);
 
-            // Update the cart's total amount
-            $cart->total_amount += $totalAmount;
-        } else {
-            // Attach the new product to the cart
-            $cart->products()->attach($productId, [
-                'quantity' => $quantity,
-                'price' => $price,
-            ]);
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
 
-            // Update the cart's total amount
-            $cart->total_amount += $totalAmount;
+            // Extract inputs
+            $userId = Auth::user()->id;
+            $productId = $request->input('product_id');
+            $quantity = $request->input('quantity');
+            $price = $request->input('price');
+            $variant = $request->input('variant_id');
+
+            // Check if variant is null
+            if (is_null($variant)) {
+                return redirect()->back()->with('error', 'You should pick a variant.');
+            }
+
+            // Calculate the total amount for the current product
+            $totalAmount = $price * $quantity;
+
+            // Create or find the cart for the user
+            $cart = Cart::where('user_id', $userId)->first();
+
+            // Check if the product is already in the cart
+            $existingProduct = $cart->products()->whereNull('deleted_at')->where('product_id', $productId)->first();
+
+            if ($existingProduct) {
+                // Update the existing product's quantity and price in the cart
+                $cart->products()->updateExistingPivot($productId, [
+                    'quantity' => $existingProduct->pivot->quantity + $quantity,
+                    'price' => $price, // You can decide whether to update the price or not
+                    'variant_id' => $variant, // You can decide whether to update the price or not
+                ]);
+
+                // Update the cart's total amount
+                $cart->total_amount += $totalAmount;
+            } else {
+                // Attach the new product to the cart
+                $cart->products()->attach($productId, [
+                    'quantity' => $quantity,
+                    'price' => $price,
+                    'variant_id' => $variant
+                ]);
+
+                // Update the cart's total amount
+                $cart->total_amount += $totalAmount;
+            }
+
+            // Save the updated cart total
+            $cart->save();
+
+            // Return a success response
+            return redirect()->back()->with('success', 'Product added to the cart.');
+        } catch (\Exception $e) {
+            // Catch any errors and return with an error message
+            return redirect()->back()->with('error', 'Something went wrong while adding the product to the cart.');
         }
-
-        // Save the updated cart total
-        $cart->save();
-
-        // Return a success response
-        return redirect()->back()->with('success', 'added to cart');
-        // return view('frontend.productList', compact('products'))->with('success', 'Product added to the cart');
     }
+
 
     public function storeToCartQua(Request $request)
     {
-        $products = Product::all();
-        // Validate the request data
-        $validator = Validator::make($request->all(), [
-            'cart_id' => 'required|integer|exists:users,id',
-            'product_id' => 'required|integer|exists:products,id',
-            'quantity' => 'required|integer|min:1',
-            'price' => 'required|numeric|min:0',
-        ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        // Extract inputs
-        $userId = Auth::user()->id;
-        $productId = $request->input('product_id');
-        $quantity = $request->input('quantity');
-        $price = $request->input('price');
-
-        // Calculate the total amount for the current product
-        $totalAmount = $price * $quantity;
-
-        // Create or find the cart for the user
-        $cart = Cart::firstOrCreate([
-            'user_id' => $userId,
-        ]);
-
-        // Check if the product is already in the cart
-        $existingProduct = $cart->products()->whereNull('deleted_at')->where('product_id', $productId)->first();
-
-        if ($existingProduct) {
-            // Update the existing product's quantity and price in the cart
-            $cart->products()->updateExistingPivot($productId, [
-                'quantity' => $existingProduct->pivot->quantity + $quantity,
-                'price' => $price, // You can decide whether to update the price or not
+        try {
+            $products = Product::all();
+            // Validate the request data
+            $validator = Validator::make($request->all(), [
+                'cart_id' => 'required|integer|exists:users,id',
+                'product_id' => 'required|integer|exists:products,id',
+                'variant_id' => 'required|exists:cart_product,id', // Ensure this matches your DB structure
+                'quantity' => 'required|integer|min:1',
+                'price' => 'required|numeric|min:0',
             ]);
 
-            // Update the cart's total amount
-            $cart->total_amount += $totalAmount;
-        } else {
-            // Attach the new product to the cart
-            $cart->products()->attach($productId, [
-                'quantity' => $quantity,
-                'price' => $price,
+            if (is_null($request->input('variant_id'))) {
+                return redirect()->back()->with('error', 'You should pick a variant.')->withInput();
+            }
+            // Check if validation fails
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            // Extract inputs
+            $userId = Auth::user()->id;
+            $productId = $request->input('product_id');
+            $quantity = $request->input('quantity');
+            $price = $request->input('price');
+            $variant = $request->input('variant_id');
+
+            // Calculate the total amount for the current product
+            $totalAmount = $price * $quantity;
+
+            // Create or find the cart for the user
+            $cart = Cart::firstOrCreate([
+                'user_id' => $userId,
             ]);
 
-            // Update the cart's total amount
-            $cart->total_amount += $totalAmount;
+            // Check if the product with the same variant is already in the cart
+            $existingProduct = $cart->products()
+                ->whereNull('deleted_at')
+                ->where('product_id', $productId)
+                ->where('variant_id', $variant) // Add variant check here
+                ->first();
+
+            if ($existingProduct) {
+                // Update the existing product's quantity and price in the cart
+                $cart->products()->updateExistingPivot($productId, [
+                    'quantity' => $existingProduct->pivot->quantity + $quantity,
+                    'price' => $price, // Optionally update price
+                ]);
+
+                // Update the cart's total amount
+                $cart->total_amount += $totalAmount;
+            } else {
+                // Attach the new product to the cart with variant details
+                $cart->products()->attach($productId, [
+                    'quantity' => $quantity,
+                    'price' => $price,
+                    'variant_id' => $variant,
+                ]);
+
+                // Update the cart's total amount
+                $cart->total_amount += $totalAmount;
+            }
+
+            // Save the updated cart total
+            $cart->save();
+
+            // Return a success response
+            return redirect()->route('productdetail', $productId)->with('success', 'Product added to the cart');
+        } catch (\Exception $e) {
+            // Handle the exception and return error message
+            return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
         }
-
-        // Save the updated cart total
-        $cart->save();
-
-        // Return a success response
-        return redirect()->route('productdetail', $productId)->with('success', 'Product added to the cart');
     }
 
 
@@ -249,7 +278,7 @@ class CartController extends Controller
         session()->forget('afterDiscount');
         $discountCopon = $request->input('discountCopon');
         $discount = DiscountCoupon::where('code', $discountCopon)->first();
-        $cart = Cart::find(Auth::user()->id);
+        $cart = Cart::where("user_id", Auth::user()->id)->first();
 
         $cartData = $cart->products()
             ->wherePivotNull('deleted_at')
@@ -258,7 +287,8 @@ class CartController extends Controller
         if ($discount) {
             if ($discount->is_active) {
                 if ($cartData->count() > 0) {
-                    $cart = Cart::find(Auth::user()->id);
+                    $cart = Cart::where('user_id', Auth::user()->id)->first();
+                    // dd($cart);
                     $totalAmount = $cart->total_amount;
                     // dd($cart->total_amount);
                     $totalAmount = $totalAmount - ($discount->discount_amount *  $totalAmount);

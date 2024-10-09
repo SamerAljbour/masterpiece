@@ -216,10 +216,7 @@ id="colorSelect">
                 <option value="custom">Custom Dimensions (Width x Depth x Height)</option>
             </select>
             </div>
-            <div class="form-group" style="width: 100%;">
-                <label for="variant_price">Variant Price</label>
-                <input name="variant_prices[]" type="number" class="form-control" placeholder="Enter variant price" />
-            </div>
+
             <div class="form-group" style="width: 100%;">
                 <label for="variant_stock">Variant Stock</label>
                 <input name="variant_stock[]" type="number" class="form-control" placeholder="Enter variant stock" />
@@ -259,10 +256,7 @@ id="colorSelect">
                 <option value="compact">Compact</option>
             </select>
             </div>
-            <div class="form-group" style="width: 100%;">
-                <label for="variant_price">Variant Price</label>
-                <input name="variant_prices[]" type="number" class="form-control" placeholder="Enter variant price" />
-            </div>
+
             <div class="form-group" style="width: 100%;">
                 <label for="variant_stock">Variant Stock</label>
                 <input name="variant_stock[]" type="number" class="form-control" placeholder="Enter variant stock" />
@@ -299,10 +293,7 @@ id="colorSelect">
                 <option value="ceiling_light">Ceiling Light</option>
             </select>
             </div>
-            <div class="form-group" style="width: 100%;">
-                <label for="variant_price">Variant Price</label>
-                <input name="variant_prices[]" type="number" class="form-control" placeholder="Enter variant price" />
-            </div>
+
             <div class="form-group" style="width: 100%;">
                 <label for="variant_stock">Variant Stock</label>
                 <input name="variant_stock[]" type="number" class="form-control" placeholder="Enter variant stock" />
@@ -339,10 +330,7 @@ id="colorSelect">
                 <option value="32">32"</option>
             </select>
             </div>
-            <div class="form-group" style="width: 100%;">
-                <label for="variant_price">Variant Price</label>
-                <input name="variant_prices[]" type="number" class="form-control" placeholder="Enter variant price" />
-            </div>
+
             <div class="form-group" style="width: 100%;">
                 <label for="variant_stock">Variant Stock</label>
                 <input name="variant_stock[]" type="number" class="form-control" placeholder="Enter variant stock" />
@@ -380,10 +368,7 @@ id="colorSelect">
                 <option value="32gb">32GB</option>
             </select>
             </div>
-            <div class="form-group" style="width: 100%;">
-                <label for="variant_price">Variant Price</label>
-                <input name="variant_prices[]" type="number" class="form-control" placeholder="Enter variant price" />
-            </div>
+
             <div class="form-group" style="width: 100%;">
                 <label for="variant_stock">Variant Stock</label>
                 <input name="variant_stock[]" type="number" class="form-control" placeholder="Enter variant stock" />
@@ -419,10 +404,7 @@ id="colorSelect">
                 <option value="17">17"</option>
             </select>
             </div>
-            <div class="form-group" style="width: 100%;">
-                <label for="variant_price">Variant Price</label>
-                <input name="variant_prices[]" type="number" class="form-control" placeholder="Enter variant price" />
-            </div>
+
             <div class="form-group" style="width: 100%;">
                 <label for="variant_stock">Variant Stock</label>
                 <input name="variant_stock[]" type="number" class="form-control" placeholder="Enter variant stock" />
@@ -451,10 +433,7 @@ id="colorSelect">
                 </select>
             </div>
 
-            <div class="form-group" style="width: 100%;">
-                <label for="variant_price">Variant Price</label>
-                <input name="variant_prices[]" type="number" class="form-control" placeholder="Enter variant price" />
-            </div>
+
             <div class="form-group" style="width: 100%;">
                 <label for="variant_stock">Variant Stock</label>
                 <input name="variant_stock[]" type="number" class="form-control" placeholder="Enter variant stock" />

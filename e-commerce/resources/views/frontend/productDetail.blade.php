@@ -126,22 +126,26 @@
                                                     <p class="mg-size">SIZE
                                                         <span>*</span>
                                                     </p>
-                                                    <select>
-                                                        <option>S</option>
-                                                        <option>M</option>
-                                                        <option>L</option>
-                                                        <option>XL</option>
-                                                    </select>
 
-                                                    <p class="mg-color">COLOR
+
+                                                    <p class="mg-color">TYPE
                                                         <span>*</span>
                                                     </p>
-                                                    <select class="style-color">
-                                                        <option class="red">Red</option>
-                                                        <option class="yellow">Yellow</option>
-                                                        <option class="blue">Blue</option>
-                                                        <option class="green">Green</option>
+                                                    <select name="variant_id" id="variant_id" class="style-color" onchange="setvariant()">
+                                                        <option value="" > select Variant</option>
+                                                        @foreach ($product->variants as $variant)
+                                                            <option value="{{ $variant->id }}" {{ $variant->stock > 0 ? "" : "disabled" }} style='{{ $variant->stock > 0 ? "" : "color:red" }}'>
+                                                                {{ ($variant->variant_options->size ?? '') . ' ' .
+                                                                   ($variant->variant_options->color ?? '') . ' ' .
+                                                                   ($variant->variant_options->type ?? '') . ' ' .
+                                                                   ($variant->variant_options->resolution ?? '') . ' ' .
+                                                                   ($variant->variant_options->processor ?? '') . ' ' .
+                                                                   ($variant->variant_options->flavor ?? '') . ' ' .
+                                                                   ($variant->variant_options->material ?? '') }}
+                                                            </option>
+                                                        @endforeach
                                                     </select>
+
                                                 </form>
 
 
@@ -156,6 +160,7 @@
                                                         </div>                                                        <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
                                                         <input type="hidden" value="{{ $product->id }}" name="product_id">
                                                         <input type="hidden" value="{{ $product->price }}" name="price">
+                                                        <input type="hidden" value="" name="variant_id" id="variant">
                                                         <button class="btn-cart" title="Add to Cart"  type="submit">
                                                             Add to Cart
                                                         </button>
@@ -1565,5 +1570,44 @@
         </div>
     </div>
     <!-- AND PARTNERS -->
+<script>
+    function setvariant() {
+    let selectInput = document.getElementById('variant_id');
+    let selectedVariantId = selectInput.value;
+    let hiddenInput = document.getElementById('variant');
+    hiddenInput.value = selectedVariantId;
+    // console.log(selectedVariantId);
+}
 
+
+    document.addEventListener('DOMContentLoaded', function () {
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: "{{ session('success') }}",
+            });
+        @endif
+
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "{{ session('error') }}",
+            });
+        @endif
+
+        @if($errors->any())
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Errors',
+                html: '<ul>' +
+                    @foreach ($errors->all() as $error)
+                        '<li>{{ $error }}</li>' +
+                    @endforeach
+                '</ul>',
+            });
+        @endif
+    });
+</script>
 @endsection

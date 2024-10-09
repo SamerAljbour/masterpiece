@@ -13,7 +13,7 @@ class CreateProductVariantCombinationsTable extends Migration
             $table->foreignId('product_id')->constrained()->onDelete('cascade'); // Links to `products` table
             $table->json('variant_options'); // Store selected variant options as JSON
             $table->integer('stock'); // Stock for each combination
-            $table->decimal('price', 8, 2); // Price for each combination
+            // $table->decimal('price', 8, 2); // Price for each combination
             $table->timestamps();
         });
     }

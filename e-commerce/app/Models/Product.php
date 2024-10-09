@@ -24,7 +24,10 @@ class Product extends Model
     {
         return $this->belongsTo(Seller::class);
     }
-
+    public function variants()
+    {
+        return $this->hasMany(ProductVariantCombination::class);
+    }
     public function category()
     {
         return $this->belongsTo(Category::class);

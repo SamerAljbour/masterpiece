@@ -10,7 +10,7 @@ class CreateVariantOptionsTable extends Migration
     {
         Schema::create('variant_options', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('variant_id')->constrained()->onDelete('cascade'); // Links to `variants` table
+            // $table->foreignId('variant_id')->constrained()->onDelete('cascade'); // Links to `variants` table
             $table->string('value'); // e.g., Small, Medium, Red, Blue
             $table->timestamps();
         });
