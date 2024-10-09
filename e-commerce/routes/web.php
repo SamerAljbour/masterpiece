@@ -150,6 +150,7 @@ Route::get('/loginRegisterSeller', [UserController::class, 'viewSellerReg'])->na
 // Route::post('/loginRegisterSeller', [UserController::class, 'register'])->name('storeNeweUser');
 // <================================= End of register for user ============================================>
 Route::get('/viewPayment', [PaymentController::class, 'index'])->name('viewPayment');
+Route::post('/pay', [PaymentController::class, 'store'])->name('pay');
 
 
 

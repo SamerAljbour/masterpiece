@@ -258,7 +258,7 @@
         <div class="success-message">{{ session('success') }}</div>
     @endif
 
-    <form action="" method="POST">
+    <form action="{{ route('pay') }}" method="POST">
         @csrf
         <div class="inputBox">
             <span>card number</span>

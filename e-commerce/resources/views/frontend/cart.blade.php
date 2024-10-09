@@ -1,7 +1,26 @@
 @extends('layout.mainTwo')
 @section('content')
 
+<style>
+    .checkout-btn {
+    background-color: transparent;
+    border: 0;
+    cursor: not-allowed; /* Changes the cursor to indicate it's disabled */
+    opacity: 0.6; /* Makes it look visually disabled */
+    color: #d10024; /* Keeps your preferred red color */
+    font-size: 16px;
+    padding: 10px 20px;
+}
 
+.checkout-btn:disabled {
+    pointer-events: none; /* Ensures the button can't be clicked */
+    opacity: 0.5; /* Makes the button look more disabled */
+}
+
+.checkout-btn span.style-bd {
+    font-weight: bold;
+}
+</style>
             <!-- BREADCRUMBS -->
             <div id="sns_breadcrumbs" class="wrap">
                 <div class="container">
@@ -192,7 +211,13 @@
 
                                                 @endif
                                             </h3>
+                                            @if (count($cartData) )
                                             <a href="{{ route('viewPayment') }}"><span class="style-bd">Proceed to checkout</span></a>
+                                            @else
+                                            <button disabled class="checkout-btn">
+                                                <span class="style-bd">Proceed to checkout</span>
+                                            </button>
+                                            @endif
                                             <p class="checkout">Checkout with Multiple Addresses</p>
                                         </div>
                                     </form>
