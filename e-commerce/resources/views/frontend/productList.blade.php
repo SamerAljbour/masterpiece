@@ -644,8 +644,8 @@
                                                     <option value="">Select sort</option>
                                                     <option value="Price asc">Price asc</option>
                                                     <option value="Price desc">Price desc</option>
-                                                    <option value="Rate asc">Rate asc</option>
-                                                    <option value="Rate desc">Rate desc</option>
+                                                    {{-- <option value="Rate asc">Rate asc</option>
+                                                    <option value="Rate desc">Rate desc</option> --}}
                                                 </select>
                                             </div>
                                             <button class="btn-filterTwo" type="submit">Filter</button>

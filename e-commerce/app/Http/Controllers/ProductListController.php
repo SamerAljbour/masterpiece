@@ -21,7 +21,13 @@ class ProductListController extends Controller
         $maxPrice = $request->input('maxPrice', 99999999); // Set a high default for maximum price
         // Access selected categories
         $selectedCategories = $request->input('categories', []);
-        $show = $request->input('show', 10); // Default to showing 10 products per page
+        $show = $request->input('show');
+
+        if (is_null($show) || trim($show) === '') {
+            $show = 10; // Default to showing 10 products per page
+        } else {
+            $show = (int)$show;
+        }
         $sortBy = $request->input('sortBy', '');
         // Retrieve products that based on  to the selected categories or price
         $products = Product::when($selectedCategories, function ($query) use ($selectedCategories) { // use allow the function to use the selectedCategories
@@ -46,6 +52,7 @@ class ProductListController extends Controller
         // dd($categories);
         return view('frontend.productList', compact('products', 'categories'));
     }
+
     public function productDetails(string $id)
     {
         $product = Product::with(['photos', 'variants'])->where('id', $id)->first();
