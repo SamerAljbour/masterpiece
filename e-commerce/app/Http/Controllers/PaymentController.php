@@ -42,16 +42,33 @@ class PaymentController extends Controller
             'exp_year' => 'required',
             'cvv' => 'required',
         ]);
+
         $cart = Cart::where('user_id', Auth::user()->id)->first();
         $recipe = new PaymentHistory;
         $recipe->user_id = Auth::user()->id;
         $recipe->cart_id = $cart->id;
         $recipe->amount = $cart->total_amount;
-        $recipe->save();
         // this to decrement the quantity after buying the products
         $cartinfos = $cart->products()->whereNull('deleted_at')->get();
+
         foreach ($cartinfos as $cartinfo) {
             ProductVariantCombination::where('product_id', $cartinfo->id)->decrement('stock', $cartinfo->pivot->quantity);
+
+            // here to check the product stock incase someone else bought the last quantity
+            $variant = ProductVariantCombination::where('product_id', $cartinfo->id)->first();
+            if (!$variant || $variant->stock == 0) {
+                CartProduct::where('cart_id', $cart->id)
+                    ->where('product_id', $cartinfo->id)
+                    ->delete();
+                return redirect()->back()->with('error', 'Out of stock we deleted the product');
+            }
+            // Check if desired quantity exceeds available stock
+            if ($cartinfo->pivot->quantity > $variant->stock) {
+                CartProduct::where('cart_id', $cart->id)
+                    ->where('product_id', $cartinfo->id)
+                    ->delete();
+                return redirect()->back()->with('error', 'Requested quantity exceeds available stock. we deleted the product');
+            }
             Product::where('id', $cartinfo->id)->decrement('total_stock', $cartinfo->pivot->quantity);
         }
         // this a proccess for empty the cart and update the total amount
@@ -62,9 +79,11 @@ class PaymentController extends Controller
             return $product->pivot->quantity * $product->price;
         });
         $cart->total_amount = $totalAmount;
+        $recipe->save();
         $cart->save();
         // dd($cart);
-        return redirect()->route('productList'); // Change to your success route
+
+        return redirect()->route('home'); // Change to your success route
     }
 
     /**

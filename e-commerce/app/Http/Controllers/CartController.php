@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\CartProduct;
 use App\Models\DiscountCoupon;
 use App\Models\Product;
+use App\Models\ProductVariantCombination;
 use Error;
 use Exception;
 use Illuminate\Http\Request;
@@ -17,8 +18,6 @@ class CartController extends Controller
     public function storeToCart(Request $request)
     {
         try {
-            //dont forget to make the stock minus with every buy
-            $products = Product::all();
             // Validate the request data
             $validator = Validator::make($request->all(), [
                 'cart_id' => 'required|integer|exists:users,id',
@@ -27,20 +26,28 @@ class CartController extends Controller
                 'price' => 'required|numeric|min:0',
             ]);
 
-            if ($validator->fails()) {
-                return response()->json(['errors' => $validator->errors()], 422);
-            }
+            // Uncomment if you want to handle validation errors
+            // if ($validator->fails()) {
+            //     return response()->json(['errors' => $validator->errors()], 422);
+            // }
 
             // Extract inputs
             $userId = Auth::user()->id;
             $productId = $request->input('product_id');
             $quantity = $request->input('quantity');
             $price = $request->input('price');
-            $variant = $request->input('variant_id');
+            $variantId = $request->input('variant_id');
 
-            // Check if variant is null
-            if (is_null($variant)) {
-                return redirect()->back()->with('error', 'You should pick a variant.');
+            // Get the variant quantity and check stock
+            $variant = ProductVariantCombination::where('product_id', $productId)->first();
+
+            if (!$variant || $variant->stock == 0) {
+                return redirect()->back()->with('error', 'Out of stock');
+            }
+
+            // Check if desired quantity exceeds available stock
+            if ($quantity > $variant->stock) {
+                return redirect()->back()->with('error', 'Requested quantity exceeds available stock.');
             }
 
             // Calculate the total amount for the current product
@@ -53,11 +60,17 @@ class CartController extends Controller
             $existingProduct = $cart->products()->whereNull('deleted_at')->where('product_id', $productId)->first();
 
             if ($existingProduct) {
+                // Check if adding the quantity exceeds stock
+                $newQuantity = $existingProduct->pivot->quantity + $quantity;
+                if ($newQuantity > $variant->stock) {
+                    return redirect()->back()->with('error', 'Requested quantity exceeds available stock.');
+                }
+
                 // Update the existing product's quantity and price in the cart
                 $cart->products()->updateExistingPivot($productId, [
-                    'quantity' => $existingProduct->pivot->quantity + $quantity,
-                    'price' => $price, // You can decide whether to update the price or not
-                    'variant_id' => $variant, // You can decide whether to update the price or not
+                    'quantity' => $newQuantity,
+                    'price' => $price,
+                    'variant_id' => $variantId,
                 ]);
 
                 // Update the cart's total amount
@@ -67,7 +80,7 @@ class CartController extends Controller
                 $cart->products()->attach($productId, [
                     'quantity' => $quantity,
                     'price' => $price,
-                    'variant_id' => $variant
+                    'variant_id' => $variantId,
                 ]);
 
                 // Update the cart's total amount
@@ -84,6 +97,7 @@ class CartController extends Controller
             return redirect()->back()->with('error', 'Something went wrong while adding the product to the cart.');
         }
     }
+
 
 
     public function storeToCartQua(Request $request)

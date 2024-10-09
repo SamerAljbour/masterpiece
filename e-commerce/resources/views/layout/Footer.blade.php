@@ -178,7 +178,37 @@
 <script src="js/sns-extend.js"></script>
 <script src="js/custom.js"></script>
 {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: "{{ session('success') }}",
+            });
+        @endif
 
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "{{ session('error') }}",
+            });
+        @endif
+
+        @if($errors->any())
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Errors',
+                html: '<ul>' +
+                    @foreach ($errors->all() as $error)
+                        '<li>{{ $error }}</li>' +
+                    @endforeach
+                '</ul>',
+            });
+        @endif
+    });
+</script>
 <script src="js/main.js"></script>
 </body>
 </html>

@@ -243,7 +243,7 @@ Route::get('allreviews', [ReviewController::class, 'index'])->name('allreviews')
 
 
 // <================================= Home  ============================================>
-// Route::get('home', [HomeController::class, 'index'])->name('home');
+Route::get('home', [HomeController::class, 'index'])->name('home');
 // Route::get('productdetail/{id}', [HomeController::class, 'productDetails'])->name('productdetail');
 
 

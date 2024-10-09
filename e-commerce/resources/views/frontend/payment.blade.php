@@ -2,15 +2,6 @@
 @extends('layout.mainTwo')
 @section('content')
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- custom css file link  -->
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
@@ -346,8 +337,35 @@ document.querySelector('.cvv-input').onmouseleave = () =>{
 document.querySelector('.cvv-input').oninput = () =>{
     document.querySelector('.cvv-box').innerText = document.querySelector('.cvv-input').value;
 }
+document.addEventListener('DOMContentLoaded', function () {
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: "{{ session('success') }}",
+            });
+        @endif
+
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "{{ session('error') }}",
+            });
+        @endif
+
+        @if($errors->any())
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Errors',
+                html: '<ul>' +
+                    @foreach ($errors->all() as $error)
+                        '<li>{{ $error }}</li>' +
+                    @endforeach
+                '</ul>',
+            });
+        @endif
+    });
 </script>
 
-</body>
-</html>
 @endsection
