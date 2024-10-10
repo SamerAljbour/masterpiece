@@ -14,6 +14,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductListController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SellerController;
+use App\Http\Controllers\VariantOptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,9 +29,9 @@ use App\Http\Controllers\SellerController;
 
 // <================================= view for the pages home ============================================>
 
-Route::get('/', function () {
-    return view('frontend/home');
-})->name('home');
+// Route::get('/', function () {
+//     return view('frontend/home');
+// })->name('home');
 // Route::get('/home', function () {
 //     return view('frontend/home');
 // })->name('home');
@@ -66,9 +67,7 @@ Route::get('/payment', function () {
 
 
 // <================================= view for the pages admin ============================================>
-Route::get('/dashboard', function () {
-    return view('dashboard/index');
-})->name('dashboard');
+
 Route::get('/test', function () {
     return view('dashboard/test');
 })->name('test');
@@ -159,10 +158,18 @@ Route::post('/pay', [PaymentController::class, 'store'])->name('pay');
 
 
 // <================================= dashboard  ============================================>
+Route::get('/layout', [VariantOptionController::class, 'index'])->name('layout');
+
+
+// <================================= dashboard Home Seller  ============================================>
+Route::get('/sellerDashboard', [SellerController::class, 'homeSeller'])->name('sellerDashboard');
+Route::put('/updateStore', [SellerController::class, 'updateStoreInfo'])->name('updateStoreInfo');
 
 
 
 
+
+// <================================= End of dashboard Home Seller  ============================================>
 
 
 

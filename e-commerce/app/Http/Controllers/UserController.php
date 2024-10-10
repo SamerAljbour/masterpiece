@@ -100,7 +100,7 @@ class UserController extends Controller
                 if ($user->role_id == 1)
                     return redirect('home');
                 else
-                    return redirect('dashboard');
+                    return redirect('sellerDashboard');
             } else {
                 return back()->with('failedLogin', 'Password not match!');
             }

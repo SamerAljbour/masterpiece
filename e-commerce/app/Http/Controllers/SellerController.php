@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Auth;
 
 class SellerController extends Controller
 {
+    public function homeSeller(Seller $seller)
+    {
+        $sellerInfo = Seller::where('user_id', Auth::user()->id)->first();
+        return view('dashboard.indexSeller', compact('sellerInfo'));
+    }
     /**
      * Display a listing of the resource.
      */
@@ -84,5 +89,35 @@ class SellerController extends Controller
 
 
         return view("dashboard.store", compact("products"));
+    }
+    public function updateStoreInfo(Request $request)
+    {
+        try {
+            $data = $request->validate([
+                'store_name' => 'required',
+                'store_description' => 'required',
+                'store_thumbnail' => 'required|image', // Ensure this is a file input
+            ]);
+
+            $path = null;
+            if ($request->hasFile('store_thumbnail')) {
+                $file = $request->file('store_thumbnail');
+                $extension = $file->getClientOriginalExtension();
+                $filename = time() . '.' . $extension;
+                $path = $file->storeAs('public/thumbnails', $filename); // Store the image and get the path
+            }
+
+            Seller::where('user_id', Auth::user()->id)
+                ->update([
+                    'store_name' => $data['store_name'],
+                    'store_description' => $data['store_description'],
+                    'store_thumbnail' => $path,
+                    'is_setup' => 1,
+                ]);
+
+            return redirect()->back()->with('success', 'Congratulations, you updated your store successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'There was an error: ' . $e->getMessage());
+        }
     }
 }

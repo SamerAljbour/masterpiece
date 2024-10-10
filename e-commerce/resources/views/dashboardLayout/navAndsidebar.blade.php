@@ -7,6 +7,8 @@
       content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
       name="viewport"
     />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <link
   rel="icon"
   href="{{ asset('assets/img/kaiadmin/favicon.ico') }}"
@@ -54,7 +56,10 @@
 
   </head>
   <body>
+
+
     <div class="wrapper">
+
       <!-- Sidebar -->
       <div class="sidebar" data-background-color="dark">
         <div class="sidebar-logo">
@@ -89,7 +94,7 @@
               {{--  --}}
 
               <li class="nav-item active">
-                <a href="{{ route('dashboard') }}">
+                <a href="{{ route('sellerDashboard') }}">
                   <i class="fas fa-home"></i>
                   <p>Home</p>
                   <span class=""></span>
@@ -775,6 +780,7 @@
           </nav>
           <!-- End Navbar -->
         </div>
+
 @yield('content')
 <!--   Core JS Files   -->
 <script src="{{ asset('assets/js/core/jquery-3.7.1.min.js') }}"></script>
@@ -1019,6 +1025,35 @@
       jQuery(document).ready(function () {
         SweetAlert2Demo.init();
       });
+      document.addEventListener('DOMContentLoaded', function () {
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: "{{ session('success') }}",
+            });
+        @endif
+
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "{{ session('error') }}",
+            });
+        @endif
+
+        @if($errors->any())
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Errors',
+                html: '<ul>' +
+                    @foreach ($errors->all() as $error)
+                        '<li>{{ $error }}</li>' +
+                    @endforeach
+                '</ul>',
+            });
+        @endif
+    });
 </script>
   </body>
 </html>

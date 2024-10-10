@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use App\Models\Seller;
 use App\Models\VariantOption;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VariantOptionController extends Controller
 {
@@ -12,7 +15,12 @@ class VariantOptionController extends Controller
      */
     public function index()
     {
-        //
+        $sellerId = Auth::user()->id;
+
+
+        $sellerInfo = Seller::where('user_id', $sellerId)->first();
+        $productCount = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerId)->count();
+        return view("dashboard.store", compact("sellerInfo"));
     }
 
     /**

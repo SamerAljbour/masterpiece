@@ -16,7 +16,31 @@
                  <h3 class="fw-bold mb-3">Welcome Seller {{  Auth::user()->name}}
                  @endif
 
+                 @if ()
 
+                 @else
+
+                 @endif
+                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#largeModal">Large modal</button>
+
+                 <!-- Large Modal -->
+                 <div class="modal fade" id="largeModal" tabindex="-1" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                   <div class="modal-dialog modal-lg">
+                     <div class="modal-content">
+                       <div class="modal-header">
+                         <h5 class="modal-title" id="myLargeModalLabel">Modal title</h5>
+                         {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
+                       </div>
+                       <div class="modal-body">
+                         This is the content of the large modal. You cannot close this modal by clicking outside or pressing Escape.
+                       </div>
+                       <div class="modal-footer">
+                         {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
+                         <button type="button" class="btn btn-primary">Save changes</button>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
                 </h3>
                 <h6 class="op-7 mb-2">Free Bootstrap 5 Admin Dashboard</h6>
               </div>
@@ -862,6 +886,10 @@
 
 
     <script>
+    //      window.onload = function() {
+    //     var modal = new bootstrap.Modal(document.getElementById('largeModal'));
+    //     modal.show();
+    // };
       $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
         type: "line",
         height: "70",

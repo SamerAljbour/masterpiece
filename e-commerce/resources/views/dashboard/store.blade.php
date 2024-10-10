@@ -135,10 +135,11 @@ margin-left: 30px!important;
     <div class="card overflow-hidden">
         <div class="card-body p-0">
             <img
-                src="https://www.bootdey.com/image/1352x300/00FFFF/000000"
-                alt
-                class="img-fluid"
-            />
+    src="{{ Storage::url($sellerInfo->store_thumbnail) }}"
+    alt="Store Thumbnail"
+    class="img-fluid"
+    style="width: 1352px; height: 300px; object-fit: cover;"
+/>
             <div class="row align-items-center">
                 <div class="col-lg-4 order-lg-1 order-2">
                     <div
@@ -147,7 +148,7 @@ margin-left: 30px!important;
                         <div class="text-center">
                             <i class="fa fa-file fs-6 d-block mb-2"></i>
                             <h4 class="mb-0 fw-semibold lh-1">938</h4>
-                            <p class="mb-0 fs-4">Posts</p>
+                            <p class="mb-0 fs-4">sold products</p>
                         </div>
                         <div class="text-center">
                             <i class="fa fa-user fs-6 d-block mb-2"></i>
@@ -155,11 +156,9 @@ margin-left: 30px!important;
                             <p class="mb-0 fs-4">Followers</p>
                         </div>
                         <div class="text-center">
-                            <i
-                                class="fa fa-check fs-6 d-block mb-2"
-                            ></i>
-                            <h4 class="mb-0 fw-semibold lh-1">2,659</h4>
-                            <p class="mb-0 fs-4">Following</p>
+                            <i class="fa fa-star fs-6 d-block mb-2"></i>
+<h4 class="mb-0 fw-semibold lh-1">{{ $sellerInfo->rating }}</h4>
+                            <p class="mb-0 fs-4">rating</p>
                         </div>
                     </div>
                 </div>
@@ -198,44 +197,64 @@ margin-left: 30px!important;
                     <ul
                         class="list-unstyled d-flex align-items-center justify-content-center justify-content-lg-start my-3 gap-3"
                     >
-                        <li class="position-relative">
-                            <a
-                                class="text-white d-flex align-items-center justify-content-center bg-primary p-2 fs-4 rounded-circle"
-                                href="javascript:void(0)"
-                                width="30"
-                                height="30"
-                            >
-                                <i class="fa fa-facebook"></i>
-                            </a>
-                        </li>
-                        <li class="position-relative">
-                            <a
-                                class="text-white bg-secondary d-flex align-items-center justify-content-center p-2 fs-4 rounded-circle"
-                                href="javascript:void(0)"
-                            >
-                                <i class="fa fa-twitter"></i>
-                            </a>
-                        </li>
-                        <li class="position-relative">
-                            <a
-                                class="text-white bg-secondary d-flex align-items-center justify-content-center p-2 fs-4 rounded-circle"
-                                href="javascript:void(0)"
-                            >
-                                <i class="fa fa-dribbble"></i>
-                            </a>
-                        </li>
-                        <li class="position-relative">
-                            <a
-                                class="text-white bg-danger d-flex align-items-center justify-content-center p-2 fs-4 rounded-circle"
-                                href="javascript:void(0)"
-                            >
-                                <i class="fa fa-youtube"></i>
-                            </a>
-                        </li>
+
+
                         <li>
-                            <button class="btn btn-primary">
-                                Add To Story
-                            </button>
+                            <form action="{{ route('updateStoreInfo') }}" method="POST" enctype="multipart/form-data">
+                                @method('PUT')
+                                @csrf
+
+
+
+                         <button type="button" class="btn btn-primary rounded-5" data-bs-toggle="modal" data-bs-target="#largeModal">Edit store</button>
+
+                         <!-- Large Modal -->
+                         <div class="modal fade" id="largeModal" tabindex="-1" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                           <div class="modal-dialog modal-lg">
+                             <div class="modal-content">
+                               <div class="modal-header">
+                                 <h5 class="modal-title" id="myLargeModalLabel">Setup Your Store</h5>
+                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                               </div>
+                               <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="email2">Store name</label>
+                                    <input
+                                      type="text"
+                                      name="store_name"
+                                      class="form-control"
+                                      id="email2"
+                                      placeholder="Enter Store Name"
+                                    />
+                                  </div>
+                                  <div style="">
+                                      <div class="form-group">
+                                          <label for="comment"> Store description</label>
+                                          <textarea
+                                          name="store_description"
+                                          class="form-control" id="comment" rows="6"  placeholder="Enter Store Name"
+                                          ></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email2">Store thumbnail</label>
+                                        <input
+                                          type="file"
+                                          class="form-control"
+                                          id="email2"
+                                          placeholder="Enter Email"
+                                          name="store_thumbnail"
+                                        />
+                                        <p >  <span style="color: red"> <i class="fas fa-exclamation-circle"></i> Important !</span> The recommended store thumbnail is 1352 X 300</p>
+                                      </div>
+                                </div>
+                               <div class="modal-footer">
+                                 {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
+                                 <button type="submit" class="btn btn-secondary rounded-5">Save changes</button>
+                               </div>
+                             </div>
+                           </div>
+                         </div>
+                        </form>
                         </li>
                     </ul>
                 </div>
