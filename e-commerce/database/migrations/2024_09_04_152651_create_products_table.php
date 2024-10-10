@@ -12,6 +12,20 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->enum('location', [
+                'Amman',
+                'Irbid',
+                'Zarqa',
+                'Aqaba',
+                'Ma’an',
+                'Karak',
+                'Tafileh',
+                'Ajloun',
+                'Jerash',
+                'Mafraq',
+                'Salt',
+                'Karak',
+            ])->nullable();
             $table->decimal('price', 10, 2);
             $table->integer('total_stock')->nullable();
             $table->foreignId('seller_id')->constrained(); // Ensure this table exists

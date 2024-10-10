@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\ProductPhoto;
 use App\Models\ProductVariantCombination;
+use App\Models\Seller;
 use App\Models\Subcategory;
 use App\Models\Variant;
 use Illuminate\Http\Request;
@@ -79,14 +80,15 @@ class ProductController extends Controller
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $mainImagePath = $file->storeAs('public/mainProducts', $filename);
         }
-
+        $storeId = Seller::where('user_id', Auth::user()->id)->first(); // get the seller store id
         // Create and save the product
         $product = new Product();
         $product->name = $data['name'];
         $product->description = $data['description'];
         $product->price = $data['price'];
         $product->category_id = $data['category_id'];
-        $product->seller_id = Auth::user()->id;
+        $product->seller_id = $storeId->id;
+        // dd($product->seller_id);
         $product->image_url = $mainImagePath;
         $product->save();
 

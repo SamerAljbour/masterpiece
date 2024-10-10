@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Review;
+use App\Models\Seller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ReviewController extends Controller
@@ -51,6 +53,21 @@ class ReviewController extends Controller
             'rating' => $validatedData['rating'],
             'comment' => $validatedData['comment'],
         ]);
+        // seller  id
+        $countOfReviews = Review::where('product_id', $validatedData['product_id'])->count();
+        // dd($countOfReviews);
+        $sumOfReviews = Review::where('product_id', $validatedData['product_id'])->sum('rating');
+        $sellers = Seller::with('products')
+            ->whereHas('products', function ($query) use ($validatedData) {
+                $query->where('id', $validatedData['product_id']);
+            })
+            ->first();
+        $rateOfStore = $countOfReviews > 0
+            ? round(($sumOfReviews / $countOfReviews), 1) // Average rating from 1 to 5
+            : 0;
+        Seller::where('user_id', Auth::user()->id)->update(['rating' => $rateOfStore]);
+        // $sellers->rating = $rateOfStore;
+        $sellers->save();
         return redirect()->route('productdetail', $validatedData['product_id'])->with('success', 'review submitted successfully');
     }
 
