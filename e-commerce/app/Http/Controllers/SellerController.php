@@ -20,17 +20,19 @@ class SellerController extends Controller
      */
     public function index(Request $request)
     {
-        $sellerId = Auth::user()->id;
+        $sellerInfo = Seller::where('user_id', Auth::user()->id)->first();
+
         // $rating = Review::with("Product")->get();
         $searchInput = $request->input('search');
         if (trim($searchInput)) {
-            $products = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerId)
+            $products = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerInfo->id)
                 ->where('name', 'LIKE', '%' . $searchInput . '%')->get();
         } else {
-            $products = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerId)->get();
+            $products = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerInfo->id)->get();
         }
-        $sellerInfo = Seller::where('user_id', $sellerId)->first();
-        $productCount = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerId)->count();
+
+        // dd($sellerInfo);
+        $productCount = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerInfo->id)->count();
         // $products = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerId)->get();
         // dd($sellerInfo);
         return view("dashboard.store", compact("products", "sellerInfo", "productCount"));
