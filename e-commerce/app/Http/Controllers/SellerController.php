@@ -25,13 +25,13 @@ class SellerController extends Controller
         // $rating = Review::with("Product")->get();
         $searchInput = $request->input('search');
         if (trim($searchInput)) {
-            $products = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerInfo->id)
+            $products = Product::with(["category", "seller", "reviews", "photos"])->where('seller_id', $sellerInfo->id)
                 ->where('name', 'LIKE', '%' . $searchInput . '%')->get();
         } else {
-            $products = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerInfo->id)->get();
+            $products = Product::with(["category", "seller", "reviews", "photos"])->where('seller_id', $sellerInfo->id)->get();
         }
 
-        // dd($sellerInfo);
+        // dd($products);
         $productCount = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerInfo->id)->count();
         // $products = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerId)->get();
         // dd($sellerInfo);

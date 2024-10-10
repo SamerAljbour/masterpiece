@@ -5,6 +5,32 @@
             href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
             rel="stylesheet"
         /><style type="text/css">
+        .remove-button {
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0.5rem; /* Adjust margin as needed */
+    border-radius: 50%; /* Circular button */
+    height: 30px; /* Fixed height */
+    width: 30px; /* Fixed width */
+    display: flex; /* Flexbox for centering */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    padding: 0; /* Remove default padding */
+    border: none; /* Remove border */
+    margin-right: 15px
+}
+.remove-button:hover {
+    background-color: #c82333 !important; /* Darker red on hover */
+}
+.remove-button.btn-warning:hover {
+    background-color: #e0a800 !important; /* Darker yellow on hover for edit */
+}
+
+.remove-button.btn-info:hover {
+    background-color: #17a2b8 !important; /* Darker cyan on hover for view */
+}
 #removeBorder{
         border: 0 !important;
     }
@@ -216,7 +242,7 @@ margin-left: 30px!important;
                                  <h5 class="modal-title" id="myLargeModalLabel">Setup Your Store</h5>
                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                </div>
-                               <div class="modal-body">
+                               <div class="modal-body" class="margin:2%">
                                 <div class="form-group">
                                     <label for="email2">Store name</label>
                                     <input
@@ -344,7 +370,7 @@ margin-left: 30px!important;
                 <h3
                     class="mb-3 mb-sm-0 fw-semibold d-flex align-items-center"
                 >
-                    Products
+                    My Products
                     <span
                         class="badge text-bg-secondary fs-2 rounded-4 py-1 px-2 ms-2"
                         >{{ $products->count() }}</span
@@ -365,89 +391,128 @@ margin-left: 30px!important;
                     <i
                         class="ti ti-search position-absolute top-50 start-0 translate-middle-y text-dark ms-3"
                     ></i>
+
                 </form>
             </div>
             <div class="row">
                 {{-- show the products that seller own --}}
                 @if ($products->count() > 0)
-            @foreach ($products as $product )
-            <div class="col-md-6 col-lg-4">
-                <div
-                    class="card hover-img overflow-hidden rounded-2"
-                >
-                    <div class="card-body p-0">
-                        <img
-                            src="{{ Storage::url($product->image_url) }}"
-                            alt
-                            class="img-fluid w-100 object-fit-cover"
-                            style="height: 220px"
-                        />
-                        <div
-                            class="p-4 d-flex align-items-center justify-content-between"
-                        >
-                            <div>
-                                <h6 class="fw-semibold mb-0 fs-4">
-                                    {{ $product->name }}
-                                </h6>
-                                <span class="text-dark fs-2"
-                                    >{{ $product->description }}</span
-                                ><br>
-                                <span class="text-dark fs-2"
-                                    >    JOD {{ $product->price }}</span
-                                >
-                                <br>
-                                <span class="text-dark fs-2"
-                                    >Rating : {{  $product->reviews->avg('rating') == 0 ? "0" :  $product->reviews->avg('rating')}} of 5 </span
-                                >
-                            </div>
-                            <div class="dropdown">
-                                <a
-                                    class="text-muted fw-semibold d-flex align-items-center p-1"
-                                    href="javascript:void(0)"
-                                    role="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                >
-                                    <i
-                                        class="ti ti-dots-vertical"
-                                    ></i>
+                @foreach ($products as $product)
+                    <div class="col-md-6 col-lg-4 position-relative ">
+                        <form action="{{ route('deleteProduct', $product->id) }}" method="POST" class="d-inline" onsubmit="return confirmDelete()">
+                            @csrf
+                            {{-- @method('DELETE') <!-- Use DELETE method for product deletion --> --}}
+                            <div class="button-group d-flex">
+                                <button type="button" class="btn btn-danger remove-button" title="Remove" onclick="confirmDelete(event)">
+                                    <i class="fa fa-times"></i> <!-- Font Awesome Times Icon -->
+                                </button>
+
+                                <a href="{{ route('editProduct', $product->id) }}" style="right:40px; color:white" class="btn btn-warning remove-button" title="Edit">
+                                    <i class="fa fa-edit"></i> <!-- Font Awesome Edit Icon -->
                                 </a>
-                                <ul
-                                    class="dropdown-menu overflow-hidden"
-                                >
-                                    <li>
-                                        <a
-                                            class="dropdown-item"
-                                            href="javascript:void(0)"
-                                            >Ip docmowe
-                                            vemremrif.jpg</a
-                                        >
-                                    </li>
-                                </ul>
+
+                                <button type="button" style="right:80px" data-bs-toggle="modal" data-bs-target="#modal-{{ $product->id }}" class="btn btn-info remove-button" title="View">
+                                    <i class="fa fa-eye"></i> <!-- Font Awesome Eye Icon -->
+                                </button>
+
+                                <div class="modal fade" id="modal-{{ $product->id }}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="myLargeModalLabel">{{ $product->name }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Carousel for images -->
+                                                <div id="carousel-{{ $product->id }}" class="carousel slide" data-bs-ride="carousel">
+                                                    <div class="carousel-inner" style="height: 300px;"> <!-- Fixed height for the carousel -->
+                                                        @foreach ($product->photos as $index => $photo)
+                                                            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                                                <img src="{{ Storage::url($photo->photo_url) }}" class="d-block w-100" alt="Image of {{ $product->name }}" style="height: 300px; object-fit: cover;">
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+
+                                                    <!-- Centered button container -->
+                                                    <div class="d-flex justify-content-center">
+                                                        <button class="carousel-control-prev rounded-circle" type="button" data-bs-target="#carousel-{{ $product->id }}" data-bs-slide="prev" >
+                                                            <span style="border-radius: 50%;
+    background-color: black;" class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                            <span class="visually-hidden">Previous</span>
+                                                        </button>
+                                                        <button class="carousel-control-next rounded-circle" type="button" data-bs-target="#carousel-{{ $product->id }}" data-bs-slide="next" >
+                                                            <span style="border-radius: 50%;
+    background-color: black;" class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                            <span class="visually-hidden">Next</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mt-4">
+                                                    <span class="text-dark fs-3 fw-bold m-2">Product description: {{ $product->description }}</span><br> <!-- Increased font size -->
+                                                    <span class="text-dark fs-5 m-3"> Product Price: JOD {{ $product->price }}</span><br> <!-- Increased font size -->
+                                                    <span class="text-dark fs-5 m-3">Product :Rating: {{ $product->reviews->avg('rating') == 0 ? "0" : $product->reviews->avg('rating') }} of 5</span> <!-- Increased font size -->
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger rounded-5" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+
+                        <div class="card hover-img overflow-hidden rounded-2">
+                            <div class="card-body p-0">
+                                <img src="{{ Storage::url($product->image_url) }}" alt class="img-fluid w-100 object-fit-cover" style="height: 220px" />
+                                <div class="p-4 d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <h6 class="fw-semibold mb-0 fs-5">{{ $product->name }}</h6>
+
+                                        <span class="text-dark fs-4">JOD {{ $product->price }}</span><br>
+                                        {{-- <span class="text-dark fs-4">Rating: {{ $product->reviews->avg('rating') == 0 ? "0" : $product->reviews->avg('rating') }} of 5</span> --}}
+                                    </div>
+                                    <div class="dropdown">
+                                        <a class="text-muted fw-semibold d-flex align-items-center p-1" href="javascript:void(0)" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="ti ti-dots-vertical"></i>
+                                        </a>
+                                        <ul class="dropdown-menu overflow-hidden">
+                                            <li>
+                                                <a class="dropdown-item" href="javascript:void(0)">Ip docmowe vemremrif.jpg</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-
-
                 @endforeach
-                @else
+            @else
                 <div class="text-center mt-5">
-                    {{-- <img src="{{ asset('images/search-result-not-found.png') }}" alt="No Results" class="img-fluid mb-4" style="max-width: 300px; height: auto;"> --}}
                     <h1 class="text-danger fw-bold">No product with this name</h1>
                     <p class="text-muted mb-2">Please try a different search term or check back later.</p>
                     <p class="text-muted">We searched over <strong>{{ $productCount }}</strong> products</p>
                 </div>
+            @endif
 
-                            @endif
             </div>
         </div>
     </div>
     </div>
-    {{-- <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript"></script> --}}
+    <script>
+
+    function confirmDelete(event) {
+        event.preventDefault(); // Prevent the default form submission
+        const confirmed = confirm("Are you sure you want to delete this product?");
+        if (confirmed) {
+            event.target.closest('form').submit(); // Submit the form if confirmed
+        }
+    }
+
+    </script>
+
+
 @endsection
 
