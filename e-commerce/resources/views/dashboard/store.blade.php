@@ -172,8 +172,8 @@ margin-left: 30px!important;
                         class="d-flex align-items-center justify-content-around m-4"
                     >
                         <div class="text-center">
-                            <i class="fa fa-file fs-6 d-block mb-2"></i>
-                            <h4 class="mb-0 fw-semibold lh-1">938</h4>
+                            <i class="fa fa-shopping-cart fs-6 d-block mb-2"></i>
+                            <h4 class="mb-0 fw-semibold lh-1">{{ $countOfSoldProduct }}</h4>
                             <p class="mb-0 fs-4">sold products</p>
                         </div>
                         <div class="text-center">
@@ -183,7 +183,7 @@ margin-left: 30px!important;
                         </div>
                         <div class="text-center">
                             <i class="fa fa-star fs-6 d-block mb-2"></i>
-<h4 class="mb-0 fw-semibold lh-1">{{ $sellerInfo->rating }}</h4>
+                                <h4 class="mb-0 fw-semibold lh-1">{{ $sellerInfo->rating }}</h4>
                             <p class="mb-0 fs-4">rating</p>
                         </div>
                     </div>
@@ -377,6 +377,7 @@ margin-left: 30px!important;
                     >
                 </h3>
                 <form method="POST" action="{{ route('searchAboutProduct') }}" class="position-relative" style="display: flex; gap:10px">
+                    <a  href="{{ route('createProduct') }}" class="btn btn-icon btn-round btn-primary" ><i class="fas fa-plus"></i></a>
                     @csrf
                     <input
                         type="text"

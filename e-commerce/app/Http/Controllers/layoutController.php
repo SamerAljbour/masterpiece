@@ -8,7 +8,7 @@ use App\Models\VariantOption;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class VariantOptionController extends Controller
+class layoutController extends Controller
 {
     /**
      * Display a listing of the resource.

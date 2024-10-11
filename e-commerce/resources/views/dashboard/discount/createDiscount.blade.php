@@ -42,7 +42,7 @@
     class="form-control"
     id="discount_amount"
     placeholder="Discount amount"
-    value="{{ $discountCoupon->discount_amount }}"
+    value=""
     pattern="\d+(\.\d{1,2})?"
     title="Please enter a valid decimal amount (e.g., 10.00)"
 />

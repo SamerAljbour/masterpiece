@@ -27,7 +27,7 @@ return new class extends Migration
                 'Jerash',
                 'Mafraq',
                 'Salt',
-                'Karak',
+
             ])->nullable();
             $table->text('store_description')->nullable();
             $table->text("store_thumbnail")->nullable();

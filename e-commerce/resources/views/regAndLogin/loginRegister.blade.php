@@ -1,157 +1,331 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script
-      src="https://kit.fontawesome.com/64d58efce2.js"
-      crossorigin="anonymous"
-    ></script>
-    <link rel="stylesheet" href="{{ asset('assets/css/loginReg.css') }}" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ECoi6ZVpu19Qy15Q9MvwmZzdbxg+we6DoY+6z1kr4Uw5lD4bLgAjbF43Jlf+qS+X" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMEN - Login/Register</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #c87065;
+            --primary-hover: #b15a4f;
+            --background-light: #f8f9fa;
+        }
 
-    <title>Sign in & Sign up Form</title>
-  </head>
-  <body>
-    <div class="container">
-      <div class="forms-container">
-        <div class="signin-signup">
-          <form action="{{ route('login') }}" method="POST" class="sign-in-form">
-            @csrf
-            <h2 class="title">Sign in</h2>
-            <div class="input-field">
-              <i class="fas fa-user"></i>
-              <input type="text" placeholder="email" name="email"/>
-            </div>
-            <div class="input-field">
-              <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Password" name="password"/>
-            </div>
-            <input type="submit" value="Login" class="btn solid" />
-            <p class="social-text">Or Sign in with social platforms become a <a href="{{ route('loginRegisterSeller') }}">become a seller</a></p>
-            <div class="social-media">
-              <a href="#" class="social-icon">
-                <i class="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" class="social-icon">
-                <i class="fab fa-twitter"></i>
-              </a>
-              <a href="#" class="social-icon">
-                <i class="fab fa-google"></i>
-              </a>
-              <a href="#" class="social-icon">
-                <i class="fab fa-linkedin-in"></i>
-              </a>
-            </div>
-          </form>
+        body {
+            background-color: var(--background-light);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-          <form action="{{ route('storeNeweUser') }}" method="POST" class="sign-up-form" enctype="multipart/form-data">
-              @csrf
-              <h2 class="title">Sign up</h2>
+        .auth-container {
+            width: 100%;
+            max-width: 450px;
+            margin: 20px;
+            position: relative;
+        }
 
-            <div class="input-field">
-              <i class="fas fa-user"></i>
-              <input type="text" placeholder="name" name="name"/>
+        .auth-box {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .auth-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .auth-header i {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .auth-header h2 {
+            margin: 0;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .auth-body {
+            padding: 40px;
+        }
+
+        .nav-pills {
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .nav-pills .nav-link {
+            color: #666;
+            border-radius: 50px;
+            padding: 10px 30px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-pills .nav-link i {
+            margin-right: 8px;
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .form-floating {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-control {
+            border-radius: 50px;
+            padding: 12px 20px 12px 50px;
+            height: auto;
+            border: 2px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(200,112,101,0.25);
+        }
+
+        .form-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+            z-index: 2;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            border-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary i {
+            margin-right: 8px;
+        }
+
+        .image-upload {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .image-upload-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #eee;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .image-upload-label:hover {
+            border-color: var(--primary-color);
+        }
+
+        .image-upload-label i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .image-preview {
+            max-width: 100px;
+            max-height: 100px;
+            margin-top: 10px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .social-login {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .social-login p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons .facebook {
+            background: #3b5998;
+        }
+
+        .social-icons .google {
+            background: #db4437;
+        }
+
+        .social-icons .twitter {
+            background: #1da1f2;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .forgot-password a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-pane {
+            animation: fadeIn 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-box animate__animated animate__fadeInUp">
+            <div class="auth-header">
+                <i class="fas fa-couch"></i>
+                <h2>Welcome to SIMEN</h2>
             </div>
-            <div class="input-field">
-              <i class="fas fa-envelope"></i>
-              <input type="email" placeholder="Email" name="email"/>
+            <div class="auth-body">
+                <ul class="nav nav-pills" id="authTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="login-tab" data-bs-toggle="pill" data-bs-target="#login" type="button" role="tab">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="register-tab" data-bs-toggle="pill" data-bs-target="#register" type="button" role="tab">
+                            <i class="fas fa-user-plus"></i> Register
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="authTabContent">
+                    <div class="tab-pane fade show active" id="login" role="tabpanel">
+                        <form action="{{ route('login') }}" method="POST">
+                            @csrf
+                            <div class="form-floating">
+
+                                <input type="email" class="form-control" id="loginEmail" name="email" placeholder="name@example.com">
+                                <label for="loginEmail"> Email address</label>
+                            </div>
+                            <div class="form-floating">
+
+                                <input type="password" class="form-control" id="loginPassword" name="password" placeholder="Password">
+                                <label for="loginPassword"> Password</label>
+                            </div>
+                            <div class="forgot-password">
+                                <a href="#"><i class="fas fa-key"></i> Forgot Password?</a>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-sign-in-alt"></i> Sign In
+                            </button>
+                        </form>
+                        <div class="social-login">
+                            <p><i class="fas fa-share-alt"></i> Or login with</p>
+                            <div class="social-icons">
+                                <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="google"><i class="fab fa-google"></i></a>
+                                <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="register" role="tabpanel">
+                        <form action="">
+                            <div class="form-floating">
+
+                                <input type="text" class="form-control" id="registerName" placeholder="John Doe">
+                                <label for="registerName">   Full Name</label>
+                            </div>
+                            <div class="form-floating">
+
+                                <input type="email" class="form-control" id="registerEmail" placeholder="name@example.com">
+                                <label for="registerEmail">Email address</label>
+                            </div>
+                            <div class="form-floating">
+
+                                <input type="password" class="form-control" id="registerPassword" placeholder="Password">
+                                <label for="registerPassword">Password</label>
+                            </div>
+                            <div class="image-upload">
+                                <label for="profileImage" class="image-upload-label">
+                                    <div class="text-center">
+
+                                        <p class="mb-0">Click to upload profile image</p>
+                                    </div>
+                                </label>
+                                <input type="file" id="profileImage" class="d-none" accept="image/*" onchange="previewImage(this)">
+                                <img id="imagePreview" class="image-preview mx-auto d-block" alt="Profile preview">
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-user-plus"></i> Create Account
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="input-field">
-              <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Password"name="password" />
-            </div>
-            <div class="input-field">
-              <i class="fas fa-image"></i>
-              <input type="file" name="user_image" />
-            </div>
-            <input type="hidden" name="role_id" value="1">
-            <input type="submit" class="btn" value="Sign up" />
-            <p class="social-text">Or Sign up with social platforms</p>
-            <div class="social-media">
-              <a href="#" class="social-icon">
-                <i class="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" class="social-icon">
-                <i class="fab fa-twitter"></i>
-              </a>
-              <a href="#" class="social-icon">
-                <i class="fab fa-google"></i>
-              </a>
-              <a href="#" class="social-icon">
-                <i class="fab fa-linkedin-in"></i>
-              </a>
-            </div>
-          </form>
         </div>
-      </div>
-
-      <div class="panels-container">
-        <div class="panel left-panel">
-          <div class="content">
-            <h3>New here ?</h3>
-            <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
-              ex ratione. Aliquid!
-            </p>
-            <button class="btn transparent" id="sign-up-btn">Sign up</button>
-          </div>
-          <img src="img/log.svg" class="image" alt="" />
-        </div>
-        <div class="panel right-panel">
-          <div class="content">
-            <h3>One of us ?</h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-              laboriosam ad deleniti.
-            </p>
-            <button class="btn transparent" id="sign-in-btn">Sign in</button>
-          </div>
-          <img src="img/register.svg" class="image" alt="" />
-        </div>
-      </div>
     </div>
 
-    <script src="{{ asset('assets/js/loginReg.js') }}"></script>
-     <!-- SweetAlert for displaying messages -->
-     @if($errors->any())
-     <script>
-         Swal.fire({
-             icon: 'error',
-             title: 'Oops...',
-             html: '{!! implode("<br>", $errors->all()) !!}'
-         });
-     </script>
- @endif
-
- @if(session('successRegister'))
-     <script>
-         Swal.fire({
-             icon: 'success',
-             title: 'Success!',
-             text: '{{ session('successRegister') }}'
-         });
-     </script>
- @endif
-
- @if(session('failedRegister'))
-     <script>
-         Swal.fire({
-             icon: 'error',
-             title: 'Registration Failed',
-             text: '{{ session('failedRegister') }}'
-         });
-     </script>
- @endif
- @if(session('failedLogin'))
-     <script>
-         Swal.fire({
-             icon: 'error',
-             title: 'Registration Failed',
-             text: '{{ session('failedLogin') }}'
-         });
-     </script>
- @endif
-  </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function previewImage(input) {
+            const preview = document.getElementById('imagePreview');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+</body>
 </html>

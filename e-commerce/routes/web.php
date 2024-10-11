@@ -10,6 +10,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\layoutController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductListController;
 use App\Http\Controllers\ReviewController;
@@ -140,14 +141,15 @@ Route::get('test', function () {
 //     return view('regAndLogin/loginRegister');
 // })->name('loginRegister');
 
-// <=================================  register for user ============================================>
+// <=================================  register  ============================================>
 Route::get('/loginRegister', [UserController::class, 'viewReg'])->name('loginRegister');
 Route::post('/loginRegister', [UserController::class, 'register'])->name('storeNeweUser');
 Route::post('/loginRegister/login', [UserController::class, 'login'])->name('login');
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 Route::get('/loginRegisterSeller', [UserController::class, 'viewSellerReg'])->name('loginRegisterSeller');
 // Route::post('/loginRegisterSeller', [UserController::class, 'register'])->name('storeNeweUser');
-// <================================= End of register for user ============================================>
+
+// <================================= End of register  ============================================>
 Route::get('/viewPayment', [PaymentController::class, 'index'])->name('viewPayment');
 Route::post('/pay', [PaymentController::class, 'store'])->name('pay');
 
@@ -158,12 +160,14 @@ Route::post('/pay', [PaymentController::class, 'store'])->name('pay');
 
 
 // <================================= dashboard  ============================================>
-Route::get('/layout', [VariantOptionController::class, 'index'])->name('layout');
+Route::get('/layout', [layoutController::class, 'index'])->name('layout');
 
 
 // <================================= dashboard Home Seller  ============================================>
 Route::get('/sellerDashboard', [SellerController::class, 'homeSeller'])->name('sellerDashboard');
 Route::put('/updateStore', [SellerController::class, 'updateStoreInfo'])->name('updateStoreInfo');
+Route::get('/profile', [SellerController::class, 'showProfile'])->name('dashProfile');
+Route::put('/updateProfile', [UserController::class, 'updateProfile'])->name('updateProfile');
 
 
 

@@ -26,9 +26,6 @@
           <div class="card-header">
             <div class="d-flex align-items-center">
               <h4 class="card-title">Discounts</h4>
-              @if(!$discounts->isEmpty())
-
-
               <a
               href="{{ route('createDiscount') }}"
                 class="btn btn-black btn-round ms-auto"
@@ -36,6 +33,9 @@
                 <i class="fas fa-money-bill"></i>
                 Add discount
               </a>
+              @if(!$discounts->isEmpty())
+
+
               @endif
             </div>
           </div>
@@ -198,7 +198,7 @@
               </table>
               @else
                 <p class="no-discount-message">No discount codes available.</p>
-                {{-- @if(!$discounts->isEmpty())
+                @if(!$discounts->isEmpty())
 
 
               <a
@@ -207,8 +207,8 @@
               >
                 <i class="fas fa-money-bill"></i>
                 Add discount
-              </a> --}}
-              {{-- @endif --}}
+              </a>
+              @endif
                 @endif
             </div>
           </div>

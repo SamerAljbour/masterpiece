@@ -11,6 +11,8 @@ class PaymentHistory extends Model
     protected $fillable = [
         'cart_id',
         'user_id',
+        'seller_id',
+        'product_id',
         'amount',
     ];
 
@@ -21,5 +23,13 @@ class PaymentHistory extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function seller()
+    {
+        return $this->belongsTo(User::class, 'seller_id');
+    }
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
     }
 }

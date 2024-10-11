@@ -46,6 +46,7 @@ class DiscountCouponController extends Controller
         ]);
         $discount = new DiscountCoupon();
         $discount->code = $validateData['code'];
+        $discount->user_id = Auth::user()->id;
         $discount->discount_amount = $validateData['discount_amount'];
         $discount->valid_from = $validateData['valid_from'];
         $discount->valid_until = $validateData['valid_until'];

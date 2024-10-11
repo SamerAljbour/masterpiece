@@ -43,48 +43,73 @@ class PaymentController extends Controller
             'cvv' => 'required',
         ]);
 
+        // Fetch the user's cart
         $cart = Cart::where('user_id', Auth::user()->id)->first();
-        $recipe = new PaymentHistory;
-        $recipe->user_id = Auth::user()->id;
-        $recipe->cart_id = $cart->id;
-        $recipe->amount = $cart->total_amount;
-        // this to decrement the quantity after buying the products
-        $cartinfos = $cart->products()->whereNull('deleted_at')->get();
+        $cartProduct = CartProduct::withTrashed()->where('cart_id', $cart->id)->get();
 
-        foreach ($cartinfos as $cartinfo) {
-            ProductVariantCombination::where('product_id', $cartinfo->id)->decrement('stock', $cartinfo->pivot->quantity);
+        // Check if cart products are empty
+        if ($cartProduct->isEmpty()) {
+            return redirect()->back()->with('error', 'Your cart is empty.');
+        }
 
-            // here to check the product stock incase someone else bought the last quantity
-            $variant = ProductVariantCombination::where('product_id', $cartinfo->id)->first();
+        // Initialize total amount for the payment history
+        $totalAmount = 0;
+
+        // Iterate over the cart products
+        foreach ($cartProduct as $cartinfo) {
+            // Get the product variant and associated product
+            $variant = ProductVariantCombination::where('product_id', $cartinfo->product_id)->first();
+
+            // Ensure the product exists and has stock
             if (!$variant || $variant->stock == 0) {
                 CartProduct::where('cart_id', $cart->id)
-                    ->where('product_id', $cartinfo->id)
+                    ->where('product_id', $cartinfo->product_id)
                     ->delete();
-                return redirect()->back()->with('error', 'Out of stock we deleted the product');
+                return redirect()->back()->with('error', 'Out of stock. The product has been deleted.');
             }
-            // Check if desired quantity exceeds available stock
-            if ($cartinfo->pivot->quantity > $variant->stock) {
+
+            // Check if the requested quantity exceeds available stock
+            if ($cartinfo->quantity > $variant->stock) {
                 CartProduct::where('cart_id', $cart->id)
-                    ->where('product_id', $cartinfo->id)
+                    ->where('product_id', $cartinfo->product_id)
                     ->delete();
-                return redirect()->back()->with('error', 'Requested quantity exceeds available stock. we deleted the product');
+                return redirect()->back()->with('error', 'Requested quantity exceeds available stock. The product has been deleted.');
             }
-            Product::where('id', $cartinfo->id)->decrement('total_stock', $cartinfo->pivot->quantity);
+
+            // Decrement the stock for the purchased product variant
+            ProductVariantCombination::where('product_id', $cartinfo->product_id)
+                ->decrement('stock', $cartinfo->quantity);
+
+            // Calculate the amount for the current product
+            $amount = $cartinfo->quantity * $cartinfo->price;
+            $totalAmount += $amount;
+
+            // Get the product model to retrieve the seller ID
+            $product = Product::find($cartinfo->product_id);
+
+            // Create a new payment history record for each product
+            PaymentHistory::create([
+                'user_id' => Auth::user()->id,
+                'cart_id' => $cart->id,
+                'product_id' => $cartinfo->product_id, // Store the product ID
+                'amount' => $amount,
+                'seller_id' => $product->seller_id, // Store the seller ID
+            ]);
         }
-        // this a proccess for empty the cart and update the total amount
+
+        // Empty the cart
         CartProduct::where('cart_id', $cart->id)
             ->whereNull('deleted_at')
             ->delete();
-        $totalAmount = $cart->products()->whereNull('cart_product.deleted_at')->get()->sum(function ($product) {
-            return $product->pivot->quantity * $product->price;
-        });
+
+        // Update the total amount in the cart
         $cart->total_amount = $totalAmount;
-        $recipe->save();
         $cart->save();
-        // dd($cart);
 
         return redirect()->route('home'); // Change to your success route
     }
+
+
 
     /**
      * Display the specified resource.

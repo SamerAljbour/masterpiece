@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PaymentHistory;
 use App\Models\Product;
 use App\Models\Review;
 use App\Models\Seller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,8 +14,17 @@ class SellerController extends Controller
 {
     public function homeSeller(Seller $seller)
     {
-        $sellerInfo = Seller::where('user_id', Auth::user()->id)->first();
-        return view('dashboard.indexSeller', compact('sellerInfo'));
+        $sellerInfo = Seller::with('products')->where('user_id', Auth::user()->id)->first();
+
+        // get the id of the products in array
+        $productIds = $sellerInfo->products->pluck('id')->toArray();
+        $revenue = PaymentHistory::with('seller')
+            ->whereIn('product_id', $productIds) // Filter payment histories by product IDs
+            ->where('seller_id', $sellerInfo->id) // Ensure we're filtering for the specific seller
+            ->sum('amount');
+        // dd($revenue);
+
+        return view('dashboard.indexSeller', compact('sellerInfo', 'revenue'));
     }
     /**
      * Display a listing of the resource.
@@ -30,12 +41,18 @@ class SellerController extends Controller
         } else {
             $products = Product::with(["category", "seller", "reviews", "photos"])->where('seller_id', $sellerInfo->id)->get();
         }
-
-        // dd($products);
+        $countOfSoldProduct = PaymentHistory::where('user_id', Auth::user()->id)->count();
         $productCount = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerInfo->id)->count();
         // $products = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerId)->get();
         // dd($sellerInfo);
-        return view("dashboard.store", compact("products", "sellerInfo", "productCount"));
+        return view("dashboard.store", compact("products", "sellerInfo", "productCount", "countOfSoldProduct"));
+    }
+    public function showProfile()
+    {
+
+        $sellerInfo = User::with(['seller'])->where('id', Auth::user()->id)->first();
+        // dd($sellerInfo);
+        return view("dashboard.profile", compact("sellerInfo"));
     }
 
     /**

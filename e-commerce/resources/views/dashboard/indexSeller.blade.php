@@ -132,19 +132,16 @@
               <div class="col-sm-6 col-md-3">
                 <div class="card card-stats card-round">
                   <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-icon">
-                        <div
-                          class="icon-big text-center icon-success bubble-shadow-small"
-                        >
-                          <i class="fas fa-luggage-cart"></i>
+                    <div class="row">
+                      <div class="col-5">
+                        <div class="icon-big text-center">
+                          <i class="icon-wallet text-success"></i>
                         </div>
                       </div>
-                      <div class="col col-stats ms-3 ms-sm-0">
+                      <div class="col-7 col-stats">
                         <div class="numbers">
-                          <p class="card-category">Sales</p>
-                          <h4 class="card-title">$ 1,345</h4>
-                        </div>
+                          <p class="card-category">Revenue</p>
+                          <h4 class="card-title">JOD {{ number_format($revenue, 0) }}</h4>                        </div>
                       </div>
                     </div>
                   </div>
@@ -960,6 +957,13 @@
                 icon: 'success',
                 title: 'Success!',
                 text: "{{ session('success') }}",
+            });
+        @endif
+        @if(session('successRegister'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: "{{ session('successRegister') }}",
             });
         @endif
 

@@ -17,6 +17,7 @@ class CartController extends Controller
 {
     public function storeToCart(Request $request)
     {
+
         try {
             // Validate the request data
             $validator = Validator::make($request->all(), [
@@ -102,7 +103,7 @@ class CartController extends Controller
 
     public function storeToCartQua(Request $request)
     {
-
+        // dd($request->all());
         try {
             $products = Product::all();
             // Validate the request data

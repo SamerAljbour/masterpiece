@@ -110,6 +110,7 @@
                                     @if (Auth::user())
                                         <a class="top-link-login" title="Log In" href="{{ route('logout') }}">logout</a>
                                     @else
+                                    
                                     <a class="top-link-login" title="Log In" href=" {{ route('loginRegister') }}">Login</a>
                                     @endif
                                 </li>

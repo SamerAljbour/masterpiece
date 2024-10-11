@@ -79,4 +79,8 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class, 'role_id');
     }
+    public function soldProducts()
+    {
+        return $this->hasMany(Product::class, 'seller_id'); // Assuming your products have a seller_id field
+    }
 }

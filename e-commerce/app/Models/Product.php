@@ -53,4 +53,8 @@ class Product extends Model
         return $this->belongsToMany(Cart::class, 'cart_product')
             ->withPivot('quantity', 'price');
     }
+    public function paymentHistories()
+    {
+        return $this->hasMany(PaymentHistory::class, 'product_id');
+    }
 }
