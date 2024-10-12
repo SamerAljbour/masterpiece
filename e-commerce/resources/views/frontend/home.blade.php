@@ -3052,30 +3052,39 @@
                                             <div class="item-row col-md-4 col-sm-6 col-lg-3">
                                                 <h3>Best sale</h3>
                                                 <div class="item-content">
+                                                    @if ($bestSale->count() > 0)
+                                                    @foreach ($bestSale as $product)
                                                     <div class="item">
                                                         <div class="item-inner">
                                                              <div class="prd">
                                                                  <div class="item-img clearfix">
                                                                      <a class="product-image have-additional"
-                                                                        title="Modular Modern"
-                                                                        href="index3-detail.html">
+                                                                        title="{{ $product->name }}"
+                                                                        href="{{ route('productdetail' , $product->id) }}">
                                                                         <span class="img-main">
-                                                                       <img src="images/products/13.jpg" alt="">
+                                                                       <img src="{{ Storage::url($product->image_url) }}" alt="">
                                                                         </span>
                                                                      </a>
                                                                  </div>
                                                                  <div class="item-info">
                                                                      <div class="info-inner">
                                                                          <div class="item-title">
-                                                                             <a title="Modular Modern"
-                                                                                href="index3-detail.html">
-                                                                                 Modular Modern </a>
+                                                                             <a title="{{ route('productdetail' , $product->id) }}"
+                                                                                href="{{ route('productdetail' , $product->id) }}">
+                                                                                {{ $product->name }} </a>
                                                                          </div>
                                                                          <div class="item-price">
                                                                              <div class="price-box">
                                                                         <span class="regular-price">
                                                                             <span class="price">
-                                                                                <span class="price1">$ 540.00</span>
+                                                                                @if ($product->on_sale)
+
+                                                                                <span class="price1">{{ $product->price - ($product->price * $product->on_sale) }} JOD</span>
+                                                                                <span class="price2">{{ $product->price }} JOD</span>
+                                                                                @else
+                                                                                <span class="price1">{{ $product->price }}</span>
+
+                                                                                @endif
                                                                             </span>
                                                                         </span>
                                                                              </div>
@@ -3087,76 +3096,10 @@
                                                              </div>
                                                          </div>
                                                     </div>
-                                                    <div class="item">
-                                                        <div class="item-inner">
-                                                             <div class="prd">
-                                                                 <div class="item-img clearfix">
-                                                                     <a class="product-image have-additional"
-                                                                        title="Modular Modern"
-                                                                        href="index3-detail.html">
-                                                                        <span class="img-main">
-                                                                       <img src="images/products/14.jpg" alt="">
-                                                                        </span>
-                                                                     </a>
-                                                                 </div>
-                                                                 <div class="item-info">
-                                                                     <div class="info-inner">
-                                                                         <div class="item-title">
-                                                                             <a title="Modular Modern"
-                                                                                href="index3-detail.html">
-                                                                                 Modular Modern </a>
-                                                                         </div>
-                                                                         <div class="item-price">
-                                                                             <div class="price-box">
-                                                                        <span class="regular-price">
-                                                                            <span class="price">
-                                                                                <span class="price1">$ 540.00</span>
-                                                                            </span>
-                                                                        </span>
-                                                                             </div>
-                                                                         </div>
-                                                                     </div>
-
-                                                                 </div>
-
-                                                             </div>
-                                                         </div>
-                                                    </div>
-                                                    <div class="item">
-                                                        <div class="item-inner">
-                                                             <div class="prd">
-                                                                 <div class="item-img clearfix">
-                                                                     <a class="product-image have-additional"
-                                                                        title="Modular Modern"
-                                                                        href="index3-detail.html">
-                                                                        <span class="img-main">
-                                                                       <img src="images/products/27.jpg" alt="">
-                                                                        </span>
-                                                                     </a>
-                                                                 </div>
-                                                                 <div class="item-info">
-                                                                     <div class="info-inner">
-                                                                         <div class="item-title">
-                                                                             <a title="Modular Modern"
-                                                                                href="index3-detail.html">
-                                                                                 Modular Modern </a>
-                                                                         </div>
-                                                                         <div class="item-price">
-                                                                             <div class="price-box">
-                                                                        <span class="regular-price">
-                                                                            <span class="price">
-                                                                                <span class="price1">$ 540.00</span>
-                                                                            </span>
-                                                                        </span>
-                                                                             </div>
-                                                                         </div>
-                                                                     </div>
-
-                                                                 </div>
-
-                                                             </div>
-                                                         </div>
-                                                    </div>
+                                                    @endforeach
+                                                    @else
+                                                    <p> no sold product </p>
+                                                    @endif
                                                 </div>
                                             </div>
 
@@ -3274,30 +3217,43 @@
                                             <div class="item-row col-md-4 col-sm-6 col-lg-3">
                                                 <h3>Top rate</h3>
                                                 <div class="item-content">
+                                                    @if ($topRated->count() > 0)
+
+
+                                                    @foreach ($topRated as $product)
+
+
                                                     <div class="item">
                                                         <div class="item-inner">
                                                              <div class="prd">
                                                                  <div class="item-img clearfix">
                                                                      <a class="product-image have-additional"
-                                                                        title="Modular Modern"
-                                                                        href="index3-detail.html">
+                                                                        title="{{ $product->name }}"
+                                                                        href="{{ route('productdetail' , $product->id) }}">
                                                                         <span class="img-main">
-                                                                       <img src="images/products/17.jpg" alt="">
+                                                                       <img src="{{ Storage::url( $product->image_url) }}" alt="">
                                                                         </span>
                                                                      </a>
                                                                  </div>
                                                                  <div class="item-info">
                                                                      <div class="info-inner">
                                                                          <div class="item-title">
-                                                                             <a title="Modular Modern"
-                                                                                href="index3-detail.html">
-                                                                                 Modular Modern </a>
+                                                                             <a title="{{ $product->name }}"
+                                                                                href="{{ route('productdetail'  , $product->id) }}">
+                                                                                 {{ $product->name }} </a>
                                                                          </div>
                                                                          <div class="item-price">
                                                                              <div class="price-box">
                                                                         <span class="regular-price">
                                                                             <span class="price">
-                                                                                <span class="price1">$ 540.00</span>
+                                                                                @if ($product->on_sale)
+
+                                                                                <span class="price1">{{ $product->price - ($product->price * $product->on_sale) }} JOD</span>
+                                                                                <span class="price2">{{ $product->price }} JOD</span>
+                                                                                @else
+                                                                                <span class="price1">{{ $product->price }}</span>
+
+                                                                                @endif
                                                                             </span>
                                                                         </span>
                                                                              </div>
@@ -3309,78 +3265,10 @@
                                                              </div>
                                                          </div>
                                                     </div>
-
-                                                     <div class="item">
-                                                        <div class="item-inner">
-                                                             <div class="prd">
-                                                                 <div class="item-img clearfix">
-                                                                     <a class="product-image have-additional"
-                                                                        title="Modular Modern"
-                                                                        href="index3-detail.html">
-                                                                        <span class="img-main">
-                                                                       <img src="images/products/18.jpg" alt="">
-                                                                        </span>
-                                                                     </a>
-                                                                 </div>
-                                                                 <div class="item-info">
-                                                                     <div class="info-inner">
-                                                                         <div class="item-title">
-                                                                             <a title="Modular Modern"
-                                                                                href="index3-detail.html">
-                                                                                 Modular Modern </a>
-                                                                         </div>
-                                                                         <div class="item-price">
-                                                                             <div class="price-box">
-                                                                        <span class="regular-price">
-                                                                            <span class="price">
-                                                                                <span class="price1">$ 540.00</span>
-                                                                            </span>
-                                                                        </span>
-                                                                             </div>
-                                                                         </div>
-                                                                     </div>
-
-
-                                                                 </div>
-
-                                                             </div>
-                                                         </div>
-                                                    </div>
-                                                    <div class="item">
-                                                        <div class="item-inner">
-                                                             <div class="prd">
-                                                                 <div class="item-img clearfix">
-                                                                     <a class="product-image have-additional"
-                                                                        title="Modular Modern"
-                                                                        href="index3-detail.html">
-                                                                        <span class="img-main">
-                                                                       <img src="images/products/29.jpg" alt="">
-                                                                        </span>
-                                                                     </a>
-                                                                 </div>
-                                                                 <div class="item-info">
-                                                                     <div class="info-inner">
-                                                                         <div class="item-title">
-                                                                             <a title="Modular Modern"
-                                                                                href="index3-detail.html">
-                                                                                 Modular Modern </a>
-                                                                         </div>
-                                                                         <div class="item-price">
-                                                                             <div class="price-box">
-                                                                        <span class="regular-price">
-                                                                            <span class="price">
-                                                                                <span class="price1">$ 540.00</span>
-                                                                            </span>
-                                                                        </span>
-                                                                             </div>
-                                                                         </div>
-                                                                     </div>
-
-                                                                 </div>
-
-                                                             </div>
-                                                         </div>
-                                                    </div>
+                                                    @endforeach
+                                                    @else
+                                                    <p> no product reviewed</p>
+                                                    @endif
                                                 </div>
                                             </div>
 

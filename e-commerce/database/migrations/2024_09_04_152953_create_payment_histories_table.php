@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('cart_id')->constrained('carts')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('seller_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('seller_id')->constrained('sellers')->onDelete('cascade'); // Change here
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->decimal('amount', 10, 2);
             $table->timestamps();

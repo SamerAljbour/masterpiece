@@ -85,8 +85,8 @@ class PaymentController extends Controller
             $totalAmount += $amount;
 
             // Get the product model to retrieve the seller ID
-            $product = Product::find($cartinfo->product_id);
-
+            $product = Product::with('seller')->find($cartinfo->product_id);
+            // dd($product->seller_id);
             // Create a new payment history record for each product
             PaymentHistory::create([
                 'user_id' => Auth::user()->id,
