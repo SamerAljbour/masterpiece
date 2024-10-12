@@ -1,8 +1,26 @@
 @extends('layout.mainTwo')
 @section('content')
 <style>
-
-
+.styled-button {
+    padding: 9px 20px 7px;
+    border: 1px solid #eaeaea;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    -webkit-transition: all 0.2s ease-out 0s;
+    transition: all 0.2s ease-out 0s;
+    color: #000; /* Default text color */
+    background-color: transparent; /* Default transparent background */
+    text-decoration: none; /* Remove underline */
+}
+.fa-remove:before, .fa-close:before, .fa-times:before{
+    content: "" !important;
+}
+.styled-button:hover {
+    background-color: #e34444; /* Red background on hover */
+    color: #fff; /* White text color on hover */
+    border-color: #e34444; /* Red border on hover */
+}
     .cart-header {
       border-bottom: 1px solid #eee;
       padding-bottom: 15px;
@@ -256,7 +274,7 @@
                             <input type="number" name="quantity" class="inputQua" value="{{ $product->pivot->quantity }}" min="1" id="quantityInput">
                             <button type="button" id="add" class="btn btn-quantity" onclick="changeQuantity(1)">+</button>
 
-                            <button type="submit" class="btn btn-update">Update</button>
+                            <button type="submit" class="styled-button"><span class="style-bd">update</span></button>
                         </form>
                     </td>
                     <td data-title="SUBTOTAL">
@@ -276,13 +294,14 @@
 
     <div class="row">
         <div class="col-md-4">
-            <a href="{{ route('home') }}" class="btn btn-default">CONTINUE SHOPPING</a>
+            <a href="{{ route('home') }}" class="styled-button">CONTINUE SHOPPING</a>
+
         </div>
         <div class="col-md-8 text-right">
             <form action="{{ route('clearCart') }}" method="POST" style="display: inline;">
                 @csrf
                 @method("DELETE")
-                <button type="submit" class="btn btn-default">CLEAR SHOPPING CART</button>
+                <button type="submit" class="styled-button">CLEAR SHOPPING CART</button>
             </form>
         </div>
     </div>
