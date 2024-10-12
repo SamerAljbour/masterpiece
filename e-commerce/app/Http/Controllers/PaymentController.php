@@ -45,10 +45,10 @@ class PaymentController extends Controller
 
         // Fetch the user's cart
         $cart = Cart::where('user_id', Auth::user()->id)->first();
-        $cartProduct = CartProduct::withTrashed()->where('cart_id', $cart->id)->get();
+        $cartProducts = CartProduct::where('cart_id', $cart->id)->whereNull('deleted_at')->get();
 
         // Check if cart products are empty
-        if ($cartProduct->isEmpty()) {
+        if ($cartProducts->isEmpty()) {
             return redirect()->back()->with('error', 'Your cart is empty.');
         }
 
@@ -56,23 +56,20 @@ class PaymentController extends Controller
         $totalAmount = 0;
 
         // Iterate over the cart products
-        foreach ($cartProduct as $cartinfo) {
+        foreach ($cartProducts as $cartinfo) {
             // Get the product variant and associated product
             $variant = ProductVariantCombination::where('product_id', $cartinfo->product_id)->first();
+            $product = Product::find($cartinfo->product_id);
 
             // Ensure the product exists and has stock
             if (!$variant || $variant->stock == 0) {
-                CartProduct::where('cart_id', $cart->id)
-                    ->where('product_id', $cartinfo->product_id)
-                    ->delete();
                 return redirect()->back()->with('error', 'Out of stock. The product has been deleted.');
             }
 
             // Check if the requested quantity exceeds available stock
             if ($cartinfo->quantity > $variant->stock) {
-                CartProduct::where('cart_id', $cart->id)
-                    ->where('product_id', $cartinfo->product_id)
-                    ->delete();
+                // Optionally, you can remove the item from the cart here
+                // $cartinfo->delete();
                 return redirect()->back()->with('error', 'Requested quantity exceeds available stock. The product has been deleted.');
             }
 
@@ -86,7 +83,7 @@ class PaymentController extends Controller
 
             // Get the product model to retrieve the seller ID
             $product = Product::with('seller')->find($cartinfo->product_id);
-            // dd($product->seller_id);
+
             // Create a new payment history record for each product
             PaymentHistory::create([
                 'user_id' => Auth::user()->id,
@@ -95,6 +92,9 @@ class PaymentController extends Controller
                 'amount' => $amount,
                 'seller_id' => $product->seller_id, // Store the seller ID
             ]);
+
+            // Decrement the stock for the main Product model
+            Product::where('id', $cartinfo->product_id)->decrement('total_stock', $cartinfo->quantity);
         }
 
         // Empty the cart
@@ -108,7 +108,6 @@ class PaymentController extends Controller
 
         return redirect()->route('home'); // Change to your success route
     }
-
 
 
     /**
