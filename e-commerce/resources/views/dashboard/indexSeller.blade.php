@@ -56,6 +56,27 @@
                                   >
                                 </textarea>
                             </div>
+                          <div style="">
+
+                                <div class="form-group">
+                                    <label for="comment"> Store location</label>
+                                    <select class="form-select" name="store_location" id="location">
+                                      <option value="" disabled selected>Select location</option>
+                                      <option value="Amman">Amman</option>
+                                      <option value="Irbid">Irbid</option>
+                                      <option value="Zarqa">Zarqa</option>
+                                      <option value="Aqaba">Aqaba</option>
+                                      <option value="Ma’an">Ma’an</option>
+                                      <option value="Karak">Karak</option>
+                                      <option value="Tafileh">Tafileh</option>
+                                      <option value="Ajloun">Ajloun</option>
+                                      <option value="Jerash">Jerash</option>
+                                      <option value="Mafraq">Mafraq</option>
+                                      <option value="Salt">Salt</option>
+                                  </select>
+                            </div>
+
+
                             <div class="form-group">
                                 <label for="email2">Store thumbnail</label>
                                 <input
@@ -70,7 +91,7 @@
                         </div>
                        <div class="modal-footer">
                          {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
-                         <button type="submit" class="btn btn-primary">Save changes</button>
+                         <button type="submit" class="btn btn-secondary rounded-5">Save changes</button>
                        </div>
                      </div>
                    </div>
@@ -140,8 +161,8 @@
                       </div>
                       <div class="col-7 col-stats">
                         <div class="numbers">
-                          <p class="card-category">Revenue</p>
-                          <h4 class="card-title">JOD {{ number_format($revenue, 0) }}</h4>                        </div>
+                          <p class="card-category">Total Sales</p>
+                          <h4 class="card-title">JOD {{ number_format($totalSales, 0) }}</h4>                        </div>
                       </div>
                     </div>
                   </div>
@@ -196,7 +217,7 @@
                   </div>
                   <div class="card-body">
                     <div class="chart-container" style="min-height: 375px">
-                      <canvas id="statisticsChart"></canvas>
+            <canvas id="salesChart" style="height: 400px;"></canvas>
                     </div>
                     <div id="myChartLegend"></div>
                   </div>
@@ -919,12 +940,66 @@
 
 
     <script>
-        @if (!$sellerInfo->is_setup)
+         @if (!$sellerInfo->is_setup)
          window.onload = function() {
         var modal = new bootstrap.Modal(document.getElementById('largeModal'));
         modal.show();
     };
     @endif
+var salesChart = document.getElementById("salesChart").getContext("2d");
+
+var mySalesChart = new Chart(salesChart, {
+    type: "line",
+    data: {
+        labels: @json($labels),  // Use the labels from the controller
+        datasets: [
+            {
+                label: "Daily Sales",
+                borderColor: "#1d7af3",
+                pointBackgroundColor: "#1d7af3",
+                pointRadius: 4,
+                backgroundColor: "rgba(29, 122, 243, 0.2)",
+                fill: true,
+                borderWidth: 2,
+                data: @json($dailyData), // Daily sales data
+            },
+            {
+                label: "Weekly Sales",
+                borderColor: "#f39c12",
+                pointBackgroundColor: "#f39c12",
+                pointRadius: 4,
+                backgroundColor: "rgba(243, 156, 18, 0.2)",
+                fill: true,
+                borderWidth: 2,
+                data: @json($weeklyData), // Cumulative weekly sales data
+            },
+
+        ],
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+            display: true,
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+            },
+        },
+    },
+});
+
+// Generate HTML legend
+var myLegendContainer = document.getElementById("myChartLegend");
+myLegendContainer.innerHTML = mySalesChart.generateLegend();
+
+// Bind onClick event to all LI-tags of the legend
+var legendItems = myLegendContainer.getElementsByTagName("li");
+for (var i = 0; i < legendItems.length; i += 1) {
+    legendItems[i].addEventListener("click", legendClickCallback, false);
+}
+
       $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
         type: "line",
         height: "70",

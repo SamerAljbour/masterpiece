@@ -12,7 +12,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-
+            $table->decimal('on_sale', 3, 2)->nullable();
             $table->decimal('price', 10, 2);
             $table->integer('total_stock')->nullable();
             $table->foreignId('seller_id')->constrained(); // Ensure this table exists

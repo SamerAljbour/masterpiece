@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Review;
 use App\Models\Seller;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,18 +15,62 @@ class SellerController extends Controller
 {
     public function homeSeller(Seller $seller)
     {
+        // Fetch seller information
         $sellerInfo = Seller::with('products')->where('user_id', Auth::user()->id)->first();
 
-        // get the id of the products in array
+        // Get the IDs of the products belonging to the seller
         $productIds = $sellerInfo->products->pluck('id')->toArray();
-        $revenue = PaymentHistory::with('seller')
-            ->whereIn('product_id', $productIds) // Filter payment histories by product IDs
-            ->where('seller_id', $sellerInfo->id) // Ensure we're filtering for the specific seller
-            ->sum('amount');
-        // dd($revenue);
 
-        return view('dashboard.indexSeller', compact('sellerInfo', 'revenue'));
+        // Calculate total totalSales from the seller's products
+        $totalSales = PaymentHistory::whereIn('product_id', $productIds)
+            ->where('seller_id', $sellerInfo->id)
+            ->sum('amount');
+
+        // this for the chart
+        // Define the start date for daily sales
+        $startDate = Carbon::now()->subDays(7);
+
+        // Get daily sales data for the last 7 days
+        $dailySales = PaymentHistory::selectRaw('SUM(amount) as total, DATE(created_at) as date')
+            ->where('created_at', '>=', $startDate)
+            ->whereIn('product_id', $productIds)
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        // Prepare data for the chart
+        $labels = [];
+        $dailyData = [];
+        $weeklyData = []; // For storing weekly sales
+
+        // Initialize arrays for daily and weekly sales
+        for ($i = 0; $i < 7; $i++) {
+            $date = $startDate->copy()->addDays($i)->toDateString();
+            $labels[] = $date;
+
+            // Daily sales
+            $sale = $dailySales->where('date', $date)->first();
+            $dailyData[] = $sale ? $sale->total : 0; // If no sales, set to 0
+
+            // Calculate cumulative sales for the week up to the current day
+            $weeklyTotal = PaymentHistory::whereIn('product_id', $productIds)
+                ->where('created_at', '>=', Carbon::now()->subWeek()->startOfWeek()) // Weekly total from the start of the week
+                ->where('created_at', '<=', Carbon::now()->startOfWeek()->addDays($i)->endOfDay()) // Up to current date
+                ->sum('amount');
+
+            $weeklyData[] = $weeklyTotal; // Store cumulative weekly sales
+        }
+        // dd($sellerInfo);
+
+        return view('dashboard.indexSeller', compact(
+            'sellerInfo',
+            'totalSales',
+            'labels', // Labels for the chart
+            'dailyData', // Daily sales data for the chart
+            'weeklyData' // Weekly sales data for the chart
+        ));
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -116,6 +161,7 @@ class SellerController extends Controller
                 'store_name' => 'required',
                 'store_description' => 'required',
                 'store_thumbnail' => 'required|image', // Ensure this is a file input
+                'store_location' => 'required', // Ensure this is a file input
             ]);
 
             $path = null;
@@ -131,6 +177,7 @@ class SellerController extends Controller
                     'store_name' => $data['store_name'],
                     'store_description' => $data['store_description'],
                     'store_thumbnail' => $path,
+                    'location' => $data['store_location'],
                     'is_setup' => 1,
                 ]);
 

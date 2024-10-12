@@ -70,12 +70,12 @@
                 <textarea name="description" class="form-control" placeholder="Description of the product" rows="4"></textarea>
             </div>
             <div class="form-group">
-                <div >
-                    <div class="form-group">
                         <label for="price">Price</label>
                         <input name="price" type="number" class="form-control" placeholder="Enter Product price" />
-                    </div>
-                </div>
+            </div>
+            <div class="form-group">
+                        <label for="price">On sale</label>
+                        <input    id="onSale" name="on_sale" type="number" class="form-control" min="0.01" max="0.99"  step="0.01" placeholder="Enter The Amount Of The Sale ex: 0.25" />
             </div>
             <div class="form-group" style="width: 100%;">
                 <label for="category_id">Categories</label>
@@ -152,6 +152,29 @@
 </div>
 
 <script>
+    // this to the onsale input
+    const onSaleInput = document.getElementById('onSale');
+
+onSaleInput.addEventListener('input', function() {
+    // Use a regex to ensure input format of 0.xx
+    this.value = this.value.replace(/^(0\.\d{0,2})|^0\.|[^0-9.]/g, '$1');
+
+    // If the input is a valid number
+    let value = parseFloat(this.value);
+    if (!isNaN(value)) {
+        // Check if the value is less than the minimum
+        if (value < 0.01) {
+            this.value = '0.01'; // Set to minimum value
+        }
+        // Check if the value is greater than the maximum
+        else if (value > 0.99) {
+            this.value = '0.99'; // Set to maximum value
+        } else {
+            // Ensure value is displayed with two decimal places
+            this.value = value.toFixed(2);
+        }
+    }
+});
     var current ; // to pass it to the function add variant to add the needed variant
     function toggleVariantSection() {
         // let variance = document.getElementById('variance');

@@ -81,7 +81,7 @@
                                     <dt class="odd">Price</dt>
                                     <dd class="odd">
                                         <ol class="js-price">
-                                            <li><input type="number" id="amount-1" name="minPrice"   style="border:0; color:#666;"
+                                            <li><input type="number" id="amount-1" min="0" name="minPrice"   style="border:0; color:#666;"
                                                     value="" placeholder="Min"></li>
                                             <li><input type="number" id="amount-2" name="maxPrice" style="border:0; color:#666;"
                                                     value="" placeholder="Max"></li>
@@ -691,9 +691,12 @@
                                             <div class="item-inner product_list_style">
                                                 <div class="col-left">
                                                     <div class="item-img">
+                                                        @if ($product->on_sale)
+
                                                         <div class="ico-label">
                                                             <span class="ico-product ico-sale">Sale</span>
                                                         </div>
+                                                        @endif
                                                         <a class="product-image have-additional" title="Cfg Armani Black"
                                                             href="{{ route('productdetail', $product->id) }}">
                                                             <span class="img-main">
@@ -713,7 +716,10 @@
                                                             <span class="regular-price">
                                                                 <span class="price">
                                                                     <span class="price1"> {{ $product->price }} JOD</span>
-                                                                    <span class="price2">$ 600.00</span>
+                                                                    @if ($product->on_sale)
+
+                                                                    <span class="price2"> {{ $product->price -($product->price  *  $product->on_sale)}} JOD</span>
+                                                                    @endif
                                                                 </span>
                                                             </span>
                                                         </div>

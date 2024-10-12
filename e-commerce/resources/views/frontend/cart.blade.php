@@ -75,20 +75,27 @@
                                 <ul class="nav-mid clearfix" >
                                     <li class="image"><a href="#"><img src="{{ Storage::url($product->image_url) }}" width="122px" alt=""></a></li>
                                     <li class="item-title" ><a href="#">{{ $product->name }}</a></li>
-                                    <li class="icon1"> <form action="{{ route('updatecart' , $product->id) }}" method="POST">
+                                    <li class="icon1">
+                                        <form action="{{ route('updatecart' , $product->id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
 
                                         <input type="hidden" name="quantity" class="hiddenQuanitiy"  value="{{ $product->pivot->quantity }}">
                                         <button type="submit"><i class="btn-save fa fa-save"></i></button>
                                     </form></li>
-                                    <li class="price1">JD {{ $product->price }}</li>
+                                    @if ($product->on_sale )
+                                    <li class="price1">JD {{ $product->price - ($product->price * $product->on_sale) }} </li>
+
+                                    @else
+                                    <li class="price1">JD {{ $product->price }} a</li>
+
+                                    @endif
                                     <li class="number">
                                         <button onclick="subQua(event)" id="sub" class="btn btn-default btnQua"> -</button>
                                         <input type="number" value="{{ $product->pivot->quantity }}" class="inputQua">
                                         <button id="add" onclick="addQua(event)" class="btn btn-default btnQua"> + </button>
                                     </li>
-                                    <li class="price2">JD {{ $product->pivot->quantity *  $product->price  }}</li>
+                                    <li class="price2">JD {{ $product->pivot->quantity * ($product->price - ($product->price * $product->on_sale)) }}</li>
                                     <li class="icon2" >
 
 

@@ -37,10 +37,12 @@ class DiscountCouponController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         // Validate the request data
         $validateData = $request->validate([
             'code' => 'required|string|max:255', // Ensure code is required, is a string, and has a maximum length of 255 characters
             'discount_amount' => 'required|numeric|min:0', // Ensure discount_amount is required, is a number, and is non-negative
+            'with_on_sale' => 'required',
             'valid_from' => 'required|date|after_or_equal:today', // Ensure valid_from is required, is a valid date, and is today or in the future
             'valid_until' => 'required|date|after:valid_from', // Ensure valid_until is required, is a valid date, and is after valid_from
         ]);
@@ -48,6 +50,7 @@ class DiscountCouponController extends Controller
         $discount->code = $validateData['code'];
         $discount->user_id = Auth::user()->id;
         $discount->discount_amount = $validateData['discount_amount'];
+        $discount->with_on_sale = $validateData['with_on_sale'];
         $discount->valid_from = $validateData['valid_from'];
         $discount->valid_until = $validateData['valid_until'];
         $discount->is_active = 1; // means default is active
@@ -86,7 +89,8 @@ class DiscountCouponController extends Controller
         // Validate the request data
         $validateData = $request->validate([
             'code' => 'required|string|max:255', // Ensure code is required, is a string, and has a maximum length of 255 characters
-            'discount_amount' => 'required|numeric|min:0', // Ensure discount_amount is required, is a number, and is non-negative
+            'discount_amount' => 'required|numeric|min:0',
+            'with_on_sale' => 'required',
             'valid_from' => 'required|date|after_or_equal:today', // Ensure valid_from is required, is a valid date, and is today or in the future
             'valid_until' => 'required|date|after:valid_from', // Ensure valid_until is required, is a valid date, and is after valid_from
         ]);
@@ -96,6 +100,7 @@ class DiscountCouponController extends Controller
             $discount->discount_amount = $validateData['discount_amount'];
             $discount->valid_from = $validateData['valid_from'];
             $discount->valid_until = $validateData['valid_until'];
+            $discount->with_on_sale = $validateData['with_on_sale'];
             $discount->is_active = 1; // means default is active
             if ($discount->save()) {
                 $discount->updateActivity();

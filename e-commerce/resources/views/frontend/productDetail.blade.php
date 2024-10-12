@@ -85,7 +85,13 @@
                                                 <div class="item-price">
                                                     <div class="price-box">
                                                         <span class="regular-price">
-                                                            <span class="price">{{ $product->price }} JOD</span>
+                                                            @if ($product->on_sale)
+                                                            <span class="price">{{ $product->price - ($product->price * $product->on_sale) }} JOD</span>
+                                                            <span class="price2" style=" margin-left: 3px ;text-decoration: line-through;">{{ $product->price }} JOD</span>
+                                                            @else
+                                                            <span class="price">{{ $product->price - ($product->price * $product->onsale) }} JOD</span>
+
+                                                            @endif
                                                         </span>
                                                     </div>
                                                 </div>
@@ -131,7 +137,7 @@
                                                     <p class="mg-color">TYPE
                                                         <span>*</span>
                                                     </p>
-                                                    <select name="variant_id" id="variant_id" class="style-color" onchange="setvariant()">
+                                                    <select name="variant_id" id="variant_id" class="style-color"  onchange="setvariant()">
                                                         <option value="" > select Variant</option>
                                                         @foreach ($product->variants as $variant)
                                                             <option value="{{ $variant->id }}" {{ $variant->stock > 0 ? "" : "disabled" }} style='{{ $variant->stock > 0 ? "" : "color:red" }}'>
@@ -154,16 +160,32 @@
                                                         @csrf
                                                         <label class="gfont" for="qty">Qty : </label>
                                                         <div class="qty-container">
-                                                            <button class="qty-decrease" onclick="var qty_el = document.getElementById('qty'); var qty = qty_el.value; if( !isNaN( qty ) && qty > 1 ) qty_el.value--;return false;" type="button"></button>
-                                                            <input id="qty"name="quantity" class="input-text qty" type="text" title="Qty" value="1" name="qty">
-                                                            <button class="qty-increase" onclick="var qty_el = document.getElementById('qty'); var qty = qty_el.value; if( !isNaN( qty )) qty_el.value++;return false;" type="button">+</button>
-                                                        </div>                                                        <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
+                                                            <button class="qty-decrease"
+                                                                onclick="var qty_el = document.getElementById('qty'); var qty = qty_el.value; if( !isNaN( qty ) && qty > 1 ) qty_el.value--;return false;"
+                                                                type="button">-</button>
+
+                                                            <input id="qty" name="quantity" class="input-text qty" type="text" title="Qty" value="1" />
+
+                                                            <button class="qty-increase"
+                                                                onclick="var qty_el = document.getElementById('qty'); var qty = qty_el.value; if( !isNaN( qty )) qty_el.value++;return false;"
+                                                                type="button">+</button>
+                                                        </div>
+
+                                                        <input type="hidden" value="{{ Auth::user()->id }}" name="cart_id">
                                                         <input type="hidden" value="{{ $product->id }}" name="product_id">
-                                                        <input type="hidden" value="{{ $product->price }}" name="price">
-                                                        <input type="hidden" value="" name="variant_id" id="variant">
-                                                        <button class="btn-cart" title="Add to Cart"  type="submit">
+
+                                                        @if ($product->on_sale)
+                                                            <input type="hidden" value="{{ $product->price - ($product->price * $product->on_sale) }}" name="price">
+                                                        @else
+                                                            <input type="hidden" value="{{ $product->price }}" name="price">
+                                                        @endif
+
+                                                        <input type="hidden" value="" id="variant" name="variant_id"> <!-- Set to a default if not used -->
+
+                                                        <button class="btn-cart" title="Add to Cart" type="submit">
                                                             Add to Cart
                                                         </button>
+
                                                         <ul class="add-to-links">
                                                             <li>
                                                                 <a class="link-wishlist" data-original-title="Add to Wishlist"
@@ -186,6 +208,7 @@
                                                             </li>
                                                         </ul>
                                                     </form>
+
 
 
 
@@ -1574,9 +1597,10 @@
     function setvariant() {
     let selectInput = document.getElementById('variant_id');
     let selectedVariantId = selectInput.value;
+    // console.log(selectedVariantId)
     let hiddenInput = document.getElementById('variant');
     hiddenInput.value = selectedVariantId;
-    // console.log(selectedVariantId);
+    // console.log(hiddenInput.value);
 }
 
 

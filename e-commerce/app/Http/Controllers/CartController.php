@@ -110,7 +110,7 @@ class CartController extends Controller
             $validator = Validator::make($request->all(), [
                 'cart_id' => 'required|integer|exists:users,id',
                 'product_id' => 'required|integer|exists:products,id',
-                'variant_id' => 'required|exists:cart_product,id', // Ensure this matches your DB structure
+                'variant_id' => 'required|exists:product_variant_combinations,id', // Ensure this matches your DB structure
                 'quantity' => 'required|integer|min:1',
                 'price' => 'required|numeric|min:0',
             ]);
@@ -196,27 +196,34 @@ class CartController extends Controller
         }
         // dd($cartData);
         $totalCartPrice = Cart::where('user_id', Auth::user()->id)->first();
-
+        // dd($cartData);
         return view('frontend/cart', ['cart' => $cart, 'cartData' => $cartData, 'totalCartPrice' => $totalCartPrice]);
     }
 
-    // update cart quantity
+    // Update cart quantity
     public function updateCart(Request $request, string $productId)
     {
         // Retrieve the quantity from the request
         $quantity = $request->input('quantity');
-        // $cartId = Auth::user()->id;
 
-        // Find the cart
+        // Find the cart for the authenticated user
         $cart = Cart::where("user_id", Auth::user()->id)->first();
 
         if ($cart) {
             // Update the quantity of the product in the cart
             $cart->products()->updateExistingPivot($productId, ['quantity' => $quantity]);
 
-            // Recalculate the total amount
+            // Recalculate the total amount based on product pricing and any discounts
             $totalAmount = $cart->products->sum(function ($product) {
-                return $product->pivot->quantity * $product->price;
+                // Check if the product is on sale
+                if ($product->on_sale) {
+                    // Calculate the discounted price
+                    $price = $product->price - ($product->price * $product->on_sale);
+                } else {
+                    // Use the regular price
+                    $price = $product->price;
+                }
+                return $product->pivot->quantity * $price; // Calculate total for this product
             });
 
             // Update the cart's total amount
@@ -229,7 +236,7 @@ class CartController extends Controller
             ->wherePivotNull('deleted_at') // Ensure soft-deleted products are excluded
             ->get();
 
-        return redirect()->route('cart', Auth::user()->id)->with('successClear', "the data updated");
+        return redirect()->route('cart', Auth::user()->id)->with('successClear', "The data has been updated.");
     }
 
     // delete from cart

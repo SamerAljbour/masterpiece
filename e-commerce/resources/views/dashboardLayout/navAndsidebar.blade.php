@@ -14,6 +14,8 @@
   href="{{ asset('assets/img/kaiadmin/favicon.ico') }}"
   type="image/x-icon"
 />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Load Chart.js -->
+
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMcZ6ZKKjCz3WXABHgPfcu7z5aGA4m1ZZkFfgzL" crossorigin="anonymous">
 
@@ -49,7 +51,9 @@
 <link rel="stylesheet" href="assets/css/plugins.min.css" />
 <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
 <link rel="stylesheet" href="css/app.css">
-
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+{{-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script> --}}
+{{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script> --}}
 <!-- CSS Just for demo purpose, don't include it in your project -->
 <link rel="stylesheet" href="assets/css/demo.css" />
 
@@ -792,7 +796,6 @@
 
 <!-- Chart JS -->
 <script src="{{ asset('assets/js/plugin/chart.js/chart.min.js') }}"></script>
-
 <!-- jQuery Sparkline -->
 <script src="{{ asset('assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js') }}"></script>
 

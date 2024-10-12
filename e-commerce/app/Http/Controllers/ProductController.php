@@ -70,6 +70,7 @@ class ProductController extends Controller
             'flavor.*' => 'string|max:255',
             'material' => 'nullable|array',
             'material.*' => 'string|max:255',
+            'on_sale' => 'nullable|numeric|min:0.01|max:0.99',
         ]);
         // dd($data);
 
@@ -88,6 +89,7 @@ class ProductController extends Controller
         $product->price = $data['price'];
         $product->category_id = $data['category_id'];
         $product->seller_id = $storeId->id;
+        $product->on_sale = $data['on_sale'];
         // dd($product->seller_id);
         $product->image_url = $mainImagePath;
         $product->save();

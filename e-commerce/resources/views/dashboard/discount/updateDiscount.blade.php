@@ -12,15 +12,7 @@
 }
 </style>
 <div class="container">
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+
 <form action="{{ route('updateDiscount' , $discountCoupon->id) }}" method="POST">
     @csrf
     @method('PUT')
@@ -76,7 +68,21 @@
 
               />
             </div>
+            <div class="form-group">
+                <input
 
+                    onchange="toggleCheckbox()"
+                    type="checkbox"
+                    class="form-check-input"
+                    id="with_on_sale"
+                    {{ $discountCoupon->with_on_sale ? "checked" : "" }}
+                    value=""
+                />
+                <input type="hidden" name="with_on_sale" value="0" id="passedValue">
+                <label style="margin-left: 7px" class="form-check-label" for="with_on_sale">
+                    Do you want this discount to be used with products that have sales?
+                </label>
+            </div>
             <div class="form-group" id="btnLeft">
             <button
 
@@ -94,6 +100,20 @@
 </form>
 </div>
 <script>
+     function toggleCheckbox() {
+    let checkbox = document.getElementById('with_on_sale');
+    let passedValue = document.getElementById('passedValue');
+
+    // If the checkbox is checked, set hidden input value to 1, otherwise 0
+    if (checkbox.checked) {
+        passedValue.value = 1;
+    } else {
+        passedValue.value = 0;
+    }
+
+    // Optional: Log the value for debugging
+    console.log(passedValue.value);
+}
      function updateValidUntilMin() {
         // Get the value of the valid_from date
         let validFromDate = document.getElementById('valid_from').value;
