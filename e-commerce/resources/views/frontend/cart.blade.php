@@ -71,7 +71,19 @@
 
                                 @if (count($cartData) )
                                 @foreach ($cartData as $product)
+                                @if ($product->on_sale)
+                                @if ($product->on_sale)
+                                <script>
+                                    window.onload = function() {
+                                        var isOnSale = document.getElementById('isOnSale');
+                                        if (isOnSale) {
+                                            isOnSale.value = 1;
+                                        }
 
+                                    };
+                                </script>
+                            @endif
+                                @endif
                                 <ul class="nav-mid clearfix" >
                                     <li class="image"><a href="#"><img src="{{ Storage::url($product->image_url) }}" width="122px" alt=""></a></li>
                                     <li class="item-title" ><a href="#">{{ $product->name }}</a></li>
@@ -182,23 +194,11 @@
                                         @method("POST")
                                         @csrf
                                         <div class="form-bd">
-                                            @if (session('error'))
-                                                <div class="alert alert-danger">
-                                                    <ul>
-                                                        {{ session('error') }}
-                                                    </ul>
-                                                </div>
-                                            @endif
-                                            @if (session('successapply'))
-                                                <div class="alert alert-success">
-                                                    <ul>
-                                                        {{ session('successapply') }}
-                                                    </ul>
-                                                </div>
-                                            @endif
-                                                                                        <h3>DISCOUNT CODES</h3>
+
+                                                <h3>DISCOUNT CODES</h3>
                                             <p class="formbd2">Enter your coupon code if you have one.</p>
                                             <input class="styleip" type="text" name="discountCopon"  value="" size="30" />
+                                            <input class="styleip" type="hidden" name="on_sale" id="isOnSale"  value="0" size="30" />
                                             <button type="submit" class="style-bd">Apply coupon</button>
                                         </div>
                                     </form>
@@ -277,5 +277,7 @@
                     </div>
                 </div>
             </div>
+            <script>
 
+            </script>
             @endsection

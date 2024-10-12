@@ -11,7 +11,7 @@ class ProductListController extends Controller
 {
     public function index(Request $request)
     {
-        $products = Product::with(['category', 'reviews', 'variants'])->paginate(10);
+        // $products = Product::with(['category', 'reviews', 'variants'])->paginate(10);
         $categories = Category::withCount('products')->get();
         $request->validate([
             'categories' => 'array',
@@ -19,6 +19,7 @@ class ProductListController extends Controller
         ]);
         $minPrice = $request->input('minPrice', 0); // Default to 0 if not set
         $maxPrice = $request->input('maxPrice', 99999999); // Set a high default for maximum price
+        $location = $request->input('location', "");
         // Access selected categories
         $selectedCategories = $request->input('categories', []);
         $show = $request->input('show');
@@ -30,7 +31,7 @@ class ProductListController extends Controller
         }
         $sortBy = $request->input('sortBy', '');
         // Retrieve products that based on  to the selected categories or price
-        $products = Product::when($selectedCategories, function ($query) use ($selectedCategories) { // use allow the function to use the selectedCategories
+        $products = Product::with('seller')->when($selectedCategories, function ($query) use ($selectedCategories) {
             return $query->whereIn('category_id', $selectedCategories);
         })
             ->when($minPrice, function ($query) use ($minPrice) {
@@ -38,6 +39,12 @@ class ProductListController extends Controller
             })
             ->when($maxPrice, function ($query) use ($maxPrice) {
                 return $query->where('price', '<=', $maxPrice);
+            })
+            ->when($location, function ($query) use ($location) {
+                // this to filter the product model based on the location of the seller
+                return $query->whereHas('seller', function ($query) use ($location) {
+                    return $query->where('location', '=', $location);
+                });
             });
         if ($sortBy == 'Price asc') {
             $products = $products->orderBy('price', 'asc');

@@ -89,55 +89,33 @@
                                         </ol>
                                         {{-- <div id="slider-range"></div> --}}
                                     </dd>
-                                    <button type="submit" class="btn-filter">Filter Products</button>
-                                </form>
 
                                     <dt class="last odd">Location</dt>
                                     <dd class="last odd color-img">
                                         <ol class="configurable-swatch-list last-child">
-                                            <li style="line-height: 19px;">
-                                                <a class="swatch-link has-image" href="#">
-                                                    <span class="swatch-label" style="height:15px; width:15px;">
-                                                        <img width="15" height="15" title="Red" alt="Red"
-                                                            src="images/shopby/color1.jpg">
-                                                        <span>Red</span>
-                                                    </span>
-                                                    <span class="count">(12)</span>
-                                                </a>
-                                            </li>
-                                            <li style="line-height: 19px;">
-                                                <a class="swatch-link has-image" href="#">
-                                                    <span class="swatch-label" style="height:15px; width:15px;">
-                                                        <img width="15" height="15" title="Yellow" alt="Yellow"
-                                                            src="images/shopby/color2.jpg">
-                                                        <span>Yellow</span>
-                                                    </span>
-                                                    <span class="count">(12)</span>
-                                                </a>
-                                            </li>
-                                            <li style="line-height: 19px;">
-                                                <a class="swatch-link has-image" href="#">
-                                                    <span class="swatch-label" style="height:15px; width:15px;">
-                                                        <img width="15" height="15" title="Blue" alt="Blue"
-                                                            src="images/shopby/color3.jpg">
-                                                        <span>Blue</span>
-                                                    </span>
-                                                    <span class="count">(12)</span>
-                                                </a>
-                                            </li>
-                                            <li style="line-height: 19px;">
-                                                <a class="swatch-link has-image" href="#">
-                                                    <span class="swatch-label" style="height:15px; width:15px;">
-                                                        <img width="15" height="15" title="Green" alt="Green"
-                                                            src="images/shopby/color4.jpg">
-                                                        <span>Green</span>
-                                                    </span>
-                                                    <span class="count">(12)</span>
-                                                </a>
-                                            </li>
+                                            <div class="form-group">
+                                                <label for="comment"></label>
+                                                <select class="form-select" style="width :100%" name="location" id="location">
+                                                  <option value="" disabled selected>Select location</option>
+                                                  <option value="Amman">Amman</option>
+                                                  <option value="Irbid">Irbid</option>
+                                                  <option value="Zarqa">Zarqa</option>
+                                                  <option value="Aqaba">Aqaba</option>
+                                                  <option value="Ma’an">Ma’an</option>
+                                                  <option value="Karak">Karak</option>
+                                                  <option value="Tafileh">Tafileh</option>
+                                                  <option value="Ajloun">Ajloun</option>
+                                                  <option value="Jerash">Jerash</option>
+                                                  <option value="Mafraq">Mafraq</option>
+                                                  <option value="Salt">Salt</option>
+                                              </select>
+                                        </div>
                                         </ol>
                                     </dd>
                                 </dl>
+                                <button type="submit" class="btn-filter">Filter Products</button>
+                            </form>
+
                             </div>
                         </div>
                         <div class="block block_cat">
