@@ -110,7 +110,7 @@
                                     @if (Auth::user())
                                         <a class="top-link-login" title="Log In" href="{{ route('logout') }}">logout</a>
                                     @else
-                                    
+
                                     <a class="top-link-login" title="Log In" href=" {{ route('loginRegister') }}">Login</a>
                                     @endif
                                 </li>
@@ -985,7 +985,7 @@
                                                         @endif
                                                         <span>
                                                         @if (Auth::user())
-                                                            1
+                                                            {{ $cartData->count() }}
                                                         @else
                                                             0
                                                         @endif

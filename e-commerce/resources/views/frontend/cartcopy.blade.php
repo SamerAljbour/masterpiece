@@ -1,172 +1,7 @@
 @extends('layout.mainTwo')
 @section('content')
+
 <style>
-
-
-    .cart-header {
-      border-bottom: 1px solid #eee;
-      padding-bottom: 15px;
-      margin-bottom: 30px;
-    }
-    .cart-header h2 {
-      font-size: 24px;
-      font-weight: 600;
-      margin: 0;
-    }
-    .cart-table {
-      width: 100%;
-      margin-bottom: 30px;
-      border-collapse: separate;
-      border-spacing: 0 15px;
-    }
-    .cart-table th {
-      background-color: #f9f9f9;
-      padding: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      font-size: 13px;
-      color: #666;
-    }
-    .cart-table td {
-      padding: 15px 12px;
-      vertical-align: middle;
-      background-color: #fff;
-      border-top: 1px solid #eee;
-      border-bottom: 1px solid #eee;
-    }
-    .cart-table tr:hover td {
-      background-color: #f9f9f9;
-    }
-    .product-image {
-      max-width: 80px;
-      height: auto;
-      margin-right: 15px;
-    }
-    .product-name {
-      font-weight: 500;
-    }
-    .quantity-input {
-      width: 50px;
-      text-align: center;
-      border: 1px solid #ddd;
-      padding: 5px;
-      border-radius: 3px;
-    }
-    .btn-quantity,
-    .btn-update {
-      background-color: #f0f0f0;
-      border: 1px solid #ddd;
-      padding: 5px 10px;
-      font-size: 12px;
-      margin: 0 2px;
-    }
-    .btn-remove {
-      color: #999;
-      background: none;
-      border: none;
-      font-size: 18px;
-      transition: color 0.3s ease;
-    }
-    .btn-remove:hover {
-      color: #d9534f;
-    }
-    .estimate-shipping,
-    .discount-codes {
-      background-color: #f9f9f9;
-      padding: 20px;
-      margin-top: 30px;
-      border-radius: 4px;
-    }
-    .estimate-shipping h4,
-    .discount-codes h4 {
-      margin-top: 0;
-      margin-bottom: 20px;
-      font-size: 18px;
-      font-weight: 600;
-    }
-    .cart-total {
-      background-color: #f9f9f9;
-      padding: 20px;
-      margin-top: 30px;
-      border-radius: 4px;
-    }
-    .cart-total h3 {
-      font-size: 22px;
-      font-weight: 600;
-      margin-top: 10px;
-    }
-    .btn-default {
-      background-color: #f0f0f0;
-      border-color: #ddd;
-      transition: all 0.3s ease;
-    }
-    .btn-default:hover {
-      background-color: #e0e0e0;
-    }
-    .btn-proceed {
-      background-color: #5cb85c;
-      color: white;
-      padding: 12px 20px;
-      border: none;
-      font-size: 16px;
-      font-weight: 600;
-      transition: background-color 0.3s ease;
-    }
-    .btn-proceed:hover {
-      background-color: #4cae4c;
-    }
-    @media (max-width: 767px) {
-      .container {
-        padding: 15px;
-      }
-      .cart-table,
-      .cart-table thead,
-      .cart-table tbody,
-      .cart-table th,
-      .cart-table td,
-      .cart-table tr {
-        display: block;
-      }
-      .cart-table thead tr {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
-      }
-      .cart-table tr {
-        border: 1px solid #ccc;
-        margin-bottom: 15px;
-      }
-      .cart-table td {
-        border: none;
-        position: relative;
-        padding-left: 50%;
-        text-align: left;
-      }
-      .cart-table td:before {
-        position: absolute;
-        top: 15px;
-        left: 12px;
-        width: 45%;
-        padding-right: 10px;
-        white-space: nowrap;
-        content: attr(data-title);
-        font-weight: bold;
-      }
-      .product-image {
-        max-width: 100%;
-        margin-bottom: 10px;
-      }
-      .quantity-input {
-        width: 60px;
-      }
-      .btn-quantity,
-      .btn-update,
-      .btn-remove {
-        margin-top: 5px;
-      }
-    }
-
-
     .checkout-btn {
     background-color: transparent;
     border: 0;
@@ -223,87 +58,100 @@
                                 <h3>SHOPPING CART</h3>
                                 <h4 class="style">PROCEED TO CHECKOUT</h4>
                             </div>
-                            @if (count($cartData))
-    <table class="cart-table">
-        <thead>
-            <tr>
-                <th>PRODUCT NAME</th>
-                <th>UNIT PRICE</th>
-                <th>QTY</th>
-                <th>SUBTOTAL</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($cartData as $product)
-                <tr>
-                    <td data-title="PRODUCT NAME">
-                        <img src="{{ Storage::url($product->image_url) }}" alt="Product" class="product-image" width="80" height="80">
-                        <span class="product-name">{{ $product->name }}</span>
-                    </td>
-                    <td data-title="UNIT PRICE">
-                        @if ($product->on_sale)
-                            JD {{ number_format($product->price - ($product->price * $product->on_sale), 2) }}
-                        @else
-                            JD {{ number_format($product->price, 2) }}
-                        @endif
-                    </td>
-                    <td data-title="QTY">
-                        <form action="{{ route('updatecart', $product->id) }}" method="POST">
-                            @csrf
-                            @method('PUT')
-                            <button type="button" id="sub" class="btn btn-quantity" onclick="changeQuantity(-1)">-</button>
-                            <input type="number" name="quantity" class="inputQua" value="{{ $product->pivot->quantity }}" min="1" id="quantityInput">
-                            <button type="button" id="add" class="btn btn-quantity" onclick="changeQuantity(1)">+</button>
-
-                            <button type="submit" class="btn btn-update">Update</button>
-                        </form>
-                    </td>
-                    <td data-title="SUBTOTAL">
-                        JD {{ number_format($product->pivot->quantity * ($product->price - ($product->price * $product->on_sale)), 2) }}
-                    </td>
-                    <td>
-                        <form action="{{ route('deleteFromCart', $product->id) }}" method="POST">
-                            @csrf
-                            @method('PUT')
-                            <button type="submit" class="btn-remove"><i class="fas fa-times"></i></button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-    <div class="row">
-        <div class="col-md-4">
-            <a href="{{ route('home') }}" class="btn btn-default">CONTINUE SHOPPING</a>
-        </div>
-        <div class="col-md-8 text-right">
-            <form action="{{ route('clearCart') }}" method="POST" style="display: inline;">
-                @csrf
-                @method("DELETE")
-                <button type="submit" class="btn btn-default">CLEAR SHOPPING CART</button>
-            </form>
-        </div>
-    </div>
-@else
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 text-center" style="margin-top: 50px;">
-                <img src="{{ asset('images/empty-cart.png') }}" alt="Empty Cart" class="img-responsive center-block" style="width: 150px; height: auto; margin-bottom: 20px;">
-                <p class="text-danger" style="font-size: 18px;">No items in the cart.</p>
-            </div>
-        </div>
-    </div>
-@endif
                             <div class="content col-md-12">
+                                <ul class="title clearfix">
+                                    <li class="text1"><a href="#">PRODUCT NAME</a></li>
+                                    <li class="text2"><a href="#">UNIT PRICE</a></li>
+                                    <li class="text2"><a href="#">QTY</a></li>
+                                    <li class="text2"><a href="#">SUB TOTAL</a></li>
+                                </ul>
 
 
 
 
+                                @if (count($cartData) )
+                                @foreach ($cartData as $product)
+                                @if ($product->on_sale)
+                                @if ($product->on_sale)
+                                <script>
+                                    window.onload = function() {
+                                        var isOnSale = document.getElementById('isOnSale');
+                                        if (isOnSale) {
+                                            isOnSale.value = 1;
+                                        }
+
+                                    };
+                                </script>
+                            @endif
+                                @endif
+                                <ul class="nav-mid clearfix" >
+                                    <li class="image"><a href="#"><img src="{{ Storage::url($product->image_url) }}" width="122px" alt=""></a></li>
+                                    <li class="item-title" ><a href="#">{{ $product->name }}</a></li>
+                                    <li class="icon1">
+                                        <form action="{{ route('updatecart' , $product->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+
+                                        {{-- <input type="hidden" name="quantity" class="hiddenQuanitiy"  value="{{ $product->pivot->quantity }}"> --}}
+                                        <button type="submit"><i class="btn-save fa fa-save"></i></button>
+                                    </form></li>
+                                    @if ($product->on_sale )
+                                    <li class="price1">JD {{ $product->price - ($product->price * $product->on_sale) }} </li>
+
+                                    @else
+                                    <li class="price1">JD {{ $product->price }} a</li>
+
+                                    @endif
+                                    <li class="number">
+                                        {{-- <button onclick="subQua(event)" id="sub" class="btn btn-default btnQua"> -</button>
+                                        <input type="number" value="{{ $product->pivot->quantity }}" class="inputQua">
+                                        <button id="add" onclick="addQua(event)" class="btn btn-default btnQua"> + </button> --}}
+                                    </li>
+                                    <li class="price2">JD {{ $product->pivot->quantity * ($product->price - ($product->price * $product->on_sale)) }}</li>
+                                    <li class="icon2" >
 
 
+                                        <form action="{{ route('deleteFromCart' , $product->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
 
+                                            <input type="hidden" name="quantity" class="hiddenQuanitiy"  value="{{ $product->pivot->quantity }}">
+                                            <button type="submit"><i class="btn-remove fa fa-remove"></i></button>
+                                        </form>
+                                    </li>
+                                </ul>
+                                @endforeach
+                                @else
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-12 text-center" style="margin-top: 50px;">
+                                            <img src="{{ asset('images/empty-cart.png') }}" alt="Empty Cart" class="img-responsive center-block" style="width: 150px; height: auto; margin-bottom: 20px;">
+                                            <p class="text-danger" style="font-size: 18px;">No items in the cart.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @endif
+                                <ul class="nav-bot clearfix">
+                                    <li class="continue"><a href="{{ route('home') }}">Continue shopping</a></li>
+                                    <li class="clear">
+                                        <form action="{{ route('clearCart') }}" method="POST">
+                                            @csrf
+                                            @method("DELETE")
+
+                                            <button type="submit">clear shopping cart</button></li>
+
+                                        </form>
+                                    <li class="update">
+                                        <form action="" method="POST">
+                                            @method("PUT")
+                                            <input type="hidden" name="">
+                                            <input type="hidden" name="">
+                                            <input type="hidden" name="">
+                                            {{-- <button class="btn btn-cart" type="submit">update shopping cart</button> --}}
+                                        </form>
+                                    </li>
+                                </ul>
                                 <div class="row">
                                     <form class="col-md-4">
                                         <div class="form-bd">
@@ -430,29 +278,6 @@
                 </div>
             </div>
             <script>
-
-function changeQuantity(amount) {
-    const quantityInput = document.getElementById('quantityInput');
-    let currentQuantity = parseInt(quantityInput.value, 10); // Parse as integer with base 10
-
-    // Check if currentQuantity is NaN (not a number), if so, set it to 0
-    if (isNaN(currentQuantity)) {
-        currentQuantity = 0;
-    }
-
-    // Update the quantity
-    currentQuantity += amount;
-
-    // Ensure the quantity is not less than the minimum value (1)
-    if (currentQuantity < 1) {
-        currentQuantity = 1;
-    }
-
-    // Set the updated quantity back to the input
-    quantityInput.value = currentQuantity;
-}
-
-
 
             </script>
             @endsection

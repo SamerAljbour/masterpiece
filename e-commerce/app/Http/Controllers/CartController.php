@@ -204,8 +204,7 @@ class CartController extends Controller
     public function updateCart(Request $request, string $productId)
     {
         // Retrieve the quantity from the request
-        $quantity = $request->input('quantity');
-
+        $quantity = intval($request->input('quantity'));
         // Find the cart for the authenticated user
         $cart = Cart::where("user_id", Auth::user()->id)->first();
 
@@ -214,17 +213,20 @@ class CartController extends Controller
             $cart->products()->updateExistingPivot($productId, ['quantity' => $quantity]);
 
             // Recalculate the total amount based on product pricing and any discounts
-            $totalAmount = $cart->products->sum(function ($product) {
-                // Check if the product is on sale
-                if ($product->on_sale) {
-                    // Calculate the discounted price
-                    $price = $product->price - ($product->price * $product->on_sale);
-                } else {
-                    // Use the regular price
-                    $price = $product->price;
-                }
-                return $product->pivot->quantity * $price; // Calculate total for this product
-            });
+            $totalAmount = $cart->products()
+                ->wherePivot('deleted_at', null)
+                ->get()
+                ->sum(function ($product) {
+                    // Check if the product is on sale
+                    if ($product->on_sale) {
+                        $price = $product->price - ($product->price * $product->on_sale);
+                    } else {
+                        $price = $product->price;
+                    }
+                    // dd($price * $product->pivot->quantity);
+                    return $product->pivot->quantity * $price; // Calculate total for this product
+                });
+            // dd($totalAmount);
 
             // Update the cart's total amount
             $cart->total_amount = $totalAmount;

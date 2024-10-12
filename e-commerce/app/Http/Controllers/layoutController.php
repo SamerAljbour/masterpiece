@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Seller;
 use App\Models\VariantOption;
@@ -16,11 +17,20 @@ class layoutController extends Controller
     public function index()
     {
         $sellerId = Auth::user()->id;
+        $cart = Cart::where("user_id", Auth::user()->id)->first();
 
+        // Assuming 'products' is a relation or property
+        $cartData = $cart->products()
+            ->wherePivotNull('deleted_at') // Ensure soft-deleted products are excluded
+            ->get();
+        dd($cartData);
+        return view('home', [
+            'cartData' => $cartData,
 
+        ]);
         $sellerInfo = Seller::where('user_id', $sellerId)->first();
-        $productCount = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerId)->count();
-        return view("dashboard.store", compact("sellerInfo"));
+        $productCount = Product::with(["category", "seller", "reviews", 'cartData'])->where('seller_id', $sellerId)->count();
+        return view("dashboard.store", compact("sellerInfo", 'cartData'));
     }
 
     /**
