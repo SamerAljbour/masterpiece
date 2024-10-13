@@ -20,7 +20,9 @@ class SellerController extends Controller
 
         // Get the IDs of the products belonging to the seller
         $productIds = $sellerInfo->products->pluck('id')->toArray();
-
+        $reviews = Review::with('user')->whereIn('product_id', $productIds)
+            ->get();
+        // dd($reviews);
         // Calculate total totalSales from the seller's products
         $totalSales = PaymentHistory::whereIn('product_id', $productIds)
             ->where('seller_id', $sellerInfo->id)
@@ -61,13 +63,16 @@ class SellerController extends Controller
             $weeklyData[] = $weeklyTotal; // Store cumulative weekly sales
         }
         // dd($sellerInfo);
+        $productCount = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerInfo->id)->count();
 
         return view('dashboard.indexSeller', compact(
             'sellerInfo',
             'totalSales',
             'labels', // Labels for the chart
             'dailyData', // Daily sales data for the chart
-            'weeklyData' // Weekly sales data for the chart
+            'weeklyData', // Weekly sales data for the chart
+            'productCount',
+            'reviews',
         ));
     }
 

@@ -57,9 +57,9 @@ Route::get('/contactus', function () {
 Route::get('/notFound', function () {
     return view('frontend/notFound');
 });
-Route::get('/userProfile', function () {
-    return view('frontend/userProfile');
-});
+// Route::get('/userProfile', function () {
+//     return view('frontend/userProfile');
+// });
 Route::get('/payment', function () {
     return view('frontend/payment');
 })->name('payment');
@@ -174,6 +174,9 @@ Route::put('/updateProfile', [UserController::class, 'updateProfile'])->name('up
 
 
 // <================================= End of dashboard Home Seller  ============================================>
+Route::get('/adminDashboard', [AdminController::class, 'adminHome'])->name('adminDashboard');
+Route::get('/allStores', [AdminController::class, 'showAllStores'])->name('allStores');
+Route::get('/viewStore/{id}', [AdminController::class, 'viewStore'])->name('viewStore');
 
 
 
@@ -257,6 +260,8 @@ Route::get('allreviews', [ReviewController::class, 'index'])->name('allreviews')
 // <================================= Home  ============================================>
 Route::get('home', [HomeController::class, 'index'])->name('home');
 // Route::get('productdetail/{id}', [HomeController::class, 'productDetails'])->name('productdetail');
+Route::get('userProfile', [HomeController::class, 'showUserProfile'])->name('userProfile');
+Route::put('updateUserProfile', [UserController::class, 'updateUserProfile'])->name('updateUserProfile');
 
 
 

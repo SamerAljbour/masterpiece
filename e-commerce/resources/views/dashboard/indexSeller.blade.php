@@ -99,11 +99,11 @@
                 </form>
                  @endif
                 </h3>
-                <h6 class="op-7 mb-2">Free Bootstrap 5 Admin Dashboard</h6>
+                <h6 class="op-7 mb-2"></h6>
               </div>
               <div class="ms-md-auto py-2 py-md-0">
-                <a href="#" class="btn btn-label-info btn-round me-2">Manage</a>
-                <a href="#" class="btn btn-primary btn-round">Add Customer</a>
+                {{-- <a href="#" class="btn btn-label-info btn-round me-2">Manage</a>
+                <a href="#" class="btn btn-primary btn-round">Add Customer</a> --}}
               </div>
             </div>
             <div class="row">
@@ -115,13 +115,13 @@
                         <div
                           class="icon-big text-center icon-primary bubble-shadow-small"
                         >
-                          <i class="fas fa-users"></i>
+                          <i class="fas fa-tag"></i>
                         </div>
                       </div>
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
-                          <p class="card-category">Visitors</p>
-                          <h4 class="card-title">1,294</h4>
+                          <p class="card-category"> Sold Products</p>
+                          <h4 class="card-title">{{ $productCount }}</h4>
                         </div>
                       </div>
                     </div>
@@ -191,11 +191,11 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-8">
+              <div class="col-md-12">
                 <div class="card card-round">
                   <div class="card-header">
                     <div class="card-head-row">
-                      <div class="card-title">User Statistics</div>
+                      <div class="card-title">Sales</div>
                       <div class="card-tools">
                         <a
                           href="#"
@@ -223,7 +223,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-4">
+              {{-- <div class="col-md-4">
                 <div class="card card-primary card-round">
                   <div class="card-header">
                     <div class="card-head-row">
@@ -274,137 +274,60 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> --}}
             </div>
             <div class="row">
-              <div class="col-md-12">
-                <div class="card card-round">
-                  <div class="card-header">
-                    <div class="card-head-row card-tools-still-right">
-                      <h4 class="card-title">Users Geolocation</h4>
-                      <div class="card-tools">
-                        <button
-                          class="btn btn-icon btn-link btn-primary btn-xs"
-                        >
-                          <span class="fa fa-angle-down"></span>
-                        </button>
-                        <button
-                          class="btn btn-icon btn-link btn-primary btn-xs btn-refresh-card"
-                        >
-                          <span class="fa fa-sync-alt"></span>
-                        </button>
-                        <button
-                          class="btn btn-icon btn-link btn-primary btn-xs"
-                        >
-                          <span class="fa fa-times"></span>
-                        </button>
-                      </div>
-                    </div>
-                    <p class="card-category">
-                      Map of the distribution of users around the world
-                    </p>
-                  </div>
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="table-responsive table-hover table-sales">
-                          <table class="table">
-                            <tbody>
-                              <tr>
-                                <td>
-                                  <div class="flag">
-                                    <img
-                                      src="assets/img/flags/id.png"
-                                      alt="indonesia"
-                                    />
-                                  </div>
-                                </td>
-                                <td>Indonesia</td>
-                                <td class="text-end">2.320</td>
-                                <td class="text-end">42.18%</td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <div class="flag">
-                                    <img
-                                      src="assets/img/flags/us.png"
-                                      alt="united states"
-                                    />
-                                  </div>
-                                </td>
-                                <td>USA</td>
-                                <td class="text-end">240</td>
-                                <td class="text-end">4.36%</td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <div class="flag">
-                                    <img
-                                      src="assets/img/flags/au.png"
-                                      alt="australia"
-                                    />
-                                  </div>
-                                </td>
-                                <td>Australia</td>
-                                <td class="text-end">119</td>
-                                <td class="text-end">2.16%</td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <div class="flag">
-                                    <img
-                                      src="assets/img/flags/ru.png"
-                                      alt="russia"
-                                    />
-                                  </div>
-                                </td>
-                                <td>Russia</td>
-                                <td class="text-end">1.081</td>
-                                <td class="text-end">19.65%</td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <div class="flag">
-                                    <img
-                                      src="assets/img/flags/cn.png"
-                                      alt="china"
-                                    />
-                                  </div>
-                                </td>
-                                <td>China</td>
-                                <td class="text-end">1.100</td>
-                                <td class="text-end">20%</td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <div class="flag">
-                                    <img
-                                      src="assets/img/flags/br.png"
-                                      alt="brazil"
-                                    />
-                                  </div>
-                                </td>
-                                <td>Brasil</td>
-                                <td class="text-end">640</td>
-                                <td class="text-end">11.63%</td>
-                              </tr>
-                            </tbody>
-                          </table>
+
+                    <div class="col-md-12">
+                      <div class="card">
+                        <div class="card-header">
+                          <h4 class="card-title">Reviews</h4>
                         </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="mapcontainer">
-                          <div
-                            id="world-map"
-                            class="w-100"
-                            style="height: 300px"
-                          ></div>
+                        <div class="card-body">
+                          <div class="table-responsive">
+                            <table
+                              id="basic-datatables"
+                              class="display table table-striped table-hover"
+                            >
+                              <thead>
+                                <tr>
+                                  <th>Reviewer Name</th>
+                                  <th>Product Name</th>
+                                  <th>Comment</th>
+                                  <th>Rate</th>
+                                  <th>Date</th>
+
+                                </tr>
+                              </thead>
+                              <tfoot>
+                                <tr>
+                                    <th>Reviewer Name</th>
+                                    <th>Product Name</th>
+                                    <th>Comment</th>
+                                    <th>Rate</th>
+                                    <th>Date</th>
+
+                                </tr>
+                              </tfoot>
+                              <tbody>
+                                @foreach ($reviews as $review )
+
+                                <tr>
+                                  <td>{{$review->user->name}}</td>
+                                  <td>{{$review->product->name}}</td>
+                                  <td>{{$review->comment}}</td>
+                                  <td>{{$review->rating}}</td>
+                                  <td>{{$review->created_at}}</td>
+
+                                </tr>
+                                @endforeach
+
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
             </div>
             <div class="row">
               <div class="col-md-4">
@@ -940,14 +863,77 @@
 
 
     <script>
+        $(document).ready(function () {
+        $("#basic-datatables").DataTable({});
+
+        $("#multi-filter-select").DataTable({
+          pageLength: 5,
+          initComplete: function () {
+            this.api()
+              .columns()
+              .every(function () {
+                var column = this;
+                var select = $(
+                  '<select class="form-select"><option value=""></option></select>'
+                )
+                  .appendTo($(column.footer()).empty())
+                  .on("change", function () {
+                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                    column
+                      .search(val ? "^" + val + "$" : "", true, false)
+                      .draw();
+                  });
+
+                column
+                  .data()
+                  .unique()
+                  .sort()
+                  .each(function (d, j) {
+                    select.append(
+                      '<option value="' + d + '">' + d + "</option>"
+                    );
+                  });
+              });
+          },
+        });
+
+
+      });
          @if (!$sellerInfo->is_setup)
          window.onload = function() {
         var modal = new bootstrap.Modal(document.getElementById('largeModal'));
         modal.show();
     };
     @endif
-var salesChart = document.getElementById("salesChart").getContext("2d");
+    var salesChart = document.getElementById("salesChart").getContext("2d");
 
+// Create the gradients
+var gradientStroke = salesChart.createLinearGradient(500, 0, 100, 0);
+gradientStroke.addColorStop(0, "#177dff");
+gradientStroke.addColorStop(1, "#80b6f4");
+
+var gradientFill = salesChart.createLinearGradient(500, 0, 100, 0);
+gradientFill.addColorStop(0, "rgba(23, 125, 255, 0.7)");
+gradientFill.addColorStop(1, "rgba(128, 182, 244, 0.3)");
+
+var gradientStroke2 = salesChart.createLinearGradient(500, 0, 100, 0);
+gradientStroke2.addColorStop(0, "#f3545d");
+gradientStroke2.addColorStop(1, "#ff8990");
+
+var gradientFill2 = salesChart.createLinearGradient(500, 0, 100, 0);
+gradientFill2.addColorStop(0, "rgba(243, 84, 93, 0.7)");
+gradientFill2.addColorStop(1, "rgba(255, 137, 144, 0.3)");
+
+var gradientStroke3 = salesChart.createLinearGradient(500, 0, 100, 0);
+gradientStroke3.addColorStop(0, "#fdaf4b");
+gradientStroke3.addColorStop(1, "#ffc478");
+
+var gradientFill3 = salesChart.createLinearGradient(500, 0, 100, 0);
+gradientFill3.addColorStop(0, "rgba(253, 175, 75, 0.7)");
+gradientFill3.addColorStop(1, "rgba(255, 196, 120, 0.3)");
+
+// Create the chart
 var mySalesChart = new Chart(salesChart, {
     type: "line",
     data: {
@@ -955,25 +941,28 @@ var mySalesChart = new Chart(salesChart, {
         datasets: [
             {
                 label: "Daily Sales",
-                borderColor: "#1d7af3",
+                borderColor: gradientStroke,
                 pointBackgroundColor: "#1d7af3",
                 pointRadius: 4,
-                backgroundColor: "rgba(29, 122, 243, 0.2)",
+                backgroundColor: gradientFill,
                 fill: true,
+                tension: 0.4, // Curved line
+
                 borderWidth: 2,
                 data: @json($dailyData), // Daily sales data
             },
             {
                 label: "Weekly Sales",
-                borderColor: "#f39c12",
-                pointBackgroundColor: "#f39c12",
+                borderColor: gradientStroke2,
+                pointBackgroundColor: "#f3545d",
                 pointRadius: 4,
-                backgroundColor: "rgba(243, 156, 18, 0.2)",
+                backgroundColor: gradientFill2,
                 fill: true,
+                                tension: 0.4, // Curved line
+
                 borderWidth: 2,
                 data: @json($weeklyData), // Cumulative weekly sales data
             },
-
         ],
     },
     options: {
@@ -1062,6 +1051,7 @@ for (var i = 0; i < legendItems.length; i += 1) {
             });
         @endif
     });
+
     </script>
   </body>
 </html>

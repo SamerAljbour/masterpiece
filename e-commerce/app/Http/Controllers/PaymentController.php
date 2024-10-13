@@ -63,13 +63,14 @@ class PaymentController extends Controller
 
             // Ensure the product exists and has stock
             if (!$variant || $variant->stock == 0) {
+                $cartinfo->delete();
                 return redirect()->back()->with('error', 'Out of stock. The product has been deleted.');
             }
 
             // Check if the requested quantity exceeds available stock
             if ($cartinfo->quantity > $variant->stock) {
                 // Optionally, you can remove the item from the cart here
-                // $cartinfo->delete();
+                $cartinfo->delete();
                 return redirect()->back()->with('error', 'Requested quantity exceeds available stock. The product has been deleted.');
             }
 

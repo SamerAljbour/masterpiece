@@ -97,8 +97,14 @@
                         </div>
                         <div class="customer-ct content">
                             <ul class="links">
+                                @if (Auth::user()->role_id == 2)
+
                                 <li class="first">
-                                    <a class="top-link-myaccount" title="My Account" href="#">My Account</a>
+                                    <a class="top-link-dashboard" title="My Dashboard" href="{{ route('sellerDashboard') }}"> My Dashboard</a>
+                                </li>
+                                @endif
+                                <li class="first">
+                                    <a class="top-link-myaccount" title="My Account" href="{{ route('userProfile') }}">My Profile</a>
                                 </li>
                                 <li>
                                     <a class="top-link-wishlist" title="My Wishlist" href="#">My Wishlist</a>

@@ -15,7 +15,19 @@
   type="image/x-icon"
 />
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Load Chart.js -->
+   <!--   Core JS Files   -->
+   <script src="../assets/js/core/jquery-3.7.1.min.js"></script>
+   <script src="../assets/js/core/popper.min.js"></script>
+   {{-- <script src="../assets/js/core/bootstrap.min.js"></script> --}}
 
+   <!-- jQuery Scrollbar -->
+   <script src="../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+   <!-- Datatables -->
+   <script src="../assets/js/plugin/datatables/datatables.min.js"></script>
+   <!-- Kaiadmin JS -->
+   <script src="../assets/js/kaiadmin.min.js"></script>
+   <!-- Kaiadmin DEMO methods, don't include it in your project! -->
+   <script src="../assets/js/setting-demo2.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMcZ6ZKKjCz3WXABHgPfcu7z5aGA4m1ZZkFfgzL" crossorigin="anonymous">
 
@@ -98,17 +110,30 @@
               {{--  --}}
 
               <li class="nav-item active">
+                @if (Auth::user()->role_id == 2)
+
                 <a href="{{ route('sellerDashboard') }}">
                   <i class="fas fa-home"></i>
                   <p>Home</p>
                   <span class=""></span>
                 </a>
-                <li class="nav-item ">
-                  <a href="{{ route('profileStore') }}">
-                    <i class="fas fa-user-circle"></i>
-                    <p>Store</p>
+                @else
+                <a href="{{ route('adminDashboard') }}">
+                    <i class="fas fa-home"></i>
+                    <p>Home</p>
                     <span class=""></span>
                   </a>
+                @endif
+                <li class="nav-item ">
+                    @if (Auth::user()->role_id == 2)
+                  <a href="{{ route('profileStore') }}">
+                    <i class="fas fa-store"></i>
+
+                    <p> My Store</p>
+                    <span class=""></span>
+                  </a>
+                  @endif
+
                 @if (Auth::user()->role_id == 3)
 
                 <li class="nav-item ">
@@ -119,6 +144,16 @@
                   </a>
                 </li>
                 @endif
+                <li class="nav-item ">
+                    @if (Auth::user()->role_id == 3)
+                  <a href="{{ route('allStores') }}">
+                    <i class="fas fa-store"></i>
+                    <p>All Stores</p>
+                    <span class=""></span>
+                  </a>
+                  @endif
+
+               </li>
               <li class="nav-item ">
                 {{-- for admin --}}
                 @if (Auth::user()->role_id == 3)

@@ -123,8 +123,10 @@ class UserController extends Controller
                 // Redirect based on the user role
                 if ($user->role_id == 1) {
                     return redirect('home')->with('success', 'Welcome back! You have successfully logged in.');
-                } else {
+                } else if ($user->role_id == 2) {
                     return redirect('sellerDashboard')->with('success', 'Welcome back! You have successfully logged in.');;
+                } else {
+                    return redirect('adminDashboard')->with('success', 'Welcome back! You have successfully logged in.');;
                 }
             } else {
                 // Password does not match
@@ -182,5 +184,51 @@ class UserController extends Controller
         } else {
             return redirect()->back()->with('error', 'Something went wrong while updating the profile.');
         }
+    }
+    public function updateUserProfile(Request $request)
+    {
+        $user = Auth::user();
+        $userData = $request->validate([
+            'name' => 'required|regex:/^[a-zA-Z]+(?:\s[a-zA-Z]+)?$/', // Full name: 2 parts, no digits, no special characters
+            'email' => 'required|email',
+            'password' => [
+                'nullable', // make password optional
+                'min:8',
+                'max:12',
+                'regex:/[a-z]/', // At least one lowercase letter
+                'regex:/[A-Z]/', // At least one uppercase letter
+                'regex:/[0-9]/', // At least one digit
+                'regex:/[!@#$%^&*(),.?":{}|<>]/', // At least one special character
+            ],
+            'phone' => 'required|digits:10', // Phone must be exactly 10 digits
+            'user_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate the image
+        ]);
+        if (!empty($userData['password'])) {
+            $user->password = bcrypt($userData['password']); // Hash the new password
+        }
+
+        // Handle user image upload
+        if ($request->hasFile('user_image')) {
+            $file = $request->file('user_image');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $mainImagePath = $file->storeAs('usersImages', $filename, 'public'); // Store without 'public/' prefix
+            Auth::user()->user_image = $mainImagePath; // Update the user's image path
+        }
+
+        // Update user profile details
+
+        $user->name = $userData['name'];
+        $user->email = $userData['email'];
+        $user->phone = $userData['phone'];
+
+        // Update password only if provided
+        if (!empty($userData['password'])) {
+            $user->password = Hash::make($userData['password']); // Hash the password before saving
+        }
+
+        // Save the user
+        $user->save();
+
+        return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 }

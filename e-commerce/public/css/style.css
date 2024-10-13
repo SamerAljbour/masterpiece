@@ -7848,6 +7848,25 @@ span:hover {
     .content
     ul.links
     li
+    a.top-link-dashboard:before {
+    content: "\f0e4";
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    width: auto;
+    height: auto;
+    text-align: center;
+    line-height: auto;
+}
+#sns_header
+    .sns_header_top
+    .myaccount
+    .content
+    ul.links
+    li
     a.top-link-wishlist:before {
     content: "\f08a";
     display: inline-block;
