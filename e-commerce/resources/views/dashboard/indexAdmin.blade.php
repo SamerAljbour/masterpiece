@@ -132,7 +132,7 @@
               <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                      <div class="card-title">Chart with HTML Legends</div>
+                      <div class="card-title">Monthly & Weekly Sales</div>
                     </div>
                     <div class="card-body">
                       <div class="card-sub">

@@ -20,61 +20,83 @@ class SellerController extends Controller
 
         // Get the IDs of the products belonging to the seller
         $productIds = $sellerInfo->products->pluck('id')->toArray();
-        $reviews = Review::with('user')->whereIn('product_id', $productIds)
-            ->get();
-        // dd($reviews);
-        // Calculate total totalSales from the seller's products
+
+        // Fetch reviews for the seller's products
+        $reviews = Review::with('user')->whereIn('product_id', $productIds)->get();
+
+        // Calculate total sales from the seller's products
         $totalSales = PaymentHistory::whereIn('product_id', $productIds)
             ->where('seller_id', $sellerInfo->id)
             ->sum('amount');
 
-        // this for the chart
-        // Define the start date for daily sales
-        $startDate = Carbon::now()->subDays(7);
+        // Define the start date for weekly sales (last 7 weeks)
+        $startDate = Carbon::now()->subWeeks(7);
 
-        // Get daily sales data for the last 7 days
-        $dailySales = PaymentHistory::selectRaw('SUM(amount) as total, DATE(created_at) as date')
+        // Get weekly sales data for the last 7 weeks
+        $weeklySales = PaymentHistory::selectRaw('SUM(amount) as total, WEEK(created_at) as week, YEAR(created_at) as year')
             ->where('created_at', '>=', $startDate)
             ->whereIn('product_id', $productIds)
-            ->groupBy('date')
-            ->orderBy('date')
+            ->groupBy('year', 'week')
+            ->orderBy('year', 'asc')  // Order by year ascending
+            ->orderBy('week', 'asc')
             ->get();
 
-        // Prepare data for the chart
-        $labels = [];
-        $dailyData = [];
-        $weeklyData = []; // For storing weekly sales
+        // Prepare data for the weekly chart
+        $weeklyLabels = [];
+        $weeklyData = [];
 
-        // Initialize arrays for daily and weekly sales
+        // Initialize arrays for weekly sales
         for ($i = 0; $i < 7; $i++) {
-            $date = $startDate->copy()->addDays($i)->toDateString();
-            $labels[] = $date;
+            // Calculate the start and end dates for the week, formatted as Month Day
+            $weekStart = $startDate->copy()->addWeeks($i)->startOfWeek()->format('M d');  // e.g., 'Oct 01'
+            $weekEnd = $startDate->copy()->addWeeks($i)->endOfWeek()->format('M d');      // e.g., 'Oct 07'
+            $weeklyLabels[] = "$weekStart - $weekEnd";  // Label as 'Oct 01 - Oct 07'
 
-            // Daily sales
-            $sale = $dailySales->where('date', $date)->first();
-            $dailyData[] = $sale ? $sale->total : 0; // If no sales, set to 0
+            // Find sales data for the specific week
+            $sale = $weeklySales->where('week', $startDate->copy()->addWeeks($i)->weekOfYear)
+                ->where('year', $startDate->copy()->addWeeks($i)->year)
+                ->first();
 
-            // Calculate cumulative sales for the week up to the current day
-            $weeklyTotal = PaymentHistory::whereIn('product_id', $productIds)
-                ->where('created_at', '>=', Carbon::now()->subWeek()->startOfWeek()) // Weekly total from the start of the week
-                ->where('created_at', '<=', Carbon::now()->startOfWeek()->addDays($i)->endOfDay()) // Up to current date
+            // Store the total sales for the week or 0 if no sales
+            $weeklyData[] = $sale ? $sale->total : 0;
+        }
+
+        // Prepare data for the daily chart
+        $dailyLabels = [];
+        $dailyData = [];
+        $dailyStartDate = Carbon::now()->subDays(7); // Last 7 days
+
+        // Initialize arrays for daily sales
+        for ($i = 0; $i < 7; $i++) {
+            // Format the date as 'M d' (e.g., 'Oct 01')
+            $dailyLabels[] = $dailyStartDate->copy()->addDays($i)->format('M d');
+
+            // Calculate total sales for the day
+            $dailySales = PaymentHistory::whereIn('product_id', $productIds)
+                ->where('seller_id', $sellerInfo->id)
+                ->whereDate('created_at', '=', $dailyStartDate->copy()->addDays($i)->toDateString())
                 ->sum('amount');
 
-            $weeklyData[] = $weeklyTotal; // Store cumulative weekly sales
+            // Store the daily sales or 0 if no sales
+            $dailyData[] = $dailySales;
         }
-        // dd($sellerInfo);
+
+        // Count the total number of products for the seller
         $productCount = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerInfo->id)->count();
 
+        // Return view with seller info, sales, and chart data
         return view('dashboard.indexSeller', compact(
             'sellerInfo',
             'totalSales',
-            'labels', // Labels for the chart
-            'dailyData', // Daily sales data for the chart
-            'weeklyData', // Weekly sales data for the chart
+            'weeklyLabels',    // Weekly labels for the chart
+            'weeklyData',      // Weekly sales data for the chart
+            'dailyLabels',     // Daily labels for the chart
+            'dailyData',       // Daily sales data for the chart
             'productCount',
-            'reviews',
+            'reviews'
         ));
     }
+
 
     /**
      * Display a listing of the resource.

@@ -191,11 +191,11 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-12">
+              <div class="col-md-8">
                 <div class="card card-round">
                   <div class="card-header">
                     <div class="card-head-row">
-                      <div class="card-title">Sales</div>
+                      <div class="card-title">Weekly Sales</div>
                       <div class="card-tools">
                         <a
                           href="#"
@@ -222,60 +222,23 @@
                     <div id="myChartLegend"></div>
                   </div>
                 </div>
-              </div>
-              {{-- <div class="col-md-4">
-                <div class="card card-primary card-round">
-                  <div class="card-header">
-                    <div class="card-head-row">
-                      <div class="card-title">Daily Sales</div>
-                      <div class="card-tools">
-                        <div class="dropdown">
-                          <button
-                            class="btn btn-sm btn-label-light dropdown-toggle"
-                            type="button"
-                            id="dropdownMenuButton"
-                            data-bs-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                          >
-                            Export
-                          </button>
-                          <div
-                            class="dropdown-menu"
-                            aria-labelledby="dropdownMenuButton"
-                          >
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#"
-                              >Something else here</a
-                            >
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-category">March 25 - April 02</div>
-                  </div>
-                  <div class="card-body pb-0">
-                    <div class="mb-4 mt-2">
-                      <h1>$4,578.58</h1>
-                    </div>
-                    <div class="pull-in">
-                      <canvas id="dailySalesChart"></canvas>
-                    </div>
-                  </div>
-                </div>
-                <div class="card card-round">
-                  <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-end text-primary">+5%</div>
-                    <h2 class="mb-2">17</h2>
-                    <p class="text-muted">Users online</p>
-                    <div class="pull-in sparkline-fix">
-                      <div id="lineChart"></div>
-                    </div>
-                  </div>
-                </div>
-              </div> --}}
             </div>
+              {{--  --}}
+
+            <div class="col-md-4">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-title">Daily Chart</div>
+                  </div>
+                  <div class="card-body">
+                    <div class="chart-container">
+                      <canvas id="lineChart"></canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
             <div class="row">
 
                     <div class="col-md-12">
@@ -863,6 +826,57 @@
 
 
     <script>
+        //  daily
+var lineChart = document.getElementById("lineChart").getContext("2d");
+var gradientFill = lineChart.createLinearGradient(0, 0, 0, 400); // Adjust height as necessary
+gradientFill.addColorStop(0, "rgba(29, 122, 243, 0.4)");  // Start color (light blue)
+gradientFill.addColorStop(1, "rgba(29, 122, 243, 0)");   // End color (transparent)
+var myLineChart = new Chart(lineChart, {
+  type: "line",
+  data: {
+    labels: {!! json_encode($dailyLabels) !!}, // Pass daily labels from Laravel
+    datasets: [
+      {
+        label: "Daily Sales",
+        borderColor: "#1d7af3",
+        pointBorderColor: "#FFF",
+        pointBackgroundColor: "#1d7af3",
+        pointBorderWidth: 2,
+        pointHoverRadius: 4,
+        pointHoverBorderWidth: 1,
+        pointRadius: 4,
+        backgroundColor: gradientFill,
+        fill: true,
+        tension: 0.4,
+        borderWidth: 2,
+        data: {!! json_encode($dailyData) !!}, // Pass daily sales data from Laravel
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: {
+      position: "bottom",
+      labels: {
+        padding: 10,
+        fontColor: "#1d7af3",
+      },
+    },
+    tooltips: {
+      bodySpacing: 4,
+      mode: "nearest",
+      intersect: 0,
+      position: "nearest",
+      xPadding: 10,
+      yPadding: 10,
+      caretPadding: 10,
+    },
+    layout: {
+      padding: { left: 15, right: 15, top: 15, bottom: 15 },
+    },
+  },
+});
         $(document).ready(function () {
         $("#basic-datatables").DataTable({});
 
@@ -908,86 +922,73 @@
     @endif
     var salesChart = document.getElementById("salesChart").getContext("2d");
 
-// Create the gradients
-var gradientStroke = salesChart.createLinearGradient(500, 0, 100, 0);
-gradientStroke.addColorStop(0, "#177dff");
-gradientStroke.addColorStop(1, "#80b6f4");
+// Create the gradients for the line stroke
+var gradientStroke2 = salesChart.createLinearGradient(0, 0, 0, 400);
+gradientStroke2.addColorStop(0, "#f3545d"); // Start color
+gradientStroke2.addColorStop(1, "#ff8990"); // End color
 
-var gradientFill = salesChart.createLinearGradient(500, 0, 100, 0);
-gradientFill.addColorStop(0, "rgba(23, 125, 255, 0.7)");
-gradientFill.addColorStop(1, "rgba(128, 182, 244, 0.3)");
+// Create the gradient for the fill area
+var gradientFill2 = salesChart.createLinearGradient(0, 0, 0, 400);
+gradientFill2.addColorStop(0, "rgba(243, 84, 93, 0.7)"); // Start color
+gradientFill2.addColorStop(1, "rgba(255, 137, 144, 0.3)"); // End color
 
-var gradientStroke2 = salesChart.createLinearGradient(500, 0, 100, 0);
-gradientStroke2.addColorStop(0, "#f3545d");
-gradientStroke2.addColorStop(1, "#ff8990");
-
-var gradientFill2 = salesChart.createLinearGradient(500, 0, 100, 0);
-gradientFill2.addColorStop(0, "rgba(243, 84, 93, 0.7)");
-gradientFill2.addColorStop(1, "rgba(255, 137, 144, 0.3)");
-
-var gradientStroke3 = salesChart.createLinearGradient(500, 0, 100, 0);
-gradientStroke3.addColorStop(0, "#fdaf4b");
-gradientStroke3.addColorStop(1, "#ffc478");
-
-var gradientFill3 = salesChart.createLinearGradient(500, 0, 100, 0);
-gradientFill3.addColorStop(0, "rgba(253, 175, 75, 0.7)");
-gradientFill3.addColorStop(1, "rgba(255, 196, 120, 0.3)");
-
-// Create the chart
-var mySalesChart = new Chart(salesChart, {
-    type: "line",
+// Create the chart (using weekly labels)
+var chart = new Chart(salesChart, {
+    type: 'line',
     data: {
-        labels: @json($labels),  // Use the labels from the controller
-        datasets: [
-            {
-                label: "Daily Sales",
-                borderColor: gradientStroke,
-                pointBackgroundColor: "#1d7af3",
-                pointRadius: 4,
-                backgroundColor: gradientFill,
-                fill: true,
-                tension: 0.4, // Curved line
-
-                borderWidth: 2,
-                data: @json($dailyData), // Daily sales data
-            },
-            {
-                label: "Weekly Sales",
-                borderColor: gradientStroke2,
-                pointBackgroundColor: "#f3545d",
-                pointRadius: 4,
-                backgroundColor: gradientFill2,
-                fill: true,
-                                tension: 0.4, // Curved line
-
-                borderWidth: 2,
-                data: @json($weeklyData), // Cumulative weekly sales data
-            },
-        ],
+        labels: @json($weeklyLabels),  // Weekly labels
+        datasets: [{
+            label: 'Weekly Sales',
+            data: @json($weeklyData),  // Weekly sales data
+            borderColor: gradientStroke2, // Use the gradient stroke for the line
+            backgroundColor: gradientFill2, // Use the gradient fill for the area under the line
+            fill: true, // Enable filling under the line
+            tension: 0.4, // Adjusts the curvature of the line (0 = straight, 1 = fully curved)
+            pointRadius: 4, // Size of the points on the line
+            pointBackgroundColor: '#ff3545', // Set to a solid color matching the gradient
+            pointHoverRadius: 6, // Size of the point when hovered
+            pointBorderColor: gradientStroke2, // Set the border color of points to match the gradient
+            pointBorderWidth: 2 // Width of the border around points
+        }]
     },
     options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        legend: {
-            display: true,
-        },
+        responsive: true, // Makes the chart responsive
         scales: {
             y: {
                 beginAtZero: true,
+                grid: {
+                    color: "rgba(0, 0, 0, 0.1)" // Color for the y-axis grid lines
+                }
             },
+            x: {
+                grid: {
+                    color: "rgba(0, 0, 0, 0.1)" // Color for the x-axis grid lines
+                }
+            }
         },
-    },
+        plugins: {
+            legend: {
+                display: true,
+                position: 'top', // Position of the legend
+                labels: {
+                    boxWidth: 20, // Width of the legend box
+                    padding: 20, // Padding around the legend
+                }
+            }
+        }
+    }
 });
 
 // Generate HTML legend
 var myLegendContainer = document.getElementById("myChartLegend");
-myLegendContainer.innerHTML = mySalesChart.generateLegend();
+myLegendContainer.innerHTML = chart.generateLegend();
 
 // Bind onClick event to all LI-tags of the legend
 var legendItems = myLegendContainer.getElementsByTagName("li");
 for (var i = 0; i < legendItems.length; i += 1) {
     legendItems[i].addEventListener("click", legendClickCallback, false);
 }
+
 
       $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
         type: "line",
