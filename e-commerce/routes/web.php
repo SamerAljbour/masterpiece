@@ -184,9 +184,12 @@ Route::get('/viewStore/{id}', [AdminController::class, 'viewStore'])->name('view
 Route::get('/allUsers', [AdminController::class, 'allUsers'])->name('allUsers');
 Route::get('/createUser', [AdminController::class, 'createUser'])->name('createUser');
 Route::post('/storeUser', [AdminController::class, 'storeNewUser'])->name('storeUser');
-Route::get('/updateUser/{id}', [AdminController::class, 'editUser'])->name('updateUser');
+Route::get('/updateUser/{id}', [AdminController::class, 'showPendingUsers'])->name('updateUser');
 Route::put('/updateUser/{id}', [AdminController::class, 'updateUser'])->name('updateUserData');
 Route::post('/deleteUser/{id}', [AdminController::class, 'deleteUser'])->name('deleteUser');
+Route::get('/pendingUsers', [AdminController::class, 'showPendingUsers'])->name('pendingUsers');
+Route::put('/approveSeller/{id}', [AdminController::class, 'approveSeller'])->name('approveSeller');
+Route::put('/rejectSeller/{id}', [AdminController::class, 'rejectSeller'])->name('rejectSeller');
 // <================================= End of user crud  ============================================>
 
 

@@ -92,11 +92,16 @@ class AdminController extends Controller
     public function allUsers()
     {
         $users = User::with('role')->get();
+        $pendingSellers = User::where('status', 'pending')->get();
+        $pendingCount = $pendingSellers->count(); // Get the count of pending sellers
+
+
+
         // dd($users);
         // foreach ($users as $user) {
         //     echo $user->role->name; // Access the role name
         // }
-        return view('dashboard/user/userIndex', compact('users'));
+        return view('dashboard/user/userIndex', compact('users', 'pendingCount'));
     }
 
     public function createUser()
@@ -173,6 +178,28 @@ class AdminController extends Controller
         } else {
             return redirect()->route('allUsers')->with('ErrorDeleting', 'User Not Found');
         }
+    }
+    public function showPendingUsers()
+    {
+        $pendingSellers = User::where('role_id', 2)->where('status', 'pending')->get();
+        // dd($pendingSellers);
+        return view('dashboard.user.pendingUsers', compact('pendingSellers'));
+    }
+    public function approveSeller(string $id)
+    {
+        $seller = User::where('id', $id)->first();
+        $seller->status = 'approved';
+        $seller->save();
+        // dd($seller);
+        return redirect()->back()->with('success', `You approved on the seller  $seller->name`);
+    }
+    public function rejectSeller(string $id)
+    {
+        $seller = User::where('id', $id)->first();
+        $seller->status = 'rejected';
+        $seller->save();
+        // dd($seller);
+        return redirect()->back()->with('success', `You approved on the seller  $seller->name`);
     }
     // <=================================== End of User CRUD ===========================================>
 

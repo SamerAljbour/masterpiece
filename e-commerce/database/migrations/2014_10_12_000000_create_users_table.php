@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->text('address')->nullable();
             $table->text('user_image');
+            $table->enum('status', ['pending', 'rejected', 'approved'])->default('pending'); // Add the status column
+
             $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
             $table->timestamps();
         });

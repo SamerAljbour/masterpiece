@@ -282,22 +282,24 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="register" role="tabpanel">
-                        <form action="">
+                        <form action="{{ route('storeNeweUser') }}" method="POST">
+                            @csrf
                             <div class="form-floating">
 
-                                <input type="text" class="form-control" id="registerName" placeholder="John Doe">
+                                <input type="text" class="form-control" id="registerName" name="name" placeholder="John Doe">
                                 <label for="registerName">   Full Name</label>
                             </div>
                             <div class="form-floating">
 
-                                <input type="email" class="form-control" id="registerEmail" placeholder="name@example.com">
+                                <input type="email" class="form-control" id="registerEmail" name="email" placeholder="name@example.com">
                                 <label for="registerEmail">Email address</label>
                             </div>
                             <div class="form-floating">
 
-                                <input type="password" class="form-control" id="registerPassword" placeholder="Password">
+                                <input type="password" class="form-control" id="registerPassword" name="password" placeholder="Password">
                                 <label for="registerPassword">Password</label>
                             </div>
+                            <input type="hidden" class="form-control" id="registerPassword" name="role_id" value="1" placeholder="Password">
                             <div class="image-upload">
                                 <label for="profileImage" class="image-upload-label">
                                     <div class="text-center">

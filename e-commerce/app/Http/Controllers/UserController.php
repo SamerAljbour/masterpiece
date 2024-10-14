@@ -72,6 +72,7 @@ class UserController extends Controller
             }
             $user->role_id = $validateData['role_id'];
             $user->user_image = $mainImagePath;
+            $user->status = 'pending'; // Set the default status to pending
             $user->save();
 
             // Create a cart for the user
@@ -88,9 +89,14 @@ class UserController extends Controller
                     'rating' =>  0,
                 ]);
             }
+            if ($user->role_id == 1) {
 
+                return redirect()->route('loginRegister')->with('successRegister', "You created an account successfully");
+            } else {
+
+                return redirect()->route('loginRegisterSeller')->with('successRegister', "You created an account successfully");
+            }
             // Redirect with success message
-            return redirect()->route('loginRegisterSeller')->with('successRegister', "You created an account successfully");
         } catch (QueryException $e) {
             if ($e->errorInfo[1] == 1062) {
                 return redirect()->route('loginRegisterSeller')->with('failedRegister', "Email already exists");
@@ -98,6 +104,7 @@ class UserController extends Controller
             return redirect()->back()->with('failedRegister', 'Something went wrong. Please try again: ' . $e->getMessage());
         }
     }
+
 
     public function viewLogin()
     {
@@ -117,16 +124,25 @@ class UserController extends Controller
         if ($user) {
             // Check if the entered password matches the hashed password in the database
             if (Hash::check($validateData['password'], $user->password)) {
+                // Check the user's status
+                if ($user->status == 'pending' && $user->role_id == 2) {
+                    return redirect('loginRegisterSeller')->with('failedLogin', 'Your account is currently under review. Please check back later for approval.');
+                }
+
                 // Log in the user
                 Auth::login($user);
 
                 // Redirect based on the user role
                 if ($user->role_id == 1) {
                     return redirect('home')->with('success', 'Welcome back! You have successfully logged in.');
-                } else if ($user->role_id == 2) {
-                    return redirect('sellerDashboard')->with('success', 'Welcome back! You have successfully logged in.');;
+                } elseif ($user->role_id == 2) {
+                    if ($user->status == 'rejected') {
+                        return redirect('loginRegisterSeller')->with('failedLogin', 'Your account has been rejected.');
+                    } else {
+                        return redirect('sellerDashboard')->with('success', 'Welcome back! You have successfully logged in.');
+                    }
                 } else {
-                    return redirect('adminDashboard')->with('success', 'Welcome back! You have successfully logged in.');;
+                    return redirect('adminDashboard')->with('success', 'Welcome back! You have successfully logged in.');
                 }
             } else {
                 // Password does not match
@@ -137,6 +153,7 @@ class UserController extends Controller
             return back()->with('failedLogin', 'This email is not registered.');
         }
     }
+
     public function logout()
     {
         Auth::logout();

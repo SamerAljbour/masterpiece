@@ -7,8 +7,19 @@
             <div class="d-flex align-items-center">
               <h4 class="card-title">Users</h4>
               <a
-              href="{{ route('createUser') }}"
+              href="{{ route('pendingUsers') }}"
                 class="btn btn-black btn-round ms-auto"
+              >
+              {{-- <i class="fa fa-spinner fa-spin"></i> --}}
+
+              <span class="badge badge-danger rounded-5" style="margin-right: 0.5em;">
+                {{ $pendingCount }}
+            </span>
+             Pending sellers
+              </a>
+              <a
+              href="{{ route('createUser') }}"
+                class="btn btn-black btn-round ms-3"
               >
                 <i class="fa far fa-user"></i>
                 Add user
