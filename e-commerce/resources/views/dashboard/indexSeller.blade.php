@@ -121,7 +121,7 @@
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
                           <p class="card-category"> Sold Products</p>
-                          <h4 class="card-title">{{ $productCount }}</h4>
+                          <h4 class="card-title">{{ $countOfSoldProduct }}</h4>
                         </div>
                       </div>
                     </div>

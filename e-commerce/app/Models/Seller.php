@@ -39,4 +39,8 @@ class Seller extends Model
     {
         return $this->hasMany(DiscountCoupon::class);
     }
+    public function paymentHistories()
+    {
+        return $this->hasMany(PaymentHistory::class);
+    }
 }

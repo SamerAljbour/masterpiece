@@ -107,7 +107,7 @@ class PaymentController extends Controller
         $cart->total_amount = $totalAmount;
         $cart->save();
 
-        return redirect()->route('home'); // Change to your success route
+        return redirect()->route('successPayment'); // Change to your success route
     }
 
 
@@ -159,5 +159,9 @@ class PaymentController extends Controller
             ->wherePivotNull('deleted_at') // Ensure soft-deleted products are excluded
             ->get();
         return redirect()->route('cart', Auth::user()->id)->with('successClear', "the data deleted");
+    }
+    public function showSuccessPayment()
+    {
+        return view('frontend.paymentSuccess');
     }
 }

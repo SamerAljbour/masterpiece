@@ -1,10 +1,22 @@
 @extends('dashboardLayout.navAndsidebar')
 @section('content')
 
+<style>
+    /* .d-flex {
+    display: none !important;
+}
+.page-item:last-child .page-link {
+    display: none;
+
+} */
+
+
+</style>
  <link
             href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
             rel="stylesheet"
-        /><style type="text/css">
+        />
+        <style type="text/css">
         .remove-button {
     z-index: 10;
     position: absolute;
@@ -506,8 +518,9 @@ margin-left: 30px!important;
                             </div>
                         </div>
                     </div>
-                @endforeach
-            @else
+                    @endforeach
+                    {{ $products->links('pagination::bootstrap-5') }}
+                    @else
                 <div class="text-center mt-5">
                     <h1 class="text-danger fw-bold">No product with this name</h1>
                     <p class="text-muted mb-2">Please try a different search term or check back later.</p>
@@ -530,6 +543,7 @@ margin-left: 30px!important;
     }
 
     </script>
+
 
 
 @endsection

@@ -17,6 +17,7 @@ class SellerController extends Controller
     {
         // Fetch seller information
         $sellerInfo = Seller::with('products')->where('user_id', Auth::user()->id)->first();
+        $countOfSoldProduct = PaymentHistory::where('seller_id', $sellerInfo->id)->count();
 
         // Get the IDs of the products belonging to the seller
         $productIds = $sellerInfo->products->pluck('id')->toArray();
@@ -93,6 +94,7 @@ class SellerController extends Controller
             'dailyLabels',     // Daily labels for the chart
             'dailyData',       // Daily sales data for the chart
             'productCount',
+            'countOfSoldProduct',
             'reviews'
         ));
     }
@@ -103,22 +105,35 @@ class SellerController extends Controller
      */
     public function index(Request $request)
     {
+        // Retrieve the seller info based on the authenticated user
         $sellerInfo = Seller::where('user_id', Auth::user()->id)->first();
 
-        // $rating = Review::with("Product")->get();
+        // Get the search input from the request
         $searchInput = $request->input('search');
+
+        // Check if there is a search input and fetch paginated products
         if (trim($searchInput)) {
-            $products = Product::with(["category", "seller", "reviews", "photos"])->where('seller_id', $sellerInfo->id)
-                ->where('name', 'LIKE', '%' . $searchInput . '%')->get();
+            $products = Product::with(['category', 'seller', 'reviews', 'photos'])
+                ->where('seller_id', $sellerInfo->id)
+                ->where('name', 'LIKE', '%' . $searchInput . '%')
+                ->paginate(9);
         } else {
-            $products = Product::with(["category", "seller", "reviews", "photos"])->where('seller_id', $sellerInfo->id)->get();
+            // Fetch all paginated products for the seller if no search input is provided
+            $products = Product::with(['category', 'seller', 'reviews', 'photos'])
+                ->where('seller_id', $sellerInfo->id)
+                ->paginate(9);
         }
-        $countOfSoldProduct = PaymentHistory::where('user_id', Auth::user()->id)->count();
-        $productCount = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerInfo->id)->count();
-        // $products = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerId)->get();
-        // dd($sellerInfo);
-        return view("dashboard.store", compact("products", "sellerInfo", "productCount", "countOfSoldProduct"));
+
+        // Count the number of sold products for the seller
+        $countOfSoldProduct = PaymentHistory::where('seller_id', $sellerInfo->id)->count();
+
+        // Count the total number of products the seller owns
+        $productCount = Product::where('seller_id', $sellerInfo->id)->count();
+
+        // Return the view with the products, seller info, and product counts
+        return view('dashboard.store', compact('products', 'sellerInfo', 'productCount', 'countOfSoldProduct'));
     }
+
     public function showProfile()
     {
 

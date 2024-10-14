@@ -51,7 +51,9 @@ class AdminController extends Controller
         // Calculate total weekly sales
         $totalWeeklySales = PaymentHistory::whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
             ->sum('amount');
-
+        $stores = Seller::with('user', 'paymentHistories')->get();
+        // $payment  = PaymentHistory::with('seller', 'user')->get();
+        // dd($stores);
         return view('dashboard.indexAdmin', compact(
             'totalUsers',
             'totalSellers',
@@ -59,6 +61,7 @@ class AdminController extends Controller
             'totalSales',
             'totalOrders',
             'salesData',
+            'stores',
             'monthlyData', // Pass the monthly sales data to the view
             'totalWeeklySales' // Pass the total weekly sales to the view
         ));
@@ -92,7 +95,7 @@ class AdminController extends Controller
     public function allUsers()
     {
         $users = User::with('role')->get();
-        $pendingSellers = User::where('status', 'pending')->get();
+        $pendingSellers = User::where('status', 'pending')->where('role_id', 2)->get();
         $pendingCount = $pendingSellers->count(); // Get the count of pending sellers
 
 

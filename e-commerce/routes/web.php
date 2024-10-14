@@ -152,6 +152,7 @@ Route::get('/loginRegisterSeller', [UserController::class, 'viewSellerReg'])->na
 // <================================= End of register  ============================================>
 Route::get('/viewPayment', [PaymentController::class, 'index'])->name('viewPayment');
 Route::post('/pay', [PaymentController::class, 'store'])->name('pay');
+Route::get('/pay/success', [PaymentController::class, 'showSuccessPayment'])->name('successPayment');
 
 
 
