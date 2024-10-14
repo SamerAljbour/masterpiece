@@ -28,14 +28,19 @@ class HomeController extends Controller
             ->inRandomOrder()
             ->paginate(3);
 
-
+        $RandomProducts = Product::inRandomOrder()->paginate(3);
         // get cart Qua
         $cart = Cart::where("user_id", Auth::user()->id)->first();
         $cartData = $cart->products()
             ->wherePivotNull('deleted_at') // Ensure soft-deleted products are excluded
             ->get();
         // dd($bestSale);
-        return view('frontend/home', compact('topRated', 'bestSale', 'cartData', 'onSale'));
+        $categoryOne = Category::where('id', 1)->with('products')->first();
+        $categoryTwo = Category::where('id', 2)->with('products')->first();
+        $categoryThree = Category::where('id', 3)->with('products')->first();
+        $categoryFour = Category::where('id', 4)->with('products')->first();
+        // dd($categoryOne);
+        return view('frontend/home', compact('categoryFour', 'categoryThree', 'categoryTwo', 'categoryOne', 'topRated', 'bestSale', 'cartData', 'onSale', 'RandomProducts'));
     }
     public function showUserProfile()
     {
