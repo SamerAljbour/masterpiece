@@ -76,7 +76,7 @@ class ProductListController extends Controller
         $product = Product::with(['photos', 'variants'])->where('id', $id)->first();
         $reviews = Review::with(['product', 'user'])->where('product_id', $id)->get();
 
-        // dd($product->variants);
+        // dd($reviews);
         return view('frontend.productdetail',  compact('product', 'reviews'));
     }
 }

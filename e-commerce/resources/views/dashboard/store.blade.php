@@ -491,7 +491,7 @@ margin-left: 30px!important;
                                     </div>
                                 </div>
                                 <button type="button" style="right:120px" data-bs-toggle="modal" data-bs-target="#modalUpdate-{{ $product->id }}" class="btn btn-info remove-button" title="View">
-                                    <i class="fa fa-add"></i> <!-- Font Awesome Eye Icon -->
+                                    <i class="fa fa-cubes"></i> <!-- Font Awesome Eye Icon -->
                                 </button>
 
                                 <div class="modal fade" id="modalUpdate-{{ $product->id }}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

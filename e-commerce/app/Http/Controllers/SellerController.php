@@ -232,7 +232,7 @@ class SellerController extends Controller
     function updateStockForProductVariant(Request $request, string $id)
     {
         $newStock = $request->validate([
-            'newStock' => 'required'
+            'newStock' => 'required',
         ]);
         $variant  = ProductVariantCombination::find($id);
         $variant->stock = $newStock['newStock'];
@@ -242,9 +242,9 @@ class SellerController extends Controller
             Product::where('id', $variant->product_id)->update([
                 'total_stock' => $updatedTotal
             ]);
-            return redirect()->back()->with('success', 'updated');
+            return redirect()->back()->with('success', 'Stock updated successfully for the variant.');
         } else {
-            return redirect()->back()->with('error', 'somthing went wrong while updating the stock');
+            return redirect()->back()->with('error', 'An error occurred while updating the stock. Please try again.');
         };
     }
 }

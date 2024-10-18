@@ -1489,7 +1489,7 @@
                     @if ( $reviews->count()  == 0)
                     <h1 class="commentTitle"><small class="pull-right ">0 comments</small> Comments </h1>
                     @elseif ( $reviews->count()  == 1)
-                    <h1 class="commentTitle"><small class="pull-right clearfix">1 comment</small> Comments </h1>
+                    <h1 class="commentTitle"><small class="pull-right clearfix">{{ $reviews->count() }} comment</small> Comments </h1>
                     @else
                     <h1 class="commentTitle"><small class="pull-right clearfix">{{ $reviews->count() }} comments</small> Comments </h1>
                     @endif

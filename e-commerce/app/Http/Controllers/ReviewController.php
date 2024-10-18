@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PaymentHistory;
 use App\Models\Review;
 use App\Models\Seller;
 use Illuminate\Http\Request;
@@ -47,6 +48,10 @@ class ReviewController extends Controller
         }
         $validatedData = $validator->validated();
 
+        $checkReview = PaymentHistory::where('user_id', Auth::user()->id)->where('product_id', $request['product_id'])->first();
+        if (!$checkReview) {
+            return redirect()->back()->with('error', 'You should buy the product first to be able to review it.');
+        }
         Review::create([
             'product_id' => $validatedData['product_id'],
             'user_id' => $validatedData['user_id'],
