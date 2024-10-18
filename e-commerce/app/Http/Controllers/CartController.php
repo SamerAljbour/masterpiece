@@ -272,7 +272,7 @@ class CartController extends Controller
             ->wherePivotNull('deleted_at') // Ensure soft-deleted products are excluded
             ->get();
 
-        return redirect()->route('cart', Auth::user()->id)->with('successClear', "the one  data deleted");
+        return redirect()->back()->with('successClear', "the one  data deleted");
     }
 
     // // clear cart data

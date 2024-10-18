@@ -436,16 +436,16 @@ margin-left: 30px!important;
                                 <button type="button" class="btn btn-danger remove-button" title="Remove" onclick="confirmDelete(event)">
                                     <i class="fa fa-times"></i> <!-- Font Awesome Times Icon -->
                                 </button>
-
+                            </form>
                                 <a href="{{ route('editProduct', $product->id) }}" style="right:40px; color:white" class="btn btn-warning remove-button" title="Edit">
                                     <i class="fa fa-edit"></i> <!-- Font Awesome Edit Icon -->
                                 </a>
 
-                                <button type="button" style="right:80px" data-bs-toggle="modal" data-bs-target="#modal-{{ $product->id }}" class="btn btn-info remove-button" title="View">
+                                <button type="button" style="right:80px" data-bs-toggle="modal" data-bs-target="#modalView-{{ $product->id }}" class="btn btn-info remove-button" title="View">
                                     <i class="fa fa-eye"></i> <!-- Font Awesome Eye Icon -->
                                 </button>
 
-                                <div class="modal fade" id="modal-{{ $product->id }}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="modalView-{{ $product->id }}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -490,9 +490,59 @@ margin-left: 30px!important;
                                         </div>
                                     </div>
                                 </div>
+                                <button type="button" style="right:120px" data-bs-toggle="modal" data-bs-target="#modalUpdate-{{ $product->id }}" class="btn btn-info remove-button" title="View">
+                                    <i class="fa fa-add"></i> <!-- Font Awesome Eye Icon -->
+                                </button>
+
+                                <div class="modal fade" id="modalUpdate-{{ $product->id }}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="myLargeModalLabel">update <b>{{ $product->name }}</b> quantity</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+
+
+                                                    @foreach ($product->variants as $variant)
+                                                    <form action="{{ route('updateStock' , $variant->id) }}" method="POST">
+                                                        @csrf
+                                                        @method("PUT")
+                                                    <label for="">
+                                                        Stock for the variant:
+                                                        <b>
+                                                            {{
+                                                                $variant->variant_options->size ?? '' }}
+                                                            {{
+                                                                $variant->variant_options->color ?? ' ' }}
+                                                            {{
+                                                                $variant->variant_options->type ?? ' ' }}
+                                                            {{
+                                                                $variant->variant_options->resolution ?? '' }}
+                                                            {{
+                                                                $variant->variant_options->processor ?? ' ' }}
+                                                            {{
+                                                                $variant->variant_options->flavor ?? ' ' }}
+                                                            {{
+                                                                $variant->variant_options->material ?? ' ' }}
+                                                        </b>
+                                                    </label>
+                                                    <input type="number" value="{{ $variant->stock }}" name="newStock">
+                                                    <button type="submit" class="btn btn-primary"> update variant</button>
+                                                </form>
+                                                    @endforeach
+
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger rounded-5" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
                             </div>
-                        </form>
+
 
                         <div class="card hover-img overflow-hidden rounded-2">
                             <div class="card-body p-0">

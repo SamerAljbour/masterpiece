@@ -81,7 +81,7 @@
                                   <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane active" id="home">
                                         <div class="products-grid row style_grid">
-                                            @foreach ($categoryOne->products as $product)
+                                            @foreach ($categoryOneProducts as $product)
 
 
                                             <div class="item col-lg-2d4 col-md-3 col-sm-4 col-xs-6 col-phone-12">
@@ -97,7 +97,7 @@
                                                                 title="{{ $product->name }}"
                                                                 href="{{ route('productdetail', $product->id) }}">
                                                                 <span class="img-main">
-                                                               <img src="{{ Storage::url($product->image_url) }}" alt="">
+                                                               <img src="{{ Storage::url($product->image_url) }}" width="280px" height="190px"  alt="">
                                                                 </span>
                                                              </a>
                                                          </div>
@@ -183,7 +183,7 @@
 
                                     <div role="tabpanel" class="tab-pane" id="profile">
                                         <div class="products-grid row style_grid">
-                                            @foreach ($categoryTwo->products as $product)
+                                            @foreach ($categoryTwoProducts as $product)
 
 
                                             <div class="item col-lg-2d4 col-md-3 col-sm-4 col-xs-6 col-phone-12">
@@ -199,7 +199,7 @@
                                                                 title="{{ $product->name }}"
                                                                 href="{{ route('productdetail', $product->id) }}">
                                                                 <span class="img-main">
-                                                               <img src="{{ Storage::url($product->image_url) }}" alt="">
+                                                               <img src="{{ Storage::url($product->image_url) }}" width="280px" height="190px"  alt="">
                                                                 </span>
                                                              </a>
                                                          </div>
@@ -285,7 +285,7 @@
 
                                     <div role="tabpanel" class="tab-pane" id="messages">
                                         <div class="products-grid row style_grid">
-                                            @foreach ($categoryThree->products as $product)
+                                            @foreach ($categoryThreeProducts as $product)
 
 
                                             <div class="item col-lg-2d4 col-md-3 col-sm-4 col-xs-6 col-phone-12">
@@ -301,7 +301,7 @@
                                                                 title="{{ $product->name }}"
                                                                 href="{{ route('productdetail', $product->id) }}">
                                                                 <span class="img-main">
-                                                               <img src="{{ Storage::url($product->image_url) }}" alt="">
+                                                               <img src="{{ Storage::url($product->image_url) }}" width="280px" height="190px"  alt="">
                                                                 </span>
                                                              </a>
                                                          </div>
@@ -387,7 +387,7 @@
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="bedroom">
                                         <div class="products-grid row style_grid">
-                                            @foreach ($categoryFour->products as $product)
+                                            @foreach ($categoryFourProducts as $product)
 
 
                                             <div class="item col-lg-2d4 col-md-3 col-sm-4 col-xs-6 col-phone-12">
@@ -403,7 +403,7 @@
                                                                 title="{{ $product->name }}"
                                                                 href="{{ route('productdetail', $product->id) }}">
                                                                 <span class="img-main">
-                                                               <img src="{{ Storage::url($product->image_url) }}" alt="">
+                                                               <img src="{{ Storage::url($product->image_url) }}" width="280px" height="190px"  alt="">
                                                                 </span>
                                                              </a>
                                                          </div>

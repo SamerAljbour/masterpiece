@@ -106,12 +106,11 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <p><strong>Name:</strong> {{ Auth::user()->name }}</p>
-                                <p><strong>Email:</strong> {{ Auth::user()->email }}</p>
                                 <p><strong>Phone:</strong> {{ Auth::user()->phone }}</p>
                             </div>
                             <div class="col-md-6">
-                                <p><strong>Address:</strong> 123 Main St, Anytown, USA</p>
-                                <p><strong>Member Since:</strong> January 1, 2020</p>
+                                <p><strong>Email:</strong> {{ Auth::user()->email }}</p>
+
                             </div>
                         </div>
                     </div>
@@ -126,33 +125,32 @@
                         <th>Date</th>
                         <th>Items</th>
                         <th>Total</th>
-                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>#1001</td>
-                        <td>2024-03-15</td>
-                        <td>Sofa, Coffee Table</td>
-                        <td>$549.99</td>
-                        <td><span class="label label-success">Delivered</span></td>
-                    </tr>
-                    <tr>
-                        <td>#1002</td>
-                        <td>2024-02-28</td>
-                        <td>Dining Chair (x4)</td>
-                        <td>$299.99</td>
-                        <td><span class="label label-info">Shipped</span></td>
-                    </tr>
-                    <tr>
-                        <td>#1003</td>
-                        <td>2024-01-10</td>
-                        <td>Bookshelf, Floor Lamp</td>
-                        <td>$249.99</td>
-                        <td><span class="label label-success">Delivered</span></td>
-                    </tr>
+                    @foreach ($userPaymentHistory as $cartId => $histories)
+                        @php
+                            $totalAmount = 0;
+                            $productsList = [];
+                        @endphp
+                        @foreach ($histories as $history)
+                        @php
+                            $totalAmount += $history->amount;
+                            $productsList[] = $history->product->name;
+                        @endphp
+
+                        @endforeach
+                        <tr>
+                            <td>#{{ $cartId }}</td>
+                            <td>{{ $histories->first()->created_at->format('Y-m-d H:i:s') }}</td> <!-- Accessing created_at correctly -->
+                            <td>{{ implode(', ', $productsList) }}</td>
+                            <td>{{ $totalAmount }} JOD</td>
+
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
+
         </div>
     </div>
 

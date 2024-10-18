@@ -34,19 +34,48 @@ class HomeController extends Controller
         $cartData = $cart->products()
             ->wherePivotNull('deleted_at') // Ensure soft-deleted products are excluded
             ->get();
-        // dd($bestSale);
-        $categoryOne = Category::where('id', 1)->with('products')->first();
-        $categoryTwo = Category::where('id', 2)->with('products')->first();
-        $categoryThree = Category::where('id', 3)->with('products')->first();
-        $categoryFour = Category::where('id', 4)->with('products')->first();
-        // dd($categoryOne);
-        return view('frontend/home', compact('categoryFour', 'categoryThree', 'categoryTwo', 'categoryOne', 'topRated', 'bestSale', 'cartData', 'onSale', 'RandomProducts'));
+
+        // Get products for each category and limit to 10
+        $categoryOne = Category::find(1);
+        $categoryOneProducts = $categoryOne->products()->limit(10)->get();
+
+        $categoryTwo = Category::find(2);
+        $categoryTwoProducts = $categoryTwo->products()->limit(10)->get();
+
+        $categoryThree = Category::find(3);
+        $categoryThreeProducts = $categoryThree->products()->limit(10)->get();
+
+        $categoryFour = Category::find(4);
+        $categoryFourProducts = $categoryFour->products()->limit(10)->get();
+
+        // Pass all variables to the view
+        return view('frontend/home', compact(
+            'categoryFour',
+            'categoryThree',
+            'categoryTwo',
+            'categoryOne',
+            'categoryOneProducts',
+            'categoryTwoProducts',
+            'categoryThreeProducts',
+            'categoryFourProducts',
+            'topRated',
+            'bestSale',
+            'cartData',
+            'onSale',
+            'RandomProducts'
+        ));
     }
+
     public function showUserProfile()
     {
 
         // $userInfo = Auth::user()->id;
         // dd($userInfo);
-        return view('frontend/userprofile',);
+        $userPaymentHistory = PaymentHistory::with('product')
+            ->where('user_id', auth()->id())
+            ->get()
+            ->groupBy('created_at'); // Grouping by cart_id to aggregate products in one cart
+        // dd($userPaymentHistory);
+        return view('frontend/userprofile', compact('userPaymentHistory'));
     }
 }

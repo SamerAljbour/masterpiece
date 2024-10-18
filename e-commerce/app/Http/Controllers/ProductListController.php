@@ -11,26 +11,25 @@ class ProductListController extends Controller
 {
     public function index(Request $request)
     {
-        // $products = Product::with(['category', 'reviews', 'variants'])->paginate(10);
         $categories = Category::withCount('products')->get();
+
+        // Validate the request
         $request->validate([
             'categories' => 'array',
             'categories.*' => 'integer|exists:categories,id',
         ]);
-        $minPrice = $request->input('minPrice', 0); // Default to 0 if not set
-        $maxPrice = $request->input('maxPrice', 99999999); // Set a high default for maximum price
-        $location = $request->input('location', "");
-        // Access selected categories
-        $selectedCategories = $request->input('categories', []);
-        $show = $request->input('show');
 
-        if (is_null($show) || trim($show) === '') {
-            $show = 10; // Default to showing 10 products per page
-        } else {
-            $show = (int)$show;
-        }
+        // Initialize filters
+        $minPrice = $request->input('minPrice', 0);
+        $maxPrice = $request->input('maxPrice', 99999999);
+        $location = $request->input('location', "");
+        $date = $request->input('date', "");
+        $selectedCategories = $request->input('categories', []);
+        $show = $request->input('show', 10);
         $sortBy = $request->input('sortBy', '');
-        // Retrieve products that based on  to the selected categories or price
+        $searchTerm = $request->input('q'); // Get the search term
+
+        // Start building the query
         $products = Product::with('seller')->when($selectedCategories, function ($query) use ($selectedCategories) {
             return $query->whereIn('category_id', $selectedCategories);
         })
@@ -41,11 +40,16 @@ class ProductListController extends Controller
                 return $query->where('price', '<=', $maxPrice);
             })
             ->when($location, function ($query) use ($location) {
-                // this to filter the product model based on the location of the seller
                 return $query->whereHas('seller', function ($query) use ($location) {
                     return $query->where('location', '=', $location);
                 });
+            })
+            // Include the search functionality
+            ->when($searchTerm, function ($query) use ($searchTerm) {
+                return $query->where('name', 'LIKE', '%' . $searchTerm . '%'); // Assuming 'name' is the column to search
             });
+
+        // Sorting logic
         if ($sortBy == 'Price asc') {
             $products = $products->orderBy('price', 'asc');
         } elseif ($sortBy == 'Price desc') {
@@ -54,11 +58,18 @@ class ProductListController extends Controller
             $products = $products->orderBy('rating', 'asc');
         } elseif ($sortBy == 'Rate desc') {
             $products = $products->orderBy('rating', 'desc');
+        } elseif ($sortBy == 'Date desc') {
+            $products = $products->orderBy('created_at', 'desc');
+        } elseif ($sortBy == 'Date asc') {
+            $products = $products->orderBy('created_at', 'asc');
         }
+
+        // Paginate the results
         $products = $products->paginate($show);
-        // dd($categories);
+
         return view('frontend.productList', compact('products', 'categories'));
     }
+
 
     public function productDetails(string $id)
     {

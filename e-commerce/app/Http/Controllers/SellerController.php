@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PaymentHistory;
 use App\Models\Product;
+use App\Models\ProductVariantCombination;
 use App\Models\Review;
 use App\Models\Seller;
 use App\Models\User;
@@ -113,13 +114,13 @@ class SellerController extends Controller
 
         // Check if there is a search input and fetch paginated products
         if (trim($searchInput)) {
-            $products = Product::with(['category', 'seller', 'reviews', 'photos'])
+            $products = Product::with(['category', 'seller', 'reviews', 'photos', 'variants'])
                 ->where('seller_id', $sellerInfo->id)
                 ->where('name', 'LIKE', '%' . $searchInput . '%')
                 ->paginate(9);
         } else {
             // Fetch all paginated products for the seller if no search input is provided
-            $products = Product::with(['category', 'seller', 'reviews', 'photos'])
+            $products = Product::with(['category', 'seller', 'reviews', 'photos', 'variants'])
                 ->where('seller_id', $sellerInfo->id)
                 ->paginate(9);
         }
@@ -129,7 +130,7 @@ class SellerController extends Controller
 
         // Count the total number of products the seller owns
         $productCount = Product::where('seller_id', $sellerInfo->id)->count();
-
+        // dd($producsts);
         // Return the view with the products, seller info, and product counts
         return view('dashboard.store', compact('products', 'sellerInfo', 'productCount', 'countOfSoldProduct'));
     }
@@ -227,5 +228,23 @@ class SellerController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'There was an error: ' . $e->getMessage());
         }
+    }
+    function updateStockForProductVariant(Request $request, string $id)
+    {
+        $newStock = $request->validate([
+            'newStock' => 'required'
+        ]);
+        $variant  = ProductVariantCombination::find($id);
+        $variant->stock = $newStock['newStock'];
+        $updatedTotal = $variant->where('product_id', $variant->product_id)->sum('stock');
+
+        if ($variant->save()) {
+            Product::where('id', $variant->product_id)->update([
+                'total_stock' => $updatedTotal
+            ]);
+            return redirect()->back()->with('success', 'updated');
+        } else {
+            return redirect()->back()->with('error', 'somthing went wrong while updating the stock');
+        };
     }
 }

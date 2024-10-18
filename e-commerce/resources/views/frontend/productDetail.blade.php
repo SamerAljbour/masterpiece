@@ -33,13 +33,13 @@
                             <span class="icon-pointer "></span>
                             <ul class="breadcrumbs">
                                 <li class="home">
-                                    <a title="Go to Home Page" href="#">
+                                    <a title="Go to Home Page" href="{{ route('home') }}">
                                         <i class="fa fa-home"></i>
                                         <span>Home</span>
                                     </a>
                                 </li>
                                 <li class="category3 last">
-                                    <span>Modular Modern</span>
+                                    <span>{{ $product->name }}</span>
                                 </li>
                             </ul>
                         </div>

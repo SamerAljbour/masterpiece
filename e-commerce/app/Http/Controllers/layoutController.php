@@ -16,22 +16,42 @@ class layoutController extends Controller
      */
     public function index()
     {
-        $sellerId = Auth::user()->id;
+        // Get the cart for the authenticated user
         $cart = Cart::where("user_id", Auth::user()->id)->first();
 
-        // Assuming 'products' is a relation or property
+        // Check if the cart exists
+        if (!$cart) {
+            // Handle the case where the cart is not found
+            return view('home', [
+                'cartData' => collect(), // No cart data
+                'totalAmount' => 0, // Total amount is zero
+            ]);
+        }
+
+        // Get the cart products, ensuring soft-deleted products are excluded
         $cartData = $cart->products()
             ->wherePivotNull('deleted_at') // Ensure soft-deleted products are excluded
             ->get();
-        dd($cartData);
+
+        // Check if cartData is empty
+        if ($cartData->isEmpty()) {
+            return view('home', [
+                'cartData' => $cartData,
+                'totalAmount' => 0, // No products in the cart
+            ]);
+        }
+
+
+
+        // Debugging: Uncomment the line below to inspect $cartData
+        // dd($cartData);
+
         return view('home', [
             'cartData' => $cartData,
 
         ]);
-        $sellerInfo = Seller::where('user_id', $sellerId)->first();
-        $productCount = Product::with(["category", "seller", "reviews", 'cartData'])->where('seller_id', $sellerId)->count();
-        return view("dashboard.store", compact("sellerInfo", 'cartData'));
     }
+
 
     /**
      * Show the form for creating a new resource.

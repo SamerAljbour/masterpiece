@@ -24,13 +24,13 @@
                             <span class="icon-pointer "></span>
                             <ul class="breadcrumbs">
                                 <li class="home">
-                                    <a title="Go to Home Page" href="#">
+                                    <a title="Go to Home Page" href="{{ route('home') }}">
                                         <i class="fa fa-home"></i>
                                         <span>Home</span>
                                     </a>
                                 </li>
                                 <li class="category3 last">
-                                    <span>Funiture</span>
+                                    <span>Shop</span>
                                 </li>
                             </ul>
                         </div>
@@ -90,30 +90,9 @@
                                         {{-- <div id="slider-range"></div> --}}
                                     </dd>
 
-                                    <dt class="last odd">Location</dt>
-                                    <dd class="last odd color-img">
-                                        <ol class="configurable-swatch-list last-child">
-                                            <div class="form-group">
-                                                <label for="comment"></label>
-                                                <select class="form-select" style="width :100%" name="location" id="location">
-                                                  <option value="" disabled selected>Select location</option>
-                                                  <option value="Amman">Amman</option>
-                                                  <option value="Irbid">Irbid</option>
-                                                  <option value="Zarqa">Zarqa</option>
-                                                  <option value="Aqaba">Aqaba</option>
-                                                  <option value="Ma’an">Ma’an</option>
-                                                  <option value="Karak">Karak</option>
-                                                  <option value="Tafileh">Tafileh</option>
-                                                  <option value="Ajloun">Ajloun</option>
-                                                  <option value="Jerash">Jerash</option>
-                                                  <option value="Mafraq">Mafraq</option>
-                                                  <option value="Salt">Salt</option>
-                                              </select>
-                                        </div>
-                                        </ol>
-                                    </dd>
+
                                 </dl>
-                                <button type="submit" class="btn-filter">Filter Products</button>
+                                <button type="submit" class="btn-filter " style="margin-top: 10px">Filter Products</button>
                             </form>
 
                             </div>
@@ -620,10 +599,12 @@
                                                 <label>Sort by</label>
                                                 <select name="sortBy" id="rightSelect" class="custom-select">
                                                     <option value="">Select sort</option>
-                                                    <option value="Price asc">Price asc</option>
-                                                    <option value="Price desc">Price desc</option>
-                                                    {{-- <option value="Rate asc">Rate asc</option>
-                                                    <option value="Rate desc">Rate desc</option> --}}
+                                                    <option value="Date desc">Newest First</option>
+                                                    <option value="Date asc">Oldest First</option>
+                                                    <option value="Price asc">Price: Low to High</option>
+                                                    <option value="Price desc">Price: High to Low</option>
+                                                    <option value="Rate asc">Rating: Low to High</option>
+                                                    <option value="Rate desc">Rating: High to Low</option>
                                                 </select>
                                             </div>
                                             <button class="btn-filterTwo" type="submit">Filter</button>

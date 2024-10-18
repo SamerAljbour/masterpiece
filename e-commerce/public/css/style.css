@@ -8063,6 +8063,7 @@ span:hover {
     padding-left: 13px;
     margin-left: 10px;
     line-height: 37px;
+    font-weight: bold ;
     float: left;
     border-left: 1px solid #363636;
 }

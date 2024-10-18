@@ -81,7 +81,7 @@
                         <div class="success-icon">✓</div>
                         <h1 class="success-message">Payment Successful</h1>
 
-                        <p class="redirect-message text-center">You will be redirected to the homepage in <span id="countdown">10</span> seconds.</p>
+                        <p class="redirect-message text-center">You will be redirected to the homepage in <span id="countdown">5</span> seconds.</p>
                     </div>
                     {{-- <div class="order-details">
                         <p>Order Number: <span class="order-number">#12345678</span></p>

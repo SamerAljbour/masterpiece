@@ -25,6 +25,24 @@
         <meta name="viewport" content="width=device-width" />
     </head>
 	<body id="bd" class="cms-index-index3 header-style3 header-prd sns-shopping-cart cms-simen-home-page-v2 default cmspage">
+    @php
+    // Fetch the cart for the authenticated user
+    $cart = \App\Models\Cart::where('user_id', auth()->id())->first();
+
+    // Initialize total amount and cart data collection
+    $totalAmount = 0;
+    $cartData = collect();
+
+    // Check if the cart exists and fetch the products
+    if ($cart) {
+        $cartData = $cart->products()->wherePivotNull('deleted_at')->get();
+
+        // Calculate the total amount
+        $totalAmount = $cartData->sum(function ($product) {
+            return $product->pivot->quantity * ($product->on_sale ? $product->price - ($product->price * $product->on_sale) : $product->price);
+        });
+    }
+@endphp
         <div id="sns_wrapper">
 <div id="sns_header" class="wrap">
     <div id="sns_header_full">
@@ -34,7 +52,7 @@
                 <div class="sns_module" style="clear: both">
                     <div class="header-setting">
                         <div class="module-setting">
-                            <div class="mysetting language-switcher">
+                            {{-- <div class="mysetting language-switcher">
                                 <div class="tongle">
                                     <img alt="" src="images/flag/english.png">
                                     <span>English</span>
@@ -85,7 +103,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <div class="header-account">
@@ -109,9 +127,9 @@
                                     <li>
                                         <a class="top-link-wishlist" title="My Wishlist" href="#">My Wishlist</a>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                         <a class="top-link-checkout" title="Checkout" href="#">Checkout</a>
-                                    </li>
+                                    </li> --}}
                                     <li class=" last">
                                         @if (Auth::user())
                                             <a class="top-link-login" title="Log In" href="{{ route('logout') }}">logout</a>
@@ -147,483 +165,15 @@
                                             <span class="title">Home</span>
                                         </a>
                                     </li>
-                                    <li class="level0 nav-1 no-group first drop-submenu parent">
-                                        <a class=" menu-title-lv0" href="index3-listing-grid.html">
-                                            <span class="title">Funiture</span>
-                                        </a>
-                                        <!-- <div class="no-width wrap_submenu">
-                                            <div class="no-pd">
-                                                <div class="wrap_dropdown fullwidth">
-                                                    <div class="class2 row">
-                                                        <div class="col-sm-3">
-                                                            <div class="wrap_submenu">
-                                                                <h6 class="title menu1-2-5">Table</h6>
-                                                                <ul class="level1">
-                                                                    <li class="level2 nav-1-3-16 first">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title">Living Room Tables</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-17">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title"> Sofa Tables</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-18">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title"> End Tables</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-19">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title"> Coffee Tables</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-20 last">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title">Pedestal Tables</span>
-                                                                        </a>
-                                                                    </li>
 
-                                                                      <li class="level2 nav-1-3-17">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title">Home Office Desks</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-16 first">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title">Coffee Tables</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-17">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title">Pedestal Tables</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-18">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title">Home Office Desks</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-19">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title">Kids' Furniture</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-20 last">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title">Kitchen & Dining Room Sets</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-17">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title"> Sofa Tables</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-18">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title"> End Tables</span>
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-3">
-                                                            <div class="wrap_submenu">
-                                                                <h6 class="title menu1-2-5">Chair</h6>
-                                                                <ul class="level1">
-                                                                     <li class="level2 nav-1-3-16 first">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title">Dining Room Tables</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-17">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title">Folding Tables</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-16 first">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title">Living Room Tables</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-17">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title"> Sofa Tables</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-18">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title"> End Tables</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-19">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title"> Coffee Tables</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-20 last">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title">Pedestal Tables</span>
-                                                                        </a>
-                                                                    </li>
-
-                                                                      <li class="level2 nav-1-3-17">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title">Home Office Desks</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-16 first">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title">Coffee Tables</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-17">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title">Pedestal Tables</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-18">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title">Home Office Desks</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-19">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title">Kids' Furniture</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="level2 nav-1-3-20 last">
-                                                                        <a class=" menu-title-lv2" href="#">
-                                                                            <span class="title">Kitchen & Dining Room Sets</span>
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6 style-pd3">
-                                                            <a class="banner5" href="#">
-                                                                <img alt="" src="images/menu/bmenug.jpg">
-                                                            </a>
-                                                            <br>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> -->
-                                    </li>
-                                    <li class="level0 nav-2 no-group drop-submenu parent">
+                                    <li class="level0 custom-item">
                                         <a class=" menu-title-lv0" href="{{ route('productList') }}">
-                                            <span class="title">All products</span>
-                                        </a>
-                                        <div class="wrap_submenu">
-                                            <ul class="level0">
-                                                <li class="level1 nav-1-1 first">
-                                                    <a class=" menu-title-lv1" href="#">
-                                                        <span class="title">Dining Room Tables</span>
-                                                    </a>
-                                                </li>
-                                                <li class="level1 nav-1-2">
-                                                    <a class=" menu-title-lv1" href="#">
-                                                        <span class="title">Folding Tables</span>
-                                                    </a>
-                                                </li>
-                                                <li class="level1 nav-1-3 parent">
-                                                    <a class=" menu-title-lv1" href="#">
-                                                        <span class="title">Living Room Tables</span>
-                                                    </a>
-                                                    <div class="wrap_submenu">
-                                                        <ul class="level1">
-                                                             <li class="level2 nav-1-3-16 first">
-                                                                <a class=" menu-title-lv2" href="#">
-                                                                    <span class="title">Dining Room Tables</span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="level2 nav-1-3-17">
-                                                                <a class=" menu-title-lv2" href="#">
-                                                                    <span class="title">Folding Tables</span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="level2 nav-1-3-16 first">
-                                                                <a class=" menu-title-lv2" href="#">
-                                                                    <span class="title">Living Room Tables</span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="level2 nav-1-3-17">
-                                                                <a class=" menu-title-lv2" href="#">
-                                                                    <span class="title"> Sofa Tables</span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="level2 nav-1-3-18">
-                                                                <a class=" menu-title-lv2" href="#">
-                                                                    <span class="title"> End Tables</span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="level2 nav-1-3-19">
-                                                                <a class=" menu-title-lv2" href="#">
-                                                                    <span class="title"> Coffee Tables</span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="level2 nav-1-3-20 last">
-                                                                <a class=" menu-title-lv2" href="#">
-                                                                    <span class="title">Pedestal Tables</span>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </li>
-                                                <li class="level1 nav-1-4 last parent">
-                                                    <a class=" menu-title-lv1" href="#">
-                                                        <span class="title">Sofa Tables</span>
-                                                    </a>
-                                                    <div class="wrap_submenu">
-                                                        <ul class="level1">
-                                                            <li class="level2 nav-1-3-16 first">
-                                                                <a class=" menu-title-lv2" href="#">
-                                                                    <span class="title">Dining Room Tables</span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="level2 nav-1-3-17">
-                                                                <a class=" menu-title-lv2" href="#">
-                                                                    <span class="title">Folding Tables</span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="level2 nav-1-3-16 first">
-                                                                <a class=" menu-title-lv2" href="#">
-                                                                    <span class="title">Living Room Tables</span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="level2 nav-1-3-17">
-                                                                <a class=" menu-title-lv2" href="#">
-                                                                    <span class="title"> Sofa Tables</span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="level2 nav-1-3-18">
-                                                                <a class=" menu-title-lv2" href="#">
-                                                                    <span class="title"> End Tables</span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="level2 nav-1-3-19">
-                                                                <a class=" menu-title-lv2" href="#">
-                                                                    <span class="title"> Coffee Tables</span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="level2 nav-1-3-20 last">
-                                                                <a class=" menu-title-lv2" href="#">
-                                                                    <span class="title">Pedestal Tables</span>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </li>
-                                                <li class="level1 nav-1-1 first">
-                                                    <a class=" menu-title-lv1" href="#">
-                                                        <span class="title">End Tables</span>
-                                                    </a>
-                                                </li>
-                                                <li class="level1 nav-1-2">
-                                                    <a class=" menu-title-lv1" href="#">
-                                                        <span class="title">Coffee Tables</span>
-                                                    </a>
-                                                </li>
-                                                <li class="level1 nav-1-2">
-                                                    <a class=" menu-title-lv1" href="#">
-                                                        <span class="title">Pedestal Tables</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="level0 nav-3 no-group drop-submenu12 custom-itemdrop-staticblock">
-                                        <a class=" menu-title-lv0" href="#">
                                             <span class="title">Shop</span>
                                         </a>
-                                        <div class="wrap_dropdown fullwidth">
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <h6 class="title menu1-2-5">Table</h6>
-                                                    <ul class="level1">
-                                                        <li class="level2 nav-1-3-16 first">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Kitchen & Dining Room Tables</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-17">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Folding Tables</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-18">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Living Room Tables</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-19">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Sofa Tables</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-20 last">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">End Tables</span>
-                                                            </a>
-                                                        </li>
 
-                                                          <li class="level2 nav-1-3-17">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Coffee Tables</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-16 first">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Pedestal Tables</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-17">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Home Office Desks</span>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <h6 class="title menu1-2-5">Table</h6>
-                                                    <ul class="level1">
-                                                        <li class="level2 nav-1-3-16 first">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Living Room Tables</span>
-                                                            </a>
-                                                        </li>
-
-                                                        <li class="level2 nav-1-3-17">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Sofa Tables</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-18">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">End Tables</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-19">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Coffee Tables</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-20 last">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Pedestal Tables</span>
-                                                            </a>
-                                                        </li>
-
-                                                          <li class="level2 nav-1-3-17">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Home Office Desks</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-16 first">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Kids' Furniture</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-17">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Kitchen & Dining Room Sets</span>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <h6 class="title menu1-2-5">Table</h6>
-                                                    <ul class="level1">
-                                                        <li class="level2 nav-1-3-16 first">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Kitchen & Dining Room Tables</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-17">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Folding Tables</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-18">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">End Tables</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-19">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Coffee Tables</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-20 last">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Pedestal Tables</span>
-                                                            </a>
-                                                        </li>
-
-                                                          <li class="level2 nav-1-3-17">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Home Office Desks</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-16 first">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Kids' Furniture</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-17">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Kitchen & Dining Room Sets</span>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <h6 class="title menu1-2-5">Table</h6>
-                                                    <ul class="level1">
-                                                        <li class="level2 nav-1-3-16 first">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Dining Room Tables</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-17">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Folding Tables</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-18">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Living Room Tables</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-19">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Sofa Tables</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-20 last">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">End Tables</span>
-                                                            </a>
-                                                        </li>
-
-                                                          <li class="level2 nav-1-3-17">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Coffee Tables</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="level2 nav-1-3-16 first">
-                                                            <a class=" menu-title-lv2" href="#">
-                                                                <span class="title">Pedestal Tables</span>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </li>
-                                    <li class="level0 nav-4 no-group drop-submenu last parent">
+
+                                    {{-- <li class="level0 nav-4 no-group drop-submenu last parent">
                                         <a class=" menu-title-lv0" href="#">
                                             <span class="title">Mobile</span>
                                         </a>
@@ -675,51 +225,17 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                    </li>
-                                    <li class="level0 custom-itemdrop-staticblock">
-                                        <a class="menu-title-lv0" href="index3-404.html">
-                                            <span class="title">Offer</span>
+                                    </li> --}}
+
+
+                                    <li class="level0 custom-item">
+                                        <a class="menu-title-lv0" href="index3-blog.html">
+                                            <span class="title">Contact us</span>
                                         </a>
-                                        <div class="wrap_dropdown fullwidth">
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <a class="banner5" href="#">
-                                                        <img alt="" src="images/menu/menu3.jpg">
-                                                    </a>
-                                                    <br>
-                                                    <h3 class="headtitle">Sofa</h3>
-                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.</p>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <a class="banner5" href="#">
-                                                        <img alt="" src="images/menu/menu4.jpg">
-                                                    </a>
-                                                    <br>
-                                                    <h3 class="headtitle">Chair</h3>
-                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.</p>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <a class="banner5" href="#">
-                                                        <img alt="" src="images/menu/menu5.jpg">
-                                                    </a>
-                                                    <br>
-                                                    <h3 class="headtitle">Bad</h3>
-                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.</p>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <a class="banner5" href="#">
-                                                        <img alt="" src="images/menu/menu6.jpg">
-                                                    </a>
-                                                    <br>
-                                                    <h3 class="headtitle">furniture chest</h3>
-                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.</p>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </li>
                                     <li class="level0 custom-item">
-                                        <a class="menu-title-lv0" href="#">
-                                            <span class="title">Deal</span>
+                                        <a class="menu-title-lv0" href="index3-blog.html">
+                                            <span class="title">feedback</span>
                                         </a>
                                     </li>
                                     <li class="level0 custom-item">
@@ -1149,7 +665,7 @@
                                                                 //     ->wherePivotNull('cart_id', Auth::user()->id)
                                                                 //     ->count();
                                                             @endphp
-                                                            <span>3</span>
+                                                            <span>{{ $cartData->count() }}</span>
                                                         </a>
                                                     </span>
                                                 </div>
@@ -1157,63 +673,68 @@
                                             <div class="block-content content">
                                                 <div class="block-inner">
                                                     <ol id="cart-sidebar" class="mini-products-list">
-                                                        <li class="item odd">
-                                                            <a class="product-image" title="Modular Modern" href="detail.html">
-                                                                <img alt="" src="images/products/1.jpg">
-                                                            </a>
-                                                            <div class="product-details">
-                                                                <a class="btn-remove" onclick="return confirm('Are you sure you would like to remove this item from the shopping cart?');" title="Remove This Item" href="#">Remove This Item</a>
-                                                                <a class="btn-edit" title="Edit item" href="#">Edit item</a>
-                                                                <p class="product-name">
-                                                                    <a href="detail.html">Modular Modern</a>
-                                                                </p>
-                                                                <!-- <strong>1</strong>
-                                                                x -->
-                                                                <span class="price">$ 540.00</span>
+                                                        @if ($cartData->count() > 0)
+
+
+                                                        @foreach ($cartData as $product )
+                                                    <li class="item odd">
+                                                        <a class="product-image" title="Modular Modern" href="{{ route('productdetail', $product->id) }}">
+                                                            <img alt="" src="{{ Storage::url($product->image_url) }}">
+                                                        </a>
+                                                        <div class="product-details">
+                                                            <form method="POST" action="{{ route('deleteFromCart', $product->id) }}">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn-remove"
+                                                                        onclick="return confirm('Are you sure you would like to remove this item from the shopping cart?');"
+                                                                        title="Remove This Item">
+                                                                    Remove This Item
+                                                                </button>
+                                                            </form>
+                                                            {{-- <a class="btn-edit" title="Edit item" href="#">Edit item</a> --}}
+                                                            <p class="product-name">
+                                                                <a href="{{ route('productdetail', $product->id) }}">{{ $product->name }}</a>
+                                                            </p>
+                                                            <!-- <strong>1</strong>
+                                                            x -->
+
+                                                            @if ($product->on_sale)
+
+                                                            <span class="price"> {{ $product->price -($product->price  *  $product->on_sale)}} JOD</span>
+                                                            @php
+                                                                $totalAmount += $product->price -($product->price  *  $product->on_sale)
+                                                            @endphp
+                                                            @else
+                                                            <span class="price"> {{ $product->price }} JOD</span>
+                                                            @php
+                                                                $totalAmount += $product->price
+                                                            @endphp
+
+                                                            @endif
+                                                        </div>
+                                                    </li>
+                                                    @endforeach
+                                                    @else
+
+                                                        <div class="row">
+                                                            <div class="col-md-12 text-center" style="margin: auto;">
+                                                                <img src="{{ asset('images/empty-cart.png') }}" alt="Empty Cart" class="img-responsive center-block" style="width: 100px; height: auto; margin-bottom: 20px;">
+                                                                <p class="text-danger" style="font-size: 18px;">No items in the cart.</p>
                                                             </div>
-                                                        </li>
-                                                        <li class="item odd">
-                                                            <a class="product-image" title="Modular Modern" href="detail.html">
-                                                                <img alt="" src="images/products/22.jpg">
-                                                            </a>
-                                                            <div class="product-details">
-                                                                <a class="btn-remove" onclick="return confirm('Are you sure you would like to remove this item from the shopping cart?');" title="Remove This Item" href="#">Remove This Item</a>
-                                                                <a class="btn-edit" title="Edit item" href="#">Edit item</a>
-                                                                <p class="product-name">
-                                                                    <a href="detail.html">Modular Modern</a>
-                                                                </p>
-                                                                <!-- <strong>1</strong>
-                                                                x -->
-                                                                <span class="price">$ 540.00</span>
-                                                            </div>
-                                                        </li>
-                                                        <li class="item last even">
-                                                            <a class="product-image" title="Modular Modern" href="detail.html">
-                                                                <img alt="" src="images/products/3.jpg">
-                                                            </a>
-                                                            <div class="product-details">
-                                                                <a class="btn-remove" onclick="return confirm('Are you sure you would like to remove this item from the shopping cart?');" title="Remove This Item" href="#">Remove This Item</a>
-                                                                <a class="btn-edit" title="Edit item" href="detail.html">Edit item</a>
-                                                                <p class="product-name">
-                                                                    <a href="#">Modular Modern</a>
-                                                                </p>
-                                                               <!--  <strong>1</strong>
-                                                                x -->
-                                                                <span class="price">$ 540.00</span>
-                                                            </div>
-                                                        </li>
+                                                        </div>
+                                                                                                       @endif
                                                     </ol>
                                                     <p class="cart-subtotal">
                                                         <span class="label">Total:</span>
-                                                        <span class="price">$ 540.00</span>
+                                                        <span class="price">{{ $totalAmount }} JOD</span>
                                                     </p>
 
                                                     <div class="actions">
-                                                        <a class="button">
+                                                        {{-- <a class="button">
                                                             <span>
                                                                 <span>Check out</span>
                                                             </span>
-                                                        </a>
+                                                        </a> --}}
                                                         <a class="button gfont go-to-cart" href="{{ route('cart' , Auth::user()->id) }}">Go to cart</a>
                                                     </div>
 
@@ -1226,7 +747,8 @@
                                 <div class="top-search">
                                     <div id="sns_serachbox_pro11739847651442478087" class="sns-serachbox-pro">
                                         <div class="sns-searbox-content">
-                                            <form id="search_mini_form3703138361442478087" method="get" action="http://demo.snstheme.com/sns-simen/index.php/catalogsearch/result/">
+                                            <form id="search_mini_form3703138361442478087" method="get" action="{{ route('productList') }}">
+                                                @csrf
                                                 <div class="form-search">
                                                     <input id="search3703138361442478087" class="input-text" type="text" value="" name="q" placeholder="Search here...." size="30" autocomplete="off">
                                                     <button class="button form-button" title="Search" type="submit">Search</button>
@@ -1244,7 +766,9 @@
         </div>
     </div>
 </div>
+<script>
 
+</script>
 
 
 

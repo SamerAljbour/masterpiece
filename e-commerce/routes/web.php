@@ -238,6 +238,7 @@ Route::delete('deleteProductImage/{productId}/{imageId}', [ProductController::cl
 
 // <=================================  seller store crud  ============================================>
 Route::get('profileStore', [SellerController::class, 'index'])->name('profileStore');
+Route::put('updateStock/{id}', [SellerController::class, 'updateStockForProductVariant'])->name('updateStock');
 Route::post('searchAboutProduct', [SellerController::class, 'index'])->name('searchAboutProduct');
 
 
@@ -295,7 +296,7 @@ Route::post('deletereview/{id}', [ReviewController::class, 'destroy'])->name('de
 // <================================= cart page  ============================================>
 Route::get('cart/{id}', [CartController::class, 'showCartDAta'])->name('cart');
 Route::put('updatecart/{productId}', [CartController::class, 'updateCart'])->name('updatecart');
-Route::put('deleteFromCart/{productId}', [CartController::class, 'deleteFromCart'])->name('deleteFromCart');
+Route::delete('deleteFromCart/{productId}', [CartController::class, 'deleteFromCart'])->name('deleteFromCart');
 Route::delete('clearCart', [CartController::class, 'clearCart'])->name('clearCart');
 Route::post('addDiscount', [CartController::class, 'addDiscount'])->name('addDiscount');
 
