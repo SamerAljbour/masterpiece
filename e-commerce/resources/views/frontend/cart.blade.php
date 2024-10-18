@@ -270,12 +270,13 @@
                         <form action="{{ route('updatecart', $product->id) }}" method="POST">
                             @csrf
                             @method('PUT')
-                            <button type="button" id="sub" class="btn btn-quantity" onclick="changeQuantity(-1)">-</button>
+                            <button type="button" id="sub" class="btn btn-quantity" onclick="changeQuantity(-1, this)">-</button>
                             <input type="number" name="quantity" class="inputQua" value="{{ $product->pivot->quantity }}" min="1" id="quantityInput">
-                            <button type="button" id="add" class="btn btn-quantity" onclick="changeQuantity(1)">+</button>
+                            <button type="button" id="add" class="btn btn-quantity" onclick="changeQuantity(1, this)">+</button>
 
                             <button type="submit" class="styled-button"><span class="style-bd">update</span></button>
                         </form>
+
                     </td>
                     <td data-title="SUBTOTAL">
                         JD {{ number_format($product->pivot->quantity * ($product->price - ($product->price * $product->on_sale)), 2) }}
@@ -450,8 +451,9 @@
             </div>
             <script>
 
-function changeQuantity(amount) {
-    const quantityInput = document.getElementById('quantityInput');
+function changeQuantity(amount, element) {
+    // Find the closest form and then find the input within that form
+    const quantityInput = element.closest('form').querySelector('.inputQua');
     let currentQuantity = parseInt(quantityInput.value, 10); // Parse as integer with base 10
 
     // Check if currentQuantity is NaN (not a number), if so, set it to 0
