@@ -62,6 +62,14 @@
         @csrf
         <div id="centerTable" class="col-md-12">
             <div class="form-group">
+                <label for="name">Append this Product to </label>
+                <select name="toSeller" id="selectedCat" onchange="toggleVariantSection()" class="form-select" style="width: 100%;">
+                    <option value="">Select seller</option>
+                    @foreach ($sellers as $seller)
+                        <option value="{{ $seller->id }}">{{ $seller->user->name }}</option>
+                    @endforeach
+                </select>            </div>
+            <div class="form-group">
                 <label for="name">Name</label>
                 <input name="name" type="text" class="form-control" id="name" placeholder="Enter Product Name" />
             </div>

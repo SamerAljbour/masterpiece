@@ -273,23 +273,7 @@ margin-left: 30px!important;
                                           class="form-control" id="comment" rows="6"  placeholder="Enter Store Name"
                                           ></textarea>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="comment"> Store location</label>
-                                        <select class="form-select" name="store_location" id="location">
-                                          <option value="" disabled selected>Select location</option>
-                                          <option value="Amman">Amman</option>
-                                          <option value="Irbid">Irbid</option>
-                                          <option value="Zarqa">Zarqa</option>
-                                          <option value="Aqaba">Aqaba</option>
-                                          <option value="Ma’an">Ma’an</option>
-                                          <option value="Karak">Karak</option>
-                                          <option value="Tafileh">Tafileh</option>
-                                          <option value="Ajloun">Ajloun</option>
-                                          <option value="Jerash">Jerash</option>
-                                          <option value="Mafraq">Mafraq</option>
-                                          <option value="Salt">Salt</option>
-                                      </select>
-                                </div>
+
                                     <div class="form-group">
                                         <label for="email2">Store thumbnail</label>
                                         <input

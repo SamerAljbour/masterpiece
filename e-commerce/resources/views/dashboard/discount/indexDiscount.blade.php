@@ -197,7 +197,7 @@
                 </tbody>
               </table>
               @else
-                <p class="no-discount-message">No discount codes available.</p>
+                <p class="text-center  font-weight-bold my-4 p-3 border rounded bg-light">No discount codes available.</p>
                 @if(!$discounts->isEmpty())
 
 
@@ -217,6 +217,7 @@
 
 
     <script>
+        
         $("#multi-filter-select").DataTable({
           pageLength: 5,
           initComplete: function () {

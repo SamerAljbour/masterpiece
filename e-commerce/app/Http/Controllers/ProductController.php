@@ -31,9 +31,10 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $sellers = Seller::with('user')->get();
         // $subCategories = Subcategory::all();
         // dd($categories);
-        return view('dashboard/products/createProduct', compact('categories'));
+        return view('dashboard/products/createProduct', compact('categories', 'sellers'));
     }
 
     /**
@@ -88,7 +89,11 @@ class ProductController extends Controller
         $product->description = $data['description'];
         $product->price = $data['price'];
         $product->category_id = $data['category_id'];
-        $product->seller_id = $storeId->id;
+        if ($request->has('toSeller'))
+            $product->seller_id = $request->input('toSeller');
+        else
+            $product->seller_id = $storeId->id;
+
         $product->on_sale = $data['on_sale'];
         // dd($product->seller_id);
         $product->image_url = $mainImagePath;

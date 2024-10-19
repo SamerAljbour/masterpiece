@@ -17,87 +17,8 @@
                  <h3 class="fw-bold mb-3">Welcome Seller {{  Auth::user()->name}}
                  @endif
 
-                 @if (!$sellerInfo->is_setup)
-
-                    <form action="{{ route('updateStoreInfo') }}" method="POST" enctype="multipart/form-data">
-                        @method('PUT')
-                        @csrf
 
 
-
-                 {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#largeModal">Large modal</button> --}}
-
-                 <!-- Large Modal -->
-                 <div class="modal fade" id="largeModal" tabindex="-1" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-                   <div class="modal-dialog modal-lg">
-                     <div class="modal-content">
-                       <div class="modal-header">
-                         <h5 class="modal-title" id="myLargeModalLabel">Setup Your Store</h5>
-                         {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
-                       </div>
-                       <div class="modal-body">
-                        <div class="form-group">
-                            <label for="email2">Store name</label>
-                            <input
-                              type="text"
-                              name="store_name"
-                              class="form-control"
-                              id="email2"
-                              placeholder="Enter Store Name"
-                            />
-                          </div>
-                          <div style="">
-                              <div class="form-group">
-                                  <label for="comment"> Store description</label>
-                                  <textarea
-                                  name="store_description"
-
-                                  class="form-control" id="comment" rows="6"                               placeholder="Enter Store Name"
-                                  >
-                                </textarea>
-                            </div>
-                          <div style="">
-
-                                <div class="form-group">
-                                    <label for="comment"> Store location</label>
-                                    <select class="form-select" name="store_location" id="location">
-                                      <option value="" disabled selected>Select location</option>
-                                      <option value="Amman">Amman</option>
-                                      <option value="Irbid">Irbid</option>
-                                      <option value="Zarqa">Zarqa</option>
-                                      <option value="Aqaba">Aqaba</option>
-                                      <option value="Ma’an">Ma’an</option>
-                                      <option value="Karak">Karak</option>
-                                      <option value="Tafileh">Tafileh</option>
-                                      <option value="Ajloun">Ajloun</option>
-                                      <option value="Jerash">Jerash</option>
-                                      <option value="Mafraq">Mafraq</option>
-                                      <option value="Salt">Salt</option>
-                                  </select>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label for="email2">Store thumbnail</label>
-                                <input
-                                  type="file"
-                                  class="form-control"
-                                  id="email2"
-                                  placeholder="Enter Email"
-                                  name="store_thumbnail"
-                                />
-                                <p >  <span style="color: red"> <i class="fas fa-exclamation-circle"></i> Important !</span> The recommended store thumbnail is 1352 X 300</p>
-                              </div>
-                        </div>
-                       <div class="modal-footer">
-                         {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
-                         <button type="submit" class="btn btn-secondary rounded-5">Save changes</button>
-                       </div>
-                     </div>
-                   </div>
-                 </div>
-                </form>
-                 @endif
                 </h3>
                 <h6 class="op-7 mb-2"></h6>
               </div>
@@ -877,49 +798,7 @@ var myLineChart = new Chart(lineChart, {
     },
   },
 });
-        $(document).ready(function () {
-        $("#basic-datatables").DataTable({});
 
-        $("#multi-filter-select").DataTable({
-          pageLength: 5,
-          initComplete: function () {
-            this.api()
-              .columns()
-              .every(function () {
-                var column = this;
-                var select = $(
-                  '<select class="form-select"><option value=""></option></select>'
-                )
-                  .appendTo($(column.footer()).empty())
-                  .on("change", function () {
-                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
-
-                    column
-                      .search(val ? "^" + val + "$" : "", true, false)
-                      .draw();
-                  });
-
-                column
-                  .data()
-                  .unique()
-                  .sort()
-                  .each(function (d, j) {
-                    select.append(
-                      '<option value="' + d + '">' + d + "</option>"
-                    );
-                  });
-              });
-          },
-        });
-
-
-      });
-         @if (!$sellerInfo->is_setup)
-         window.onload = function() {
-        var modal = new bootstrap.Modal(document.getElementById('largeModal'));
-        modal.show();
-    };
-    @endif
     var salesChart = document.getElementById("salesChart").getContext("2d");
 
 // Create the gradients for the line stroke

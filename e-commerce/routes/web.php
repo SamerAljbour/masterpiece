@@ -147,7 +147,7 @@ Route::post('/loginRegister', [UserController::class, 'register'])->name('storeN
 Route::post('/loginRegister/login', [UserController::class, 'login'])->name('login');
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 Route::get('/loginRegisterSeller', [UserController::class, 'viewSellerReg'])->name('loginRegisterSeller');
-// Route::post('/loginRegisterSeller', [UserController::class, 'register'])->name('storeNeweUser');
+Route::get('/storeInfo', [UserController::class, 'storeInfo'])->name('storeInfo');
 
 // <================================= End of register  ============================================>
 Route::get('/viewPayment', [PaymentController::class, 'index'])->name('viewPayment');
@@ -251,6 +251,7 @@ Route::post('searchAboutProduct', [SellerController::class, 'index'])->name('sea
 
 // <=================================  reviews crud  ============================================>
 Route::get('allreviews', [ReviewController::class, 'index'])->name('allreviews');
+Route::get('reviews', [ReviewController::class, 'allReviewsForAdmin'])->name('reviewsForAdmin');
 
 
 // <================================= End of reviews crud  ============================================>

@@ -23,6 +23,10 @@ class UserController extends Controller
     {
         return view('regAndLogin/sellerRegister');
     }
+    public function storeInfo()
+    {
+        return view('dashboard.storeInfo');
+    }
     public function register(Request $request)
     {
         try {
@@ -82,7 +86,7 @@ class UserController extends Controller
 
             // Create seller profile if the role is seller
             if ($request->input('role_id') == 2) {
-                Seller::create([
+                $seller = Seller::create([
                     'user_id' =>  $user->id,
                     'store_name' =>  "my store",
                     'store_description' =>  "my store description",
@@ -92,8 +96,10 @@ class UserController extends Controller
             if ($user->role_id == 1) {
 
                 return redirect()->route('loginRegister')->with('successRegister', "You created an account successfully");
-            } else {
+            } elseif ($user->role_id == 2 && $seller->is_setup == 0) {
 
+                return redirect()->route('storeInfo')->with('successRegister', "You need to add the store info to complete the process");
+            } else {
                 return redirect()->route('loginRegisterSeller')->with('successRegister', "You created an account successfully");
             }
             // Redirect with success message
@@ -125,6 +131,11 @@ class UserController extends Controller
             // Check if the entered password matches the hashed password in the database
             if (Hash::check($validateData['password'], $user->password)) {
                 // Check the user's status
+                Auth::login($user);
+                $seller = Seller::where('user_id', Auth::user()->id)->first();
+                if ($seller->is_setup == 0)
+                    return redirect()->route('storeInfo')->with('successRegister', "You need to add the store info to complete the process");
+
                 if ($user->status == 'pending' && $user->role_id == 2) {
                     return redirect('loginRegisterSeller')->with('failedLogin', 'Your account is currently under review. Please check back later for approval.');
                 }
@@ -136,11 +147,11 @@ class UserController extends Controller
                 if ($user->role_id == 1) {
                     return redirect('home')->with('success', 'Welcome back! You have successfully logged in.');
                 } elseif ($user->role_id == 2) {
+
                     if ($user->status == 'rejected') {
                         return redirect('loginRegisterSeller')->with('failedLogin', 'Your account has been rejected.');
-                    } else {
-                        return redirect('sellerDashboard')->with('success', 'Welcome back! You have successfully logged in.');
                     }
+                    return redirect('sellerDashboard')->with('success', 'Welcome back! You have successfully logged in.');
                 } else {
                     return redirect('adminDashboard')->with('success', 'Welcome back! You have successfully logged in.');
                 }

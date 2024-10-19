@@ -199,12 +199,12 @@ class SellerController extends Controller
     }
     public function updateStoreInfo(Request $request)
     {
+        // dd($request->all());
         try {
             $data = $request->validate([
                 'store_name' => 'required',
                 'store_description' => 'required',
                 'store_thumbnail' => 'required|image', // Ensure this is a file input
-                'store_location' => 'required', // Ensure this is a file input
             ]);
 
             $path = null;
@@ -220,11 +220,13 @@ class SellerController extends Controller
                     'store_name' => $data['store_name'],
                     'store_description' => $data['store_description'],
                     'store_thumbnail' => $path,
-                    'location' => $data['store_location'],
                     'is_setup' => 1,
                 ]);
-
-            return redirect()->back()->with('success', 'Congratulations, you updated your store successfully');
+            // for redirction purpose
+            if (Auth::user()->status == 'pending')
+                return redirect()->route('loginRegisterSeller')->with('successRegister', 'Congratulations, you saved your store info successfully');
+            else
+                return redirect()->back()->with('success', 'Congratulations, you updated your store successfully');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'There was an error: ' . $e->getMessage());
         }
