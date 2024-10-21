@@ -76,365 +76,140 @@
 
     <div class="wrapper">
 
-      <!-- Sidebar -->
-      <div class="sidebar" data-background-color="dark">
-        <div class="sidebar-logo">
-          <!-- Logo Header -->
-          <div class="logo-header" data-background-color="dark">
+     <!-- Sidebar -->
+<div class="sidebar" data-background-color="dark">
+    <div class="sidebar-logo">
+        <!-- Logo Header -->
+        <div class="logo-header" data-background-color="dark">
             <a href="index.html" class="logo">
-              <img
-                src="assets/img/kaiadmin/logo_light.svg"
-                alt="navbar brand"
-                class="navbar-brand"
-                height="20"
-              />
+                <img
+                    src="assets/img/kaiadmin/logo_light.svg"
+                    alt="navbar brand"
+                    class="navbar-brand"
+                    height="20"
+                />
             </a>
             <div class="nav-toggle">
-              <button class="btn btn-toggle toggle-sidebar">
-                <i class="gg-menu-right"></i>
-              </button>
-              <button class="btn btn-toggle sidenav-toggler">
-                <i class="gg-menu-left"></i>
-              </button>
+                <button class="btn btn-toggle toggle-sidebar">
+                    <i class="gg-menu-right"></i>
+                </button>
+                <button class="btn btn-toggle sidenav-toggler">
+                    <i class="gg-menu-left"></i>
+                </button>
             </div>
             <button class="topbar-toggler more">
-              <i class="gg-more-vertical-alt"></i>
+                <i class="gg-more-vertical-alt"></i>
             </button>
-          </div>
-          <!-- End Logo Header -->
         </div>
-        <div class="sidebar-wrapper scrollbar scrollbar-inner">
-          <div class="sidebar-content">
+        <!-- End Logo Header -->
+    </div>
+    <div class="sidebar-wrapper scrollbar scrollbar-inner">
+        <div class="sidebar-content">
             <ul class="nav nav-secondary">
-
-              {{--  --}}
-
-              <li class="nav-item active">
-                @if (Auth::user()->role_id == 2)
-
-                <a href="{{ route('sellerDashboard') }}">
-                  <i class="fas fa-home"></i>
-                  <p>Home</p>
-                  <span class=""></span>
-                </a>
-                @else
-                <a href="{{ route('adminDashboard') }}">
-                    <i class="fas fa-home"></i>
-                    <p>Home</p>
-                    <span class=""></span>
-                  </a>
-                @endif
-                <li class="nav-item ">
+                <li class="nav-item {{ request()->routeIs('sellerDashboard') || request()->routeIs('adminDashboard') ? 'active' : '' }}">
                     @if (Auth::user()->role_id == 2)
-                  <a href="{{ route('profileStore') }}">
-                    <i class="fas fa-store"></i>
+                    <a href="{{ route('sellerDashboard') }}">
+                        <i class="fas fa-home"></i>
+                        <p>Home</p>
+                        <span class=""></span>
+                    </a>
+                    @else
+                    <a href="{{ route('adminDashboard') }}">
+                        <i class="fas fa-home"></i>
+                        <p>Home</p>
+                        <span class=""></span>
+                    </a>
+                    @endif
+                </li>
 
-                    <p> My Store</p>
-                    <span class=""></span>
-                  </a>
-                  @endif
-
-                @if (Auth::user()->role_id == 3)
-
-                <li class="nav-item ">
-                  <a href="{{ route('allUsers') }}">
-                    <i class="fas fa-user-circle"></i>
-                    <p>Manage Users</p>
-                    <span class=""></span>
-                  </a>
+                @if (Auth::user()->role_id == 2)
+                <li class="nav-item {{ request()->routeIs('profileStore') ? 'active' : '' }}">
+                    <a href="{{ route('profileStore') }}">
+                        <i class="fas fa-store"></i>
+                        <p> My Store</p>
+                        <span class=""></span>
+                    </a>
                 </li>
                 @endif
-                <li class="nav-item ">
-                    @if (Auth::user()->role_id == 3)
-                  <a href="{{ route('allStores') }}">
-                    <i class="fas fa-store"></i>
-                    <p>All Stores</p>
-                    <span class=""></span>
-                  </a>
-                  @endif
 
-               </li>
-              <li class="nav-item ">
-                {{-- for admin --}}
                 @if (Auth::user()->role_id == 3)
-                <a href="{{ route('alldiscounts') }}">
-                    <i class="fas fa-money-bill-wave"></i>
-                    <p>Manage Discounts</p>
-                    <span class=""></span>
-                </a>
+                <li class="nav-item {{ request()->routeIs('allUsers') ? 'active' : '' }}">
+                    <a href="{{ route('allUsers') }}">
+                        <i class="fas fa-user-circle"></i>
+                        <p>Manage Users</p>
+                        <span class=""></span>
+                    </a>
+                </li>
+                @endif
+
+                <li class="nav-item {{ request()->routeIs('allStores') ? 'active' : '' }}">
+                    @if (Auth::user()->role_id == 3)
+                    <a href="{{ route('allStores') }}">
+                        <i class="fas fa-store"></i>
+                        <p>All Stores</p>
+                        <span class=""></span>
+                    </a>
+                    @endif
+                </li>
+
+                <li class="nav-item {{ request()->routeIs('alldiscounts') || request()->routeIs('allsellerdiscounts') ? 'active' : '' }}">
+                    @if (Auth::user()->role_id == 3)
+                    <a href="{{ route('alldiscounts') }}">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <p>Manage Discounts</p>
+                        <span class=""></span>
+                    </a>
                     @elseif (Auth::user()->role_id == 2)
-                    {{-- for seller --}}
-                    <a href="{{ route('allsellerdiscounts' , Auth::user()->id) }}">
+                    <a href="{{ route('allsellerdiscounts', Auth::user()->id) }}">
                         <i class="fas fa-money-bill-wave"></i>
                         <p>Manage Discounts</p>
                         <span class=""></span>
                     </a>
                     @endif
+                </li>
 
-
-
-
-
-              </li>
-              @if (Auth::user()->role_id == 3)
-              <li class="nav-item ">
-                  <a href="{{ route('allCategories') }}">
-                      <i class="fas fa-th"></i>
-                      <p>Manage Categories</p>
-                      <span class=""></span>
+                @if (Auth::user()->role_id == 3)
+                <li class="nav-item {{ request()->routeIs('allCategories') ? 'active' : '' }}">
+                    <a href="{{ route('allCategories') }}">
+                        <i class="fas fa-th"></i>
+                        <p>Manage Categories</p>
+                        <span class=""></span>
                     </a>
                 </li>
                 @endif
-              <li class="nav-item ">
-                <a href="{{ route('allProducts') }}">
-                  <i class="fas fa-th"></i>
-                  <p>Manage Products</p>
-                  <span class=""></span>
-                </a>
-              <li class="nav-item ">
-                <a href="{{ route('allreviews') }}">
-                  <i class="fas fa-th"></i>
-                  <p>Manage Reviews</p>
-                  <span class=""></span>
-                </a>
 
+                <li class="nav-item {{ request()->routeIs('allProducts') ? 'active' : '' }}">
+                    <a href="{{ route('allProducts') }}">
+                        <i class="fas fa-th"></i>
+                        <p>Manage Products</p>
+                        <span class=""></span>
+                    </a>
+                </li>
 
+                @if (Auth::user()->role_id == 3)
+                <li class="nav-item {{ request()->routeIs('allreviews') ? 'active' : '' }}">
+                    <a href="{{ route('allreviews') }}">
+                        <i class="fas fa-th"></i>
+                        <p>Manage Reviews</p>
+                        <span class=""></span>
+                    </a>
+                </li>
+                @endif
 
-              </li>
-{{--  --}}
-              </li>
-
-              <li class="nav-section">
-                <span class="sidebar-mini-icon">
-                  <i class="fa fa-ellipsis-h"></i>
-                </span>
-                <h4 class="text-section">Components</h4>
-              </li>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#base">
-                  <i class="fas fa-layer-group"></i>
-                  <p>Base</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="base">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a href="{{ route('avatars') }}">
-                        <span class="sub-item">Avatars</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="{{ route('buttons') }}">
-                        <span class="sub-item">Buttons</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="{{ route('gridsystem') }}">
-                        <span class="sub-item">Grid System</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="{{ route('panels') }}">
-                        <span class="sub-item">Panels</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="{{ route('notifications') }}">
-                        <span class="sub-item">Notifications</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="{{ route('sweetalert') }}">
-                        <span class="sub-item">Sweet Alert</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="{{ route('fontAwesomeIcons') }}">
-                        <span class="sub-item">Font Awesome Icons</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="{{ route('simpleLineIcons') }}">
-                        <span class="sub-item">Simple Line Icons</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="{{ route('typography') }}">
-                        <span class="sub-item">Typography</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarLayouts">
-                  <i class="fas fa-th-list"></i>
-                  <p>Sidebar Layouts</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="sidebarLayouts">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a href="{{ route('sidebarTwo') }}">
-                        <span class="sub-item">Sidebar Style 2</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="{{ route('iconMenu') }}">
-                        <span class="sub-item">Icon Menu</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#forms">
-                  <i class="fas fa-pen-square"></i>
-                  <p>Forms</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="forms">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a href="{{ route('forms') }}">
-                        <span class="sub-item">Basic Form</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#tables">
-                  <i class="fas fa-table"></i>
-                  <p>Tables</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="tables">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a href="{{ route('tables') }}">
-                        <span class="sub-item">Basic Table</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="{{ route('dataTables') }}">
-                        <span class="sub-item">Datatables</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#maps">
-                  <i class="fas fa-map-marker-alt"></i>
-                  <p>Maps</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="maps">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a href="{{ route('googlemaps') }}">
-                        <span class="sub-item">Google Maps</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="{{ route('jsvectormap') }}">
-                        <span class="sub-item">Jsvectormap</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#charts">
-                  <i class="far fa-chart-bar"></i>
-                  <p>Charts</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="charts">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a href="{{ route('charts') }}">
-                        <span class="sub-item">Chart Js</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="{{ route('sparkline') }}">
-                        <span class="sub-item">Sparkline</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('widgets') }}">
-                  <i class="fas fa-desktop"></i>
-                  <p>Widgets</p>
-                  <span class="badge badge-success">4</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="">
-                  <i class="fas fa-file"></i>
-                  <p>Documentation</p>
-                  <span class="badge badge-secondary">1</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#submenu">
-                  <i class="fas fa-bars"></i>
-                  <p>Menu Levels</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="submenu">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a data-bs-toggle="collapse" href="#subnav1">
-                        <span class="sub-item">Level 1</span>
-                        <span class="caret"></span>
-                      </a>
-                      <div class="collapse" id="subnav1">
-                        <ul class="nav nav-collapse subnav">
-                          <li>
-                            <a href="#">
-                              <span class="sub-item">Level 2</span>
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#">
-                              <span class="sub-item">Level 2</span>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li>
-                      <a data-bs-toggle="collapse" href="#subnav2">
-                        <span class="sub-item">Level 1</span>
-                        <span class="caret"></span>
-                      </a>
-                      <div class="collapse" id="subnav2">
-                        <ul class="nav nav-collapse subnav">
-                          <li>
-                            <a href="#">
-                              <span class="sub-item">Level 2</span>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <span class="sub-item">Level 1</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
+                @if (Auth::user()->role_id == 3 || Auth::user()->role_id == 2)
+                <li class="nav-item {{ request()->routeIs('restoreProducts') ? 'active' : '' }}">
+                    <a href="{{ route('restoreProducts') }}">
+                        <i class="fas fa-th"></i>
+                        <p>Restore Products</p>
+                        <span class=""></span>
+                    </a>
+                </li>
+                @endif
             </ul>
-          </div>
         </div>
-      </div>
+    </div>
+</div>
+
       <!-- End Sidebar -->
 
       <div class="main-panel">
@@ -472,7 +247,7 @@
               <nav
                 class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
               >
-                <div class="input-group">
+                {{-- <div class="input-group">
                   <div class="input-group-prepend">
                     <button type="submit" class="btn btn-search pe-1">
                       <i class="fa fa-search search-icon"></i>
@@ -483,7 +258,7 @@
                     placeholder="Search ..."
                     class="form-control"
                   />
-                </div>
+                </div> --}}
               </nav>
 
               <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">

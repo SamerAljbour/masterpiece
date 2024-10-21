@@ -255,43 +255,76 @@ class ProductController extends Controller
      */
     public function destroy(Product $product, string $id)
     {
-        $product = Product::find($id);
-        // Delete the main product image if it exists
-        if ($product->image_url && Storage::exists($product->image_url)) {
-            Storage::delete($product->image_url);
+        // Retrieve the product by its ID, including the associated photos
+        $product = Product::with('photos')->find($id);
+
+        if (!$product) {
+            return redirect()->back()->with('error', 'Product not found.');
         }
 
-        // Delete all associated additional images from ProductPhoto
+        // Soft-delete the product's related photos
         foreach ($product->photos as $photo) {
-            if (Storage::exists($photo->photo_url)) {
-                Storage::delete($photo->photo_url);
-            }
+            $photo->delete(); // This will soft-delete the photo due to SoftDeletes trait in the ProductPhoto model
         }
 
-        // Delete the product's related photos from the database
-        $product->photos()->delete();
-
-        // Delete the product itself
-        $product->delete();
+        // Soft-delete the product itself
+        $product->delete(); // This will soft-delete the product due to SoftDeletes trait in the Product model
 
         // Redirect to the list of products with a success message
-        return redirect()->back()->with('success', 'Product deleted successfully');
+        return redirect()->back()->with('success', 'Product soft-deleted successfully');
     }
-    public function deleteProductImage(string $productId, string $imageId)
+
+    // public function deleteProductImage(string $productId, string $imageId)
+    // {
+    //     $photo = ProductPhoto::find($imageId); // Retrieve the photo instance
+
+    //     if ($photo) {
+    //         // Optionally delete the image from storage if necessary
+    //         Storage::delete($photo->photo_url);
+
+    //         // Delete the record from the database
+    //         $photo->delete();
+
+    //         return redirect()->back()->with('success', 'Image deleted successfully');
+    //     } else {
+    //         return redirect()->back()->with('error', 'Image not found');
+    //     }
+    // }
+    public function showDeletedProducts()
     {
-        $photo = ProductPhoto::find($imageId); // Retrieve the photo instance
-
-        if ($photo) {
-            // Optionally delete the image from storage if necessary
-            Storage::delete($photo->photo_url);
-
-            // Delete the record from the database
-            $photo->delete();
-
-            return redirect()->back()->with('success', 'Image deleted successfully');
-        } else {
-            return redirect()->back()->with('error', 'Image not found');
-        }
+        $deletedProducts = Product::onlyTrashed()->with(['photos' => function ($query) {
+            $query->withTrashed(); // Ensure soft-deleted product photos are included
+        }])->get();
+        return view('dashboard.restoreProduct', compact('deletedProducts'));
     }
-    // public function show
+    public function showDeletedProductsForSeller()
+    {
+        $deletedProductsForSeller = Product::onlyTrashed()->where('user_id', Auth::user()->id)->with(['photos' => function ($query) {
+            $query->withTrashed(); // Ensure soft-deleted product photos are included
+        }])->get();
+        return view('dashboard.restoreProduct', compact('deletedProductsForSeller'));
+    }
+    public function restoreProduct(Request $request)
+    {
+        // Retrieve the soft-deleted product, including the soft-deleted photos
+        $product = Product::withTrashed()->with(['photos' => function ($query) {
+            $query->withTrashed(); // Include soft-deleted photos in the query
+        }])->where('id', $request->input('product_id'))->first();
+
+        if ($product) {
+            // Restore the product
+            $product->restore();
+
+            // Restore the associated photos
+            if ($product->photos) { // Ensure you're accessing the 'photos' relationship
+                foreach ($product->photos as $photo) {
+                    $photo->restore(); // Restore each soft-deleted photo
+                }
+            }
+
+            return redirect()->back()->with('success', 'Product and its photos restored successfully');
+        }
+
+        return redirect()->back()->with('error', 'Product not found or cannot be restored');
+    }
 }

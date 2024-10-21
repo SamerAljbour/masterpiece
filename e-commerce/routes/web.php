@@ -243,6 +243,8 @@ Route::post('searchAboutProduct', [SellerController::class, 'index'])->name('sea
 
 
 
+Route::get('restoreProducts', [ProductController::class, 'showDeletedProducts'])->name('restoreProducts');
+Route::put('restoreProduct', [ProductController::class, 'restoreProduct'])->name('restoreProduct');
 
 
 

@@ -215,7 +215,7 @@
                                     <span class="icon-pointer "></span>
                                     <ul class="breadcrumbs">
                                         <li class="home">
-                                            <a title="Go to Home Page" href="#">
+                                            <a title="Go to Home Page" href="{{ route('home') }}">
                                                 <i class="fa fa-home"></i>
                                                 <span>Home</span>
                                             </a>
@@ -239,7 +239,7 @@
                         <div class="shoppingcart">
                             <div class="sptitle col-md-12">
                                 <h3>SHOPPING CART</h3>
-                                <h4 class="style">PROCEED TO CHECKOUT</h4>
+
                             </div>
                             @if (count($cartData))
     <table class="cart-table">
@@ -284,7 +284,7 @@
                     <td>
                         <form action="{{ route('deleteFromCart', $product->id) }}" method="POST">
                             @csrf
-                            @method('PUT')
+                            @method('DELETE')
                             <button type="submit" class="btn-remove"><i class="fas fa-times"></i></button>
                         </form>
                     </td>
@@ -325,7 +325,7 @@
 
 
                                 <div class="row">
-                                    <form class="col-md-4">
+                                    {{-- <form class="col-md-4">
                                         <div class="form-bd">
                                             <h3>ESTIMATE SHIPPING AND TAX</h3>
                                             <p class="text1">Enter your destination to get a shipping estimate.</p>
@@ -361,8 +361,8 @@
                                             <input class="style23" type="text" value="" size="30" />
                                             <span class="style-bd">Get a quote</span>
                                         </div>
-                                    </form>
-                                    <form class="col-md-4" method="POST" action="{{ route('addDiscount') }}">
+                                    </form> --}}
+                                    <form class="col-md-6" method="POST" action="{{ route('addDiscount') }}">
                                         @method("POST")
                                         @csrf
                                         <div class="form-bd">
@@ -374,7 +374,7 @@
                                             <button type="submit" class="style-bd">Apply coupon</button>
                                         </div>
                                     </form>
-                                    <form class="form-right col-md-4">
+                                    <form class="form-right col-md-6">
                                         <div class="form-bd">
                                             <p class="subtotal">
                                                 <span class="text1">SUBTOTAL:</span>

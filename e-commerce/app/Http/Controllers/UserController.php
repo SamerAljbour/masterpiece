@@ -132,8 +132,9 @@ class UserController extends Controller
             if (Hash::check($validateData['password'], $user->password)) {
                 // Check the user's status
                 Auth::login($user);
-                $seller = Seller::where('user_id', Auth::user()->id)->first();
-                if ($seller->is_setup == 0)
+                $seller = User::with('seller')->where('id', Auth::user()->id)->first();
+
+                if ($seller->seller->is_setup == 0 && $user->role_id == 2)
                     return redirect()->route('storeInfo')->with('successRegister', "You need to add the store info to complete the process");
 
                 if ($user->status == 'pending' && $user->role_id == 2) {

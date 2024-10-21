@@ -66,17 +66,32 @@ class ProductListController extends Controller
 
         // Paginate the results
         $products = $products->paginate($show);
-
-        return view('frontend.productList', compact('products', 'categories'));
+        // based on rate
+        $recommended = Product::withAvg('reviews', 'rating') // Calculate the average rating
+            ->orderByDesc('reviews_avg_rating') // Order by average rating in descending order
+            ->paginate(12);
+        return view('frontend.productList', compact('products', 'categories', 'recommended'));
     }
 
 
     public function productDetails(string $id)
     {
         $product = Product::with(['photos', 'variants'])->where('id', $id)->first();
-        $reviews = Review::with(['product', 'user'])->where('product_id', $id)->get();
 
-        // dd($reviews);
-        return view('frontend.productdetail',  compact('product', 'reviews'));
+        $reviews = Review::with(['product', 'user'])->where('product_id', $id)->get();
+        $relatedProducts = Product::with('category')
+            ->where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id) // Exclude the current product
+            ->inRandomOrder()
+            ->paginate(8);
+
+        $bestSales = Product::withCount('paymentHistories')
+            ->orderBy('payment_histories_count', 'desc')
+            ->paginate(15);
+        $onSale = Product::whereNotNull("on_sale")
+            ->inRandomOrder()
+            ->paginate(8);
+        // dd($product);
+        return view('frontend.productdetail', compact('onSale', 'product', 'reviews', 'relatedProducts', 'bestSales'));
     }
 }

@@ -8063,7 +8063,7 @@ span:hover {
     padding-left: 13px;
     margin-left: 10px;
     line-height: 37px;
-    font-weight: bold ;
+    font-weight: bold;
     float: left;
     border-left: 1px solid #363636;
 }
@@ -18607,7 +18607,7 @@ body .jqtransformdone {
 .btn-filter {
     display: inline-block;
     vertical-align: middle;
-    width: 174px;
+    width: 100%;
     height: 36px;
     position: relative;
     font-size: 14px;

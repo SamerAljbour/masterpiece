@@ -89,8 +89,18 @@
                                                      <div class="prd">
                                                          <div class="item-img clearfix">
                                                             <div class="ico-label">
-                                                                <span class="ico-product ico-new">New</span>
-                                                                <span class="ico-product ico-sale">Sale</span>
+
+                                                                @if ($product->created_at->diffInDays() < 3)
+                                                        <div class="ico-label">
+                                                            <span class="ico-product ico-new">New</span>
+                                                        </div>
+                                                    @endif
+                                                      @if ($product->on_sale)
+
+                                                    <div class="ico-label">
+                                                        <span class="ico-product ico-sale">Sale</span>
+                                                    </div>
+                                                    @endif
                                                             </div>
 
                                                              <a class="product-image have-additional"
@@ -190,10 +200,17 @@
                                                  <div class="item-inner">
                                                      <div class="prd">
                                                          <div class="item-img clearfix">
+                                                            @if ($product->created_at->diffInDays() < 3)
                                                             <div class="ico-label">
                                                                 <span class="ico-product ico-new">New</span>
-                                                                <span class="ico-product ico-sale">Sale</span>
                                                             </div>
+                                                        @endif
+                                                          @if ($product->on_sale)
+
+                                                        <div class="ico-label">
+                                                            <span class="ico-product ico-sale">Sale</span>
+                                                        </div>
+                                                        @endif
 
                                                              <a class="product-image have-additional"
                                                                 title="{{ $product->name }}"
@@ -292,10 +309,17 @@
                                                  <div class="item-inner">
                                                      <div class="prd">
                                                          <div class="item-img clearfix">
-                                                            <div class="ico-label">
-                                                                <span class="ico-product ico-new">New</span>
-                                                                <span class="ico-product ico-sale">Sale</span>
-                                                            </div>
+                                                            @if ($product->created_at->diffInDays() < 3)
+                                                        <div class="ico-label">
+                                                            <span class="ico-product ico-new">New</span>
+                                                        </div>
+                                                    @endif
+                                                      @if ($product->on_sale)
+
+                                                    <div class="ico-label">
+                                                        <span class="ico-product ico-sale">Sale</span>
+                                                    </div>
+                                                    @endif
 
                                                              <a class="product-image have-additional"
                                                                 title="{{ $product->name }}"
@@ -394,10 +418,17 @@
                                                  <div class="item-inner">
                                                      <div class="prd">
                                                          <div class="item-img clearfix">
+                                                            @if ($product->created_at->diffInDays() < 3)
                                                             <div class="ico-label">
                                                                 <span class="ico-product ico-new">New</span>
-                                                                <span class="ico-product ico-sale">Sale</span>
                                                             </div>
+                                                        @endif
+                                                          @if ($product->on_sale)
+
+                                                        <div class="ico-label">
+                                                            <span class="ico-product ico-sale">Sale</span>
+                                                        </div>
+                                                        @endif
 
                                                              <a class="product-image have-additional"
                                                                 title="{{ $product->name }}"

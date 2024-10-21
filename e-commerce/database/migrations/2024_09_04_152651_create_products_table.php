@@ -20,6 +20,8 @@ class CreateProductsTable extends Migration
             // $table->foreignId('sub_category_id')->constrained('sub_categories')->onDelete('cascade'); // Foreign key reference
 
             $table->text('image_url')->nullable();
+            $table->softDeletes(); // Add this line for soft deletes
+
             $table->timestamps();
         });
     }

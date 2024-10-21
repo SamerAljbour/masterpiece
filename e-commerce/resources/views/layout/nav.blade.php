@@ -110,7 +110,7 @@
                                     <a class="top-link-myaccount" title="My Account" href="{{ route('userProfile') }}">My Profile</a>
                                 </li>
                                 <li>
-                                    <a class="top-link-wishlist" title="My Wishlist" href="#">My Wishlist</a>
+                                    {{-- <a class="top-link-wishlist" title="My Wishlist" href="#">My Wishlist</a> --}}
                                 </li>
                                 {{-- <li>
                                     <a class="top-link-checkout" title="Checkout" href="#">Checkout</a>
@@ -146,34 +146,36 @@
                     <div id="sns_mainnav">
                         <div id="sns_custommenu" class="visible-md visible-lg">
                             <ul class="mainnav">
-                                <li class="level0 custom-item active">
+                                <li class="level0 custom-item {{ request()->routeIs('home') ? 'active' : '' }}">
                                     <a class="menu-title-lv0 pd-menu116" href="{{ route('home') }}" target="_self">
                                         <span class="title">Home</span>
                                     </a>
                                 </li>
 
-                                <li class="level0 custom-item">
-                                    <a class=" menu-title-lv0" href="{{ route('productList')  }}">
-                                        <span class="title">Shop </span>
+                                <li class="level0 custom-item {{ request()->routeIs('productList') ? 'active' : '' }}">
+                                    <a class="menu-title-lv0" href="{{ route('productList') }}">
+                                        <span class="title">Shop</span>
                                     </a>
+                                </li>
 
+                                <li class="level0 custom-item {{ request()->is('contact') ? 'active' : '' }}">
+                                    <a class="menu-title-lv0" href="#">
+                                        <span class="title">Contact Us</span>
+                                    </a>
                                 </li>
 
-                                <li class="level0 custom-item">
+                                <li class="level0 custom-item {{ request()->is('feedback') ? 'active' : '' }}">
                                     <a class="menu-title-lv0" href="#">
-                                        <span class="title">contact us</span>
+                                        <span class="title">Feedback</span>
                                     </a>
                                 </li>
-                                <li class="level0 custom-item">
-                                    <a class="menu-title-lv0" href="#">
-                                        <span class="title">feedback</span>
-                                    </a>
-                                </li>
-                                <li class="level0 custom-item">
+
+                                <li class="level0 custom-item {{ request()->is('index3-blog.html') ? 'active' : '' }}">
                                     <a class="menu-title-lv0" href="index3-blog.html">
                                         <span class="title">Blog</span>
                                     </a>
                                 </li>
+
 
                                 </ul>
                         </div>

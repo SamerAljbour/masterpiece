@@ -80,7 +80,7 @@
                                             <div class="item-info">
                                                 <div class="item-title">
                                                     <a title="Modular Modern"
-                                                        href="index3-detail.html">{{ $product->name }}</a>
+                                                        href="{{ route('productdetail', $product->id) }}">{{ $product->name }}</a>
                                                 </div>
                                                 <div class="item-price">
                                                     <div class="price-box">
@@ -121,20 +121,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="desc std">
-                                                    <h5>QUICK OVERVIEW</h5>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vel
-                                                        magna quis risus commodo porttitor. Praesent rutrum lectus diam, ac
-                                                        consequat dolor hendrerit sit amet. Nulla tincidunt tempor nulla et
-                                                        fermentum. Maecenas tempor massa sed sodales dignissim</p>
+                                                    <h5>Description</h5>
+                                                    <p>{{$product->description}}</p>
                                                 </div>
 
                                                 <form>
-                                                    <p class="mg-size">SIZE
-                                                        <span>*</span>
-                                                    </p>
 
 
-                                                    <p class="mg-color">TYPE
+                                                    <p class="mg-color">Variant
                                                         <span>*</span>
                                                     </p>
                                                     <select name="variant_id" id="variant_id" class="style-color"  onchange="setvariant()">
@@ -162,7 +156,7 @@
                                                         <div class="qty-container">
                                                             <button class="qty-decrease"
                                                                 onclick="var qty_el = document.getElementById('qty'); var qty = qty_el.value; if( !isNaN( qty ) && qty > 1 ) qty_el.value--;return false;"
-                                                                type="button">-</button>
+                                                                type="button"></button>
 
                                                             <input id="qty" name="quantity" class="input-text qty" type="text" title="Qty" value="1" />
 
@@ -186,7 +180,7 @@
                                                             Add to Cart
                                                         </button>
 
-                                                        <ul class="add-to-links">
+                                                        {{-- <ul class="add-to-links">
                                                             <li>
                                                                 <a class="link-wishlist" data-original-title="Add to Wishlist"
                                                                     data-toggle="tooltip" href="#" title=""></a>
@@ -206,7 +200,7 @@
                                                                     </div>
                                                                 </div>
                                                             </li>
-                                                        </ul>
+                                                        </ul> --}}
                                                     </form>
 
 
@@ -235,441 +229,207 @@
                             <div class="content">
                                 <div id="products_slider12" class="products-slider12 owl-carousel owl-theme"
                                     style="display: inline-block">
+                                    @foreach ($bestSales->chunk(5) as $chunk)
                                     <div class="item-row">
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/10.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
+                                        @foreach ($chunk as $item)
+                                            <div class="item">
+                                                <div class="item-inner">
+                                                    <div class="prd">
+                                                        <div class="item-img clearfix">
+                                                            <a class="product-image have-additional" href="{{ route('productdetail', $item->id) }}" title="{{ $item->name }}">
+                                                                <span class="img-main">
+                                                                    <img alt="{{ $item->name }}" src="{{ Storage::url($item->image_url) }}">
                                                                 </span>
-                                                            </div>
+                                                            </a>
                                                         </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
+                                                        <div class="item-info">
+                                                            <div class="info-inner">
+                                                                <div class="item-title">
+                                                                    <a href="{{ route('productdetail', $item->id) }}" title="{{ $item->name }}">
+                                                                        {{ $item->name }}
+                                                                    </a>
+                                                                </div>
+                                                                <div class="item-price">
+                                                                    <span class="price">
+                                                                        <span class="price1">{{ $item->price }} JOD</span>
+                                                                        @if ($item->on_sale)
+                                                                            <span class="price2">{{ $item->price - ($item->price * $item->on_sale) }} JOD</span>
+                                                                        @endif
+                                                                    </span>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                            <div class="action-bot">
+                                                                <div class="wrap-addtocart">
+                                                                    <form action="{{ route('storeToCart') }}" method="POST">
+                                                                        @csrf
+                                                                        <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="quantity">
+                                                                        <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
+                                                                        <input type="hidden" value="{{ $item->id }}" name="product_id">
+                                                                        @if ($product->on_sale)
+                                                                        <input type="hidden" value="{{ $product->price - ($product->price * $product->on_sale) }}" name="price">
+                                                                    @else
+                                                                        <input type="hidden" value="{{ $product->price }}" name="price">
+                                                                    @endif                                                                        @if ($item->variants->isNotEmpty() && $item->variants->first())
+                                                                            <input type="hidden" value="{{ $item->variants->first()->id }}" name="variant_id">
+                                                                        @endif
 
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/11.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/12.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
+                                                                        <button type="submit" class="btn-cart" title="Add to Cart">
+                                                                            <i class="fa fa-shopping-cart"></i>
+                                                                            <span>Add to Cart</span>
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
-                                                            </div>
+                                                        <div class="ico-label">
+                                                            @if ($item->created_at->diffInDays() < 3)
+                                                                <span class="ico-product ico-new">New</span>
+                                                            @endif
+                                                            @if ($item->on_sale)
+                                                                <span class="ico-product ico-sale">Sale</span>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                        @endforeach
+                                    </div>
+                                @endforeach
+                                    @foreach ($bestSales->chunk(5) as $chunk)
+            <div class="item-row">
+                @foreach ($chunk as $item)
+                    <div class="item">
+                        <div class="item-inner">
+                            <div class="prd">
+                                <div class="item-img clearfix">
+                                    <a class="product-image have-additional" href="{{ route('productdetail', $item->id) }}" title="{{ $item->name }}">
+                                        <span class="img-main">
+                                            <img alt="{{ $item->name }}" src="{{ Storage::url($item->image_url) }}">
+                                        </span>
+                                    </a>
+                                </div>
+                                <div class="item-info">
+                                    <div class="info-inner">
+                                        <div class="item-title">
+                                            <a href="{{ route('productdetail', $item->id) }}" title="{{ $item->name }}">
+                                                {{ $item->name }}
+                                            </a>
                                         </div>
-
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/13.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <div class="item-price">
+                                            <span class="price">
+                                                <span class="price1">{{ $item->price }} JOD</span>
+                                                @if ($item->on_sale)
+                                                    <span class="price2">{{ $item->price - ($item->price * $item->on_sale) }} JOD</span>
+                                                @endif
+                                            </span>
                                         </div>
                                     </div>
-                                    <div class="item-row">
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/14.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="action-bot">
+                                        <div class="wrap-addtocart">
+                                            <form action="{{ route('storeToCart') }}" method="POST">
+                                                @csrf
+                                                <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="quantity">
+                                                <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
+                                                <input type="hidden" value="{{ $item->id }}" name="product_id">
+                                                @if ($product->on_sale)
+                                                <input type="hidden" value="{{ $product->price - ($product->price * $product->on_sale) }}" name="price">
+                                            @else
+                                                <input type="hidden" value="{{ $product->price }}" name="price">
+                                            @endif                                                                        @if ($item->variants->isNotEmpty() && $item->variants->first())
+                                                    <input type="hidden" value="{{ $item->variants->first()->id }}" name="variant_id">
+                                                @endif
 
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/15.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/16.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/17.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                <button type="submit" class="btn-cart" title="Add to Cart">
+                                                    <i class="fa fa-shopping-cart"></i>
+                                                    <span>Add to Cart</span>
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
-                                    <div class="item-row">
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/18.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/19.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/20.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/21.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                </div>
+                                <div class="ico-label">
+                                    @if ($item->created_at->diffInDays() < 3)
+                                        <span class="ico-product ico-new">New</span>
+                                    @endif
+                                    @if ($item->on_sale)
+                                        <span class="ico-product ico-sale">Sale</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endforeach
+        @foreach ($bestSales->chunk(5) as $chunk)
+        <div class="item-row">
+            @foreach ($chunk as $item)
+                <div class="item">
+                    <div class="item-inner">
+                        <div class="prd">
+                            <div class="item-img clearfix">
+                                <a class="product-image have-additional" href="{{ route('productdetail', $item->id) }}" title="{{ $item->name }}">
+                                    <span class="img-main">
+                                        <img alt="{{ $item->name }}" src="{{ Storage::url($item->image_url) }}">
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="item-info">
+                                <div class="info-inner">
+                                    <div class="item-title">
+                                        <a href="{{ route('productdetail', $item->id) }}" title="{{ $item->name }}">
+                                            {{ $item->name }}
+                                        </a>
                                     </div>
+                                    <div class="item-price">
+                                        <span class="price">
+                                            <span class="price1">{{ $item->price }} JOD</span>
+                                            @if ($item->on_sale)
+                                                <span class="price2">{{ $item->price - ($item->price * $item->on_sale) }} JOD</span>
+                                            @endif
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="action-bot">
+                                    <div class="wrap-addtocart">
+                                        <form action="{{ route('storeToCart') }}" method="POST">
+                                            @csrf
+                                            <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="quantity">
+                                            <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
+                                            <input type="hidden" value="{{ $item->id }}" name="product_id">
+                                            @if ($product->on_sale)
+                                            <input type="hidden" value="{{ $product->price - ($product->price * $product->on_sale) }}" name="price">
+                                        @else
+                                            <input type="hidden" value="{{ $product->price }}" name="price">
+                                        @endif                                                                        @if ($item->variants->isNotEmpty() && $item->variants->first())
+                                                <input type="hidden" value="{{ $item->variants->first()->id }}" name="variant_id">
+                                            @endif
+
+
+                                            <button type="submit" class="btn-cart" title="Add to Cart">
+                                                <i class="fa fa-shopping-cart"></i>
+                                                <span>Add to Cart</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ico-label">
+                                @if ($item->created_at->diffInDays() < 3)
+                                    <span class="ico-product ico-new">New</span>
+                                @endif
+                                @if ($item->on_sale)
+                                    <span class="ico-product ico-sale">Sale</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -691,7 +451,7 @@
                                    <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active style-detail"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Product Description</a></li>
                                     {{-- <li role="presentation" class="style-detail"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Reviews</a></li> --}}
-                                    <li role="presentation" class="style-detail"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Product Tags</a></li>
+                                    {{-- <li role="presentation" class="style-detail"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Product Tags</a></li> --}}
                                 </ul>
 
 
@@ -704,12 +464,12 @@
                                             <p class="top">
                                                 {{ $product->description }}
                                             </p>
-                                            <p class="mid">
+                                            {{-- <p class="mid">
                                                 {{ $product->description }}
                                             </p>
                                             <p class="bot">
                                                 {{ $product->description }}
-                                            </p>
+                                            </p> --}}
                                         </div>
                                     </div>
 
@@ -733,341 +493,87 @@
                         <div class="products-upsell">
                             <div class="detai-products1">
                                 <div class="title">
-                                    <h3>Upsell products</h3>
+                                    <h3>Related products</h3>
                                 </div>
                                 <div class="products-grid">
                                     <div id="related_upsell" class="item-row owl-carousel owl-theme"
                                         style="display: inline-block">
+
+                                        @foreach ($relatedProducts as $relatedProduct)
                                         <div class="item">
                                             <div class="item-inner">
                                                 <div class="prd">
                                                     <div class="item-img clearfix">
                                                         <div class="ico-label">
-                                                            <span class="ico-product ico-sale">Sale</span>
+                                                            @if ($relatedProduct->created_at->diffInDays() < 3)
+                                                                <span class="ico-product ico-new">New</span>
+                                                            @endif
+
+                                                            @if ($relatedProduct->on_sale)
+                                                                <span class="ico-product ico-sale">Sale</span>
+                                                            @endif
                                                         </div>
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
+
+                                                        <a class="product-image have-additional" href="{{ route('productdetail', $relatedProduct->id) }}" title="{{ $product->name }}">
                                                             <span class="img-main">
-                                                                <img alt="" src="images/products/16.jpg">
+                                                                <img alt="" src="{{ Storage::url($relatedProduct->image_url) }}">
                                                             </span>
                                                         </a>
                                                     </div>
+
                                                     <div class="item-info">
                                                         <div class="info-inner">
                                                             <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
+                                                                <a href="{{ route('productdetail', $relatedProduct->id) }}" title="{{ $relatedProduct->name }}">
+                                                                    {{ $relatedProduct->name }}
+                                                                </a>
                                                             </div>
+
                                                             <div class="item-price">
                                                                 <div class="price-box">
                                                                     <span class="regular-price">
                                                                         <span class="price">
-                                                                            <span class="price1">$ 540.00</span>
-                                                                            <span class="price2">$ 600.00</span>
+                                                                            <span class="price1">{{ $relatedProduct->price }} JOD</span>
+                                                                            @if ($relatedProduct->on_sale)
+                                                                                <span class="price2">{{ $relatedProduct->price - ($relatedProduct->price * $relatedProduct->on_sale) }} JOD</span>
+                                                                            @endif
                                                                         </span>
                                                                     </span>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                     <div class="action-bot">
                                                         <div class="wrap-addtocart">
-                                                            <button class="btn-cart" title="Add to Cart">
-                                                                <i class="fa fa-shopping-cart"></i>
-                                                                <span>Add to Cart</span>
-                                                            </button>
+                                                            <form action="{{ route('storeToCart') }}" method="POST">
+                                                                @csrf
+                                                                <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="quantity">
+                                                                <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
+                                                                <input type="hidden" value="{{ $relatedProduct->id }}" name="product_id">
+                                                                @if ($relatedProduct->on_sale)
+                                                                <input type="hidden" value="{{ $relatedProduct->price - ($relatedProduct->price * $relatedProduct->on_sale) }}" name="price">
+                                                            @else
+                                                                <input type="hidden" value="{{ $relatedProduct->price }}" name="price">
+                                                            @endif                                                                    @if ($relatedProduct->variants->isNotEmpty() && $relatedProduct->variants->first())
+                                                                    <input type="hidden" value="{{ $relatedProduct->variants->first()->id }}" name="variant_id">
+                                                                @endif
+
+
+                                                                <button type="submit" class="btn-cart" title="Add to Cart">
+                                                                    <i class="fa fa-shopping-cart"></i>
+                                                                    <span>Add to Cart</span>
+                                                                </button>
+                                                            </form>
                                                         </div>
-                                                        <div class="actions">
-                                                            <ul class="add-to-links">
-                                                                <li>
-                                                                    <a class="link-wishlist" title="Add to Wishlist"
-                                                                        href="#">
-                                                                        <i class="fa fa-heart"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="link-compare" title="Add to Compare"
-                                                                        href="#">
-                                                                        <i class="fa fa-random"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li class="wrap-quickview" data-id="qv_item_7">
-                                                                    <div class="quickview-wrap">
-                                                                        <a class="sns-btn-quickview qv_btn"
-                                                                            href="#">
-                                                                            <i class="fa fa-eye"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
+                                                        <p style="visibility: hidden"><</p>
+
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <div class="ico-label">
-                                                            <span class="ico-product ico-new">New</span>
-                                                            <span class="ico-product ico-sale">Sale</span>
-                                                        </div>
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/17.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <div class="price-box">
-                                                                    <span class="regular-price">
-                                                                        <span class="price">
-                                                                            <span class="price1">$ 540.00</span>
-                                                                            <span class="price2">$ 600.00</span>
-                                                                        </span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="action-bot">
-                                                        <div class="wrap-addtocart">
-                                                            <button class="btn-cart" title="Add to Cart">
-                                                                <i class="fa fa-shopping-cart"></i>
-                                                                <span>Add to Cart</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="actions">
-                                                            <ul class="add-to-links">
-                                                                <li>
-                                                                    <a class="link-wishlist" title="Add to Wishlist"
-                                                                        href="#">
-                                                                        <i class="fa fa-heart"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="link-compare" title="Add to Compare"
-                                                                        href="#">
-                                                                        <i class="fa fa-random"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li class="wrap-quickview" data-id="qv_item_7">
-                                                                    <div class="quickview-wrap">
-                                                                        <a class="sns-btn-quickview qv_btn"
-                                                                            href="#">
-                                                                            <i class="fa fa-eye"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/18.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <div class="price-box">
-                                                                    <span class="regular-price">
-                                                                        <span class="price">
-                                                                            <span class="price1">$ 540.00</span>
-                                                                            <span class="price2">$ 600.00</span>
-                                                                        </span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="action-bot">
-                                                        <div class="wrap-addtocart">
-                                                            <button class="btn-cart" title="Add to Cart">
-                                                                <i class="fa fa-shopping-cart"></i>
-                                                                <span>Add to Cart</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="actions">
-                                                            <ul class="add-to-links">
-                                                                <li>
-                                                                    <a class="link-wishlist" title="Add to Wishlist"
-                                                                        href="#">
-                                                                        <i class="fa fa-heart"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="link-compare" title="Add to Compare"
-                                                                        href="#">
-                                                                        <i class="fa fa-random"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li class="wrap-quickview" data-id="qv_item_7">
-                                                                    <div class="quickview-wrap">
-                                                                        <a class="sns-btn-quickview qv_btn"
-                                                                            href="#">
-                                                                            <i class="fa fa-eye"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <div class="ico-label">
-                                                            <span class="ico-product ico-new">New</span>
-                                                        </div>
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/19.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <div class="price-box">
-                                                                    <span class="regular-price">
-                                                                        <span class="price">
-                                                                            <span class="price1">$ 540.00</span>
-                                                                            <span class="price2">$ 600.00</span>
-                                                                        </span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="action-bot">
-                                                        <div class="wrap-addtocart">
-                                                            <button class="btn-cart" title="Add to Cart">
-                                                                <i class="fa fa-shopping-cart"></i>
-                                                                <span>Add to Cart</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="actions">
-                                                            <ul class="add-to-links">
-                                                                <li>
-                                                                    <a class="link-wishlist" title="Add to Wishlist"
-                                                                        href="#">
-                                                                        <i class="fa fa-heart"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="link-compare" title="Add to Compare"
-                                                                        href="#">
-                                                                        <i class="fa fa-random"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li class="wrap-quickview" data-id="qv_item_7">
-                                                                    <div class="quickview-wrap">
-                                                                        <a class="sns-btn-quickview qv_btn"
-                                                                            href="#">
-                                                                            <i class="fa fa-eye"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/11.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <div class="price-box">
-                                                                    <span class="regular-price">
-                                                                        <span class="price">
-                                                                            <span class="price1">$ 540.00</span>
-                                                                            <span class="price2">$ 600.00</span>
-                                                                        </span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="action-bot">
-                                                        <div class="wrap-addtocart">
-                                                            <button class="btn-cart" title="Add to Cart">
-                                                                <i class="fa fa-shopping-cart"></i>
-                                                                <span>Add to Cart</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="actions">
-                                                            <ul class="add-to-links">
-                                                                <li>
-                                                                    <a class="link-wishlist" title="Add to Wishlist"
-                                                                        href="#">
-                                                                        <i class="fa fa-heart"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="link-compare" title="Add to Compare"
-                                                                        href="#">
-                                                                        <i class="fa fa-random"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li class="wrap-quickview" data-id="qv_item_7">
-                                                                    <div class="quickview-wrap">
-                                                                        <a class="sns-btn-quickview qv_btn"
-                                                                            href="#">
-                                                                            <i class="fa fa-eye"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    @endforeach
+
                                     </div>
                                 </div>
                             </div>
@@ -1076,7 +582,7 @@
                         <div class="products-related">
                             <div class="detai-products1">
                                 <div class="title">
-                                    <h3>Related products</h3>
+                                    <h3>Upsell products</h3>
                                 </div>
                                 <div class="products-grid">
                                     <form class="top">
@@ -1084,35 +590,42 @@
                                     </form>
                                     <div id="related_upsell1" class="item-row owl-carousel owl-theme"
                                         style="display: inline-block">
+
+                                        @foreach ($onSale as $item)
+
+
                                         <div class="item">
                                             <div class="item-inner">
                                                 <div class="prd">
                                                     <div class="item-img clearfix">
-                                                        <form class="bot">
-                                                            <input type="checkbox" name="vehicle" value="Bike">
-                                                        </form>
+
                                                         <div class="ico-label">
+                                                            @if ($item->on_sale)
+
                                                             <span class="ico-product ico-sale">Sale</span>
+                                                            @endif
                                                         </div>
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
+                                                        <a class="product-image have-additional" href="{{ route('productdetail'  ,$item->id) }}"
+                                                            title="{{ $item->name }}">
                                                             <span class="img-main">
-                                                                <img alt="" src="images/products/8.jpg">
+                                                                <img alt="" src="{{ Storage::url($item->image_url) }}">
                                                             </span>
                                                         </a>
                                                     </div>
                                                     <div class="item-info">
                                                         <div class="info-inner">
                                                             <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
+                                                                <a href="{{ route('productdetail'  ,$item->id) }}" title="{{ $item->name }}">
                                                                     Modular Modern </a>
                                                             </div>
                                                             <div class="item-price">
                                                                 <div class="price-box">
                                                                     <span class="regular-price">
                                                                         <span class="price">
-                                                                            <span class="price1">$ 540.00</span>
-                                                                            <span class="price2">$ 600.00</span>
+                                                                            @if ($item->on_sale)
+                                                                            <span class="price1">{{ $item->price - ($item->price * $item->on_sale) }} JOD</span>
+                                                                            <span class="price2">{{ $item->price }} JOD</span>
+                                                                            @endif
                                                                         </span>
                                                                     </span>
                                                                 </div>
@@ -1121,12 +634,27 @@
                                                     </div>
                                                     <div class="action-bot">
                                                         <div class="wrap-addtocart">
-                                                            <button class="btn-cart" title="Add to Cart">
-                                                                <i class="fa fa-shopping-cart"></i>
-                                                                <span>Add to Cart</span>
-                                                            </button>
+                                                            <form action="{{ route('storeToCart') }}" method="POST">
+                                                                @csrf
+                                                                <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="quantity">
+                                                                <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
+                                                                <input type="hidden" value="{{ $item->id }}" name="product_id">
+                                                                @if ($product->on_sale)
+                                                                <input type="hidden" value="{{ $product->price - ($product->price * $product->on_sale) }}" name="price">
+                                                            @else
+                                                                <input type="hidden" value="{{ $product->price }}" name="price">
+                                                            @endif                                                                        @if ($item->variants->isNotEmpty() && $item->variants->first())
+                                                                    <input type="hidden" value="{{ $item->variants->first()->id }}" name="variant_id">
+                                                                @endif
+
+
+                                                                <button type="submit" class="btn-cart" title="Add to Cart">
+                                                                    <i class="fa fa-shopping-cart"></i>
+                                                                    <span>Add to Cart</span>
+                                                                </button>
+                                                            </form>
                                                         </div>
-                                                        <div class="actions">
+                                                        {{-- <div class="actions">
                                                             <ul class="add-to-links">
                                                                 <li>
                                                                     <a class="link-wishlist" title="Add to Wishlist"
@@ -1149,285 +677,13 @@
                                                                     </div>
                                                                 </li>
                                                             </ul>
-                                                        </div>
+                                                        </div> --}}
+                                                        <p style="visibility: hidden">></p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <form class="bot">
-                                                            <input type="checkbox" name="vehicle" value="Bike">
-                                                        </form>
-                                                        <div class="ico-label">
-                                                            <span class="ico-product ico-new">New</span>
-                                                        </div>
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/13.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <div class="price-box">
-                                                                    <span class="regular-price">
-                                                                        <span class="price">
-                                                                            <span class="price1">$ 540.00</span>
-                                                                            <span class="price2">$ 600.00</span>
-                                                                        </span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="action-bot">
-                                                        <div class="wrap-addtocart">
-                                                            <button class="btn-cart" title="Add to Cart">
-                                                                <i class="fa fa-shopping-cart"></i>
-                                                                <span>Add to Cart</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="actions">
-                                                            <ul class="add-to-links">
-                                                                <li>
-                                                                    <a class="link-wishlist" title="Add to Wishlist"
-                                                                        href="#">
-                                                                        <i class="fa fa-heart"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="link-compare" title="Add to Compare"
-                                                                        href="#">
-                                                                        <i class="fa fa-random"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li class="wrap-quickview" data-id="qv_item_7">
-                                                                    <div class="quickview-wrap">
-                                                                        <a class="sns-btn-quickview qv_btn"
-                                                                            href="#">
-                                                                            <i class="fa fa-eye"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <form class="bot">
-                                                            <input type="checkbox" name="vehicle" value="Bike">
-                                                        </form>
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/3.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <div class="price-box">
-                                                                    <span class="regular-price">
-                                                                        <span class="price">
-                                                                            <span class="price1">$ 540.00</span>
-                                                                            <span class="price2">$ 600.00</span>
-                                                                        </span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="action-bot">
-                                                        <div class="wrap-addtocart">
-                                                            <button class="btn-cart" title="Add to Cart">
-                                                                <i class="fa fa-shopping-cart"></i>
-                                                                <span>Add to Cart</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="actions">
-                                                            <ul class="add-to-links">
-                                                                <li>
-                                                                    <a class="link-wishlist" title="Add to Wishlist"
-                                                                        href="#">
-                                                                        <i class="fa fa-heart"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="link-compare" title="Add to Compare"
-                                                                        href="#">
-                                                                        <i class="fa fa-random"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li class="wrap-quickview" data-id="qv_item_7">
-                                                                    <div class="quickview-wrap">
-                                                                        <a class="sns-btn-quickview qv_btn"
-                                                                            href="#">
-                                                                            <i class="fa fa-eye"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <form class="bot">
-                                                            <input type="checkbox" name="vehicle" value="Bike">
-                                                        </form>
-                                                        <div class="ico-label">
-                                                            <span class="ico-product ico-new">New</span>
-                                                        </div>
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/26.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <div class="price-box">
-                                                                    <span class="regular-price">
-                                                                        <span class="price">
-                                                                            <span class="price1">$ 540.00</span>
-                                                                            <span class="price2">$ 600.00</span>
-                                                                        </span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="action-bot">
-                                                        <div class="wrap-addtocart">
-                                                            <button class="btn-cart" title="Add to Cart">
-                                                                <i class="fa fa-shopping-cart"></i>
-                                                                <span>Add to Cart</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="actions">
-                                                            <ul class="add-to-links">
-                                                                <li>
-                                                                    <a class="link-wishlist" title="Add to Wishlist"
-                                                                        href="#">
-                                                                        <i class="fa fa-heart"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="link-compare" title="Add to Compare"
-                                                                        href="#">
-                                                                        <i class="fa fa-random"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li class="wrap-quickview" data-id="qv_item_7">
-                                                                    <div class="quickview-wrap">
-                                                                        <a class="sns-btn-quickview qv_btn"
-                                                                            href="#">
-                                                                            <i class="fa fa-eye"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <form class="bot">
-                                                            <input type="checkbox" name="vehicle" value="Bike">
-                                                        </form>
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/29.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <div class="price-box">
-                                                                    <span class="regular-price">
-                                                                        <span class="price">
-                                                                            <span class="price1">$ 540.00</span>
-                                                                            <span class="price2">$ 600.00</span>
-                                                                        </span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="action-bot">
-                                                        <div class="wrap-addtocart">
-                                                            <button class="btn-cart" title="Add to Cart">
-                                                                <i class="fa fa-shopping-cart"></i>
-                                                                <span>Add to Cart</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="actions">
-                                                            <ul class="add-to-links">
-                                                                <li>
-                                                                    <a class="link-wishlist" title="Add to Wishlist"
-                                                                        href="#">
-                                                                        <i class="fa fa-heart"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="link-compare" title="Add to Compare"
-                                                                        href="#">
-                                                                        <i class="fa fa-random"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li class="wrap-quickview" data-id="qv_item_7">
-                                                                    <div class="quickview-wrap">
-                                                                        <a class="sns-btn-quickview qv_btn"
-                                                                            href="#">
-                                                                            <i class="fa fa-eye"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -1478,6 +734,7 @@
                             </div>
                         </fieldset>
                     </form>
+
                 </div>
             </div>
            </section>

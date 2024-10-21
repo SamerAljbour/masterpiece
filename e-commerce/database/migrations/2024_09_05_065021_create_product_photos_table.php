@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->string('photo_url'); // URL or path to the photo
             $table->string('alt_text')->nullable(); // Alternative text for accessibility
+            $table->softDeletes(); // Add this line for soft deletes
+
             $table->timestamps();
         });
     }

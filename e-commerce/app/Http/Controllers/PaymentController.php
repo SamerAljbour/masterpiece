@@ -57,21 +57,29 @@ class PaymentController extends Controller
 
         // Iterate over the cart products
         foreach ($cartProducts as $cartinfo) {
-            // Get the product variant and associated product
-            $variant = ProductVariantCombination::where('product_id', $cartinfo->product_id)->first();
-            $product = Product::find($cartinfo->product_id);
-
-            // Ensure the product exists and has stock
-            if (!$variant || $variant->stock == 0) {
+            // Check if the product exists and is not soft-deleted
+            $product = Product::with('seller')->find($cartinfo->product_id);
+            if (!$product || $product->trashed()) { // Check for soft-deletion
+                // Remove the product from the cart
                 $cartinfo->delete();
-                return redirect()->back()->with('error', 'Out of stock. The product has been deleted.');
+                continue; // Continue to the next product
+            }
+
+            // Get the product variant
+            $variant = ProductVariantCombination::where('product_id', $cartinfo->product_id)->first();
+
+            // Ensure the product variant exists and has stock
+            if (!$variant || $variant->stock == 0) {
+                // Remove the product from the cart
+                $cartinfo->delete();
+                continue; // Continue to the next product
             }
 
             // Check if the requested quantity exceeds available stock
             if ($cartinfo->quantity > $variant->stock) {
-                // Optionally, you can remove the item from the cart here
+                // Remove the product from the cart here
                 $cartinfo->delete();
-                return redirect()->back()->with('error', 'Requested quantity exceeds available stock. The product has been deleted.');
+                continue; // Continue to the next product
             }
 
             // Decrement the stock for the purchased product variant
@@ -81,9 +89,6 @@ class PaymentController extends Controller
             // Calculate the amount for the current product
             $amount = $cartinfo->quantity * $cartinfo->price;
             $totalAmount += $amount;
-
-            // Get the product model to retrieve the seller ID
-            $product = Product::with('seller')->find($cartinfo->product_id);
 
             // Create a new payment history record for each product
             PaymentHistory::create([
@@ -98,7 +103,7 @@ class PaymentController extends Controller
             Product::where('id', $cartinfo->product_id)->decrement('total_stock', $cartinfo->quantity);
         }
 
-        // Empty the cart
+        // Empty the cart of any remaining products
         CartProduct::where('cart_id', $cart->id)
             ->whereNull('deleted_at')
             ->delete();
@@ -146,20 +151,46 @@ class PaymentController extends Controller
     {
         session()->forget('afterDiscount');
 
+        // Find the cart for the authenticated user
         $cart = Cart::where("user_id", Auth::user()->id)->first();
+
+        // Get all products in the cart
+        $cartProducts = $cart->products()->whereNull('cart_product.deleted_at')->get();
+
+        // Loop through each product in the cart
+        foreach ($cartProducts as $product) {
+            // Check if the product has been soft-deleted
+            if ($product->trashed()) { // Assumes the Product model uses SoftDeletes
+                // Remove the soft-deleted product from the cart
+                $cart->products()->detach($product->id);
+            }
+        }
+
+        // Now, delete the remaining products that are not soft-deleted
         CartProduct::where('cart_id', $cart->id)
             ->whereNull('deleted_at')
             ->delete();
-        $totalAmount = $cart->products()->whereNull('cart_product.deleted_at')->get()->sum(function ($product) {
-            return $product->pivot->quantity * $product->price;
-        });
+
+        // Recalculate the total amount in the cart
+        $totalAmount = $cart->products()
+            ->whereNull('cart_product.deleted_at') // Ensure soft-deleted products are excluded
+            ->get()
+            ->sum(function ($product) {
+                return $product->pivot->quantity * $product->price;
+            });
+
+        // Update the cart's total amount
         $cart->total_amount = $totalAmount;
         $cart->save();
+
+        // Retrieve updated cart data
         $cartData = $cart->products()
             ->wherePivotNull('deleted_at') // Ensure soft-deleted products are excluded
             ->get();
-        return redirect()->route('cart', Auth::user()->id)->with('successClear', "the data deleted");
+
+        return redirect()->route('cart', Auth::user()->id)->with('successClear', "The data has been deleted.");
     }
+
     public function showSuccessPayment()
     {
         return view('frontend.paymentSuccess');

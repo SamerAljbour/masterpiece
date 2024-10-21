@@ -111,441 +111,64 @@
                             <div class="content">
                                 <div id="products_slider12" class="products-slider12 owl-carousel owl-theme"
                                     style="display: inline-block">
-                                    <div class="item-row">
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/10.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
+                                    @foreach($recommended->chunk(4) as $chunk)
+                                    <div class="item-row"> <!-- Start a new row for each chunk -->
+                                        @foreach($chunk as $product)
+                                            <div class="item">
+                                                <div class="item-inner">
+                                                    <div class="prd">
+                                                        <div class="item-img clearfix">
+                                                            <a class="product-image have-additional" href="{{ route('productdetail', $product->id) }}" title="{{ $product->name }}">
+                                                                <span class="img-main">
+                                                                    <img alt="{{ $product->name }}" src="{{ Storage::url($product->image_url) }}">
                                                                 </span>
-                                                            </div>
+                                                            </a>
                                                         </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
+                                                        <div class="item-info">
+                                                            <div class="info-inner">
+                                                                <div class="item-title">
+                                                                    <a href="{{ route('productdetail', $product->id) }}" title="{{ $product->name }}">
+                                                                        {{ $product->name }}
+                                                                    </a>
+                                                                </div>
+                                                                <div class="item-price">
+                                                                    <span class="price">
+                                                                        <span class="price1">${{ number_format($product->price, 2) }}</span>
+                                                                    </span>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                            <div class="action-bot">
+                                                                <div class="wrap-addtocart">
+                                                                    <form action="{{ route('storeToCart') }}" method="POST">
+                                                                        @csrf
+                                                                        <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="quantity">
+                                                                        <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
+                                                                        <input type="hidden" value="{{ $product->id }}" name="product_id">
+                                                                        @if ($product->on_sale)
+                                                                        <input type="hidden" value="{{ $product->price - ($product->price * $product->on_sale) }}" name="price">
+                                                                    @else
+                                                                        <input type="hidden" value="{{ $product->price }}" name="price">
+                                                                    @endif                                                                     @if ($product->variants->isNotEmpty() && $product->variants->first())
+                                                                            <input type="hidden" value="{{ $product->variants->first()->id }}" name="variant_id">
+                                                                        @endif
 
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/11.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/12.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
+                                                                        <button class="btn-cart" title="Add to Cart"  type="submit">
+                                                                            Add to Cart
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        @endforeach
+                                    </div> <!-- End of item-row -->
+                                @endforeach
 
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/13.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="item-row">
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/14.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/15.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/16.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/17.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="item-row">
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/18.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/19.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/20.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="item">
-                                            <div class="item-inner">
-                                                <div class="prd">
-                                                    <div class="item-img clearfix">
-                                                        <a class="product-image have-additional" href="index3-detail.html"
-                                                            title="Modular Modern">
-                                                            <span class="img-main">
-                                                                <img alt="" src="images/products/21.jpg">
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title">
-                                                                <a href="index3-detail.html" title="Modular Modern">
-                                                                    Modular Modern </a>
-                                                            </div>
-                                                            <div class="item-price">
-                                                                <span class="price">
-                                                                    <span class="price1">$ 540.00</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="action-bot">
-                                                            <div class="wrap-addtocart">
-                                                                <button class="btn-cart" title="Add to Cart">
-                                                                    <i class="fa fa-shopping-cart"></i>
-                                                                    <span>Add to Cart</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -562,11 +185,11 @@
                             <h1>Women</h1>
                         </div>
                         <div class="category-cms-block"></div>
-                        <p class="category-image banner5">
+                        {{-- <p class="category-image banner5">
                             <a href="#">
                                 <img src="images/banner-grid.jpg" alt="">
                             </a>
-                        </p>
+                        </p> --}}
 
                         <div class="category-products">
 
@@ -574,11 +197,11 @@
 
                             <div class="toolbar clearfix">
                                 <div class="toolbar-inner">
-                                    <p class="view-mode">
+                                    {{-- <p class="view-mode">
                                         <label>View as</label>
                                         <a class="icon-grid" title="Grid" href="index3-listing-grid.html"></a>
                                         <strong class="icon-list" title="List"></strong>
-                                    </p>
+                                    </p> --}}
 
                                         {{-- <span>per page</span> --}}
                                     </div>
@@ -613,26 +236,7 @@
 
 
                                     <div class="pager">
-                                        <p class="amount">
-                                            <span>1 to 20 </span>
-                                            123 item (s)
-                                        </p>
-                                        <div class="pages">
-                                            <strong>Pages:</strong>
-                                            <ol>
-                                                <li class="current">1</li>
-                                                <li>
-                                                    <a href="#">2</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">3</a>
-                                                </li>
-                                                <li>
-                                                    <a class="next i-next" title="Next" href="#"> Next </a>
-                                                </li>
-                                            </ol>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                             <!-- toolbar clearfix -->
@@ -650,12 +254,18 @@
                                             <div class="item-inner product_list_style">
                                                 <div class="col-left">
                                                     <div class="item-img">
+
                                                         @if ($product->on_sale)
 
                                                         <div class="ico-label">
                                                             <span class="ico-product ico-sale">Sale</span>
                                                         </div>
                                                         @endif
+                                                        @if ($product->created_at->diffInDays() < 3)
+                                                        <div class="ico-label">
+                                                            <span class="ico-product ico-new">New</span>
+                                                        </div>
+                                                    @endif
                                                         <a class="product-image have-additional" title="Cfg Armani Black"
                                                             href="{{ route('productdetail', $product->id) }}">
                                                             <span class="img-main">
@@ -674,10 +284,13 @@
                                                         <div class="price-box">
                                                             <span class="regular-price">
                                                                 <span class="price">
-                                                                    <span class="price1"> {{ $product->price }} JOD</span>
                                                                     @if ($product->on_sale)
 
-                                                                    <span class="price2"> {{ $product->price -($product->price  *  $product->on_sale)}} JOD</span>
+                                                                    <span class="price1"> {{ $product->price -($product->price  *  $product->on_sale)}} JOD</span>
+                                                                    <span class="price2"> {{ $product->price }} JOD</span>
+                                                                    @else
+                                                                    <span class="price1"> {{ $product->price }} JOD</span>
+
                                                                     @endif
                                                                 </span>
                                                             </span>
@@ -702,8 +315,9 @@
                                                     </div>
                                                     <div class="desc std">
                                                         <p>
-                                                            {{ $product->description }}
+                                                            {{ strlen($product->description) > 100 ? substr($product->description, 0, 100) . '...' : $product->description }}
                                                         </p>
+
                                                     </div>
                                                     <div class="actions">
                                                         <form action="{{ route('storeToCart') }}" method="POST">
@@ -711,8 +325,11 @@
                                                             <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="quantity">
                                                             <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
                                                             <input type="hidden" value="{{ $product->id }}" name="product_id">
-                                                            <input type="hidden" value="{{ $product->price }}" name="price">
-                                                            @if ($product->variants->isNotEmpty() && $product->variants->first())
+                                                            @if ($product->on_sale)
+                                                                        <input type="hidden" value="{{ $product->price - ($product->price * $product->on_sale) }}" name="price">
+                                                                    @else
+                                                                        <input type="hidden" value="{{ $product->price }}" name="price">
+                                                                    @endif                                                                   @if ($product->variants->isNotEmpty() && $product->variants->first())
                                                                 <input type="hidden" value="{{ $product->variants->first()->id }}" name="variant_id">
                                                             @endif
 
@@ -722,7 +339,7 @@
                                                             </button>
 
                                                             <ul class="add-to-links">
-                                                                <li>
+                                                                {{-- <li>
                                                                     <a class="link-wishlist"
                                                                         data-original-title="Add to Wishlist"
                                                                         data-toggle="tooltip" href="#"
@@ -744,7 +361,7 @@
                                                                             </a>
                                                                         </div>
                                                                     </div>
-                                                                </li>
+                                                                </li> --}}
                                                             </ul>
                                                         </form>
                                                         {{-- <button class="btn-cart" title="Add to Cart" onclick="addToCart({{ $product->id }}, '{{ $product->name }}', {{ $product->price }}, '{{ $product->image_url }}')">

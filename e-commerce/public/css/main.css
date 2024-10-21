@@ -2,18 +2,23 @@ html {
     scroll-behavior: smooth;
 }
 .btn-custom {
-    background-color: white; /* White background by default */
-    color: #a69cb9; /* Primary color text */
+    background-color: #d10024; /* White background by default */
+    color: white; /* Primary color text */
     border: 0px solid #007bff; /* Border color matching primary color */
     transition: background-color 0.3s ease, color 0.3s ease,
         border-color 0.3s ease; /* Smooth transition */
 }
 
 .btn-custom:hover {
-    background-color: #d10024; /* Red background on hover */
+    background-color: #a8001d; /* Darker red background on hover */
     color: white; /* White text color on hover */
-    border-color: #d10024; /* Red border on hover */
+    border-color: #a8001d; /* Darker red border on hover */
 }
+#review_field {
+    resize: vertical;
+    max-height: 300px;
+}
+
 .collateral-box {
     padding: 15px;
     background-color: #f9f9f9;

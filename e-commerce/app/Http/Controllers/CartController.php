@@ -19,108 +19,16 @@ class CartController extends Controller
 {
     public function storeToCart(Request $request)
     {
-
         try {
             // Validate the request data
             $validator = Validator::make($request->all(), [
-                'cart_id' => 'required|integer|exists:users,id',
                 'product_id' => 'required|integer|exists:products,id',
                 'quantity' => 'required|integer|min:1',
                 'price' => 'required|numeric|min:0',
+                'variant_id' => 'required|integer|exists:product_variant_combinations,id', // Added this line for validation
             ]);
 
-            // Uncomment if you want to handle validation errors
-            // if ($validator->fails()) {
-            //     return response()->json(['errors' => $validator->errors()], 422);
-            // }
-
-            // Extract inputs
-            $userId = Auth::user()->id;
-            $productId = $request->input('product_id');
-            $quantity = $request->input('quantity');
-            $price = $request->input('price');
-            $variantId = $request->input('variant_id');
-
-            // Get the variant quantity and check stock
-            $variant = ProductVariantCombination::where('product_id', $productId)->first();
-
-            if (!$variant || $variant->stock == 0) {
-                return redirect()->back()->with('error', 'Out of stock');
-            }
-
-            // Check if desired quantity exceeds available stock
-            if ($quantity > $variant->stock) {
-                return redirect()->back()->with('error', 'Requested quantity exceeds available stock.');
-            }
-
-            // Calculate the total amount for the current product
-            $totalAmount = $price * $quantity;
-
-            // Create or find the cart for the user
-            $cart = Cart::where('user_id', $userId)->first();
-
-            // Check if the product is already in the cart
-            $existingProduct = $cart->products()->whereNull('deleted_at')->where('product_id', $productId)->first();
-
-            if ($existingProduct) {
-                // Check if adding the quantity exceeds stock
-                $newQuantity = $existingProduct->pivot->quantity + $quantity;
-                if ($newQuantity > $variant->stock) {
-                    return redirect()->back()->with('error', 'Requested quantity exceeds available stock.');
-                }
-
-                // Update the existing product's quantity and price in the cart
-                $cart->products()->updateExistingPivot($productId, [
-                    'quantity' => $newQuantity,
-                    'price' => $price,
-                    'variant_id' => $variantId,
-                ]);
-
-                // Update the cart's total amount
-                $cart->total_amount += $totalAmount;
-            } else {
-                // Attach the new product to the cart
-                $cart->products()->attach($productId, [
-                    'quantity' => $quantity,
-                    'price' => $price,
-                    'variant_id' => $variantId,
-                ]);
-
-                // Update the cart's total amount
-                $cart->total_amount += $totalAmount;
-            }
-
-            // Save the updated cart total
-            $cart->save();
-
-            // Return a success response
-            return redirect()->back()->with('success', 'Product added to the cart.');
-        } catch (\Exception $e) {
-            // Catch any errors and return with an error message
-            return redirect()->back()->with('error', 'Something went wrong while adding the product to the cart.');
-        }
-    }
-
-
-
-    public function storeToCartQua(Request $request)
-    {
-        // dd($request->all());
-        try {
-            $products = Product::all();
-            // Validate the request data
-            $validator = Validator::make($request->all(), [
-                'cart_id' => 'required|integer|exists:users,id',
-                'product_id' => 'required|integer|exists:products,id',
-                'variant_id' => 'required|exists:product_variant_combinations,id', // Ensure this matches your DB structure
-                'quantity' => 'required|integer|min:1',
-                'price' => 'required|numeric|min:0',
-            ]);
-
-            if (is_null($request->input('variant_id'))) {
-                return redirect()->back()->with('error', 'You should pick a variant.')->withInput();
-            }
-            // Check if validation fails
+            // Handle validation errors
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
@@ -130,54 +38,178 @@ class CartController extends Controller
             $productId = $request->input('product_id');
             $quantity = $request->input('quantity');
             $price = $request->input('price');
-            $variant = $request->input('variant_id');
+            $variantId = $request->input('variant_id');
 
-            // Calculate the total amount for the current product
-            $totalAmount = $price * $quantity;
+            // Get the variant and check stock
+            $variant = ProductVariantCombination::findOrFail($variantId);
+
+            // Check if the desired quantity exceeds available stock
+            if ($quantity > $variant->stock) {
+                return redirect()->back()->with('error', 'Requested quantity exceeds available stock.');
+            }
 
             // Create or find the cart for the user
-            $cart = Cart::firstOrCreate([
-                'user_id' => $userId,
-            ]);
+            $cart = Cart::firstOrCreate(['user_id' => $userId]);
 
-            // Check if the product with the same variant is already in the cart
+            // Check if the product is already in the cart (excluding soft-deleted ones)
             $existingProduct = $cart->products()
-                ->whereNull('deleted_at')
                 ->where('product_id', $productId)
-                ->where('variant_id', $variant) // Add variant check here
+                ->where('variant_id', $variantId) // Include variant check if necessary
+                ->whereNull('cart_product.deleted_at') // Ensure that the product in cart is not soft-deleted
+                ->whereNull('products.deleted_at') // Ensure the product itself is not soft-deleted
                 ->first();
 
+            // Calculate total amount for the current product
+            $productTotal = $price * $quantity;
+
             if ($existingProduct) {
-                // Update the existing product's quantity and price in the cart
+                // If the product is found and not soft-deleted, update the quantity
+                $newQuantity = $existingProduct->pivot->quantity + $quantity;
+
+                // Check if adding the quantity exceeds the available stock
+                if ($newQuantity > $variant->stock) {
+                    return redirect()->back()->with('error', 'Requested quantity exceeds available stock.');
+                }
+
+                // Calculate the new total for the updated quantity
+                $newProductTotal = $price * $newQuantity;
+
+                // Update the existing product's quantity in the pivot table
                 $cart->products()->updateExistingPivot($productId, [
-                    'quantity' => $existingProduct->pivot->quantity + $quantity,
-                    'price' => $price, // Optionally update price
+                    'quantity' => $newQuantity,
+                    'price' => $price,
+                    'variant_id' => $variantId,
                 ]);
 
-                // Update the cart's total amount
-                $cart->total_amount += $totalAmount;
+                // Update the cart's total by adjusting the amount for the updated product
+                $cart->total_amount -= $existingProduct->pivot->quantity * $price; // Remove old amount
+                $cart->total_amount += $newProductTotal; // Add new amount
             } else {
-                // Attach the new product to the cart with variant details
+                // If the product is not found in the cart or was soft-deleted, attach it as a new product
                 $cart->products()->attach($productId, [
                     'quantity' => $quantity,
                     'price' => $price,
-                    'variant_id' => $variant,
+                    'variant_id' => $variantId,
                 ]);
 
-                // Update the cart's total amount
-                $cart->total_amount += $totalAmount;
+                // Add the product's total price to the cart's total amount
+                $cart->total_amount += $productTotal;
             }
 
             // Save the updated cart total
             $cart->save();
 
             // Return a success response
-            return redirect()->route('productdetail', $productId)->with('success', 'Product added to the cart');
+            return redirect()->back()->with('success', 'Product added to the cart.');
         } catch (\Exception $e) {
-            // Handle the exception and return error message
+            // Catch any errors and return with an error message
             return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
         }
     }
+
+
+
+
+
+    public function storeToCartQua(Request $request)
+    {
+        try {
+            // Validate the request data
+            $validator = Validator::make($request->all(), [
+                'cart_id' => 'required|integer|exists:users,id',
+                'product_id' => 'required|integer|exists:products,id',
+                'variant_id' => 'required|exists:product_variant_combinations,id',
+                'quantity' => 'required|integer|min:1',
+                'price' => 'required|numeric|min:0',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            // Extract inputs
+            $userId = Auth::user()->id;
+            $productId = $request->input('product_id');
+            $quantity = $request->input('quantity');
+            $price = $request->input('price');
+            $variantId = $request->input('variant_id');
+
+            $variant = ProductVariantCombination::findOrFail($variantId);
+
+            // Calculate the total amount for the current product
+            $totalAmount = $price * $quantity;
+
+            // Create or find the cart for the user
+            $cart = Cart::firstOrCreate(['user_id' => $userId]);
+
+            // Check if the product with the same variant is already in the cart, including soft-deleted products
+            $existingProduct = $cart->products()
+                ->where('product_id', $productId)
+                ->where('variant_id', $variantId) // Include variant check if necessary
+                ->whereNull('cart_product.deleted_at') // Ensure that the product in cart is not soft-deleted
+                ->whereNull('products.deleted_at') // Ensure the product itself is not soft-deleted
+                ->first();
+
+            // Handle product already in cart
+            if ($existingProduct) {
+                // If the product is found and not soft-deleted, update the quantity
+                $newQuantity = $existingProduct->pivot->quantity + $quantity;
+
+                // Check if adding the quantity exceeds the available stock
+                if ($newQuantity > $variant->stock) {
+                    return redirect()->back()->with('error', 'Requested quantity exceeds available stock.');
+                }
+
+                // Calculate the new total for the updated quantity
+                $newProductTotal = $price * $newQuantity;
+
+                // Update the existing product's quantity in the pivot table
+                $cart->products()->updateExistingPivot($productId, [
+                    'quantity' => $newQuantity,
+                    'price' => $price,
+                    'variant_id' => $variantId,
+                ]);
+
+                // Update the cart's total by adjusting the amount for the updated product
+                $cart->total_amount -= $existingProduct->pivot->quantity * $price; // Remove old amount
+                $cart->total_amount += $newProductTotal; // Add new amount
+            } else {
+                // If the product is not found in the cart or was soft-deleted, attach it as a new product
+                $cart->products()->attach($productId, [
+                    'quantity' => $quantity,
+                    'price' => $price,
+                    'variant_id' => $variantId,
+                ]);
+
+                // Add the product's total price to the cart's total amount
+                // $cart->total_amount += $newProductTotal;
+            }
+
+
+            // Recalculate total amount for the cart
+            $this->updateCartTotal($cart);
+
+            return redirect()->route('productdetail', $productId)->with('success', 'Product added to the cart.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
+        }
+    }
+
+
+    // Helper method to update cart total
+    private function updateCartTotal($cart)
+    {
+        $totalAmount = $cart->products()
+            ->wherePivot('deleted_at', null) // Only consider non-deleted products for total calculation
+            ->get()
+            ->sum(function ($product) {
+                return $product->pivot->quantity * $product->price; // Use the price directly
+            });
+
+        $cart->total_amount = $totalAmount;
+        $cart->save();
+    }
+
 
 
     // display cart data
@@ -201,8 +233,6 @@ class CartController extends Controller
         // dd($cartData);
         return view('frontend/cart', ['cart' => $cart, 'cartData' => $cartData, 'totalCartPrice' => $totalCartPrice]);
     }
-
-    // Update cart quantity
     public function updateCart(Request $request, string $productId)
     {
         // Retrieve the quantity from the request
@@ -242,7 +272,6 @@ class CartController extends Controller
 
         return redirect()->route('cart', Auth::user()->id)->with('successClear', "The data has been updated.");
     }
-
     // delete from cart
 
     function deleteFromCart(string $productId)
