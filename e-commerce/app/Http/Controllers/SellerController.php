@@ -149,53 +149,7 @@ class SellerController extends Controller
         return view("dashboard.profile", compact("sellerInfo"));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Seller $seller)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Seller $seller)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Seller $seller)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Seller $seller)
-    {
-        //
-    }
     public function searchOnProduct(Request $request)
     {
         $sellerId = Auth::user()->id;
@@ -254,5 +208,19 @@ class SellerController extends Controller
         } else {
             return redirect()->back()->with('error', 'An error occurred while updating the stock. Please try again.');
         };
+    }
+    // for Notification
+    public function markAsRead($id)
+    {
+        $notification = \App\Models\Notification::find($id);
+
+        if ($notification && $notification->user_id == auth()->id()) {
+            // Check if notification is being retrieved correctly
+            // dd($notification);
+            $notification->read_at = now();
+            $notification->save();
+        }
+
+        return back()->with('success', 'Notification marked as read.');
     }
 }

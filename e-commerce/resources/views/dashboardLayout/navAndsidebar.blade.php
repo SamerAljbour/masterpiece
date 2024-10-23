@@ -14,6 +14,8 @@
   href="{{ asset('assets/img/kaiadmin/favicon.ico') }}"
   type="image/x-icon"
 />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Load Chart.js -->
    <!--   Core JS Files   -->
    <script src="../assets/js/core/jquery-3.7.1.min.js"></script>
@@ -120,6 +122,16 @@
 
   </head>
   <body>
+    {{-- for notification  --}}
+    @php
+    // Call the method to get low stock products and notifications
+    $lowStockData = \App\Models\Product::checkLowStockAndNotify();
+    $lowStockProducts = $lowStockData['lowStockProducts'];
+
+    $countOfNotifications = $lowStockData['countOfNotifications'];
+    $outOfStockProducts = $lowStockData['outOfStockProducts'];
+
+@endphp
 <!-- Edit Profile Modal -->
 <form action="{{ route('updateProfile') }}" method="POST" enctype="multipart/form-data">
     <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
@@ -496,7 +508,7 @@
                     aria-expanded="false"
                   >
                     <i class="fa fa-bell"></i>
-                    <span class="notification">4</span>
+                    <span class="notification">{{$countOfNotifications}}</span>
                   </a>
                   <ul
                     class="dropdown-menu notif-box animated fadeIn"
@@ -504,22 +516,50 @@
                   >
                     <li>
                       <div class="dropdown-title">
-                        You have 4 new notification
+                        You have {{ $countOfNotifications  }} new notification
                       </div>
                     </li>
                     <li>
                       <div class="notif-scroll scrollbar-outer">
                         <div class="notif-center">
-                          <a href="#">
-                            <div class="notif-icon notif-primary">
-                              <i class="fa fa-user-plus"></i>
-                            </div>
-                            <div class="notif-content">
-                              <span class="block"> New user registered </span>
-                              <span class="time">5 minutes ago</span>
-                            </div>
-                          </a>
-                          <a href="#">
+                            @foreach($lowStockProducts as $product)
+    <a href="#" style="background-color: {{ is_null($product->notification) || !is_null($product->notification->read_at) ? 'white' : '#e0f7fa' }};">
+        <div class="notif-icon notif-warning">
+            <i class="fa fa-warning"></i>
+        </div>
+        <div class="notif-content">
+            <span class="block">{{ $product->name }}: Only {{ $product->total_stock }} left in stock.</span>
+            <span class="time">{{ $product->created_at->diffForHumans() }}</span>
+            @if($product->notification && is_null($product->notification->read_at))
+                <form action="{{ route('notifications.markAsRead', $product->notification->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-link fs-0" style="font-size: 0.75rem; margin-left:12%;position: absolute;">Mark as Read</button>
+                </form>
+            @endif
+        </div>
+    </a>
+@endforeach
+
+@foreach($outOfStockProducts as $product)
+    <a href="#" style="background-color: {{ is_null($product->notification) || !is_null($product->notification->read_at) ? 'white' : '#e0f7fa   ' }};">
+        <div class="notif-icon notif-danger">
+            <i class="fa fa-warning"></i>
+        </div>
+        <div class="notif-content">
+            <span class="block">{{ $product->name }}: Out of stock.</span>
+            <span class="time">{{ $product->created_at->diffForHumans() }}</span>
+            @if($product->notification && is_null($product->notification->read_at))
+                <form action="{{ route('notifications.markAsRead', $product->notification->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-link fs-0" style="font-size: 0.75rem; margin-left:12% ;position: absolute;">Mark as Read</button>
+                </form>
+            @endif
+        </div>
+    </a>
+@endforeach
+
+
+                          {{-- <a href="#">
                             <div class="notif-icon notif-success">
                               <i class="fa fa-comment"></i>
                             </div>
@@ -552,7 +592,7 @@
                               <span class="block"> Farrah liked Admin </span>
                               <span class="time">17 minutes ago</span>
                             </div>
-                          </a>
+                          </a> --}}
                         </div>
                       </div>
                     </li>

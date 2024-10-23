@@ -16,6 +16,7 @@ use App\Http\Controllers\ProductListController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\VariantOptionController;
+use Illuminate\Notifications\Notification;
 
 /*
 |--------------------------------------------------------------------------
@@ -162,6 +163,7 @@ Route::get('/pay/success', [PaymentController::class, 'showSuccessPayment'])->na
 
 // <================================= dashboard  ============================================>
 Route::get('/layout', [layoutController::class, 'index'])->name('layout');
+Route::post('/notifications/{id}/mark-as-read', [SellerController::class, 'markAsRead'])->name('notifications.markAsRead');
 
 
 // <================================= dashboard Home Seller  ============================================>

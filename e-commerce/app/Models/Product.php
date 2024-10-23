@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
@@ -60,5 +61,93 @@ class Product extends Model
     public function paymentHistories()
     {
         return $this->hasMany(PaymentHistory::class, 'product_id');
+    }
+    public function notification()
+    {
+        return $this->morphOne(Notification::class, 'notifiable');
+    }
+    public static function checkLowStockAndNotify()
+    {
+        // Fetch low stock products (<= 20) for the authenticated user (seller)
+        $lowStockProducts = self::where('seller_id', Auth::user()->id)
+            ->where('total_stock', '>', 0)  // Stock must be greater than 0
+            ->where('total_stock', '<=', 20) // Low stock threshold
+            ->get();
+
+
+        // Fetch out of stock products (total_stock = 0) for the authenticated user (seller)
+        $outOfStockProducts = self::where('seller_id', Auth::user()->id)
+            ->where('total_stock', '=', 0) // Out of stock
+            ->get();
+
+        // Count low stock and out of stock products
+        $countLowStockProducts = $lowStockProducts->count();
+        $countOutOfStockProducts = $outOfStockProducts->count();
+        $countOfNotifications = $lowStockProducts->count() + $outOfStockProducts->count();
+        // Create notifications for low stock products
+        foreach ($lowStockProducts as $product) {
+            // Check if there's already a notification for this product
+            $existingNotifications = Notification::where('user_id', Auth::id())
+                ->where('notifiable_type', 'App\Models\Product')
+                ->where('notifiable_id', $product->id)
+                ->where('type', 'low_stock')
+                ->get();
+
+            // Check if any existing notification is unread
+            $hasUnreadNotification = $existingNotifications->contains(function ($notification) {
+                return $notification->read_at === null;
+            });
+
+            // If there are no unread notifications, create a new one
+            if (!$hasUnreadNotification) {
+                Notification::create([
+                    'user_id' => Auth::id(), // The authenticated user
+                    'type' => 'low_stock', // Custom type for low stock
+                    'notifiable_type' => 'App\Models\Product',
+                    'notifiable_id' => $product->id,
+                    'data' => json_encode([
+                        'message' => "Low stock alert for product {$product->name}: Only {$product->total_stock} left in stock.",
+                        'product_id' => $product->id
+                    ]),
+                ]);
+            }
+        }
+
+        // Create notifications for out of stock products
+        foreach ($outOfStockProducts as $product) {
+            // Check if there's already a notification for this product
+            $existingNotifications = Notification::where('user_id', Auth::id())
+                ->where('notifiable_type', 'App\Models\Product')
+                ->where('notifiable_id', $product->id)
+                ->where('type', 'out_of_stock')
+                ->get();
+
+            // Check if any existing notification is unread
+            $hasUnreadNotification = $existingNotifications->contains(function ($notification) {
+                return $notification->read_at === null;
+            });
+
+            // If there are no unread notifications, create a new one
+            if (!$hasUnreadNotification) {
+                Notification::create([
+                    'user_id' => Auth::id(), // The authenticated user
+                    'type' => 'out_of_stock', // Custom type for out of stock
+                    'notifiable_type' => 'App\Models\Product',
+                    'notifiable_id' => $product->id,
+                    'data' => json_encode([
+                        'message' => "Out of stock alert for product {$product->name}: No items left in stock.",
+                        'product_id' => $product->id
+                    ]),
+                ]);
+            }
+        }
+
+        // Return both low stock and out of stock products along with their counts
+        return [
+            'lowStockProducts' => $lowStockProducts,
+            'countOfNotifications' => $countOfNotifications,
+            'outOfStockProducts' => $outOfStockProducts,
+
+        ];
     }
 }
