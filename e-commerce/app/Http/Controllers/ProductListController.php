@@ -66,6 +66,7 @@ class ProductListController extends Controller
 
         // Paginate the results
         $products = $products->paginate($show);
+        // dd($products);
         // based on rate
         $recommended = Product::withAvg('reviews', 'rating') // Calculate the average rating
             ->orderByDesc('reviews_avg_rating') // Order by average rating in descending order

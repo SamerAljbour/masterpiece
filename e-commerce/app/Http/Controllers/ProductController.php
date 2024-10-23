@@ -292,17 +292,21 @@ class ProductController extends Controller
     // }
     public function showDeletedProducts()
     {
-        $deletedProducts = Product::onlyTrashed()->with(['photos' => function ($query) {
-            $query->withTrashed(); // Ensure soft-deleted product photos are included
-        }])->get();
-        return view('dashboard.restoreProduct', compact('deletedProducts'));
-    }
-    public function showDeletedProductsForSeller()
-    {
-        $deletedProductsForSeller = Product::onlyTrashed()->where('user_id', Auth::user()->id)->with(['photos' => function ($query) {
-            $query->withTrashed(); // Ensure soft-deleted product photos are included
-        }])->get();
-        return view('dashboard.restoreProduct', compact('deletedProductsForSeller'));
+        $deletedProducts = Product::onlyTrashed()
+            ->with(['photos' => function ($query) {
+                $query->withTrashed(); // Ensure soft-deleted product photos are included
+            }])
+            ->get();
+
+        $deletedProductsForSeller = Product::onlyTrashed()
+            ->whereHas('seller', function ($query) {
+                $query->where('user_id', Auth::id()); // Ensure the seller belongs to the authenticated user
+            })
+            ->with(['photos' => function ($query) {
+                $query->withTrashed(); // Ensure soft-deleted product photos are included
+            }])
+            ->get();
+        return view('dashboard.restoreProduct', compact('deletedProducts', 'deletedProductsForSeller'));
     }
     public function restoreProduct(Request $request)
     {

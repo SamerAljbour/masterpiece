@@ -1,26 +1,7 @@
 @extends('dashboardLayout.navAndsidebar')
 @section('content')
 <div class="container">
-    <style>
-        #statusStyle{
-            color: green;
-            text-align: center;
-            display: flex;
-            margin: auto;
-            align-content: center
 
-        }
-
-    .no-discount-message {
-        color: #d10024; /* Change the text color to your specified red */
-        font-size: 18px; /* Adjust font size */
-        font-weight: bold; /* Make the text bold */
-        text-align: center; /* Center the text */
-        margin: 20px 0; /* Add margin for spacing */
-    }
-
-
-    </style>
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
@@ -169,9 +150,9 @@
                         <td>{{ $discount->valid_until  }}</td>
                         <td>
                         @if ($discount->is_active)
-                        <i class="fas fa-check-circle" id="statusStyle" ></i>
+                        <span class="badge badge-success">Active</span>
                         @else
-                        <i class="fas fa-check-circle" style="color: red" id="statusStyle"></i>
+                        <span class="badge badge-danger">Expired </span>
 
                         @endif
                       </td>
@@ -217,7 +198,7 @@
 
 
     <script>
-        
+
         $("#multi-filter-select").DataTable({
           pageLength: 5,
           initComplete: function () {

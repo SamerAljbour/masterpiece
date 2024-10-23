@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -21,7 +22,7 @@ class Product extends Model
         // 'stock_quantity',
         'image_url'
     ];
-
+    public function stockNotification($productStock) {}
 
     public function seller()
     {

@@ -11,15 +11,7 @@
     }
     </style>
     <div class="container">
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+
     <form action="{{ route('storeDiscount') }}" method="POST">
         @csrf
         <div id="centerTable" class="col-md-12">
@@ -37,12 +29,13 @@
                 <label for="discount_amount">Discount Amount</label>
                 <input
                     name="discount_amount"
-                    type="text"
+                    type="number"
                     class="form-control"
                     id="discount_amount"
                     placeholder="Discount amount"
                     pattern="\d+(\.\d{1,2})?"
                     title="Please enter a valid decimal amount (e.g., 10.00)"
+                    step="0.01"
                 />
             </div>
             <div class="form-group">
@@ -120,7 +113,29 @@
 
             }
         }
+// this to the discount input
+const DiscountInput = document.getElementById('discount_amount');
 
+DiscountInput.addEventListener('input', function() {
+    // Use a regex to ensure input format of 0.xx
+    this.value = this.value.replace(/^(0\.\d{0,2})|^0\.|[^0-9.]/g, '$1');
+
+    // If the input is a valid number
+    let value = parseFloat(this.value);
+    if (!isNaN(value)) {
+        // Check if the value is less than the minimum
+        if (value < 0.01) {
+            this.value = '0.01'; // Set to minimum value
+        }
+        // Check if the value is greater than the maximum
+        else if (value > 0.99) {
+            this.value = '0.99'; // Set to maximum value
+        } else {
+            // Ensure value is displayed with two decimal places
+            this.value = value.toFixed(2);
+        }
+    }
+});
     </script>
     @endsection
 

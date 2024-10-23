@@ -39,6 +39,7 @@
     placeholder="Discount amount"
     value="{{ $discountCoupon->discount_amount }}"
     pattern="\d+(\.\d{1,2})?"
+    step="0.01"
     title="Please enter a valid decimal amount (e.g., 10.00)"
 />
             </div>
@@ -53,6 +54,7 @@
                 id="valid_from"
                 onchange="updateValidUntilMin()"
                 value="{{ $discountCoupon->valid_from }}"
+
                 />
             </div>
             <div class="form-group">
@@ -100,6 +102,28 @@
 </form>
 </div>
 <script>
+    const DiscountInput = document.getElementById('discount_amount');
+
+DiscountInput.addEventListener('input', function() {
+    // Use a regex to ensure input format of 0.xx
+    this.value = this.value.replace(/^(0\.\d{0,2})|^0\.|[^0-9.]/g, '$1');
+
+    // If the input is a valid number
+    let value = parseFloat(this.value);
+    if (!isNaN(value)) {
+        // Check if the value is less than the minimum
+        if (value < 0.01) {
+            this.value = '0.01'; // Set to minimum value
+        }
+        // Check if the value is greater than the maximum
+        else if (value > 0.99) {
+            this.value = '0.99'; // Set to maximum value
+        } else {
+            // Ensure value is displayed with two decimal places
+            this.value = value.toFixed(2);
+        }
+    }
+});
      function toggleCheckbox() {
     let checkbox = document.getElementById('with_on_sale');
     let passedValue = document.getElementById('passedValue');

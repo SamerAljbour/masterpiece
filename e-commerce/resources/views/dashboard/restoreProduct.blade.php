@@ -10,7 +10,7 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                @if (Auth::user()->role_id == 3)
+                @if (Auth::user()->role_id == 2)
 
 
                 <table
@@ -50,7 +50,7 @@
                                 @csrf
                                 @method('PUT')
                                 <input type="hidden" value="{{ $product->id }}" name="product_id">
-                                <button type="submit"> <i class="fa fa-window-restore"></i></button>
+                                <button type="submit"class ="btn btn-link"> <i class="fa fa-undo"></i></button>
                             </form>
                         </th>
                       </tr>

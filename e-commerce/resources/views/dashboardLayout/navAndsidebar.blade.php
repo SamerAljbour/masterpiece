@@ -56,6 +56,54 @@
         },
       });
     </script>
+    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet"> --}}
+    <style>
+        .modal-content {
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .modal-header {
+            background-color: #4e73df;
+            color: white;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            padding: 1rem 1.5rem;
+        }
+        .btn-close {
+            filter: brightness(0) invert(1);
+        }
+        .modal-body {
+            padding: 2rem;
+        }
+        .form-label {
+            color: #4e73df;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #e3e6f0;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .form-control:focus {
+            border-color: #4e73df;
+            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+        }
+        .btn {
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .btn-success {
+            background-color: #1cc88a;
+            border: none;
+        }
+        .btn-success:hover {
+            background-color: #169b6b;
+            transform: translateY(-2px);
+        }
+    </style>
 <!-- CSS Files -->
 <base href="{{ url('/') }}/">
 
@@ -72,7 +120,57 @@
 
   </head>
   <body>
+<!-- Edit Profile Modal -->
+<form action="{{ route('updateProfile') }}" method="POST" enctype="multipart/form-data">
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @csrf
+                    @method('PUT')
 
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" name="name" value="{{ Auth::user()->name }}" >
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email" value="{{ Auth::user()->email }}" >
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password" value="" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Phone</label>
+                        <input type="tel" class="form-control" name="phone" value="{{ Auth::user()->phone }}" >
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Address</label>
+                        <textarea class="form-control" name="address" required>{{ Auth::user()->address }}</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Profile Image</label>
+                        <input type="file" class="form-control" name="user_image">
+                    </div>
+
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-success rounded-5">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
     <div class="wrapper">
 
@@ -179,11 +277,13 @@
                 @endif
 
                 <li class="nav-item {{ request()->routeIs('allProducts') ? 'active' : '' }}">
-                    <a href="{{ route('allProducts') }}">
-                        <i class="fas fa-th"></i>
-                        <p>Manage Products</p>
-                        <span class=""></span>
-                    </a>
+                   @if (Auth::user()->role_id == 3)
+                   <a href="{{ route('allProducts') }}">
+                    <i class="fas fa-th"></i>
+                    <p>Manage Products</p>
+                    <span class=""></span>
+                </a>
+                   @endif
                 </li>
 
                 @if (Auth::user()->role_id == 3)
@@ -199,12 +299,19 @@
                 @if (Auth::user()->role_id == 3 || Auth::user()->role_id == 2)
                 <li class="nav-item {{ request()->routeIs('restoreProducts') ? 'active' : '' }}">
                     <a href="{{ route('restoreProducts') }}">
-                        <i class="fas fa-th"></i>
+                        <i class="fas fa-history"></i>
                         <p>Restore Products</p>
                         <span class=""></span>
                     </a>
                 </li>
                 @endif
+                <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
+                    <a href="{{ route('home') }}">
+                        <i class="fas fa-arrow-left"></i>
+                        <p>Back To Home</p>
+                        <span class=""></span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -568,11 +675,11 @@
                           <div class="u-text">
                             <h4>Hizrian</h4>
                             <p class="text-muted">{{ Auth::user()->email }}</p>
-                            <a
-                              href="profile.html"
-                              class="btn btn-xs btn-secondary btn-sm"
-                              >View Profile</a
-                            >
+                            <button type="button" class="btn btn-xs btn-secondary btn-s" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                                <i class="fas fa-edit me-2"></i>Edit Profile
+                            </button>
+
+
                           </div>
                         </div>
                       </li>
@@ -627,7 +734,6 @@
 
 <!-- Kaiadmin JS -->
 <script src="{{ asset('assets/js/kaiadmin.min.js') }}"></script>
-
 <!-- Kaiadmin DEMO methods, don't include it in your project! -->
 <script src="{{ asset('assets/js/setting-demo.js') }}"></script>
 <script src="{{ asset('assets/js/demo.js') }}"></script>

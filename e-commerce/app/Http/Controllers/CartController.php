@@ -42,6 +42,7 @@ class CartController extends Controller
 
             // Get the variant and check stock
             $variant = ProductVariantCombination::findOrFail($variantId);
+            // dd($variant);
 
             // Check if the desired quantity exceeds available stock
             if ($quantity > $variant->stock) {

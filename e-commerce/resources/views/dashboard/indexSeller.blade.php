@@ -214,7 +214,7 @@
                     </div>
             </div>
             <div class="row">
-              <div class="col-md-4">
+              {{-- <div class="col-md-4">
                 <div class="card card-round">
                   <div class="card-body">
                     <div class="card-head-row card-tools-still-right">
@@ -359,14 +359,14 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-md-8">
+              </div> --}}
+              <div class="col-md-12" id="pagination-section" >
                 <div class="card card-round">
                   <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
-                      <div class="card-title">Transaction History</div>
+                      <div class="card-title">Transaction History For My Products</div>
                       <div class="card-tools">
-                        <div class="dropdown">
+                        {{-- <div class="dropdown">
                           <button
                             class="btn btn-icon btn-clean me-0"
                             type="button"
@@ -387,131 +387,43 @@
                               >Something else here</a
                             >
                           </div>
-                        </div>
+                        </div> --}}
                       </div>
                     </div>
                   </div>
                   <div class="card-body p-0">
-                    <div class="table-responsive">
-                      <!-- Projects table -->
-                      <table class="table align-items-center mb-0">
-                        <thead class="thead-light">
-                          <tr>
-                            <th scope="col">Payment Number</th>
-                            <th scope="col" class="text-end">Date & Time</th>
-                            <th scope="col" class="text-end">Amount</th>
-                            <th scope="col" class="text-end">Status</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th scope="row">
-                              <button
-                                class="btn btn-icon btn-round btn-success btn-sm me-2"
-                              >
-                                <i class="fa fa-check"></i>
-                              </button>
-                              Payment from #10231
-                            </th>
-                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                            <td class="text-end">$250.00</td>
-                            <td class="text-end">
-                              <span class="badge badge-success">Completed</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">
-                              <button
-                                class="btn btn-icon btn-round btn-success btn-sm me-2"
-                              >
-                                <i class="fa fa-check"></i>
-                              </button>
-                              Payment from #10231
-                            </th>
-                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                            <td class="text-end">$250.00</td>
-                            <td class="text-end">
-                              <span class="badge badge-success">Completed</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">
-                              <button
-                                class="btn btn-icon btn-round btn-success btn-sm me-2"
-                              >
-                                <i class="fa fa-check"></i>
-                              </button>
-                              Payment from #10231
-                            </th>
-                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                            <td class="text-end">$250.00</td>
-                            <td class="text-end">
-                              <span class="badge badge-success">Completed</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">
-                              <button
-                                class="btn btn-icon btn-round btn-success btn-sm me-2"
-                              >
-                                <i class="fa fa-check"></i>
-                              </button>
-                              Payment from #10231
-                            </th>
-                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                            <td class="text-end">$250.00</td>
-                            <td class="text-end">
-                              <span class="badge badge-success">Completed</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">
-                              <button
-                                class="btn btn-icon btn-round btn-success btn-sm me-2"
-                              >
-                                <i class="fa fa-check"></i>
-                              </button>
-                              Payment from #10231
-                            </th>
-                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                            <td class="text-end">$250.00</td>
-                            <td class="text-end">
-                              <span class="badge badge-success">Completed</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">
-                              <button
-                                class="btn btn-icon btn-round btn-success btn-sm me-2"
-                              >
-                                <i class="fa fa-check"></i>
-                              </button>
-                              Payment from #10231
-                            </th>
-                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                            <td class="text-end">$250.00</td>
-                            <td class="text-end">
-                              <span class="badge badge-success">Completed</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">
-                              <button
-                                class="btn btn-icon btn-round btn-success btn-sm me-2"
-                              >
-                                <i class="fa fa-check"></i>
-                              </button>
-                              Payment from #10231
-                            </th>
-                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                            <td class="text-end">$250.00</td>
-                            <td class="text-end">
-                              <span class="badge badge-success">Completed</span>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                    <div  class="table-responsive">
+                        <table class="table align-items-center mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Payment Number</th>
+                                    <th scope="col" class="text-end">Amount</th>
+                                    <th scope="col" class="text-end">Date & Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($transactions as $item)
+                                    <tr>
+                                        <th scope="row">
+                                            <button class="btn btn-icon btn-round btn-success btn-sm me-2">
+                                                <i class="fa fa-check"></i>
+                                            </button>
+                                            Payment from #{{ $item->id }}
+                                        </th>
+                                        <td class="text-end">{{ number_format($item->amount , 1) }} JOD</td>
+                                        <td class="text-end">{{ $item->created_at }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                        <div  class="ms-3 me-3 mt-3">
+                            {{ $transactions->links('pagination::bootstrap-5', ['#pagination']) }}
+                        </dic>
                     </div>
+
+
+
                   </div>
                 </div>
               </div>
@@ -519,33 +431,7 @@
           </div>
         </div>
 
-        <footer class="footer">
-          <div class="container-fluid d-flex justify-content-between">
-            <nav class="pull-left">
-              <ul class="nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="http://www.themekita.com">
-                    ThemeKita
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#"> Help </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#"> Licenses </a>
-                </li>
-              </ul>
-            </nav>
-            <div class="copyright">
-              2024, made with <i class="fa fa-heart heart text-danger"></i> by
-              <a href="http://www.themekita.com">ThemeKita</a>
-            </div>
-            <div>
-              Distributed by
-              <a target="_blank" href="https://themewagon.com/">ThemeWagon</a>.
-            </div>
-          </div>
-        </footer>
+
       </div>
 
       <!-- Custom template | don't include it in your project! -->
@@ -747,6 +633,31 @@
 
 
     <script>
+        // for scrolling when choose a pagination
+        window.onload = function() {
+        // Scroll to the pagination section after the page has fully loaded
+        if (window.location.hash === '#pagination-section') {
+            const paginationSection = document.getElementById('pagination-section');
+            if (paginationSection) {
+                paginationSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        // Attach event listeners to pagination links
+        const paginationLinks = document.querySelectorAll('#pagination-section a');
+
+        paginationLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent the default link action
+                const url = this.getAttribute('href'); // Get the URL from the link
+                // Redirect to the URL and append the hash
+                window.location.href = url + '#pagination-section';
+            });
+        });
+    };
         //  daily
 var lineChart = document.getElementById("lineChart").getContext("2d");
 var gradientFill = lineChart.createLinearGradient(0, 0, 0, 400); // Adjust height as necessary

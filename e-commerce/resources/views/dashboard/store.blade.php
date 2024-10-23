@@ -178,7 +178,7 @@ margin-left: 30px!important;
     class="img-fluid"
     style="width: 1352px; height: 300px; object-fit: cover;"
 />
-            <div class="row align-items-center">
+            <div class="row align-items-center mb-5">
                 <div class="col-lg-4 order-lg-1 order-2">
                     <div
                         class="d-flex align-items-center justify-content-around m-4"
@@ -188,11 +188,11 @@ margin-left: 30px!important;
                             <h4 class="mb-0 fw-semibold lh-1">{{ $countOfSoldProduct }}</h4>
                             <p class="mb-0 fs-4">sold products</p>
                         </div>
-                        <div class="text-center">
+                        {{-- <div class="text-center">
                             <i class="fa fa-user fs-6 d-block mb-2"></i>
                             <h4 class="mb-0 fw-semibold lh-1">3,586</h4>
                             <p class="mb-0 fs-4">Followers</p>
-                        </div>
+                        </div> --}}
                         <div class="text-center">
                             <i class="fa fa-star fs-6 d-block mb-2"></i>
                                 <h4 class="mb-0 fw-semibold lh-1">{{ $sellerInfo->rating }}</h4>
@@ -298,7 +298,7 @@ margin-left: 30px!important;
                     </ul>
                 </div>
             </div>
-            <ul
+            {{-- <ul
                 class="nav nav-pills user-profile-tab justify-content-end mt-2 bg-light-info rounded-2"
                 id="pills-tab"
                 role="tablist"
@@ -366,7 +366,7 @@ margin-left: 30px!important;
                         <span class="d-none d-md-block">Products</span>
                     </button>
                 </li>
-            </ul>
+            </ul> --}}
         </div>
     </div>
     <div class="tab-content" id="pills-tabContent">
@@ -462,10 +462,11 @@ margin-left: 30px!important;
                                                     </div>
                                                 </div>
 
-                                                <div class="mt-4">
-                                                    <span class="text-dark fs-3 fw-bold m-2">Product description: {{ $product->description }}</span><br> <!-- Increased font size -->
-                                                    <span class="text-dark fs-5 m-3"> Product Price: JOD {{ $product->price }}</span><br> <!-- Increased font size -->
-                                                    <span class="text-dark fs-5 m-3">Product :Rating: {{ $product->reviews->avg('rating') == 0 ? "0" : $product->reviews->avg('rating') }} of 5</span> <!-- Increased font size -->
+                                                <div class="mt-4 d-flex flex-column">
+                                                    <span class="text-dark fs-3  "> <span class="fw-bold">   Description:</span> {{ $product->description }}</span>
+                                                    <span class="text-dark fs-5 "> <span class="fw-bold">  Category:</span>  {{ $product->category->name}}</span>
+                                                    <span class="text-dark fs-5 "> <span class="fw-bold">  Price:</span> {{ $product->price }} JOD</span>
+                                                    <span class="text-dark fs-5 "> <span class="fw-bold">  Rating:</span>  {{ $product->reviews->avg('rating') == 0 ? "0" : $product->reviews->avg('rating') }} of 5</span>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">

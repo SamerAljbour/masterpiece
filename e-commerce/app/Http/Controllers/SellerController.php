@@ -86,6 +86,11 @@ class SellerController extends Controller
         // Count the total number of products for the seller
         $productCount = Product::with(["category", "seller", "reviews"])->where('seller_id', $sellerInfo->id)->count();
 
+        $transactions = PaymentHistory::with(['user'])
+            ->where('seller_id', $sellerInfo->id)
+            ->orderBy('created_at', 'asc')
+            ->paginate(10);
+        // dd($transactions);
         // Return view with seller info, sales, and chart data
         return view('dashboard.indexSeller', compact(
             'sellerInfo',
@@ -96,7 +101,8 @@ class SellerController extends Controller
             'dailyData',       // Daily sales data for the chart
             'productCount',
             'countOfSoldProduct',
-            'reviews'
+            'reviews',
+            'transactions'
         ));
     }
 
