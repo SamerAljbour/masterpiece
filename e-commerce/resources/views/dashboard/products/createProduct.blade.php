@@ -61,14 +61,18 @@
     <form action="{{ route('storeProduct') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div id="centerTable" class="col-md-12">
+            @if (Auth::user()->role_id  == 3)
+
+
             <div class="form-group">
                 <label for="name">Append this Product to </label>
-                <select name="toSeller" id="selectedCat" onchange="toggleVariantSection()" class="form-select" style="width: 100%;">
+                <select name="toSeller"  class="form-select" style="width: 100%;">
                     <option value="">Select seller</option>
                     @foreach ($sellers as $seller)
                         <option value="{{ $seller->id }}">{{ $seller->user->name }}</option>
                     @endforeach
                 </select>            </div>
+                @endif
             <div class="form-group">
                 <label for="name">Name</label>
                 <input name="name" type="text" class="form-control" id="name" placeholder="Enter Product Name" />
@@ -226,14 +230,14 @@ onSaleInput.addEventListener('input', function() {
                 <label for="color">Color</label>
                 <select name="colors[]" class="form-select" style="width: 100%;" id="colorSelect">
                     <option value="">Select Color</option>
-                    <option value="#ff0000">Red</option>
-                    <option value="#00ff00">Green</option>
-                    <option value="#0000ff">Blue</option>
-                    <option value="#ffff00">Yellow</option>
-                    <option value="#ff00ff">Magenta</option>
-                    <option value="#00ffff">Cyan</option>
-                    <option value="#000000">Black</option>
-                    <option value="#ffffff">White</option>
+                    <option value="Red">Red</option>
+                    <option value="Green">Green</option>
+                    <option value="Blue">Blue</option>
+                    <option value="Yellow">Yellow</option>
+                    <option value="Magenta">Magenta</option>
+                    <option value="Cyan">Cyan</option>
+                    <option value="Black">Black</option>
+                    <option value="White">White</option>
                 </select>
             </div>
             <div class="form-group" style="width: 100%;" >
@@ -371,7 +375,7 @@ id="colorSelect">
         else if (current  == 5)
         newVariantGroup.innerHTML = `
              <div class="form-group" style="width: 100%;" >
-                <label for="size">>Storage Type</label>
+                <label for="size">Storage Type</label>
                 <select name="type[]" id="furnitureMaterial" class="form-select" id="colorSelect">
                   <option value="">Select Storage Type</option>
                 <option value="ssd">SSD</option>

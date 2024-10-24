@@ -28,68 +28,68 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-sm-6 col-md-3">
-                <div class="card card-stats card-round">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-icon">
-                        <div
-                          class="icon-big text-center icon-primary bubble-shadow-small"
-                        >
-                          <i class="fas fa-tag"></i>
-                        </div>
-                      </div>
-                      <div class="col col-stats ms-3 ms-sm-0">
-                        <div class="numbers">
-                          <p class="card-category"> Sold Products</p>
-                          <h4 class="card-title">{{ $countOfSoldProduct }}</h4>
+                <div class="col-sm-8 col-md-4">
+                    <div class="card card-stats card-round">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col-icon">
+                            <div class="icon-big text-center icon-primary bubble-shadow-small">
+                              <i class="fas fa-tag"></i>
+                            </div>
+                          </div>
+                          <div class="col col-stats ms-3 ms-sm-0">
+                            <div class="numbers">
+                              <p class="card-category">Sold Products</p>
+                              <h4 class="card-title">{{ $countOfSoldProduct }}</h4>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
 
-              <div class="col-sm-6 col-md-3">
-                <div class="card card-stats card-round">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-icon">
-                        <div
-                          class="icon-big text-center icon-info bubble-shadow-small"
-                        >
-                          <i class="fas fa-user-check"></i>
-                        </div>
-                      </div>
-                      <div class="col col-stats ms-3 ms-sm-0">
-                        <div class="numbers">
-                          <p class="card-category">Subscribers</p>
-                          <h4 class="card-title">1303</h4>
+                  <div class="col-sm-8 col-md-4">
+                    <div class="card card-stats card-round">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col-icon">
+                            <div class="icon-big text-center icon-info bubble-shadow-small">
+                              <i class="fas fa-box" style="font-size: 24px; color: #d10024;"></i> <!-- Example of a red product icon -->
+                            </div>
+                          </div>
+                          <div class="col col-stats ms-3 ms-sm-0">
+                            <div class="numbers">
+                              <p class="card-category">Total Products</p>
+                              <h4 class="card-title">{{ $productCount }}</h4>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-3">
-                <div class="card card-stats card-round">
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col-5">
-                        <div class="icon-big text-center">
-                          <i class="icon-wallet text-success"></i>
+
+                  <div class="col-sm-8 col-md-4">
+                    <div class="card card-stats card-round">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col-icon">
+                            <div class="icon-big text-center">
+                              <i class="icon-wallet text-success"></i>
+                            </div>
+                          </div>
+                          <div class="col col-stats ms-3 ms-sm-0">
+                            <div class="numbers">
+                              <p class="card-category">Total Sales</p>
+                              <h4 class="card-title">JOD {{ number_format($totalSales, 0) }}</h4>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div class="col-7 col-stats">
-                        <div class="numbers">
-                          <p class="card-category">Total Sales</p>
-                          <h4 class="card-title">JOD {{ number_format($totalSales, 0) }}</h4>                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-3">
+
+
+              {{-- <div class="col-sm-6 col-md-3">
                 <div class="card card-stats card-round">
                   <div class="card-body">
                     <div class="row align-items-center">
@@ -109,7 +109,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> --}}
             </div>
             <div class="row">
               <div class="col-md-8">
@@ -117,7 +117,7 @@
                   <div class="card-header">
                     <div class="card-head-row">
                       <div class="card-title">Weekly Sales</div>
-                      <div class="card-tools">
+                      {{-- <div class="card-tools">
                         <a
                           href="#"
                           class="btn btn-label-success btn-round btn-sm me-2"
@@ -133,7 +133,7 @@
                           </span>
                           Print
                         </a>
-                      </div>
+                      </div> --}}
                     </div>
                   </div>
                   <div class="card-body">
@@ -149,7 +149,7 @@
             <div class="col-md-4">
                 <div class="card">
                   <div class="card-header">
-                    <div class="card-title">Daily Chart</div>
+                    <div class="card-title">Daily Sales</div>
                   </div>
                   <div class="card-body">
                     <div class="chart-container">

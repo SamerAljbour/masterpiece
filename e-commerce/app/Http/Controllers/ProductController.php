@@ -158,8 +158,10 @@ class ProductController extends Controller
                 'total_stock' => $totalstock, // Update total stock in the database
             ]);
         }
-
-        return redirect()->route('allProducts')->with('success', 'Product added successfully!');
+        if (Auth::user()->role_id == 3)
+            return redirect()->route('allProducts')->with('success', 'Product added successfully!');
+        else
+            return redirect()->route('profileStore')->with('success', 'Product added successfully!');
     }
 
 
@@ -246,8 +248,10 @@ class ProductController extends Controller
             // Insert the new images into the ProductPhoto table
             ProductPhoto::insert($imageData);
         }
-
-        return redirect()->route('allProducts')->with('success', 'Product updated successfully');
+        if (Auth::user()->role_id == 3)
+            return redirect()->route('allProducts')->with('success', 'Product updated successfully');
+        else
+            return redirect()->route('profileStore')->with('success', 'Product updated successfully');
     }
 
     /**
