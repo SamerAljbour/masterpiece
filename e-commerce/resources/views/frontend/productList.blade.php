@@ -104,7 +104,7 @@
                         </div>
 
 
-                        <div class="bestsale">
+                        <div class="bestsale w-100">
                             <div class="title">
                                 <h3>RECOMMEND</h3>
                             </div>
@@ -119,14 +119,14 @@
                                                     <div class="prd">
                                                         <div class="item-img clearfix">
                                                             <a class="product-image have-additional" href="{{ route('productdetail', $product->id) }}" title="{{ $product->name }}">
-                                                                <span class="img-main">
-                                                                    <img alt="{{ $product->name }}" src="{{ Storage::url($product->image_url) }}">
+                                                                <span class="img-main" style="width: 200px !important; ">
+                                                                    <img alt="{{ $product->name }}" src="{{ Storage::url($product->image_url) }}" style="width: 200px !important; height:150px !important" >
                                                                 </span>
                                                             </a>
                                                         </div>
                                                         <div class="item-info">
                                                             <div class="info-inner">
-                                                                <div class="item-title">
+                                                                <div class="item-title" style="width: 100%">
                                                                     <a href="{{ route('productdetail', $product->id) }}" title="{{ $product->name }}">
                                                                         {{ $product->name }}
                                                                     </a>
@@ -408,49 +408,7 @@
     </div>
     <!-- AND CONTENT -->
 
-    <!-- PARTNERS -->
-    <div id="sns_partners" class="wrap">
-        <div class="container">
-            <div class="slider-wrap">
-                <div class="partners_slider_in">
-                    <div id="partners_slider1" class="our_partners owl-carousel owl-theme owl-loaded"
-                        style="display: inline-block">
-                        <div class="item">
-                            <a class="banner11" href="#" target="_blank">
-                                <img alt="" src="images/brands/1.png">
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a class="banner11" href="#" target="_blank">
-                                <img alt="" src="images/brands/2.png">
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a class="banner11" href="#" target="_blank">
-                                <img alt="" src="images/brands/3.png">
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a class="banner11" href="#" target="_blank">
-                                <img alt="" src="images/brands/4.png">
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a class="banner11" href="#" target="_blank">
-                                <img alt="" src="images/brands/5.png">
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a class="banner11" href="#" target="_blank">
-                                <img alt="" src="images/brands/6.png">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- AND PARTNERS -->
+
     <script>
          document.addEventListener('DOMContentLoaded', function () {
         @if(session('success'))

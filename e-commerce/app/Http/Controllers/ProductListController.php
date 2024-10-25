@@ -63,7 +63,9 @@ class ProductListController extends Controller
         } elseif ($sortBy == 'Date asc') {
             $products = $products->orderBy('created_at', 'asc');
         }
-
+        if (empty($sortBy)) {
+            $products = $products->inRandomOrder();
+        }
         // Paginate the results
         $products = $products->paginate($show);
         // dd($products);

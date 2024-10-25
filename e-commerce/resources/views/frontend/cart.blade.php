@@ -408,47 +408,7 @@
             </div>
             <!-- AND CONTENT -->
 
-            <!-- PARTNERS -->
-            <div id="sns_partners" class="wrap">
-                <div class="container">
-                    <div class="slider-wrap">
-                        <div class="partners_slider_in">
-                            <div id="partners_slider1" class="our_partners owl-carousel owl-theme owl-loaded" style="display: inline-block">
-                                <div class="item">
-                                    <a class="banner11" href="#" target="_blank">
-                                        <img alt="" src="images/brands/1.png">
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a class="banner11" href="#" target="_blank">
-                                        <img alt="" src="images/brands/2.png">
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a class="banner11" href="#" target="_blank">
-                                        <img alt="" src="images/brands/3.png">
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a class="banner11" href="#" target="_blank">
-                                        <img alt="" src="images/brands/4.png">
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a class="banner11" href="#" target="_blank">
-                                        <img alt="" src="images/brands/5.png">
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a class="banner11" href="#" target="_blank">
-                                        <img alt="" src="images/brands/6.png">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
             <script>
 
 function changeQuantity(amount, element) {

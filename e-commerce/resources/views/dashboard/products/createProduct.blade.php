@@ -268,6 +268,7 @@ id="colorSelect">
                 <option value="plastic">Plastic</option>
                 <option value="glass">Glass</option>
                 <option value="ceramic">Ceramic</option>
+                <option value="granite">granite </option>
             </select>
             </div>
             <div class="form-group" style="width: 100%;">
@@ -386,9 +387,10 @@ id="colorSelect">
             <div class="form-group" style="width: 100%;">
                 <label for="color">Processor</label>
                 <select name="processor[]" class="form-select" style="width: 100%;" id="colorSelect">
-                 <option value="">Select </option>
+                 <option value="">Select processor </option>
                 <option value="intel_i5">Intel i5</option>
                 <option value="intel_i7">Intel i7</option>
+                <option value="intel_i9">Intel i9</option>
                 <option value="amd_ryzen_5">AMD Ryzen 5</option>
                 <option value="amd_ryzen_7">AMD Ryzen 7</option>
 
@@ -413,7 +415,7 @@ id="colorSelect">
         else if (current  == 6)
         newVariantGroup.innerHTML = `
              <div class="form-group" style="width: 100%;" >
-                <label for="size">>Storage Type</label>
+                <label for="size">Storage Type</label>
                 <select name="type[]" id="furnitureMaterial" class="form-select" id="colorSelect">
                   <option value="">Select Storage Type</option>
                 <option value="ssd">SSD</option>
@@ -427,13 +429,16 @@ id="colorSelect">
                  <option value="">Select Processor</option>
                 <option value="intel_i3">Intel i3</option>
                 <option value="intel_i5">Intel i5</option>
+                <option value="intel_i7">Intel i7</option>
                 <option value="amd_ryzen_5">AMD Ryzen 5</option>
+                <option value="amd_ryzen_7">AMD Ryzen 7</option>
 
                 </select>
             </div>
             <div class="form-group" style="width: 100%;" >
                 <label for="furnitureSize">screen    Size</label>
             <select name="sizes[]" id="furnitureSize" class="form-select" id="colorSelect">
+               <option value="">select screen size"</option>
                <option value="13">13"</option>
                 <option value="15">15"</option>
                 <option value="17">17"</option>

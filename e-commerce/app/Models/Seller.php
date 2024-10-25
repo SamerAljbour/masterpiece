@@ -71,10 +71,10 @@ class Seller extends Model
         if (!$hasUnreadNotification) {
             $newNotification = Notification::create([
                 'user_id' => $this->id, // The seller's user ID
+                'admin' => 1, // Setting admin flag
                 'type' => 'account_created', // Custom type for account creation
                 'notifiable_type' => 'App\Models\Seller',
                 'notifiable_id' => $this->id,
-                'admin' => 1, // Setting admin flag
                 'data' => json_encode([
                     'message' => "Seller, {$this->name}! Just created an account.",
                     'seller_id' => $this->id

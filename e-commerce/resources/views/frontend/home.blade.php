@@ -6,13 +6,15 @@
                 <div id="sns_slideshows3">
                     <div id="slishow_wrap12" class="sns-slideshow owl-carousel owl-theme owl-loaded">
                         <div class="item">
-                            <img src="images/sildeshow/page3-3.jpg" alt="">
-                        </div>
+                            <img src="/assets/img/homebanner11.jpeg" style="height: 667px !important; width:100% !importent; object-fit: cover;"  width="1098px" height="543px" alt="No Products Found" class="no-products-image">                        </div>
+                            {{-- <img src="/assets/img/homebanner11.jpeg" style="height: 667px !important; width:100% !importent; object-fit: cover;"  width="1098px" height="543px" alt="No Products Found" class="no-products-image">                        </div> --}}
                         <div class="item">
-                            <img src="images/sildeshow/page3-2.jpg" alt="">
-                        </div>
-                        <div class="item">
-                            <img src="images/sildeshow/page3-1.jpg" alt="">
+                        <img src="/assets/img/homebanner2.jpg" style="height: 667px !important; width:100% !importent; object-fit: cover;"  width="1098px" height="543px" >
+
+                    </div>
+                    <div class="item">
+                            <img src="/assets/img/homebanner3.jpg" style="height: 667px !important; width:100% !importent; object-fit: cover;"  width="1098px" height="543px" >
+
                         </div>
                     </div>
                 </div>
@@ -27,39 +29,31 @@
                             <div id="sns_mainmidle">
                                 <div class="policy-page3">
                                     <ul class="ca-menu">
-                                        <li class="col-md-3 col-sm-6">
-                                            <a href="#">
+                                        <li class="col-md-4 col-sm-6">
+                                            <a >
                                                 <span class="ca-icon"><i class="fa fa-truck"></i></span>
                                                 <div class="ca-content">
-                                                    <h2 class="ca-main">Freshipping</h2>
-                                                    <h3 class="ca-sub">Lorem Ipsum is simply dummy</h3>
+                                                    <h2 class="ca-main">Fast Reach</h2>
+                                                    <h3 class="ca-sub">We connect you with the seller across the country!</h3>
                                                 </div>
                                             </a>
                                         </li>
-                                        <li class="col-md-3 col-sm-6 rsbd-no">
-                                            <a href="#">
+                                        <li class="col-md-4 col-sm-6 rsbd-no">
+                                            <a >
                                                 <span class="ca-icon" id="heart"><i class="fa fa-dollar"></i></span>
                                                 <div class="ca-content">
-                                                    <h2 class="ca-main">money back</h2>
-                                                    <h3 class="ca-sub">Lorem Ipsum is simply dummy</h3>
+                                                    <h2 class="ca-main">save money</h2>
+                                                    <h3 class="ca-sub">By buying same quality of product in lower price!</h3>
                                                 </div>
                                             </a>
                                         </li>
-                                        <li class="col-md-3 col-sm-6">
-                                            <a href="#">
-                                                <span class="ca-icon"><i class="fa fa-lock"></i></span>
-                                                <div class="ca-content">
-                                                    <h2 class="ca-main">perfect security</h2>
-                                                    <h3 class="ca-sub">Lorem Ipsum is simply dummy</h3>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li class="col-md-3 col-sm-6">
-                                            <a href="#">
+
+                                        <li class="col-md-4 col-sm-6">
+                                            <a >
                                                 <span class="ca-icon"><i class="fa fa-support"></i></span>
                                                 <div class="ca-content">
                                                     <h2 class="ca-main">best support</h2>
-                                                    <h3 class="ca-sub">Lorem Ipsum is simply dummy</h3>
+                                                    <h3 class="ca-sub">We are committed to providing exceptional support to our customers.</h3>
                                                 </div>
                                             </a>
                                         </li>
@@ -158,30 +152,7 @@
 
                                                              </div>
                                                              <div class="actions">
-                                                                 <ul class="add-to-links">
-                                                                     <li>
-                                                                         <a class="link-wishlist"
-                                                                            href="#"
-                                                                            title="Add to Wishlist">
-                                                                             <i class="fa fa-heart"></i>
-                                                                         </a>
-                                                                     </li>
-                                                                     <li>
-                                                                         <a class="link-compare"
-                                                                            href="#"
-                                                                            title="Add to Compare">
-                                                                             <i class="fa fa-random"></i>
-                                                                         </a>
-                                                                     </li>
-                                                                     <li class="wrap-quickview" data-id="qv_item_7">
-                                                                         <div class="quickview-wrap">
-                                                                             <a class="sns-btn-quickview qv_btn"
-                                                                                href="#">
-                                                                                 <i class="fa fa-eye"></i>
-                                                                             </a>
-                                                                         </div>
-                                                                     </li>
-                                                                 </ul>
+                                                                <p style="visibility: hidden">s</p>
                                                              </div>
                                                          </div>
                                                      </div>
@@ -269,30 +240,7 @@
 
                                                              </div>
                                                              <div class="actions">
-                                                                 <ul class="add-to-links">
-                                                                     <li>
-                                                                         <a class="link-wishlist"
-                                                                            href="#"
-                                                                            title="Add to Wishlist">
-                                                                             <i class="fa fa-heart"></i>
-                                                                         </a>
-                                                                     </li>
-                                                                     <li>
-                                                                         <a class="link-compare"
-                                                                            href="#"
-                                                                            title="Add to Compare">
-                                                                             <i class="fa fa-random"></i>
-                                                                         </a>
-                                                                     </li>
-                                                                     <li class="wrap-quickview" data-id="qv_item_7">
-                                                                         <div class="quickview-wrap">
-                                                                             <a class="sns-btn-quickview qv_btn"
-                                                                                href="#">
-                                                                                 <i class="fa fa-eye"></i>
-                                                                             </a>
-                                                                         </div>
-                                                                     </li>
-                                                                 </ul>
+                                                                <p style="visibility: hidden">s</p>
                                                              </div>
                                                          </div>
                                                      </div>
@@ -380,30 +328,7 @@
 
                                                              </div>
                                                              <div class="actions">
-                                                                 <ul class="add-to-links">
-                                                                     <li>
-                                                                         <a class="link-wishlist"
-                                                                            href="#"
-                                                                            title="Add to Wishlist">
-                                                                             <i class="fa fa-heart"></i>
-                                                                         </a>
-                                                                     </li>
-                                                                     <li>
-                                                                         <a class="link-compare"
-                                                                            href="#"
-                                                                            title="Add to Compare">
-                                                                             <i class="fa fa-random"></i>
-                                                                         </a>
-                                                                     </li>
-                                                                     <li class="wrap-quickview" data-id="qv_item_7">
-                                                                         <div class="quickview-wrap">
-                                                                             <a class="sns-btn-quickview qv_btn"
-                                                                                href="#">
-                                                                                 <i class="fa fa-eye"></i>
-                                                                             </a>
-                                                                         </div>
-                                                                     </li>
-                                                                 </ul>
+                                                                <p style="visibility: hidden">s</p>
                                                              </div>
                                                          </div>
                                                      </div>
@@ -491,30 +416,7 @@
 
                                                              </div>
                                                              <div class="actions">
-                                                                 <ul class="add-to-links">
-                                                                     <li>
-                                                                         <a class="link-wishlist"
-                                                                            href="#"
-                                                                            title="Add to Wishlist">
-                                                                             <i class="fa fa-heart"></i>
-                                                                         </a>
-                                                                     </li>
-                                                                     <li>
-                                                                         <a class="link-compare"
-                                                                            href="#"
-                                                                            title="Add to Compare">
-                                                                             <i class="fa fa-random"></i>
-                                                                         </a>
-                                                                     </li>
-                                                                     <li class="wrap-quickview" data-id="qv_item_7">
-                                                                         <div class="quickview-wrap">
-                                                                             <a class="sns-btn-quickview qv_btn"
-                                                                                href="#">
-                                                                                 <i class="fa fa-eye"></i>
-                                                                             </a>
-                                                                         </div>
-                                                                     </li>
-                                                                 </ul>
+                                                                <p style="visibility: hidden">s</p>
                                                              </div>
                                                          </div>
                                                      </div>
@@ -534,10 +436,12 @@
                                     <a href="#">
                                         <img src="images/banner11.jpg" alt="">
                                     </a>
-                                    <div class="style-title">NEW products</div>
-                                    <div class="style-text1">Axel - stool</div>
-                                    <div class="style-text2">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</div>
-                                    <div class="style-button">Buy now</div>
+                                    <div class="style-title">Explore Unique Items from</div>
+                                    <div class="style-text1"> Talented Sellers</div>
+                                    <div class="style-text2">
+                                        Explore our exclusive collection crafted by talented artisans! From beautiful furniture to stylish kitchenware and elegant lighting, each piece reflects quality and design. Transform your space with unique items that elevate your home and showcase the creativity of their makers.
+                                    </div>
+                                    <div ><a href="{{ route('productList') }}" class="style-button ">Shopnow</a> </div>
                                 </div>
                                <!--  <div class="clearfix"></div> -->
 
@@ -768,7 +672,7 @@
                                             <div id="slider123456">
                                                 <div class="item style1 banner5">
                                                     <a href="#">
-                                                        <img src="images/sildeshow/slideshow1.jpg" alt="">
+                                                        <img src="images/sildeshow/slideshow2.jpg" alt="">
                                                     </a>
                                                 </div>
                                             </div>
@@ -796,7 +700,7 @@
                                 </div>
 
 
-                                <div class="sns-latestblog">
+                                {{-- <div class="sns-latestblog">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="block-title">
@@ -923,7 +827,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                              </div>
                         </div>
                     </div>
@@ -931,49 +835,7 @@
             </div>
             <!-- AND CONTENT -->
 
-            <!-- PARTNERS -->
-            <div id="sns_partners" class="wrap">
-                <div class="container">
-                    <div class="slider-wrap">
-                        <div class="partners_slider_in">
-                            <div id="partners_slider1" class="our_partners owl-carousel owl-theme owl-loaded" style="display: inline-block">
-                                <div class="item">
-                                    <a class="banner11" href="#" target="_blank">
-                                        <img alt="" src="images/brands/1.png">
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a class="banner11" href="#" target="_blank">
-                                        <img alt="" src="images/brands/2.png">
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a class="banner11" href="#" target="_blank">
-                                        <img alt="" src="images/brands/3.png">
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a class="banner11" href="#" target="_blank">
-                                        <img alt="" src="images/brands/4.png">
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a class="banner11" href="#" target="_blank">
-                                        <img alt="" src="images/brands/5.png">
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a class="banner11" href="#" target="_blank">
-                                        <img alt="" src="images/brands/6.png">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- AND PARTNERS -->
 
            <!-- FOOTER -->
 

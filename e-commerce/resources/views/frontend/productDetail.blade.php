@@ -62,7 +62,8 @@
 
                                     <div class="product-img-box col-md-4 col-sm-5">
                                         <div class="detail-img">
-                                            <img src="{{ Storage::url($product->image_url) }}" alt="">
+                                            <img src="{{ Storage::url($product->image_url) }}" alt="" style="height: 244px !important;  width:100% !important">
+
                                         </div>
                                         <div class="small-img">
                                             <div id="sns_thumbail" class="owl-carousel owl-theme">
@@ -239,8 +240,8 @@
                                                     <div class="prd">
                                                         <div class="item-img clearfix">
                                                             <a class="product-image have-additional" href="{{ route('productdetail', $item->id) }}" title="{{ $item->name }}">
-                                                                <span class="img-main">
-                                                                    <img alt="{{ $item->name }}" src="{{ Storage::url($item->image_url) }}">
+                                                                <span class="img-main" style="width:200px !important">
+                                                                    <img alt="{{ $item->name }}" src="{{ Storage::url($item->image_url) }}" style="width: 200px !important; height:150px !important">
                                                                 </span>
                                                             </a>
                                                         </div>
@@ -526,8 +527,8 @@
                                                         </div>
 
                                                         <a class="product-image have-additional" href="{{ route('productdetail', $relatedProduct->id) }}" title="{{ $product->name }}">
-                                                            <span class="img-main">
-                                                                <img alt="" src="{{ Storage::url($relatedProduct->image_url) }}">
+                                                            <span class="img-main" style="height: 180px !important; object-fit:fill !important">
+                                                                <img alt="" src="{{ Storage::url($relatedProduct->image_url) }}" style="height: 180px !important; object-fit:fill !important">
                                                             </span>
                                                         </a>
                                                     </div>
@@ -621,8 +622,8 @@
                                                         </div>
                                                         <a class="product-image have-additional" href="{{ route('productdetail'  ,$item->id) }}"
                                                             title="{{ $item->name }}">
-                                                            <span class="img-main">
-                                                                <img alt="" src="{{ Storage::url($item->image_url) }}">
+                                                            <span class="img-main" style="height: 180px !important; object-fit:fill !important">
+                                                                <img alt="" src="{{ Storage::url($item->image_url) }}" style="height: 180px !important; object-fit:fill !important">
                                                             </span>
                                                         </a>
                                                     </div>
@@ -827,49 +828,7 @@
     </div>
     <!-- AND CONTENT -->
 
-    <!-- PARTNERS -->
-    <div id="sns_partners" class="wrap">
-        <div class="container">
-            <div class="slider-wrap">
-                <div class="partners_slider_in">
-                    <div id="partners_slider1" class="our_partners owl-carousel owl-theme owl-loaded"
-                        style="display: inline-block">
-                        <div class="item">
-                            <a class="banner11" href="#" target="_blank">
-                                <img alt="" src="images/brands/1.png">
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a class="banner11" href="#" target="_blank">
-                                <img alt="" src="images/brands/2.png">
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a class="banner11" href="#" target="_blank">
-                                <img alt="" src="images/brands/3.png">
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a class="banner11" href="#" target="_blank">
-                                <img alt="" src="images/brands/4.png">
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a class="banner11" href="#" target="_blank">
-                                <img alt="" src="images/brands/5.png">
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a class="banner11" href="#" target="_blank">
-                                <img alt="" src="images/brands/6.png">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- AND PARTNERS -->
+
 <script>
     function setvariant() {
     let selectInput = document.getElementById('variant_id');

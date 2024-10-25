@@ -100,7 +100,7 @@ class AdminController extends Controller
     // <=================================== User CRUD ===========================================>
     public function allUsers()
     {
-        $users = User::with('role')->get();
+        $users = User::with('role')->where('id', '!=', Auth::user()->id)->get();
         $pendingSellers = User::where('status', 'pending')->where('role_id', 2)->get();
         $pendingCount = $pendingSellers->count(); // Get the count of pending sellers
 

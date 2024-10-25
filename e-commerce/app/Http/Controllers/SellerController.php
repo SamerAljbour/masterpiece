@@ -184,7 +184,7 @@ class SellerController extends Controller
                 ]);
             // for redirction purpose
             if (Auth::user()->status == 'pending')
-                return redirect()->route('loginRegisterSeller')->with('successRegister', 'Congratulations, you saved your store info successfully');
+                return redirect()->route('loginRegisterSeller')->with('success', 'Congratulations, you saved your store info successfully');
             else
                 return redirect()->back()->with('success', 'Congratulations, you updated your store successfully');
         } catch (\Exception $e) {

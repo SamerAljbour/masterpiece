@@ -331,11 +331,6 @@
         <div class="invalid-feedback" id="passwordError"></div> <!-- Error message for Password -->
     </div>
 
-    <div class="form-floating">
-        <input type="text" name="location" class="form-control" id="registerLocation" placeholder="Location" value="{{ old('location') }}">
-        <label for="registerLocation"><i class="fas fa-map-marker-alt me-2"></i>Location</label>
-        <div class="invalid-feedback" id="locationError"></div> <!-- Error message for Location -->
-    </div>
 
     <div class="form-floating">
         <input type="text" name="phone" class="form-control" id="registerPhone" placeholder="Phone Number" value="{{ old('phone') }}">
