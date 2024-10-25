@@ -214,9 +214,10 @@ class SellerController extends Controller
     {
         $notification = \App\Models\Notification::find($id);
 
-        if ($notification && $notification->user_id == auth()->id()) {
-            // Check if notification is being retrieved correctly
-            // dd($notification);
+        // Debugging statement
+        // dd($notification);
+
+        if ($notification) {
             $notification->read_at = now();
             $notification->save();
         }

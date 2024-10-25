@@ -97,6 +97,7 @@ class UserController extends Controller
 
                 return redirect()->route('loginRegister')->with('successRegister', "You created an account successfully");
             } elseif ($user->role_id == 2 && $seller->is_setup == 0) {
+                $seller->createAccountNotification();
 
                 return redirect()->route('storeInfo')->with('successRegister', "You need to add the store info to complete the process");
             } else {
@@ -134,7 +135,7 @@ class UserController extends Controller
                 Auth::login($user);
                 $seller = User::with('seller')->where('id', Auth::user()->id)->first();
 
-                if ($seller->seller->is_setup == 0 && $user->role_id == 2)
+                if ($user->role_id == 2 && $seller->seller->is_setup == 0)
                     return redirect()->route('storeInfo')->with('successRegister', "You need to add the store info to complete the process");
 
                 if ($user->status == 'pending' && $user->role_id == 2) {

@@ -123,15 +123,70 @@
   </head>
   <body>
     {{-- for notification  --}}
+    @if (Auth::user()->role_id == 2)
     @php
     // Call the method to get low stock products and notifications
     $lowStockData = \App\Models\Product::checkLowStockAndNotify();
     $lowStockProducts = $lowStockData['lowStockProducts'];
-
-    $countOfNotifications = $lowStockData['countOfNotifications'];
     $outOfStockProducts = $lowStockData['outOfStockProducts'];
 
+    // Sort low stock products by stock level (ascending)
+    $sortedLowStockProducts = $lowStockProducts->sortBy('stock_level'); // Assuming 'stock_level' is the column name
+
+    // Sort out of stock products by name or any other criteria (you can adjust the key as needed)
+    $sortedOutOfStockProducts = $outOfStockProducts->sortBy('name'); // Assuming 'name' is the column name
+
+    // Count of notifications from the low stock data
+    $countOfNotifications = $lowStockData['countOfNotifications'];
+
+    // Count unread low stock notifications
+    $unreadOutOfStockNotificationsLow = \App\Models\Notification::where('user_id', Auth::id())
+        ->where('type', 'low_stock')
+        ->whereNull('read_at') // Count only unread notifications
+        ->count();
+    // Count unread out of stock notifications
+    $unreadOutOfStockNotificationsOut = \App\Models\Notification::where('user_id', Auth::id())
+        ->where('type', 'out_of_stock')
+        ->whereNull('read_at') // Count only unread notifications
+        ->count();
+        $allCount =  $unreadOutOfStockNotificationsLow +  $unreadOutOfStockNotificationsOut;
 @endphp
+
+
+
+    @else
+    @php
+    // Get seller information based on the logged-in user
+    $accountCreationNotifications = \App\Models\Notification::where('user_id', Auth::id())
+    ->where('type', 'account_created') // Filter by notification type
+    ->where('admin', 1) // Check for notifications specific to the admin
+    ->get();
+
+// Count of account creation notifications
+    // dd($existingNotifications);
+    // Count of existing notifications
+
+    // Fetch bad review notifications for the admin
+    // Fetch bad review notifications for the admin where admin column is set to 1
+    $badReviewNotifications = \App\Models\Notification::where('user_id', Auth::id())
+    ->where('type', 'bad_review')
+    ->where('admin', 1) // Use admin_id instead of admin
+    ->get();
+    // dd($badReviewNotifications);
+    // Count of bad review notifications
+// Merge the notifications into a single collection
+$allNotifications = $accountCreationNotifications->merge($badReviewNotifications);
+
+// Sort notifications, putting unread ones first
+$sortedNotifications = $allNotifications->sortBy(function ($notification) {
+    return $notification->read_at ? 1 : 0; // Unread notifications first
+});
+
+$notifyCount = $accountCreationNotifications->whereNull('read_at')->count() + $badReviewNotifications->whereNull('read_at')->count();
+@endphp
+
+
+    @endif
 <!-- Edit Profile Modal -->
 <form action="{{ route('updateProfile') }}" method="POST" enctype="multipart/form-data">
     <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
@@ -281,7 +336,7 @@
                 @if (Auth::user()->role_id == 3)
                 <li class="nav-item {{ request()->routeIs('allCategories') ? 'active' : '' }}">
                     <a href="{{ route('allCategories') }}">
-                        <i class="fas fa-th"></i>
+                        <i class="fas fa-layer-group"></i>
                         <p>Manage Categories</p>
                         <span class=""></span>
                     </a>
@@ -291,7 +346,7 @@
                 <li class="nav-item {{ request()->routeIs('allProducts') ? 'active' : '' }}">
                    @if (Auth::user()->role_id == 3)
                    <a href="{{ route('allProducts') }}">
-                    <i class="fas fa-th"></i>
+                    <i class="fas fa-tag"></i>
                     <p>Manage Products</p>
                     <span class=""></span>
                 </a>
@@ -301,7 +356,7 @@
                 @if (Auth::user()->role_id == 3)
                 <li class="nav-item {{ request()->routeIs('allreviews') ? 'active' : '' }}">
                     <a href="{{ route('allreviews') }}">
-                        <i class="fas fa-th"></i>
+                        <i class="fas fa-comments"></i>
                         <p>Manage Reviews</p>
                         <span class=""></span>
                     </a>
@@ -421,7 +476,7 @@
                     aria-expanded="false"
                   >
                     <i class="fa fa-bell"></i>
-                    <span class="notification">{{$countOfNotifications}}</span>
+                    <span class="notification">{{$notifyCount}}</span>
                   </a>
                   <ul
                     class="dropdown-menu notif-box animated fadeIn"
@@ -429,47 +484,48 @@
                   >
                     <li>
                       <div class="dropdown-title">
-                        You have {{ $countOfNotifications  }} new notification
+                        You have {{ $notifyCount  }} new notification
                       </div>
                     </li>
                     <li>
                       <div class="notif-scroll scrollbar-outer">
                         <div class="notif-center">
-                            @foreach($lowStockProducts as $product)
-    <a href="#" style="background-color: {{ is_null($product->notification) || !is_null($product->notification->read_at) ? 'white' : '#e0f7fa' }};">
-        <div class="notif-icon notif-warning">
-            <i class="fa fa-warning"></i>
+                            @foreach($sortedNotifications as $notfiy)
+    <a style="background-color: {{ is_null($notfiy->read_at) ? '#e0f7fa' : 'white' }};">
+        <div class="notif-icon notif-success">
+            <i class="fa fa-check"></i>
         </div>
         <div class="notif-content">
-            <span class="block">{{ $product->name }}: Only {{ $product->total_stock }} left in stock.</span>
-            <span class="time">{{ $product->created_at->diffForHumans() }}</span>
-            @if($product->notification && is_null($product->notification->read_at))
-                <form action="{{ route('notifications.markAsRead', $product->notification->id) }}" method="POST" style="display:inline;">
+            <span class="block">Seller, {{ $notfiy->user->name }}: Just created an account</span>
+            <span class="time">{{ $notfiy->created_at->diffForHumans() }}</span>
+            @if(is_null($notfiy->read_at))
+                <form action="{{ route('notifications.markAsRead', $notfiy->id) }}" method="POST" style="display:inline;">
                     @csrf
-                    <button type="submit" class="btn btn-link fs-0" style="font-size: 0.75rem; margin-left:12%;position: absolute;">Mark as Read</button>
+                    <button type="submit" class="btn btn-link fs-0" style="font-size: 0.75rem; margin-left:12%; position: relative;">Mark as Read</button>
                 </form>
             @endif
         </div>
     </a>
 @endforeach
+{{-- @foreach($badReviewNotifications as $notify)
+<a style="background-color: {{ is_null($notify->read_at) ? '#e0f7fa' : 'white' }};">
+    <div class="notif-icon notif-warning">
+        <i class="fa fa-exclamation-triangle"></i> <!-- Changed to indicate a warning -->
+    </div>
+    <div class="notif-content">
+        <span class="block"> {{ json_decode($notify->data)->message }}{{ json_decode($notify->data)->review_id }}</span> <!-- Adjusted to show the actual message -->
+        <span class="time">{{ $notify->created_at->diffForHumans() }}</span>
+        @if(is_null($notify->read_at))
+            <form action="{{ route('notifications.markAsRead', $notify->id) }}" method="POST" style="display:inline;">
+                @csrf
+                <button type="submit" class="btn btn-link fs-0" style="font-size: 0.75rem; margin-left:12%; position: relative;">Mark as Read</button>
+            </form>
+        @endif
+    </div>
+</a>
+@endforeach --}}
 
-@foreach($outOfStockProducts as $product)
-    <a href="#" style="background-color: {{ is_null($product->notification) || !is_null($product->notification->read_at) ? 'white' : '#e0f7fa   ' }};">
-        <div class="notif-icon notif-danger">
-            <i class="fa fa-warning"></i>
-        </div>
-        <div class="notif-content">
-            <span class="block">{{ $product->name }}: Out of stock.</span>
-            <span class="time">{{ $product->created_at->diffForHumans() }}</span>
-            @if($product->notification && is_null($product->notification->read_at))
-                <form action="{{ route('notifications.markAsRead', $product->notification->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    <button type="submit" class="btn btn-link fs-0" style="font-size: 0.75rem; margin-left:12% ;position: absolute;">Mark as Read</button>
-                </form>
-            @endif
-        </div>
-    </a>
-@endforeach
+
 
 
                           {{-- <a href="#">
@@ -509,11 +565,11 @@
                         </div>
                       </div>
                     </li>
-                    <li>
+                    {{-- <li>
                       <a class="see-all" href="javascript:void(0);"
                         >See all notifications<i class="fa fa-angle-right"></i>
                       </a>
-                    </li>
+                    </li> --}}
                   </ul>
                 </li>
                 @else
@@ -528,7 +584,7 @@
                     aria-expanded="false"
                   >
                     <i class="fa fa-bell"></i>
-                    <span class="notification">{{$countOfNotifications}}</span>
+                    <span class="notification">{{$allCount}}</span>
                   </a>
                   <ul
                     class="dropdown-menu notif-box animated fadeIn"
@@ -536,14 +592,14 @@
                   >
                     <li>
                       <div class="dropdown-title">
-                        You have {{ $countOfNotifications  }} new notification
+                        You have {{ $allCount  }} new notification
                       </div>
                     </li>
                     <li>
                       <div class="notif-scroll scrollbar-outer">
                         <div class="notif-center">
                             @foreach($lowStockProducts as $product)
-    <a href="#" style="background-color: {{ is_null($product->notification) || !is_null($product->notification->read_at) ? 'white' : '#e0f7fa' }};">
+    <a  style="background-color: {{ is_null($product->notification) || !is_null($product->notification->read_at) ? 'white' : '#e0f7fa' }};">
         <div class="notif-icon notif-warning">
             <i class="fa fa-warning"></i>
         </div>
@@ -561,7 +617,7 @@
 @endforeach
 
 @foreach($outOfStockProducts as $product)
-    <a href="#" style="background-color: {{ is_null($product->notification) || !is_null($product->notification->read_at) ? 'white' : '#e0f7fa   ' }};">
+    <a  style="background-color: {{ is_null($product->notification) || !is_null($product->notification->read_at) ? 'white' : '#e0f7fa   ' }};">
         <div class="notif-icon notif-danger">
             <i class="fa fa-warning"></i>
         </div>
@@ -616,11 +672,11 @@
                         </div>
                       </div>
                     </li>
-                    <li>
+                    {{-- <li>
                       <a class="see-all" href="javascript:void(0);"
                         >See all notifications<i class="fa fa-angle-right"></i>
                       </a>
-                    </li>
+                    </li> --}}
                   </ul>
                 </li>
 

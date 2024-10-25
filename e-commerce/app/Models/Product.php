@@ -74,7 +74,6 @@ class Product extends Model
             ->where('total_stock', '<=', 20) // Low stock threshold
             ->get();
 
-
         // Fetch out of stock products (total_stock = 0) for the authenticated user (seller)
         $outOfStockProducts = self::where('seller_id', Auth::user()->id)
             ->where('total_stock', '=', 0) // Out of stock
@@ -83,24 +82,23 @@ class Product extends Model
         // Count low stock and out of stock products
         $countLowStockProducts = $lowStockProducts->count();
         $countOutOfStockProducts = $outOfStockProducts->count();
-        $countOfNotifications = $lowStockProducts->count() + $outOfStockProducts->count();
+        $countOfNotifications = $countLowStockProducts + $countOutOfStockProducts;
+
+        // Initialize an array to hold notifications
+        $notifications = [];
+
         // Create notifications for low stock products
         foreach ($lowStockProducts as $product) {
             // Check if there's already a notification for this product
-            $existingNotifications = Notification::where('user_id', Auth::id())
+            $existingNotification = Notification::where('user_id', Auth::id())
                 ->where('notifiable_type', 'App\Models\Product')
                 ->where('notifiable_id', $product->id)
                 ->where('type', 'low_stock')
-                ->get();
+                ->first(); // Use first() instead of get() to check for a single record
 
-            // Check if any existing notification is unread
-            $hasUnreadNotification = $existingNotifications->contains(function ($notification) {
-                return $notification->read_at === null;
-            });
-
-            // If there are no unread notifications, create a new one
-            if (!$hasUnreadNotification) {
-                Notification::create([
+            // If there is no existing notification, create a new one
+            if (!$existingNotification) {
+                $notification = Notification::create([
                     'user_id' => Auth::id(), // The authenticated user
                     'type' => 'low_stock', // Custom type for low stock
                     'notifiable_type' => 'App\Models\Product',
@@ -110,26 +108,22 @@ class Product extends Model
                         'product_id' => $product->id
                     ]),
                 ]);
+                $notifications[] = $notification; // Add the notification to the array
             }
         }
 
         // Create notifications for out of stock products
         foreach ($outOfStockProducts as $product) {
             // Check if there's already a notification for this product
-            $existingNotifications = Notification::where('user_id', Auth::id())
+            $existingNotification = Notification::where('user_id', Auth::id())
                 ->where('notifiable_type', 'App\Models\Product')
                 ->where('notifiable_id', $product->id)
                 ->where('type', 'out_of_stock')
-                ->get();
+                ->first(); // Use first() instead of get() to check for a single record
 
-            // Check if any existing notification is unread
-            $hasUnreadNotification = $existingNotifications->contains(function ($notification) {
-                return $notification->read_at === null;
-            });
-
-            // If there are no unread notifications, create a new one
-            if (!$hasUnreadNotification) {
-                Notification::create([
+            // If there is no existing notification, create a new one
+            if (!$existingNotification) {
+                $notification = Notification::create([
                     'user_id' => Auth::id(), // The authenticated user
                     'type' => 'out_of_stock', // Custom type for out of stock
                     'notifiable_type' => 'App\Models\Product',
@@ -139,15 +133,16 @@ class Product extends Model
                         'product_id' => $product->id
                     ]),
                 ]);
+                $notifications[] = $notification; // Add the notification to the array
             }
         }
 
-        // Return both low stock and out of stock products along with their counts
+        // Return both low stock and out of stock products along with their counts and notifications
         return [
             'lowStockProducts' => $lowStockProducts,
             'countOfNotifications' => $countOfNotifications,
             'outOfStockProducts' => $outOfStockProducts,
-
+            'notifications' => $notifications, // Return the notifications created
         ];
     }
 }

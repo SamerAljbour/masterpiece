@@ -1,132 +1,164 @@
 @extends('layout.mainTwo')
 @section('content')
 
-            <!-- BREADCRUMBS -->
-            <div id="sns_breadcrumbs" class="wrap">
-                <div class="container">
+          <!-- Get in Touch Section -->
+<section class="contact-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h2 class="section-title">Get in Touch</h2>
+                <p class="section-subtitle">We'd love to hear from you. Our team is always here to help.</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Contact Info Cards -->
+            <div class="col-md-4">
+                <!-- Visit Us Card -->
+                {{-- <div class="contact-card">
+                    <div class="icon-wrapper">
+                        <i class="glyphicon glyphicon-map-marker"></i>
+                    </div>
+                    <h4>Visit Us</h4>
+                    <p>123 Design Street<br>
+                    Furniture District<br>
+                    New York, NY 10001</p>
+                </div> --}}
+
+                <!-- Call Us Card -->
+                <div class="contact-card">
+                    <div class="icon-wrapper">
+                        <i class="glyphicon glyphicon-phone"></i>
+                    </div>
+                    <h4>Call Us</h4>
+                    <p>+962 (077) 045 2442<br>
+                    Mon - Fri, 9am - 6pm</p>
+                </div>
+
+                <!-- Email Us Card -->
+                <div class="contact-card">
+                    <div class="icon-wrapper">
+                        <i class="glyphicon glyphicon-envelope"></i>
+                    </div>
+                    <h4>Email Us</h4>
+                    <p>
+                        samerseran34@gmail.com</p>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="col-md-8">
+                <form class="contact-form" action="{{ route('contactus.store') }}" method="POST">
+                    @csrf
                     <div class="row">
-                        <div class="col-md-12">
-                            <div id="sns_titlepage"></div>
-                            <div id="sns_pathway" class="clearfix">
-                                <div class="pathway-inner">
-                                    <span class="icon-pointer "></span>
-                                    <ul class="breadcrumbs">
-                                        <li class="home">
-                                            <a title="Go to Home Page" href="#">
-                                                <i class="fa fa-home"></i>
-                                                <span>Home</span>
-                                            </a>
-                                        </li>
-                                        <li class="category3 last">
-                                            <span>Contact Us</span>
-                                        </li>
-                                    </ul>
-                                </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input name="name" type="text" class="form-control" placeholder="Your Name">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input name="email" type="email" class="form-control" placeholder="Your Email">
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <!-- AND BREADCRUMBS -->
-
-            <!-- CONTENT -->
-            <div id="sns_content" class="wrap layout-m">
-                <div class="container">
-                    <div class="row">
-                        <div id="contact_gmap" class="col-md-12">
-                            <div class="page-title">
-                                <h1>Contact Us</h1>
-                            </div>
-                            <div id="googleMap" style="width:1170px; height:400px; margin: 0 auto;"></div>
-
-
-                            <div class="row clearfix">
-                                <div class="col-md-4 contact-info">
-                                    <p>Lorem Ipsum has been the industry's standard dummy text
-                                        ever since.Lorem Ipsum is simyp.</p>
-                                    <ul class="fa-ul">
-                                        <li><i class="fa-li fa fa-map-marker"></i>5 Avenue Anatole France 75007</li>
-                                        <li><i class="fa-li fa fa-phone"></i>+00-123-456-789</li>
-                                        <li><i class="fa-li fa fa-envelope-o"></i><a href="mailto:contact@paris.com">info@yourdomain.com</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-8">
-                                    <p class="style1">Send an email. All fields with an (*) are required.</p>
-                                    <form id="contactForm">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <input name="name" class="form-control required-entry input-text" id="name" placeholder="Name (*)" title="Name" value="" type="text" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <input name="email" class="form-control input-text required-entry validate-email" id="email" placeholder="E-mail (*)" title="Email" value="" type="text" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <input class="input-text form-control" name="telephone" id="telephone" placeholder="Telephone" title="Telephone" value="" type="text" />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <textarea name="comment" placeholder="Comment (*)" id="comment" title="Comment" class="form-control required-entry input-text" cols="5" rows="3"></textarea>
-                                                </div>
-                                                <div class="buttons-set">
-                                                    <input type="text" name="hideit" id="hideit" value="" style="display:none !important;" />
-                                                    <button type="submit" title="Submit" class="button">
-                                                        <span>Send Email</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <input name="subject" type="text" class="form-control" placeholder="Subject">
                     </div>
-                </div>
-            </div>
-            <!-- AND CONTENT -->
-
-            <!-- PARTNERS -->
-            <div id="sns_partners" class="wrap">
-                <div class="container">
-                    <div class="slider-wrap">
-                        <div class="partners_slider_in">
-                            <div id="partners_slider1" class="our_partners owl-carousel owl-theme owl-loaded" style="display: inline-block">
-                                <div class="item">
-                                    <a class="banner11" href="#" target="_blank">
-                                        <img alt="" src="images/brands/1.png">
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a class="banner11" href="#" target="_blank">
-                                        <img alt="" src="images/brands/2.png">
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a class="banner11" href="#" target="_blank">
-                                        <img alt="" src="images/brands/3.png">
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a class="banner11" href="#" target="_blank">
-                                        <img alt="" src="images/brands/4.png">
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a class="banner11" href="#" target="_blank">
-                                        <img alt="" src="images/brands/5.png">
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a class="banner11" href="#" target="_blank">
-                                        <img alt="" src="images/brands/6.png">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <textarea name="message" class="form-control" rows="6" placeholder="Your Message"></textarea>
                     </div>
-                </div>
+                    <button type="submit" class="btn btn-primary">SEND MESSAGE</button>
+                </form>
             </div>
-            <!-- AND PARTNERS -->
+        </div>
+    </div>
+</section>
+
+<style>
+/* Contact Section Styles */
+.contact-section {
+    padding: 80px 0;
+    background-color: #f5f5f5;
+}
+
+.section-title {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 36px;
+}
+
+.section-subtitle {
+    color: #666;
+    margin-bottom: 50px;
+}
+
+/* Contact Cards */
+.contact-card {
+    background: #fff;
+    padding: 30px;
+    margin-bottom: 30px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.icon-wrapper {
+    width: 50px;
+    height: 50px;
+    background: #c0935b;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.icon-wrapper i {
+    color: #fff;
+    font-size: 20px;
+}
+
+.contact-card h4 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.contact-card p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* Contact Form */
+.contact-form {
+    background: #fff;
+    padding: 40px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.form-control {
+    height: 46px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+textarea.form-control {
+    height: auto;
+}
+
+.btn-primary {
+    background-color: #c0935b;
+    border: none;
+    padding: 12px 30px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #b08449;
+}
+</style>
 
             @endsection

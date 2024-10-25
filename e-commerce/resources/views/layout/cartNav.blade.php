@@ -173,11 +173,11 @@
                                     </li>
 
                                     <li class="level0 custom-item {{ request()->is('contact') ? 'active' : '' }}">
-                                        <a class="menu-title-lv0" href="index3-blog.html"> <!-- Update this with the correct route -->
+                                        <a class="menu-title-lv0" href="{{ route('contactus') }}"> <!-- Update this with the correct route -->
                                             <span class="title">Contact Us</span>
                                         </a>
                                     </li>
-
+{{--
                                     <li class="level0 custom-item {{ request()->is('feedback') ? 'active' : '' }}">
                                         <a class="menu-title-lv0" href="index3-blog.html"> <!-- Update this with the correct route -->
                                             <span class="title">Feedback</span>
@@ -188,7 +188,7 @@
                                         <a class="menu-title-lv0" href="index3-blog.html"> <!-- Update this with the correct route -->
                                             <span class="title">Blog</span>
                                         </a>
-                                    </li>
+                                    </li> --}}
 
 
                                     {{-- <li class="level0 nav-4 no-group drop-submenu last parent">

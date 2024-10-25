@@ -10,6 +10,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\layoutController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductListController;
@@ -52,9 +53,8 @@ Route::get('/productListTwo', function () {
 Route::get('/productdetail', function () {
     return view('frontend/productdetail');
 });
-Route::get('/contactus', function () {
-    return view('frontend/contactUs');
-});
+
+
 Route::get('/notFound', function () {
     return view('frontend/notFound');
 });
@@ -141,7 +141,11 @@ Route::get('test', function () {
 // Route::get('loginRegister', function () {
 //     return view('regAndLogin/loginRegister');
 // })->name('loginRegister');
+Route::get('/contactus', function () {
+    return view('frontend.contactUs');
+})->name('contactus');
 
+Route::post('/contactus', [ContactUsController::class, 'store'])->name('contactus.store');
 // <=================================  register  ============================================>
 Route::get('/loginRegister', [UserController::class, 'viewReg'])->name('loginRegister');
 Route::post('/loginRegister', [UserController::class, 'register'])->name('storeNeweUser');
@@ -169,6 +173,7 @@ Route::post('/notifications/{id}/mark-as-read', [SellerController::class, 'markA
 // <================================= dashboard Home Seller  ============================================>
 Route::get('/sellerDashboard', [SellerController::class, 'homeSeller'])->name('sellerDashboard');
 Route::put('/updateStore', [SellerController::class, 'updateStoreInfo'])->name('updateStoreInfo');
+Route::put('/updateStore/{id}', [AdminController::class, 'updateStoreInfo'])->name('updateStoreAByAdmin');
 Route::get('/profile', [SellerController::class, 'showProfile'])->name('dashProfile');
 Route::put('/updateProfile', [UserController::class, 'updateProfile'])->name('updateProfile');
 
@@ -187,7 +192,7 @@ Route::get('/viewStore/{id}', [AdminController::class, 'viewStore'])->name('view
 Route::get('/allUsers', [AdminController::class, 'allUsers'])->name('allUsers');
 Route::get('/createUser', [AdminController::class, 'createUser'])->name('createUser');
 Route::post('/storeUser', [AdminController::class, 'storeNewUser'])->name('storeUser');
-Route::get('/updateUser/{id}', [AdminController::class, 'showPendingUsers'])->name('updateUser');
+Route::get('/updateUser/{id}', [AdminController::class, 'editUser'])->name('updateUser');
 Route::put('/updateUser/{id}', [AdminController::class, 'updateUser'])->name('updateUserData');
 Route::post('/deleteUser/{id}', [AdminController::class, 'deleteUser'])->name('deleteUser');
 Route::get('/pendingUsers', [AdminController::class, 'showPendingUsers'])->name('pendingUsers');

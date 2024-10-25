@@ -136,74 +136,71 @@
               </div>
             </div>
 
+
             <div class="table-responsive">
-              <table
-                id="add-row"
-                class="display table table-striped table-hover"
-              >
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>name</th>
-                    <th style="width:20%">description</th>
-                    <th>price</th>
-                    <th>category name </th>
-                    <th>stock quantity</th>
-                    <th >Action</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                    @if (count($products) > 0)
-
-
-                    @foreach ($products as $product)
-                    <tr>
-                        <td>{{ $product->id }}</td>
-                        <td>{{ $product->name }}</td>
-                        <td  style="width:20%">{{ $product->description }}</td>
-                        <td>{{ $product->price }}</td>
-                        <td>{{ $product->category->name }}</td>
-                        @if ($product->total_stock)
-
-                        <td>{{ $product->total_stock }}</td>
+                <table id="basic-datatables" class="display table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th style="width:20%">Description</th>
+                            <th>Price</th>
+                            <th>Category Name</th>
+                            <th>Stock Quantity</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th style="width:20%">Description</th>
+                            <th>Price</th>
+                            <th>Category Name</th>
+                            <th>Stock Quantity</th>
+                            <th>Action</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @if (count($products) > 0)
+                            @foreach ($products as $product)
+                                <tr>
+                                    <td>{{ $product->id }}</td>
+                                    <td>{{ $product->name }}</td>
+                                    <td style="width:20%">{{ $product->description }}</td>
+                                    <td>{{ $product->price }}</td>
+                                    <td>{{ $product->category->name }}</td>
+                                    @if ($product->total_stock)
+                                        <td class="text-center">{{ $product->total_stock }}</td>
+                                    @else
+                                        <td class="text-center">
+                                            <span class="badge badge-success">Out of Stock</span>
+                                        </td>
+                                    @endif
+                                    <td>
+                                        <div class="form-button-action">
+                                            <a href="{{ route('editProduct', $product->id) }}" class="btn btn-link btn-primary btn-md">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <form action="{{ route('deleteProduct', $product->id) }}" method="POST" style="display: inline;">
+                                                @csrf
+                                                <button type="submit" class="btn btn-link btn-danger btn-md">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
                         @else
-                        <td><p  class=" btn btn-sm btn-rounded btn-outline-danger disabled" >out of stock</p></td>
-
+                            <tr>
+                                <th colspan="7" class="emptyRow">No data found</th>
+                            </tr>
                         @endif
-
-                        <td>
-                            <div class="form-button-action">
-                                <a href="{{ route('editCategories', $product->id)}}" class="btn btn-link btn-primary btn-md">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <a href="{{ route('editProduct', $product->id)}}" class="btn btn-link btn-primary btn-md">
-                                    <i class="fa fa-edit"></i>
-                                </a>
-                                <form action="{{ route('deleteProduct', $product->id) }}" method="POST">
-                                    @csrf
-                                    <button  type="submit" class="btn btn-link btn-danger  btn-md">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-
-                @endforeach
-                @else
-                <tr>
-
-                    <th colspan="3" class="emptyRow">No data found</th>
-                </tr>
-                @endif
-
-
-
-
-                </tbody>
-              </table>
+                    </tbody>
+                </table>
             </div>
+
           </div>
         </div>
       </div>

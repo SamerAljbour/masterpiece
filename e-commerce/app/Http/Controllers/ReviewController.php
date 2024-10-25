@@ -52,7 +52,7 @@ class ReviewController extends Controller
         if (!$checkReview) {
             return redirect()->back()->with('error', 'You should buy the product first to be able to review it.');
         }
-        Review::create([
+        $review = Review::create([
             'product_id' => $validatedData['product_id'],
             'user_id' => $validatedData['user_id'],
             'rating' => $validatedData['rating'],
@@ -71,8 +71,15 @@ class ReviewController extends Controller
             ? round(($sumOfReviews / $countOfReviews), 1) // Average rating from 1 to 5
             : 0;
         Seller::where('user_id', Auth::user()->id)->update(['rating' => $rateOfStore]);
+        $seller = Seller::with('products')
+            ->whereHas('products', function ($query) use ($validatedData) {
+                $query->where('id', $validatedData['product_id']);
+            })
+            ->first();
         // $sellers->rating = $rateOfStore;
         $sellers->save();
+        if ($validatedData['rating'] <= 2)
+            $seller->createBadReviewNotification($review);
         return redirect()->route('productdetail', $validatedData['product_id'])->with('success', 'review submitted successfully');
     }
 
@@ -109,7 +116,7 @@ class ReviewController extends Controller
         $review = Review::find($id);
         if ($review) {
             $review->delete();
-            return redirect()->back()->with('deletedReview', "you successfully deleted you review");
+            return redirect()->back()->with('success', "you successfully deleted the review");
         }
     }
 }

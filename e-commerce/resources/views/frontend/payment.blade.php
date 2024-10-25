@@ -249,25 +249,27 @@
         <div class="success-message">{{ session('success') }}</div>
     @endif
 
-    <form action="{{ route('pay') }}" method="POST">
+    <form action="{{ route('pay') }}" method="POST" id="payment-form">
         @csrf
         <div class="inputBox">
-            <span>card number</span>
+            <span>Card Number</span>
             <input type="text" name="card_number" maxlength="16" class="card-number-input" value="{{ old('card_number') }}">
+            <div class="error-message card-number-error"></div>
             @error('card_number')
                 <div class="error-message">{{ $message }}</div>
             @enderror
         </div>
         <div class="inputBox">
-            <span>card holder</span>
+            <span>Card Holder</span>
             <input type="text" name="card_holder" class="card-holder-input" value="{{ old('card_holder') }}">
+            <div class="error-message card-holder-error"></div>
             @error('card_holder')
                 <div class="error-message">{{ $message }}</div>
             @enderror
         </div>
         <div class="flexbox">
             <div class="inputBox">
-                <span>expiration mm</span>
+                <span>Expiration MM</span>
                 <select name="exp_month" class="month-input">
                     <option value="" disabled>Select month</option>
                     @for($i = 1; $i <= 12; $i++)
@@ -276,12 +278,13 @@
                         </option>
                     @endfor
                 </select>
+                <div class="error-message expiration-error"></div>
                 @error('exp_month')
                     <div class="error-message">{{ $message }}</div>
                 @enderror
             </div>
             <div class="inputBox">
-                <span>expiration yy</span>
+                <span>Expiration YY</span>
                 <select name="exp_year" class="year-input">
                     <option value="" disabled>Select year</option>
                     @for($i = 2024; $i <= 2034; $i++)
@@ -290,53 +293,145 @@
                         </option>
                     @endfor
                 </select>
+                <div class="error-message expiration-error"></div>
                 @error('exp_year')
                     <div class="error-message">{{ $message }}</div>
                 @enderror
             </div>
             <div class="inputBox">
-                <span>cvv</span>
+                <span>CVV</span>
                 <input type="text" name="cvv" maxlength="3" class="cvv-input" value="{{ old('cvv') }}">
+                <div class="error-message cvv-error"></div>
                 @error('cvv')
                     <div class="error-message">{{ $message }}</div>
                 @enderror
             </div>
         </div>
-        <input type="submit" value="submit" class="submit-btn">
+        <input type="submit" value="Submit" class="submit-btn">
     </form>
 
 </div>
 
 <script>
-document.querySelector('.card-number-input').oninput = () =>{
+// Combined validation function
+function validateForm() {
+    let isValid = true; // Initialize as valid
+    const errorMessages = {
+        card_number: '',
+        card_holder: '',
+        expiration: '',
+        cvv: ''
+    };
+
+    const cardNumberInput = document.querySelector('.card-number-input');
+    const cardHolderInput = document.querySelector('.card-holder-input');
+    const monthInput = document.querySelector('.month-input');
+    const yearInput = document.querySelector('.year-input');
+    const cvvInput = document.querySelector('.cvv-input');
+
+    // Clear previous error messages
+    document.querySelector('.card-number-error').innerText = '';
+    document.querySelector('.card-holder-error').innerText = '';
+    document.querySelector('.expiration-error').innerText = '';
+    document.querySelector('.cvv-error').innerText = '';
+
+    // Validate Card Number (16 digits)
+    const cardNumber = cardNumberInput.value.replace(/\s/g, ''); // Remove spaces
+    const cardNumberRegex = /^\d{16}$/;
+    if (!cardNumberRegex.test(cardNumber)) {
+        errorMessages.card_number = 'Please enter a valid 16-digit card number.';
+        isValid = false;
+    }
+
+    // Validate Card Holder Name (not empty, 4 parts, no numbers/special characters)
+    const cardHolderName = cardHolderInput.value.trim();
+    const cardHolderRegex = /^[A-Za-z]+(?: [A-Za-z]+){3}$/; // Allows only letters and exactly 4 parts
+    if (cardHolderName === '') {
+        errorMessages.card_holder = 'Card holder name is required.';
+        isValid = false;
+    } else if (!cardHolderRegex.test(cardHolderName)) {
+        errorMessages.card_holder = 'Card holder name must consist of four words (letters only).';
+        isValid = false;
+    }
+
+    // Validate Expiration Date
+    const currentDate = new Date();
+    const selectedMonth = parseInt(monthInput.value);
+    const selectedYear = parseInt(yearInput.value);
+    if (!selectedMonth || !selectedYear ||
+        selectedYear < currentDate.getFullYear() ||
+        (selectedYear === currentDate.getFullYear() && selectedMonth < currentDate.getMonth() + 1)) {
+        errorMessages.expiration = 'Please select a valid expiration date.';
+        isValid = false;
+    }
+
+    // Validate CVV (3 digits)
+    const cvvRegex = /^\d{3}$/;
+    if (!cvvRegex.test(cvvInput.value)) {
+        errorMessages.cvv = 'Please enter a valid 3-digit CVV.';
+        isValid = false;
+    }
+
+    // Show error messages
+    document.querySelector('.card-number-error').innerText = errorMessages.card_number;
+    document.querySelector('.card-holder-error').innerText = errorMessages.card_holder;
+    document.querySelector('.expiration-error').innerText = errorMessages.expiration;
+    document.querySelector('.cvv-error').innerText = errorMessages.cvv;
+
+    return isValid; // Return the validity of the form
+}
+
+
+// Form submission validation
+document.getElementById('payment-form').onsubmit = (event) => {
+    if (!validateForm()) {
+        event.preventDefault(); // Prevent form submission if validation fails
+    }
+};
+// Form submission validation
+document.getElementById('payment-form').onsubmit = (event) => {
+    if (!validateForm()) {
+        event.preventDefault(); // Prevent form submission if validation fails
+    }
+};
+// Add event listeners to the inputs for live feedback
+document.querySelector('.card-number-input').oninput = () => {
     document.querySelector('.card-number-box').innerText = document.querySelector('.card-number-input').value;
-}
+};
 
-document.querySelector('.card-holder-input').oninput = () =>{
+document.querySelector('.card-holder-input').oninput = () => {
     document.querySelector('.card-holder-name').innerText = document.querySelector('.card-holder-input').value;
-}
+};
 
-document.querySelector('.month-input').oninput = () =>{
+document.querySelector('.month-input').oninput = () => {
     document.querySelector('.exp-month').innerText = document.querySelector('.month-input').value;
-}
+};
 
-document.querySelector('.year-input').oninput = () =>{
+document.querySelector('.year-input').oninput = () => {
     document.querySelector('.exp-year').innerText = document.querySelector('.year-input').value;
-}
+};
 
-document.querySelector('.cvv-input').onmouseenter = () =>{
+document.querySelector('.cvv-input').onmouseenter = () => {
     document.querySelector('.front').style.transform = 'perspective(1000px) rotateY(-180deg)';
     document.querySelector('.back').style.transform = 'perspective(1000px) rotateY(0deg)';
-}
+};
 
-document.querySelector('.cvv-input').onmouseleave = () =>{
+document.querySelector('.cvv-input').onmouseleave = () => {
     document.querySelector('.front').style.transform = 'perspective(1000px) rotateY(0deg)';
     document.querySelector('.back').style.transform = 'perspective(1000px) rotateY(180deg)';
-}
+};
 
-document.querySelector('.cvv-input').oninput = () =>{
+document.querySelector('.cvv-input').oninput = () => {
     document.querySelector('.cvv-box').innerText = document.querySelector('.cvv-input').value;
-}
+};
+
+// Form submission validation
+document.querySelector('form').onsubmit = (event) => {
+    if (!validateForm()) {
+        event.preventDefault(); // Prevent form submission if validation fails
+    }
+};
+
 document.addEventListener('DOMContentLoaded', function () {
         @if(session('success'))
             Swal.fire({

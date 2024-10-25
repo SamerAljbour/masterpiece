@@ -109,6 +109,8 @@
 
                   <th>Name</th>
                   <th>Email</th>
+                  <th>Status</th>
+
                   {{-- <th>phone</th>
                   <th>address</th> --}}
                   {{-- <th>role</th> --}}
@@ -120,6 +122,7 @@
                   <th>ID</th>
                   <th>Name</th>
                   <th>Email</th>
+                  <th>Status</th>
                   {{-- <th>phone</th>
                   <th>address</th> --}}
                   {{-- <th>role</th> --}}
@@ -139,6 +142,11 @@
                             <td>{{ $seller->id }}</td>
                             <td>{{ $seller->name }}</td>
                             <td>{{ $seller->email }}</td>
+                            @if ($seller->seller->is_setup)
+                                <td > <span class="badge badge-success">Setup Completed</span> </td>
+                            @else
+                                <td > <span class="badge badge-danger">Setup Incomplete</span> </td>
+                            @endif
                             <td>
                                 <form action="{{ route('approveSeller', $seller->id) }}" method="POST">
                                     @csrf

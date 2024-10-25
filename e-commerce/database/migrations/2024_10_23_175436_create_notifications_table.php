@@ -10,19 +10,21 @@ class CreateNotificationsTable extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id'); // Reference to the user receiving the notification
+            $table->boolean('admin')->nullable(); // Adding admin_id column
             $table->string('type');
-            $table->morphs('notifiable');
-            $table->text('data');
-            $table->timestamp('read_at')->nullable();
-            $table->timestamps();
+            $table->morphs('notifiable'); // Polymorphic relationship
+            $table->text('data'); // Notification data (JSON)
+            $table->timestamp('read_at')->nullable(); // Timestamp for read notifications
+            $table->timestamps(); // Created and updated timestamps
 
+            // Index for fast searching
             $table->index(['user_id', 'read_at']);
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('notifications');
+        Schema::dropIfExists('notifications'); // Drop notifications table
     }
 }

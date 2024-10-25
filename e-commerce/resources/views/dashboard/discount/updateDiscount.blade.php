@@ -17,8 +17,9 @@
     @csrf
     @method('PUT')
         <div id="centerTable" class="col-md-12">
+
             <div class="form-group">
-              <label for="name">Code</label>
+              <label for="name">Name</label>
               <input
               name="code"
                 type="text"
@@ -30,21 +31,21 @@
 
             </div>
             <div class="form-group">
-              <label for="email">discount amount</label>
-              <input
-    name="discount_amount"
-    type="text"
-    class="form-control"
-    id="discount_amount"
-    placeholder="Discount amount"
-    value="{{ $discountCoupon->discount_amount }}"
-    pattern="\d+(\.\d{1,2})?"
-    step="0.01"
-    title="Please enter a valid decimal amount (e.g., 10.00)"
-/>
+                <label for="discount_amount">Discount Amount</label>
+                <input
+                    name="discount_amount"
+                    type="number"
+                    class="form-control"
+                    id="discount_amount"
+                    placeholder="Discount amount"
+                    pattern="\d+(\.\d{1,2})?"
+                    value="{{ $discountCoupon->discount_amount }}"
+                    title="Please enter a valid decimal amount (e.g., 10.00)"
+                    step="0.01"
+                />
             </div>
             <div class="form-group">
-              <label for="email">valid from</label>
+              <label for="email">Valid From</label>
               <input
               name="valid_from"
                 type="date"
@@ -58,7 +59,7 @@
                 />
             </div>
             <div class="form-group">
-              <label for="email">valid until</label>
+              <label for="email">Valid Until</label>
               <input
               name="valid_until"
                 type="date"
@@ -70,7 +71,7 @@
 
               />
             </div>
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <input
 
                     onchange="toggleCheckbox()"
@@ -84,7 +85,7 @@
                 <label style="margin-left: 7px" class="form-check-label" for="with_on_sale">
                     Do you want this discount to be used with products that have sales?
                 </label>
-            </div>
+            </div> --}}
             <div class="form-group" id="btnLeft">
             <button
 
@@ -155,7 +156,28 @@ DiscountInput.addEventListener('input', function() {
 
         }
     }
+    const DiscountInput = document.getElementById('discount_amount');
 
+DiscountInput.addEventListener('input', function() {
+    // Use a regex to ensure input format of 0.xx
+    this.value = this.value.replace(/^(0\.\d{0,2})|^0\.|[^0-9.]/g, '$1');
+
+    // If the input is a valid number
+    let value = parseFloat(this.value);
+    if (!isNaN(value)) {
+        // Check if the value is less than the minimum
+        if (value < 0.01) {
+            this.value = '0.01'; // Set to minimum value
+        }
+        // Check if the value is greater than the maximum
+        else if (value > 0.99) {
+            this.value = '0.99'; // Set to maximum value
+        } else {
+            // Ensure value is displayed with two decimal places
+            this.value = value.toFixed(2);
+        }
+    }
+});
 
 </script>
 @endsection

@@ -15,6 +15,18 @@
     <form action="{{ route('storeDiscount') }}" method="POST">
         @csrf
         <div id="centerTable" class="col-md-12">
+            @if (Auth::user()->role_id == 3)
+            <div class="form-group">
+                <label for="name">Append this discount to seller</label>
+               <select name="toSeller" class="form-select">
+                <option value=""> Select Seller</option>
+                @foreach ($allSellers as $seller)
+                <option value="{{ $seller->id }}"> {{ $seller->user->name }}</option>
+
+                @endforeach
+               </select>
+            </div>
+            @endif
             <div class="form-group">
                 <label for="name">Name</label>
                 <input
@@ -59,7 +71,7 @@
                     onchange="updateValidUntilprev()"
                 />
             </div>
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <input
                     onchange="toggleCheckbox()"
                     type="checkbox"
@@ -71,7 +83,7 @@
                 <label style="margin-left: 7px" class="form-check-label" for="with_on_sale">
                     Do you want this discount to be used with products that have sales?
                 </label>
-            </div>
+            </div> --}}
             <div class="form-group" id="btnLeft">
                 <button class="btn btn-black btn-round ms-auto">
                     <i class="fa far fa-user"></i>

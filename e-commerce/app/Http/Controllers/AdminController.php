@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ContactUs;
 use App\Models\PaymentHistory;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -52,6 +53,7 @@ class AdminController extends Controller
         $totalWeeklySales = PaymentHistory::whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
             ->sum('amount');
         $stores = Seller::with('user', 'paymentHistories')->get();
+        $feedbacks = ContactUs::all();
         // $payment  = PaymentHistory::with('seller', 'user')->get();
         // dd($stores);
         return view('dashboard.indexAdmin', compact(
@@ -61,6 +63,7 @@ class AdminController extends Controller
             'totalSales',
             'totalOrders',
             'salesData',
+            'feedbacks',
             'stores',
             'monthlyData', // Pass the monthly sales data to the view
             'totalWeeklySales' // Pass the total weekly sales to the view
@@ -69,10 +72,13 @@ class AdminController extends Controller
 
     public function showAllStores()
     {
-        $allSellers = Seller::with('user', 'products')
-            ->withCount('products')
-            // ->withCount('products')
+        $allSellers = Seller::with(['user', 'products' => function ($query) {
+            $query->withCount('reviews'); // Count reviews for each product
+        }])
+            ->withCount('products') // Count the number of products for each seller
             ->get();
+
+
 
         // dd($allSellers);
         return view('dashboard.allStores', compact('allSellers'));
@@ -127,6 +133,8 @@ class AdminController extends Controller
         $user->email = $validateData['email'];
         $user->password = $validateData['password'];
         $user->role_id = $validateData['role_id'];
+        $user->status = 'pending';
+        $user->user_image = 'public/usersImages/userDefaultImage.jpeg';
         if ($user->save()) {
 
             return redirect()->route('allUsers')->with('successCreating', 'User Created Successfully');
@@ -145,7 +153,7 @@ class AdminController extends Controller
         $roles = Role::all();
         $user = User::find($id);
 
-        return view('adminDashboard/user/updateUser', compact('roles', 'user'));
+        return view('dashboard.user.updateUser', compact('roles', 'user'));
     }
 
     public function updateUser(Request $request, string $id)
@@ -164,12 +172,12 @@ class AdminController extends Controller
             $user->role_id = $validateData['role_id'];
             if ($user->save()) {
 
-                return redirect()->route('allUsers')->with('successUpdating', 'User Updated Successfully');
+                return redirect()->route('allUsers')->with('success', 'User Updated Successfully');
             } else {
-                return redirect()->route('allUsers')->with('ErrorUpdating', 'Somthing went wronge while creating user');
+                return redirect()->route('allUsers')->with('Error', 'Somthing went wronge while creating user');
             }
         } else {
-            return redirect()->route('allUsers')->with('ErrorUpdating', 'User Not Found');
+            return redirect()->route('allUsers')->with('Error', 'User Not Found');
         }
     }
     public function deleteUser(string $id)
@@ -184,7 +192,7 @@ class AdminController extends Controller
     }
     public function showPendingUsers()
     {
-        $pendingSellers = User::where('role_id', 2)->where('status', 'pending')->get();
+        $pendingSellers = User::with('seller')->where('role_id', 2)->where('status', 'pending')->get();
         // dd($pendingSellers);
         return view('dashboard.user.pendingUsers', compact('pendingSellers'));
     }
@@ -205,5 +213,35 @@ class AdminController extends Controller
         return redirect()->back()->with('success', `You approved on the seller  $seller->name`);
     }
     // <=================================== End of User CRUD ===========================================>
+    public function updateStoreInfo(Request $request, $storeID)
+    {
+        // dd($request->all());
+        try {
+            $data = $request->validate([
+                'store_name' => 'required',
+                'store_description' => 'required',
+                'store_thumbnail' => 'required|image', // Ensure this is a file input
+            ]);
 
+            $path = null;
+            if ($request->hasFile('store_thumbnail')) {
+                $file = $request->file('store_thumbnail');
+                $extension = $file->getClientOriginalExtension();
+                $filename = time() . '.' . $extension;
+                $path = $file->storeAs('public/thumbnails', $filename); // Store the image and get the path
+            }
+
+            Seller::where('id', $storeID)
+                ->update([
+                    'store_name' => $data['store_name'],
+                    'store_description' => $data['store_description'],
+                    'store_thumbnail' => $path,
+                    'is_setup' => 1,
+                ]);
+
+            return redirect()->back()->with('success', 'Congratulations, you updated your store successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'There was an error: ' . $e->getMessage());
+        }
+    }
 }

@@ -159,12 +159,12 @@
                                 </li>
 
                                 <li class="level0 custom-item {{ request()->is('contact') ? 'active' : '' }}">
-                                    <a class="menu-title-lv0" href="#">
+                                    <a class="menu-title-lv0" href="{{ route('contactus') }}">
                                         <span class="title">Contact Us</span>
                                     </a>
                                 </li>
 
-                                <li class="level0 custom-item {{ request()->is('feedback') ? 'active' : '' }}">
+                                {{-- <li class="level0 custom-item {{ request()->is('feedback') ? 'active' : '' }}">
                                     <a class="menu-title-lv0" href="#">
                                         <span class="title">Feedback</span>
                                     </a>
@@ -174,7 +174,7 @@
                                     <a class="menu-title-lv0" href="index3-blog.html">
                                         <span class="title">Blog</span>
                                     </a>
-                                </li>
+                                </li> --}}
 
 
                                 </ul>

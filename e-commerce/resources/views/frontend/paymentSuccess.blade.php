@@ -1,17 +1,14 @@
 @extends('layout.mainTwo')
 @section('content')
     <style>
-        body {
-            background-color: #f5f5f5;
-            font-family: 'Arial', sans-serif;
-            color: #333;
-        }
+
         .success-container {
             background-color: #fff;
             border-radius: 4px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 40px;
             margin-top: 50px;
+            margin-bottom: 50px;
         }
         .success-icon {
             font-size: 48px;

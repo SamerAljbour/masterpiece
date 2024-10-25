@@ -3,119 +3,66 @@
         <div class="container">
             <div class="container_in">
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="bot-social">
-                            <div class="col-md-8 col-md-offset-2">
-                                <div class="banner_home2" >
-                                    <div class="module">
-                                        <div class="title">
-                                            <p>About <span>Simen</span></p>
-                                        </div>
-                                        <div class="content">
-                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                                        </div>
-                                        <div class="module_ct">
-                                            <div class="sns-social">
-                                                <!-- <h6>Join in</h6> -->
-                                                <!-- <p>Lorem Ipsum is simply dummy text of the.</p> -->
-                                                <ul>
-                                                    <li><a href="#" target="_self" title="SNS Theme" class="fa fa fa-facebook"></a></li>
-                                                    <li><a href="#" target="_self" title="SNS Theme"  class="fa fa-twitter"> </a></li>
-                                                    <li><a href="#" target="_self" title="SNS Theme" class="fa fa-google"></a></li>
-                                                    <li><a href="#" target="_self" title="SNS Theme" class="fa fa-pinterest"></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="col-md-3 col-sm-12 col-xs-12 column0">
                         <div class="contact_us">
                             <h6>Contact us</h6>
                             <ul class="fa-ul">
-                                <li class="pd-right">
+                                <li class="pd-right" style="display: flex; align-items: center;">
                                     <i class="fa-li fa fw fa-home"> </i>
-                                    8888 South Avenue Street, New York
+                                    Amman , Jordan
                                 </li>
-                                <li>
+                                <li style="display: flex; align-items: center;">
                                     <i class="fa-li fa fw fa-phone"> </i>
-                                    <p>(12) 3 456 7896</p>
-                                    <p>(12) 3 456 7895</p>
+                                    <p>+962 (077) 045 2442</p>
+
                                 </li>
-                                <li>
+                                <li style="display: flex; align-items: center;">
                                     <i class="fa-li fa fw fa-envelope"> </i>
-                                    <p>
-                                        <a href="mailto:info@yourdomain.com">info@yourdomain.com</a>
+                                    <p >
+                                        <a  href="mailto:info@yourdomain.com">samerseran34@gmail.com</a>
                                     </p>
-                                    <p>
-                                        <a href="mailto:info@yourdomain.com">info@yourdomain.com</a>
-                                    </p>
+
                                 </li>
                             </ul>
                         </div>
                     </div>
 
-                    <div class="col-phone-12 col-xs-6 col-sm-3 col-md-2 column column1">
-                        <h6>Service</h6>
+
+                    <div class="col-phone-12 col-xs-8 col-sm-5 col-md-4 column column4">
+                        <h6>about us</h6>
                         <ul>
-                            <li>
-                                <a href="#">rices & Currencies</a>
-                            </li>
-                            <li>
-                                <a href="#">Secure Payment</a>
-                            </li>
-                            <li>
-                                <a href="#">Delivery Times & Costs</a>
-                            </li>
-                            <li>
-                                <a href="#">Returns & Exchanges</a>
-                            </li>
-                            <li>
-                                <a href="#">FAQ's</a>
-                            </li>
+                            <div class="module">
+
+                                <div class="content">
+                                    an online platform connect seller with the customer across the country
+                                </div>
+                                <div class="module_ct">
+                                    <div class="sns-social">
+                                        <!-- <h6>Join in</h6> -->
+                                        <!-- <p>Lorem Ipsum is simply dummy text of the.</p> -->
+                                        <ul>
+                                            <li><a href="#" target="_self" title="SNS Theme" class="fa fa fa-facebook"></a></li>
+                                            <li><a href="#" target="_self" title="SNS Theme"  class="fa fa-twitter"> </a></li>
+                                            <li><a href="#" target="_self" title="SNS Theme" class="fa fa-google"></a></li>
+                                            <li><a href="#" target="_self" title="SNS Theme" class="fa fa-pinterest"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </ul>
                     </div>
                     <div class="col-phone-12 col-xs-6 col-sm-3 col-md-2 column column2">
                         <h6>account</h6>
                         <ul>
                             <li>
-                                <a href="#">My account</a>
+                                <a href="{{ route('userProfile') }}">My account</a>
                             </li>
+
                             <li>
-                                <a href="#">Wishlist</a>
+                                <a href="{{ route('userProfile') }}">Order history</a>
                             </li>
-                            <li>
-                                <a href="#">Order history</a>
-                            </li>
-                            <li>
-                                <a href="#">Specials</a>
-                            </li>
-                            <li>
-                                <a href="#">Gift vouchers</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-phone-12 col-xs-6 col-sm-3 col-md-2 column column3">
-                        <h6>information</h6>
-                        <ul>
-                            <li>
-                                <a href="#">My account</a>
-                            </li>
-                            <li>
-                                <a href="#">Wishlist</a>
-                            </li>
-                            <li>
-                                <a href="#">Order history</a>
-                            </li>
-                            <li>
-                                <a href="#">Specials</a>
-                            </li>
-                            <li>
-                                <a href="#">Gift vouchers</a>
-                            </li>
+
                         </ul>
                     </div>
                     <div class="col-phone-12 col-xs-6 col-sm-3 col-md-3 column column4">
@@ -152,16 +99,16 @@
     <div id="sns_footer_bottom" class="footer">
         <div class="container">
             <div class="row">
-                <div class="bottom-pd1 col-sm-6">
-                    <div class="sns-copyright">
-                        © 2015 Magento Demo Store. All Rights Reserved. Developer by
-                        <a title="" data-original-title="Visit SNSTheme.Com!" data-toggle="tooltip" href="http://www.snstheme.com/">SNSTheme.Com</a>
+                <div class="bottom-pd1 col-sm-12">
+                    <div class="sns-copyright " style="display: flex;     justify-content: center;">
+                        © 2024  All Rights Reserved. Developer by
+                        <a title="" data-original-title="Visit SNSTheme.Com!" data-toggle="tooltip" href="https://www.linkedin.com/in/sameraljbour/"> SamerAljbour</a>
                     </div>
                 </div>
                 <div class="bottom-pd2 col-sm-6">
-                    <div class="payment">
+                    {{-- <div class="payment">
                         <img src="images/sns_paymal.png" alt="">
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

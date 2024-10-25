@@ -47,7 +47,7 @@
                 <div class="title">Products</div>
               </div>
               <div class="col">
-                <div class="number">134</div>
+                <div class="number">{{ $seller->products->sum('reviews_count') }}</div>
                 <div class="title"># of Reviews</div>
               </div>
             </div>

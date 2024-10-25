@@ -166,7 +166,7 @@ margin-left: 30px!important;
     class="img-fluid"
     style="width: 1352px; height: 300px; object-fit: cover;"
 />
-            <div class="row align-items-center">
+            <div class="row align-items-center mb-5">
                 <div class="col-lg-4 order-lg-1 order-2">
                     <div
                         class="d-flex align-items-center justify-content-around m-4"
@@ -176,11 +176,11 @@ margin-left: 30px!important;
                             <h4 class="mb-0 fw-semibold lh-1">{{ $countOfSoldProduct }}</h4>
                             <p class="mb-0 fs-4">sold products</p>
                         </div>
-                        <div class="text-center">
+                        {{-- <div class="text-center">
                             <i class="fa fa-user fs-6 d-block mb-2"></i>
                             <h4 class="mb-0 fw-semibold lh-1">3,586</h4>
                             <p class="mb-0 fs-4">Followers</p>
-                        </div>
+                        </div> --}}
                         <div class="text-center">
                             <i class="fa fa-star fs-6 d-block mb-2"></i>
                                 <h4 class="mb-0 fw-semibold lh-1">{{ $sellerInfo->rating }}</h4>
@@ -226,20 +226,20 @@ margin-left: 30px!important;
 
 
                         <li>
-                            <form action="{{ route('updateStoreInfo') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('updateStoreAByAdmin' , $sellerInfo->id) }}" method="POST" enctype="multipart/form-data">
                                 @method('PUT')
                                 @csrf
 
 
 
-                         {{-- <button type="button" class="btn btn-primary rounded-5" data-bs-toggle="modal" data-bs-target="#largeModal">Edit store</button> --}}
+                         <button type="button" class="btn btn-primary rounded-5" data-bs-toggle="modal" data-bs-target="#largeModal">Edit store</button>
 
                          <!-- Large Modal -->
                          <div class="modal fade" id="largeModal" tabindex="-1" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
                            <div class="modal-dialog modal-lg">
                              <div class="modal-content">
                                <div class="modal-header">
-                                 <h5 class="modal-title" id="myLargeModalLabel">Setup Your Store</h5>
+                                 <h5 class="modal-title" id="myLargeModalLabel">Edit <b>{{ $sellerInfo->user->name }}</b> Store </h5>
                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                </div>
                                <div class="modal-body" class="margin:2%">
@@ -251,6 +251,7 @@ margin-left: 30px!important;
                                       class="form-control"
                                       id="email2"
                                       placeholder="Enter Store Name"
+                                      value="{{ $sellerInfo->store_name}}"
                                     />
                                   </div>
                                   <div style="">
@@ -258,26 +259,13 @@ margin-left: 30px!important;
                                           <label for="comment"> Store description</label>
                                           <textarea
                                           name="store_description"
-                                          class="form-control" id="comment" rows="6"  placeholder="Enter Store Name"
-                                          ></textarea>
+                                          class="form-control" id="comment" rows="6"  placeholder="Enter Store Description"
+                                          value=""
+                                          >
+                                          {{ $sellerInfo->description }}
+                                        </textarea>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="comment"> Store location</label>
-                                        <select class="form-select" name="store_location" id="location">
-                                          <option value="" disabled selected>Select location</option>
-                                          <option value="Amman">Amman</option>
-                                          <option value="Irbid">Irbid</option>
-                                          <option value="Zarqa">Zarqa</option>
-                                          <option value="Aqaba">Aqaba</option>
-                                          <option value="Ma’an">Ma’an</option>
-                                          <option value="Karak">Karak</option>
-                                          <option value="Tafileh">Tafileh</option>
-                                          <option value="Ajloun">Ajloun</option>
-                                          <option value="Jerash">Jerash</option>
-                                          <option value="Mafraq">Mafraq</option>
-                                          <option value="Salt">Salt</option>
-                                      </select>
-                                </div>
+
                                     <div class="form-group">
                                         <label for="email2">Store thumbnail</label>
                                         <input
@@ -302,75 +290,7 @@ margin-left: 30px!important;
                     </ul>
                 </div>
             </div>
-            <ul
-                class="nav nav-pills user-profile-tab justify-content-end mt-2 bg-light-info rounded-2"
-                id="pills-tab"
-                role="tablist"
-            >
-                <li class="nav-item" role="presentation">
-                    <button id = "removeBorder"
-                        class="nav-link position-relative rounded-0  d-flex align-items-center justify-content-center bg-transparent fs-6 py-6"
-                        id="pills-profile-tab"
-                        data-bs-toggle="pill"
-                        data-bs-target="#pills-profile"
-                        type="button"
-                        role="tab"
-                        aria-controls="pills-profile"
-                        aria-selected="true"
-                    >
-                        <i class="fa fa-user me-2 fs-3"></i>
-                        <span class="d-none d-md-block">Profile</span>
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button id = "removeBorder"
-                        class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-6 py-6"
-                        id="pills-followers-tab"
-                        data-bs-toggle="pill"
-                        data-bs-target="#pills-followers"
-                        type="button"
-                        role="tab"
-                        aria-controls="pills-followers"
-                        aria-selected="false"
-                        tabindex="-1"
-                    >
-                        <i class="fa fa-heart me-2 fs-6"></i>
-                        <span class="d-none d-md-block">Followers</span>
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button id = "removeBorder"
-                        class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-6 py-6"
-                        id="pills-friends-tab"
-                        data-bs-toggle="pill"
-                        data-bs-target="#pills-friends"
-                        type="button"
-                        role="tab"
-                        aria-controls="pills-friends"
-                        aria-selected="false"
-                        tabindex="-1"
-                    >
-                        <i class="fa fa-users me-2 fs-6"></i>
-                        <span class="d-none d-md-block">Friends</span>
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button id = "removeBorder"
-                        class="nav-link active position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-6 py-6"
-                        id="pills-gallery-tab"
-                        data-bs-toggle="pill"
-                        data-bs-target="#pills-gallery"
-                        type="button"
-                        role="tab"
-                        aria-controls="pills-gallery"
-                        aria-selected="false"
-                        tabindex="-1"
-                    >
-                        <i class="fa fa-photo me-2 fs-6"></i>
-                        <span class="d-none d-md-block">Products</span>
-                    </button>
-                </li>
-            </ul>
+
         </div>
     </div>
     <div class="tab-content" id="pills-tabContent">

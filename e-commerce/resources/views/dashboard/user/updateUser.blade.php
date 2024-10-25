@@ -79,7 +79,7 @@
               class="btn btn-black btn-round ms-auto"
             >
               <i class="fa far fa-user"></i>
-              create user
+              update user
             </button>
         </div>
 

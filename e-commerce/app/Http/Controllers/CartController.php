@@ -333,10 +333,10 @@ class CartController extends Controller
     {
         session()->forget('afterDiscount');
         $discountCopon = $request->input('discountCopon');
-        $isOnSale = $request->input('on_sale');
-        if ($isOnSale) {
-            return redirect()->route('cart', Auth::user()->id)->with('error', "You can not apply discount on product already on sale");
-        }
+        // $isOnSale = $request->input('on_sale');
+        // if ($isOnSale) {
+        //     return redirect()->route('cart', Auth::user()->id)->with('error', "You can not apply discount on product already on sale");
+        // }
         $discount = DiscountCoupon::where('code', $discountCopon)->first();
         $cart = Cart::where("user_id", Auth::user()->id)->first();
 

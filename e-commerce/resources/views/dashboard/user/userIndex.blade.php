@@ -116,14 +116,15 @@
 
             <div class="table-responsive">
               <table
-                id="add-row"
+                id="basic-datatables"
                 class="display table table-striped table-hover"
               >
                 <thead>
                   <tr>
+                    <th>ID</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>phone</th>
+                    {{-- <th>phone</th> --}}
                     <th>address</th>
                     <th>role</th>
                     <th style="width: 10%;">Action</th>
@@ -131,9 +132,10 @@
                 </thead>
                 <tfoot>
                   <tr>
+                    <th>ID</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>phone</th>
+                    {{-- <th>phone</th> --}}
                     <th>address</th>
                     <th>role</th>
                     <th style="width: 10%;">Action</th>
@@ -149,7 +151,7 @@
                         <td>{{ $user->role->name ?? 'No Role' }}</td> <!-- Use role->name to get role name -->
                         <td>
                             <div class="form-button-action">
-                                <a href="{{ route('updateUser', $user->id) }}" class="btn btn-link btn-primary btn-lg">
+                                <a href="{{ route('updateUserData', $user->id) }}" class="btn btn-link btn-primary btn-lg">
                                     <i class="fa fa-edit"></i>
                                 </a>
                                 <form action="{{ route('deleteUser', $user->id) }}" method="POST">
