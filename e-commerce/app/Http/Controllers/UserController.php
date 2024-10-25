@@ -44,14 +44,13 @@ class UserController extends Controller
                     'regex:/[!@#$%^&*(),.?":{}|<>]/', // At least one special character
                 ],
                 'role_id' => 'required',
+                'phone' => 'required|digits:10', // Phone must be exactly 10 digits
             ]);
 
             // Validate seller-specific data if the role is seller
             if ($request->input('role_id') == 2) { // As seller
                 $sellerData = $request->validate([
-                    'phone' => 'required|digits:10', // Phone must be exactly 10 digits
                     'address' => 'required', // Address should not be empty
-                    'location' => 'required', // Location should not be empty
                 ]);
             }
 
@@ -70,8 +69,8 @@ class UserController extends Controller
             $user->name = $validateData['name'];
             $user->email = $validateData['email'];
             $user->password = bcrypt($validateData['password']); // Hash the password
+            $user->phone = $validateData['phone'];
             if ($request->input('role_id') == 2) {
-                $user->phone = $sellerData['phone'];
                 $user->address = $sellerData['address'];
             }
             $user->role_id = $validateData['role_id'];

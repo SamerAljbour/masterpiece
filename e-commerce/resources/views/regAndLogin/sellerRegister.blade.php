@@ -292,28 +292,16 @@
                 <input type="password" name="password" class="form-control" id="loginPassword" placeholder="Password">
                 <label for="loginPassword"><i class="fas fa-lock me-2"></i>Password</label>
             </div>
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="rememberMe">
-                    <label class="form-check-label" for="rememberMe">
-                        Remember me
-                    </label>
-                </div>
-                <a href="#" class="text-primary text-decoration-none">Forgot password?</a>
-            </div>
+
             <button type="submit" class="btn btn-primary">
                 <i class="fas fa-sign-in-alt me-2"></i>Login
             </button>
 
             <div class="divider">
-                <span>or continue with</span>
+                <span>or Login as <a href="{{ route('loginRegister') }}">user</a></span>
             </div>
 
-            <div class="social-login">
-                <a href="#" class="social-btn facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social-btn google"><i class="fab fa-google"></i></a>
-                <a href="#" class="social-btn twitter"><i class="fab fa-twitter"></i></a>
-            </div>
+
         </form>
 
         <!-- Register Form -->
@@ -473,14 +461,6 @@ document.addEventListener('DOMContentLoaded', function () {
         isValid = false;
         errorMessages.push('Password must be 8-12 characters long and include at least one uppercase letter, one lowercase letter, one digit, and one special character.');
         document.getElementById('passwordError').innerText = 'Invalid password';
-    }
-
-    // Validate Location
-    const location = document.getElementById('registerLocation').value.trim();
-    if (!location) {
-        isValid = false;
-        errorMessages.push('Location cannot be empty.');
-        document.getElementById('locationError').innerText = 'Location is required';
     }
 
     // Validate Phone Number

@@ -33,6 +33,9 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Auth::user()) {
+            return redirect()->back()->with('error', 'You need to create account or login to access this feature.');
+        }
         //store customer review
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',

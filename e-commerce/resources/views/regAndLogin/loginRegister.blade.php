@@ -265,20 +265,14 @@
                                 <input type="password" class="form-control" id="loginPassword" name="password" placeholder="Password">
                                 <label for="loginPassword"> Password</label>
                             </div>
-                            <div class="forgot-password">
-                                <a href="#"><i class="fas fa-key"></i> Forgot Password?</a>
-                            </div>
+
                             <button type="submit" class="btn btn-primary w-100">
-                                <i class="fas fa-sign-in-alt"></i> Sign In
+                                <i class="fas fa-sign-in-alt"></i> Login
                             </button>
                         </form>
                         <div class="social-login">
-                            <p><i class="fas fa-share-alt"></i> Or login with</p>
-                            <div class="social-icons">
-                                <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#" class="google"><i class="fab fa-google"></i></a>
-                                <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
-                            </div>
+                             Or login as <a href="{{ route('loginRegisterSeller') }}">seller</a></p>
+
                         </div>
                     </div>
                     <div class="tab-pane fade" id="register" role="tabpanel">
@@ -299,6 +293,11 @@
                                 <input type="password" class="form-control" id="registerPassword" name="password" placeholder="Password">
                                 <label for="registerPassword">Password</label>
                             </div>
+                            <div class="form-floating">
+
+                                <input type="text" class="form-control" id="registerName" name="phone" placeholder="John Doe">
+                                <label for="registerName">   Phone Number</label>
+                            </div>
                             <input type="hidden" class="form-control" id="registerPassword" name="role_id" value="1" placeholder="Password">
                             <div class="image-upload">
                                 <label for="profileImage" class="image-upload-label">
@@ -308,7 +307,7 @@
                                     </div>
                                 </label>
                                 <input type="file" id="profileImage" class="d-none" accept="image/*" onchange="previewImage(this)">
-                                <img id="imagePreview" class="image-preview mx-auto d-block" alt="Profile preview">
+                                <img id="imagePreview" src="{{ Storage::url('public/usersImages/userDefaultImage.jpeg') }}" class="image-preview mx-auto d-block" alt="Profile preview">
                             </div>
                             <button type="submit" class="btn btn-primary w-100">
                                 <i class="fas fa-user-plus"></i> Create Account

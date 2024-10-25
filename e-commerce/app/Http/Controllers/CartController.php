@@ -354,8 +354,8 @@ class CartController extends Controller
         if ($discount) {
             if ($discount->is_active) {
                 if ($cartData->count() > 0) {
-                    $cart = CartProduct::with(['product', 'cart'])->get();
-                    dd($cart);
+                    // $cartProduct = CartProduct::with(['product', 'cart'])->get();
+                    // dd($cart);
                     $totalAmount = $cart->total_amount;
                     // dd($cart->total_amount);
                     $totalAmount = $totalAmount - ($discount->discount_amount *  $totalAmount);

@@ -5,7 +5,7 @@
 
 </style>
     <!-- BREADCRUMBS -->
-    @if ($errors->any())
+    {{-- @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
             @foreach ($errors->all() as $error)
@@ -13,7 +13,7 @@
             @endforeach
         </ul>
     </div>
-@endif
+@endif --}}
     <div id="sns_breadcrumbs" class="wrap">
         <div class="container">
             <div class="row">
