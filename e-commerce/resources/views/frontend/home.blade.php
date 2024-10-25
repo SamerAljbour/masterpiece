@@ -138,7 +138,10 @@
                                                                 <form action="{{ route('storeToCart') }}" method="POST">
                                                                     @csrf
                                                                     <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="quantity">
+                                                                    @if (Auth::user())
+
                                                                     <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
+                                                                    @endif
                                                                     <input type="hidden" value="{{ $product->id }}" name="product_id">
                                                                     <input type="hidden" value="{{ $product->price }}" name="price">
                                                                     @if ($product->variants->isNotEmpty() && $product->variants->first())
@@ -247,8 +250,10 @@
                                                                 <form action="{{ route('storeToCart') }}" method="POST">
                                                                     @csrf
                                                                     <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="quantity">
+                                                                    @if (Auth::user())
+
                                                                     <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
-                                                                    <input type="hidden" value="{{ $product->id }}" name="product_id">
+                                                                    @endif                                                                    <input type="hidden" value="{{ $product->id }}" name="product_id">
                                                                     <input type="hidden" value="{{ $product->price }}" name="price">
                                                                     @if ($product->variants->isNotEmpty() && $product->variants->first())
                                                                         <input type="hidden" value="{{ $product->variants->first()->id }}" name="variant_id">
@@ -356,8 +361,10 @@
                                                                 <form action="{{ route('storeToCart') }}" method="POST">
                                                                     @csrf
                                                                     <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="quantity">
+                                                                    @if (Auth::user())
+
                                                                     <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
-                                                                    <input type="hidden" value="{{ $product->id }}" name="product_id">
+                                                                    @endif                                                                    <input type="hidden" value="{{ $product->id }}" name="product_id">
                                                                     <input type="hidden" value="{{ $product->price }}" name="price">
                                                                     @if ($product->variants->isNotEmpty() && $product->variants->first())
                                                                         <input type="hidden" value="{{ $product->variants->first()->id }}" name="variant_id">
@@ -465,8 +472,10 @@
                                                                 <form action="{{ route('storeToCart') }}" method="POST">
                                                                     @csrf
                                                                     <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="quantity">
+                                                                    @if (Auth::user())
+
                                                                     <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
-                                                                    <input type="hidden" value="{{ $product->id }}" name="product_id">
+                                                                    @endif                                                                    <input type="hidden" value="{{ $product->id }}" name="product_id">
                                                                     <input type="hidden" value="{{ $product->price }}" name="price">
                                                                     @if ($product->variants->isNotEmpty() && $product->variants->first())
                                                                         <input type="hidden" value="{{ $product->variants->first()->id }}" name="variant_id">

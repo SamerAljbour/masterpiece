@@ -115,12 +115,15 @@
                             </div>
                             <div class="customer-ct content">
                                 <ul class="links">
+                                    @if (Auth::user())
+
                                     @if (Auth::user()->role_id == 2)
 
-                                <li class="first">
-                                    <a class="top-link-dashboard" title="My Dashboard" href="{{ route('sellerDashboard') }}"> My Dashboard</a>
-                                </li>
-                                @endif
+                                    <li class="first">
+                                        <a class="top-link-dashboard" title="My Dashboard" href="{{ route('sellerDashboard') }}"> My Dashboard</a>
+                                    </li>
+                                    @endif
+                                    @endif
                                     <li class="first">
                                         <a class="top-link-myaccount" title="My Account" href="{{ route('userProfile') }}">My Profile</a>
                                     </li>
@@ -660,7 +663,12 @@
                                                 <i class="fa fa-shopping-cart"></i>
                                                 <div class="summary">
                                                     <span class="amount">
-                                                        <a href="{{ route('cart', Auth::user()->id) }}">
+                                                        @if (Auth::user())
+                                                            <a href="{{ route('cart', Auth::user()->id) }}">
+                                                                @else
+                                                                <a href="{{ route('loginRegister') }}">
+
+                                                        @endif
                                                             @php
                                                                 use Illuminate\Support\Facades\DB;
 
@@ -668,7 +676,13 @@
                                                                 //     ->wherePivotNull('cart_id', Auth::user()->id)
                                                                 //     ->count();
                                                             @endphp
+                                                            @if (Auth::user())
+
                                                             <span>{{ $cartData->count() }}</span>
+                                                            @else
+                                                            <span>0</span>
+
+                                                            @endif
                                                         </a>
                                                     </span>
                                                 </div>
@@ -738,7 +752,13 @@
                                                                 <span>Check out</span>
                                                             </span>
                                                         </a> --}}
+                                                        @if (Auth::user())
+
                                                         <a class="button gfont go-to-cart" href="{{ route('cart' , Auth::user()->id) }}">Go to cart</a>
+                                                        @else
+                                                        <a class="button gfont go-to-cart" href="{{ route('loginRegister') }}">Go to cart</a>
+
+                                                        @endif
                                                     </div>
 
                                                 </div>

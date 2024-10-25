@@ -20,6 +20,10 @@ class CartController extends Controller
     public function storeToCart(Request $request)
     {
         try {
+
+            if (!Auth::user()) {
+                return redirect()->back()->with('error', 'You need to create account or login to access this feature.');
+            }
             // Validate the request data
             $validator = Validator::make($request->all(), [
                 'product_id' => 'required|integer|exists:products,id',
@@ -115,6 +119,9 @@ class CartController extends Controller
     public function storeToCartQua(Request $request)
     {
         try {
+            if (!Auth::user()) {
+                return redirect()->back()->with('error', 'You need to create account or login to access this feature.');
+            }
             // Validate the request data
             $validator = Validator::make($request->all(), [
                 'cart_id' => 'required|integer|exists:users,id',

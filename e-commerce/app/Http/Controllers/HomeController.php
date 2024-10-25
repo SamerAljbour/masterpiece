@@ -30,10 +30,13 @@ class HomeController extends Controller
 
         $RandomProducts = Product::inRandomOrder()->paginate(3);
         // get cart Qua
-        $cart = Cart::where("user_id", Auth::user()->id)->first();
-        $cartData = $cart->products()
-            ->wherePivotNull('deleted_at') // Ensure soft-deleted products are excluded
-            ->get();
+        if (Auth::user()) {
+            $cart = Cart::where("user_id", Auth::user()->id)->first();
+            $cartData = $cart->products()
+                ->wherePivotNull('deleted_at') // Ensure soft-deleted products are excluded
+                ->get();
+        }
+
 
         // Get products for each category and limit to 10
         $categoryOne = Category::find(1);
@@ -49,21 +52,39 @@ class HomeController extends Controller
         $categoryFourProducts = $categoryFour->products()->limit(10)->get();
 
         // Pass all variables to the view
-        return view('frontend/home', compact(
-            'categoryFour',
-            'categoryThree',
-            'categoryTwo',
-            'categoryOne',
-            'categoryOneProducts',
-            'categoryTwoProducts',
-            'categoryThreeProducts',
-            'categoryFourProducts',
-            'topRated',
-            'bestSale',
-            'cartData',
-            'onSale',
-            'RandomProducts'
-        ));
+
+        if (Auth::user())
+            return view('frontend/home', compact(
+                'categoryFour',
+                'categoryThree',
+                'categoryTwo',
+                'categoryOne',
+                'categoryOneProducts',
+                'categoryTwoProducts',
+                'categoryThreeProducts',
+                'categoryFourProducts',
+                'topRated',
+                'bestSale',
+                'cartData',
+                'onSale',
+                'RandomProducts'
+            ));
+        else
+            return view('frontend/home', compact(
+                'categoryFour',
+                'categoryThree',
+                'categoryTwo',
+                'categoryOne',
+                'categoryOneProducts',
+                'categoryTwoProducts',
+                'categoryThreeProducts',
+                'categoryFourProducts',
+                'topRated',
+                'bestSale',
+
+                'onSale',
+                'RandomProducts'
+            ));
     }
 
     public function showUserProfile()

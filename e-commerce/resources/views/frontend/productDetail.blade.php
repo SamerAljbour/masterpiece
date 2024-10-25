@@ -164,8 +164,10 @@
                                                                 onclick="var qty_el = document.getElementById('qty'); var qty = qty_el.value; if( !isNaN( qty )) qty_el.value++;return false;"
                                                                 type="button">+</button>
                                                         </div>
-
+                                                        @if (Auth::user())
                                                         <input type="hidden" value="{{ Auth::user()->id }}" name="cart_id">
+
+                                                        @endif
                                                         <input type="hidden" value="{{ $product->id }}" name="product_id">
 
                                                         @if ($product->on_sale)
@@ -263,7 +265,10 @@
                                                                     <form action="{{ route('storeToCart') }}" method="POST">
                                                                         @csrf
                                                                         <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="quantity">
+                                                                        @if (Auth::user())
+
                                                                         <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
+                                                                        @endif
                                                                         <input type="hidden" value="{{ $item->id }}" name="product_id">
                                                                         @if ($product->on_sale)
                                                                         <input type="hidden" value="{{ $product->price - ($product->price * $product->on_sale) }}" name="price">
@@ -330,7 +335,10 @@
                                             <form action="{{ route('storeToCart') }}" method="POST">
                                                 @csrf
                                                 <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="quantity">
+                                                @if (Auth::user())
+
                                                 <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
+                                                @endif
                                                 <input type="hidden" value="{{ $item->id }}" name="product_id">
                                                 @if ($product->on_sale)
                                                 <input type="hidden" value="{{ $product->price - ($product->price * $product->on_sale) }}" name="price">
@@ -397,7 +405,10 @@
                                         <form action="{{ route('storeToCart') }}" method="POST">
                                             @csrf
                                             <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="quantity">
+                                            @if (Auth::user())
+
                                             <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
+                                            @endif
                                             <input type="hidden" value="{{ $item->id }}" name="product_id">
                                             @if ($product->on_sale)
                                             <input type="hidden" value="{{ $product->price - ($product->price * $product->on_sale) }}" name="price">
@@ -549,7 +560,10 @@
                                                             <form action="{{ route('storeToCart') }}" method="POST">
                                                                 @csrf
                                                                 <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="quantity">
+                                                                @if (Auth::user())
+
                                                                 <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
+                                                                @endif
                                                                 <input type="hidden" value="{{ $relatedProduct->id }}" name="product_id">
                                                                 @if ($relatedProduct->on_sale)
                                                                 <input type="hidden" value="{{ $relatedProduct->price - ($relatedProduct->price * $relatedProduct->on_sale) }}" name="price">
@@ -637,7 +651,10 @@
                                                             <form action="{{ route('storeToCart') }}" method="POST">
                                                                 @csrf
                                                                 <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="quantity">
+                                                                @if (Auth::user())
+
                                                                 <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
+                                                                @endif
                                                                 <input type="hidden" value="{{ $item->id }}" name="product_id">
                                                                 @if ($product->on_sale)
                                                                 <input type="hidden" value="{{ $product->price - ($product->price * $product->on_sale) }}" name="price">
@@ -711,7 +728,10 @@
                                         <textarea id="review_field" name="comment" class="form-control" rows="3" placeholder="Write your review here..."></textarea>
                                     </div>
                                 </li>
+                                @if (Auth::user())
+
                                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                @endif
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <li>
                                     <label class="required" for="rating_field">

@@ -100,11 +100,14 @@
                         </div>
                         <div class="customer-ct content">
                             <ul class="links">
+                                @if (Auth::user())
+
                                 @if (Auth::user()->role_id == 2)
 
                                 <li class="first">
                                     <a class="top-link-dashboard" title="My Dashboard" href="{{ route('sellerDashboard') }}"> My Dashboard</a>
                                 </li>
+                                @endif
                                 @endif
                                 <li class="first">
                                     <a class="top-link-myaccount" title="My Account" href="{{ route('userProfile') }}">My Profile</a>
@@ -613,6 +616,9 @@
                                         <div class="block-content content">
                                             <div class="block-inner">
                                                 <ol id="cart-sidebar" class="mini-products-list">
+                                                    @if (Auth::user())
+
+
                                                     @foreach ($cartData as $product )
                                                     <li class="item odd">
                                                         <a class="product-image" title="Modular Modern" href="{{ route('productdetail', $product->id) }}">
@@ -651,7 +657,7 @@
                                                         </div>
                                                     </li>
                                                     @endforeach
-
+                                                    @endif
 
 
                                                 </ol>

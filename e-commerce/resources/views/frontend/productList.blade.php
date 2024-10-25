@@ -142,7 +142,9 @@
                                                                     <form action="{{ route('storeToCart') }}" method="POST">
                                                                         @csrf
                                                                         <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="quantity">
+                                                                        @if (Auth::user())
                                                                         <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
+                                                                        @endif
                                                                         <input type="hidden" value="{{ $product->id }}" name="product_id">
                                                                         @if ($product->on_sale)
                                                                         <input type="hidden" value="{{ $product->price - ($product->price * $product->on_sale) }}" name="price">
@@ -323,8 +325,9 @@
                                                         <form action="{{ route('storeToCart') }}" method="POST">
                                                             @csrf
                                                             <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="quantity">
+                                                            @if (Auth::user())
                                                             <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
-                                                            <input type="hidden" value="{{ $product->id }}" name="product_id">
+                                                            @endif                                                            <input type="hidden" value="{{ $product->id }}" name="product_id">
                                                             @if ($product->on_sale)
                                                                         <input type="hidden" value="{{ $product->price - ($product->price * $product->on_sale) }}" name="price">
                                                                     @else
