@@ -451,19 +451,19 @@
                                         <div class="products-small" style="display: inline-block">
                                             <div class="item-row col-md-4 col-sm-6 col-lg-3">
                                                 <h3>Featured</h3>
-                                                <div class="item-content">
+                                                <div class="item-content" style="height: 130vh">
                                                     @foreach ($RandomProducts as $product  )
 
 
                                                     <div class="item">
                                                         <div class="item-inner">
                                                              <div class="prd">
-                                                                 <div class="item-img clearfix">
+                                                                 <div class="item-img clearfix" style="height: 150px !important">
                                                                      <a class="product-image have-additional"
                                                                         title="{{ $product->name }}"
                                                                         href="{{ route('productdetail' , $product->id) }}">
                                                                         <span class="img-main">
-                                                                       <img src="{{ Storage::url($product->image_url) }}" alt="">
+                                                                       <img src="{{ Storage::url($product->image_url) }}" style="height: 150px !important; width:160px !important" alt="">
                                                                         </span>
                                                                      </a>
                                                                  </div>
@@ -501,18 +501,18 @@
 
                                             <div class="item-row col-md-4 col-sm-6 col-lg-3">
                                                 <h3>Best sale</h3>
-                                                <div class="item-content">
+                                                <div class="item-content" style="height: 130vh">
                                                     @if ($bestSale->count() > 0)
                                                     @foreach ($bestSale as $product)
                                                     <div class="item">
                                                         <div class="item-inner">
                                                              <div class="prd">
-                                                                 <div class="item-img clearfix">
+                                                                 <div class="item-img clearfix"style="height: 150px !important; ">
                                                                      <a class="product-image have-additional"
                                                                         title="{{ $product->name }}"
                                                                         href="{{ route('productdetail' , $product->id) }}">
                                                                         <span class="img-main">
-                                                                       <img src="{{ Storage::url($product->image_url) }}" alt="">
+                                                                       <img src="{{ Storage::url($product->image_url) }}" alt="" style="height: 150px !important; width:160px !important">
                                                                         </span>
                                                                      </a>
                                                                  </div>
@@ -555,19 +555,19 @@
 
                                             <div class="item-row col-md-4 col-sm-6 col-lg-3">
                                                 <h3>On Sale</h3>
-                                                <div class="item-content">
+                                                <div class="item-content" style="height: 130vh">
                                                     @foreach ($onSale as $product  )
 
 
                                                     <div class="item">
                                                         <div class="item-inner">
                                                              <div class="prd">
-                                                                 <div class="item-img clearfix">
+                                                                 <div class="item-img clearfix" style="height: 150px !important; ">
                                                                      <a class="product-image have-additional"
                                                                         title="{{ $product->name }}"
                                                                         href="{{ route('productdetail' , $product->id) }}">
                                                                         <span class="img-main">
-                                                                       <img src="{{ Storage::url($product->image_url) }}" alt="">
+                                                                       <img src="{{ Storage::url($product->image_url) }}" alt="" style="height: 150px !important; width:160px !important">
                                                                         </span>
                                                                      </a>
                                                                  </div>
@@ -605,7 +605,7 @@
 
                                             <div class="item-row col-md-4 col-sm-6 col-lg-3">
                                                 <h3>Top rate</h3>
-                                                <div class="item-content">
+                                                <div class="item-content" style="height: 130vh">
                                                     @if ($topRated->count() > 0)
 
 
@@ -615,12 +615,12 @@
                                                     <div class="item">
                                                         <div class="item-inner">
                                                              <div class="prd">
-                                                                 <div class="item-img clearfix">
+                                                                 <div class="item-img clearfix" style="height: 150px !important; ">
                                                                      <a class="product-image have-additional"
                                                                         title="{{ $product->name }}"
                                                                         href="{{ route('productdetail' , $product->id) }}">
                                                                         <span class="img-main">
-                                                                       <img src="{{ Storage::url( $product->image_url) }}" alt="">
+                                                                       <img src="{{ Storage::url( $product->image_url) }}" alt="" style="height: 150px !important; width:160px !important">
                                                                         </span>
                                                                      </a>
                                                                  </div>
