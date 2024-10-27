@@ -157,4 +157,7 @@ Route::get('/payment', function () {
 Route::get('/contactus', function () {
     return view('frontend.contactUs');
 })->name('contactus');
+Route::get('/productListTwo', function () {
+    return view('frontend.productListTwo');
+})->name('productListTwo');
 Route::post('/contactus', [ContactUsController::class, 'store'])->name('contactus.store');
