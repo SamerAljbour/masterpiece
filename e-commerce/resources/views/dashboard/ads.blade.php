@@ -5,44 +5,32 @@
         margin-left: 4%;
 
     }
-    .outlined-button {
-    color: #d9534f; /* Red color for the text */
-    border: 2px solid #d9534f; /* Red border */
-    background-color: transparent; /* Transparent background */
-    padding: 5px 10px; /* Adjust padding to make it look like a button */
-    border-radius: 5px; /* Rounded corners */
-    text-align: center; /* Center the text */
-    display: inline-block; /* Inline block to fit the content */
-    font-weight: bold; /* Make the text bold */
-}
-
 
     </style>
+
 <div class="container">
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
 
 
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
-              <h4 class="card-title">Products</h4>
+              <h4 class="card-title w-100"
+              >{{ Auth::user()->role_id == 2 ? "My Ads Request" : "Ads Request" }}
+            </h4>
+              <h4 class="card-title w-100 fs-5"
+              >
+               homepage ?/5 | Products ?/1 | Product Detail ? /1
 
-                  <a
+            </h4>
+
+                  {{-- <a
                     href="{{ route('createProduct') }}"
                     class="btn btn-black btn-round ms-auto"
                   >
                     <i class="fa far fa-user"></i>
                     create products
-                  </a>
+                  </a> --}}
 
 
             </div>
@@ -142,69 +130,99 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Name</th>
-                            <th style="width:20%">Description</th>
-                            <th>Price</th>
-                            <th>Category Name</th>
-                            <th>Stock Quantity</th>
+                            <th>Product Image</th>
+                            @if (Auth::user()->role_id == 3)
+                            <th>seller</th>
+                            @endif
+                            <th >Product Name</th>
+                            <th >location</th>
+                            @if (Auth::user()->role_id == 3)
+                            <th>Ad Type</th>
+                            @endif
+                            <th>status</th>
+
                             <th>Action</th>
+
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>ID</th>
-                            <th>Name</th>
-                            <th style="width:20%">Description</th>
-                            <th>Price</th>
-                            <th>Category Name</th>
-                            <th>Stock Quantity</th>
+                            <th>Product Image</th>
+                            @if (Auth::user()->role_id == 3)
+                            <th>seller</th>
+                            @endif
+                            <th >Product Name</th>
+                            <th >location</th>
+                            @if (Auth::user()->role_id == 3)
+                            <th>Ad Type</th>
+                            @endif
+                            <th>status</th>
+
                             <th>Action</th>
+
                         </tr>
                     </tfoot>
                     <tbody>
-                        @if (count($products) > 0)
-                            @foreach ($products as $product)
+                        @if (count($adsRequest) > 0)
+                            @foreach ($adsRequest as $request)
                                 <tr>
-                                    <td>{{ $product->id }}</td>
-                                    <td>{{ $product->name }}</td>
-                                    <td style="width:20%">{{ Str::limit($product->description, 150) }}
-                                    </td>
-                                    <td>{{ $product->price }}</td>
-                                    <td>{{ $product->category->name }}</td>
-                                    @if ($product->total_stock)
-                                        <td class="text-center">{{ $product->total_stock }}</td>
-                                    @else
-                                        <td class="text-center">
-                                            <span class="badge badge-success">Out of Stock</span>
-                                        </td>
+                                    <td>{{ $request->id }}</td>
+                                    <td><img src="{{ Storage::url($request->product->image_url) }}" height="150px" width="150px" alt="{{ $request->product->name }} image"></td>
+                                    @if (Auth::user()->role_id == 3)
+                                    <td>{{ $request->user->name }}</td>
                                     @endif
+                                    <td>{{ $request->product->name }}</td>
+                                    <td>{{ $request->location }}</td>
+                                    @if (Auth::user()->role_id == 3)
+                                    <td>{{ $request->ad_type }}</td>
+                                    @endif
+
+                                    <td class="text-center">
+                                        @switch($request->status)
+                                            @case('pending')
+                                                <span class="badge badge-warning">Pending</span>
+                                                @break
+                                            @case('active')
+                                                <span class="badge badge-success">Active</span>
+                                                @break
+                                            @case('expired')
+                                                <span class="badge badge-secondary">Expired</span>
+                                                @break
+                                            @case('rejected')
+                                                <span class="badge badge-danger">Rejected</span>
+                                                @break
+                                        @endswitch
+                                    </td>
+
                                     <td>
+                                        <form action="{{ route('deleteAdRequest', $request->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-link btn-danger btn-md">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                        @if (Auth::user()->role_id == 3)
                                         <div class="form-button-action">
-                                            <a href="{{ route('editProduct', $product->id) }}" class="btn btn-link btn-primary btn-md">
-                                                <i class="fa fa-edit"></i>
+                                            <a href="{{ route('acceptAdRequest', $request->id) }}" class="btn btn-link btn-primary btn-md">
+                                                <i class="fa fa-check"></i>
                                             </a>
-                                            <form action="" method="POST">
-                                                @csrf
-                                                <button type="submit" href="{{ route('editProduct', $product->id) }}" class="btn btn-link btn-primary btn-md">
-                                                    <i class="fa fa-bullhorn"></i>
-                                                </button>
-                                            </form>
-                                            <form action="{{ route('deleteProduct', $product->id) }}" method="POST" style="display: inline;">
-                                                @csrf
-                                                <button type="submit" class="btn btn-link btn-danger btn-md">
-                                                    <i class="fa fa-times"></i>
-                                                </button>
-                                            </form>
+                                            <a href="{{ route('rejectAdRequest', $request->id) }}" class="btn btn-link btn-primary btn-md">
+                                                <i class="fa fa-times"></i>
+                                            </a>
                                         </div>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
                         @else
                             <tr>
-                                <th colspan="7" class="emptyRow">No data found</th>
+                                <th colspan="{{ Auth::user()->role_id == 3 ? 7 : 6 }}" class="emptyRow">No data found</th>
                             </tr>
                         @endif
                     </tbody>
+
                 </table>
             </div>
 
@@ -212,7 +230,7 @@
         </div>
       </div>
 
-
+    </div>
 
     <script>
         $("#multi-filter-select").DataTable({

@@ -49,81 +49,71 @@ class Seller extends Model
     }
     public function createAccountNotification()
     {
-        // Initialize an array to hold notification data
-        $notificationData = [
-            'newNotification' => null,
-            'existingNotifications' => collect(),
-        ];
-
-        // Check if there's already a notification for this seller account creation with admin flag
         $existingNotifications = Notification::where('user_id', $this->id)
             ->where('notifiable_type', 'App\Models\Seller')
             ->where('type', 'account_created')
-            ->where('admin', 1) // Only fetch notifications for admin
+            ->where('admin', 1)
             ->get();
 
-        // Check if any existing notification is unread
-        $hasUnreadNotification = $existingNotifications->contains(function ($notification) {
-            return $notification->read_at === null;
-        });
+        $hasUnreadNotification = $existingNotifications->contains('read_at', null);
 
-        // If there are no unread notifications, create a new one
         if (!$hasUnreadNotification) {
-            $newNotification = Notification::create([
-                'user_id' => $this->id, // The seller's user ID
-                'admin' => 1, // Setting admin flag
-                'type' => 'account_created', // Custom type for account creation
-                'notifiable_type' => 'App\Models\Seller',
-                'notifiable_id' => $this->id,
-                'data' => json_encode([
-                    'message' => "Seller, {$this->name}! Just created an account.",
-                    'seller_id' => $this->id
-                ]),
+            $newNotification = new Notification();
+            $newNotification->user_id = $this->id; // The seller's user ID
+            $newNotification->admin = 1; // Setting the admin flag
+            $newNotification->type = 'account_created'; // Notification type
+            $newNotification->notifiable_type = 'App\Models\Seller'; // Specify the notifiable type
+            $newNotification->notifiable_id = $this->id; // The seller's ID
+            $newNotification->data = json_encode([ // Store data as JSON
+                'message' => "Seller {$this->name} just created an account.",
+                'seller_id' => $this->id
             ]);
 
-            // Set the new notification in the data array
-            $notificationData['newNotification'] = $newNotification;
+            // Save the new notification
+            $newNotification->save();
+
+
+            return [
+                'newNotification' => $newNotification,
+                'existingNotifications' => $existingNotifications,
+            ];
         }
 
-        // Fetch existing notifications for the seller
-        $notificationData['existingNotifications'] = $existingNotifications;
-
-        // Return the new notification and the existing notifications
-        return $notificationData;
+        return [
+            'newNotification' => null,
+            'existingNotifications' => $existingNotifications,
+        ];
     }
+
 
     public function createBadReviewNotification($review)
     {
-        // Initialize an array to hold notification data
-        $notificationData = [
+        if ($review->rating <= 2) {
+            $notification = new Notification();
+            $notification->user_id = $this->id; // The seller's user ID
+            $notification->admin = 1; // Setting the admin flag
+            $notification->type = 'bad_review'; // Notification type
+            $notification->notifiable_type = 'App\Models\Seller'; // Specify the notifiable type
+            $notification->notifiable_id = $this->id; // The seller's ID
+            $notification->data = json_encode([ // Store data as JSON
+                'message' => "A bad review was left for a product. Review ID: {$review->id}",
+                'review_id' => $review->id
+            ]);
+
+            // Save the new notification
+            $notification->save();
+
+            return [
+                'newNotification' => $notification,
+                'existingNotifications' => Notification::where('user_id', $this->id)
+                    ->where('type', 'bad_review')
+                    ->get(),
+            ];
+        }
+
+        return [
             'newNotification' => null,
             'existingNotifications' => collect(),
         ];
-
-        // Check if the review rating is 2 or below
-        if ($review->rating <= 2) {
-            // Create the notification
-            $notification = Notification::create([
-                'user_id' => $this->id, // The seller's user ID
-                'admin_id' => 1, // The seller's user ID
-                'type' => 'bad_review', // Custom type for bad review notification
-                'notifiable_type' => 'App\Models\Seller',
-                'notifiable_id' => $this->id,
-                'data' => json_encode([
-                    'message' => "A bad review was left for a product the review id is", // Use 'comment' instead of 'content'
-                    'review_id' => $review->id
-                ]),
-            ]);
-
-            // Set the new notification in the data array
-            $notificationData['newNotification'] = $notification;
-
-            // Fetch existing bad review notifications for the seller
-            $notificationData['existingNotifications'] = Notification::where('user_id', $this->id)
-                ->where('type', 'bad_review')
-                ->get();
-        }
-
-        return $notificationData;
     }
 }

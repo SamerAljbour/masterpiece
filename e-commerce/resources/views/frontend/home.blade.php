@@ -667,31 +667,45 @@
                                 </div>
 
                                  <div id="header-slideshow">
+
+                                     <div class="item-row mb-4 " style="    margin-bottom: 5%;">
+                                          <div id="sns_producttaps1" class="sns_producttaps_wraps">
+                                        <ul class="nav nav-tabs" role="tablist">
+                                            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Sponsored Products</a></li>
+                                          </ul>
+
+                                         </div>
+                                         </div>
                                     <div class="row">
                                         <div class="slideshows col-md-6 col-sm-8">
                                             <div id="slider123456">
                                                 <div class="item style1 banner5">
-                                                    <a href="#">
-                                                        <img src="images/sildeshow/slideshow2.jpg" alt="">
+                                                    <a href="{{ route('productdetail' ,$ads [0]->product->id) }}">
+                                                        <img src="{{ Storage::url($ads[0]->product->image_url) }}" alt="">
                                                     </a>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="banner-right col-md-6 col-sm-4">
-                                             <div class="banner6 banner5 dbn col-md-12 col-sm-6">
-                                                <a href="#">
-                                                    <img src="images/sildeshow/banner1.jpg" alt="">
+                                             <div class="banner6 banner5 dbn col-md-6 col-sm-6">
+                                                <a href="{{ route('productdetail' ,$ads [1]->product->id) }}">
+                                                    <img src="{{ Storage::url($ads[1]->product->image_url) }}" alt="">
+                                                </a>
+                                            </div>
+                                             <div class="banner6 banner5 dbn col-md-6 col-sm-6">
+                                                <a href="{{ route('productdetail' ,$ads [2]->product->id) }}">
+                                                    <img src="{{ Storage::url($ads[2]->product->image_url) }}" alt="">
                                                 </a>
                                             </div>
                                              <div class="banner6 pdno col-md-12 col-sm-12">
                                                 <div class="banner7 banner6  banner5 col-md-6 col-sm-12">
-                                                    <a href="#">
-                                                        <img src="images/sildeshow/banner2.jpg" alt="">
+                                                    <a href="{{ route('productdetail' ,$ads [3]->product->id) }}">
+                                                        <img src="{{ Storage::url($ads[3]->product->image_url) }}" alt="">
                                                     </a>
                                                 </div>
                                                 <div class="banner8 banner6  banner5 col-md-6 col-sm-12">
-                                                    <a href="#">
-                                                        <img src="images/sildeshow/banner3.jpg" alt="">
+                                                    <a href="{{ route('productdetail' ,$ads [4]->product->id) }}">
+                                                        <img src="{{ Storage::url($ads[4]->product->image_url) }}" alt="">
                                                     </a>
                                                 </div>
                                             </div>

@@ -156,34 +156,27 @@
 
     @else
     @php
-    // Get seller information based on the logged-in user
+    // Retrieve 'account_created' and 'bad_review' notifications only for admin
     $accountCreationNotifications = \App\Models\Notification::where('user_id', Auth::id())
-    ->where('type', 'account_created') // Filter by notification type
-    ->where('admin', 1) // Check for notifications specific to the admin
-    ->get();
+        ->where('type', 'account_created')
+        ->where('admin', 1)
+        ->get();
 
-// Count of account creation notifications
-    // dd($existingNotifications);
-    // Count of existing notifications
-
-    // Fetch bad review notifications for the admin
-    // Fetch bad review notifications for the admin where admin column is set to 1
     $badReviewNotifications = \App\Models\Notification::where('user_id', Auth::id())
-    ->where('type', 'bad_review')
-    ->where('admin', 1) // Use admin_id instead of admin
-    ->get();
-    // dd($badReviewNotifications);
-    // Count of bad review notifications
-// Merge the notifications into a single collection
-$allNotifications = $accountCreationNotifications->merge($badReviewNotifications);
+        ->where('type', 'bad_review')
+        ->where('admin', 1)
+        ->get();
 
-// Sort notifications, putting unread ones first
-$sortedNotifications = $allNotifications->sortBy(function ($notification) {
-    return $notification->read_at ? 1 : 0; // Unread notifications first
-});
+    // Combine notifications and sort unread ones first
+    $allNotifications = $accountCreationNotifications->merge($badReviewNotifications);
+    $sortedNotifications = $allNotifications->sortBy(function ($notification) {
+        return $notification->read_at ? 1 : 0; // Sort unread first
+    });
 
-$notifyCount = $accountCreationNotifications->whereNull('read_at')->count() + $badReviewNotifications->whereNull('read_at')->count();
-@endphp
+    // Count unread notifications
+    $notifyCount = $accountCreationNotifications->whereNull('read_at')->count() + $badReviewNotifications->whereNull('read_at')->count();
+    @endphp
+
 
 
     @endif
@@ -363,7 +356,6 @@ $notifyCount = $accountCreationNotifications->whereNull('read_at')->count() + $b
                 </li>
                 @endif
 
-                @if (Auth::user()->role_id == 3 || Auth::user()->role_id == 2)
                 <li class="nav-item {{ request()->routeIs('restoreProducts') ? 'active' : '' }}">
                     <a href="{{ route('restoreProducts') }}">
                         <i class="fas fa-history"></i>
@@ -371,7 +363,17 @@ $notifyCount = $accountCreationNotifications->whereNull('read_at')->count() + $b
                         <span class=""></span>
                     </a>
                 </li>
-                @endif
+
+
+
+                <li class="nav-item {{ request()->routeIs('allAdsRequest') ? 'active' : '' }}">
+                    <a href="{{ route('allAdsRequest') }}">
+                        <i class="fas fa-bullhorn"></i>
+                        <p>Ads Requests</p>
+                        <span class=""></span>
+                    </a>
+                </li>
+
                 <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
                     <a href="{{ route('home') }}">
                         <i class="fas fa-arrow-left"></i>
@@ -495,8 +497,8 @@ $notifyCount = $accountCreationNotifications->whereNull('read_at')->count() + $b
         <div class="notif-icon notif-success">
             <i class="fa fa-check"></i>
         </div>
-        <div class="notif-content">
-            <span class="block">Seller, {{ $notfiy->user->name }}: Just created an account</span>
+        <div class="notif-content w-75">
+            <span class="block">Seller, {{ $notfiy->user->name }}: {{ json_decode($notfiy->data)->message }}</span>
             <span class="time">{{ $notfiy->created_at->diffForHumans() }}</span>
             @if(is_null($notfiy->read_at))
                 <form action="{{ route('notifications.markAsRead', $notfiy->id) }}" method="POST" style="display:inline;">
@@ -600,10 +602,10 @@ $notifyCount = $accountCreationNotifications->whereNull('read_at')->count() + $b
                         <div class="notif-center">
                             @foreach($lowStockProducts as $product)
     <a  style="background-color: {{ is_null($product->notification) || !is_null($product->notification->read_at) ? 'white' : '#e0f7fa' }};">
-        <div class="notif-icon notif-warning">
+        <div class="notif-icon notif-warning" >
             <i class="fa fa-warning"></i>
         </div>
-        <div class="notif-content">
+        <div class="notif-content" style="width:80%">
             <span class="block">{{ $product->name }}: Only {{ $product->total_stock }} left in stock.</span>
             <span class="time">{{ $product->created_at->diffForHumans() }}</span>
             @if($product->notification && is_null($product->notification->read_at))

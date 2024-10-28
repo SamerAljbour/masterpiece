@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ad;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\PaymentHistory;
@@ -52,7 +53,7 @@ class HomeController extends Controller
         $categoryFourProducts = $categoryFour->products()->limit(10)->get();
 
         // Pass all variables to the view
-
+        $ads = Ad::with('product')->where('location', 'homepage')->where('status', 'active')->get();
         if (Auth::user())
             return view('frontend/home', compact(
                 'categoryFour',
@@ -67,6 +68,7 @@ class HomeController extends Controller
                 'bestSale',
                 'cartData',
                 'onSale',
+                'ads',
                 'RandomProducts'
             ));
         else
@@ -81,6 +83,7 @@ class HomeController extends Controller
                 'categoryFourProducts',
                 'topRated',
                 'bestSale',
+                'ads',
 
                 'onSale',
                 'RandomProducts'

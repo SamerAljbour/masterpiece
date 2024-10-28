@@ -118,9 +118,9 @@
                                                 <div class="item-inner">
                                                     <div class="prd">
                                                         <div class="item-img clearfix">
-                                                            <a class="product-image have-additional" href="{{ route('productdetail', $product->id) }}" title="{{ $product->name }}">
-                                                                <span class="img-main" style="width: 200px !important; ">
-                                                                    <img alt="{{ $product->name }}" src="{{ Storage::url($product->image_url) }}" style="width: 200px !important; height:150px !important" >
+                                                            <a class="product-image have-additional" href="{{ route('productdetail', $product->id) }}" title="{{ $product->name }}" >
+                                                                <span class="img-main" style="width: auto !important; ">
+                                                                    <img alt="{{ $product->name }}" src="{{ Storage::url($product->image_url) }}" style="width: auto !important; height:150px !important" >
                                                                 </span>
                                                             </a>
                                                         </div>
@@ -272,7 +272,9 @@
                                                             href="{{ route('productdetail', $product->id) }}">
                                                             <span class="img-main">
                                                                 <img alt="Modular Modern"
-                                                                    src="{{ Storage::url($product->image_url) }}">
+                                                                    src="{{ Storage::url($product->image_url) }}"
+                                                                    style="max-height: 203px"
+                                                                    >
                                                             </span>
                                                         </a>
                                                     </div>

@@ -530,7 +530,95 @@ margin-left: 30px!important;
                                         </div>
                                     </div>
                                 </div>
+                                <button type="button" style="right:160px" data-bs-toggle="modal" data-bs-target="#modalad-{{ $product->id }}" class="btn btn-info remove-button" title="View">
+                                    <i class="fa fa-ad"></i> <!-- Font Awesome Eye Icon -->
+                                </button>
 
+                                <div class="modal fade" id="modalad-{{ $product->id }}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                    <form action="{{ route('storeAdRequest') }}" method="POST">
+                                        @csrf
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="myLargeModalLabel"> <b>{{ $product->name }}</b> </h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+
+
+                                                    <div id="centerTable" class="col-md-12">
+                                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <div class="form-group">
+                                                                    <label for="name">Product</label>
+                                                                    <input
+                                                                        name="code"
+                                                                        type="text"
+                                                                        class="form-control"
+                                                                        id="name"
+                                                                        placeholder="{{ $product->name }}"
+                                                                        readonly
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="form-group">
+                                                                    <label for="discount_amount-{{ $product->id }}">Total Price</label>
+                                                                    <input name="price" type="number" class="form-control" id="discount_amount-{{ $product->id }}" placeholder="0" readonly />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="valid_from-{{ $product->id }}">Valid From</label>
+                                                            <input name="ad_from" min="{{ \Carbon\Carbon::now()->toDateString() }}" type="date" id="valid_from-{{ $product->id }}" class="form-control" onchange="updateValidUntilMin({{ $product->id }})" />
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="valid_until-{{ $product->id }}">Valid Until</label>
+                                                            <input name="ad_to" type="date" id="valid_until-{{ $product->id }}" class="form-control" onchange="updatePrice({{ $product->id }})" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="location-{{ $product->id }}">Select Page Location</label>
+                                                            <select name="location" id="location-{{ $product->id }}" class="form-control" onchange="updatePrice({{ $product->id }})">
+                                                                <option value="homepage">Homepage (20 JOD/Day)</option>
+                                                                <option value="productpage">Product Page (15 JOD/Day)</option>
+                                                                <option value="productlist">Product List (10 JOD/Day)</option>
+                                                            </select>
+                                                        </div>
+
+
+                                                        {{-- <div class="form-group">
+                                                            <input
+                                                                onchange="toggleCheckbox()"
+                                                                type="checkbox"
+                                                                class="form-check-input"
+                                                                id="with_on_sale"
+                                                                value=""
+                                                            />
+                                                            <input type="hidden" name="with_on_sale" value="0" id="passedValue">
+                                                            <label style="margin-left: 7px" class="form-check-label" for="with_on_sale">
+                                                                Do you want this discount to be used with products that have sales?
+                                                            </label>
+                                                        </div> --}}
+                                                        <div class="form-group" id="btnLeft">
+                                                            <button class="btn btn-black btn-round ms-auto">
+                                                                <i class="fa far fa-user"></i>
+                                                                submit ad
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger rounded-5" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                             </div>
 
 
@@ -581,7 +669,100 @@ margin-left: 30px!important;
             event.target.closest('form').submit(); // Submit the form if confirmed
         }
     }
+    function toggleCheckbox() {
+    let checkbox = document.getElementById('with_on_sale');
+    let passedValue = document.getElementById('passedValue');
 
+    // If the checkbox is checked, set hidden input value to 1, otherwise 0
+    if (checkbox.checked) {
+        passedValue.value = 1;
+    } else {
+        passedValue.value = 0;
+    }
+
+
+}
+function updateValidUntilMin(productId) {
+    // Get the value of the valid_from date for this specific product
+    let validFromDate = document.getElementById(`valid_from-${productId}`).value;
+    let validUntilDateInput = document.getElementById(`valid_until-${productId}`);
+
+    if (validFromDate) {
+        // Set the min attribute for valid_until based on valid_from
+        validUntilDateInput.min = validFromDate;
+
+        // Parse validFromDate into a Date object
+        let fromDate = new Date(validFromDate);
+
+        // Set valid_until to the day after valid_from
+        fromDate.setDate(fromDate.getDate() + 1);
+        validUntilDateInput.value = fromDate.toISOString().split('T')[0];
+
+        // Recalculate price
+        calculatePrice(validFromDate, validUntilDateInput.value, productId);
+    }
+}
+
+function updatePrice(productId) {
+    // Get the values of the valid_from and valid_until dates for this specific product
+    const validFromDate = document.getElementById(`valid_from-${productId}`).value;
+    const validUntilDate = document.getElementById(`valid_until-${productId}`).value;
+
+    // Call calculatePrice to ensure it's updating correctly
+    calculatePrice(validFromDate, validUntilDate, productId);
+}
+
+function calculatePrice(validFrom, validUntil, productId) {
+    if (validUntil) {
+        const fromDate = new Date(validFrom);
+        const untilDate = new Date(validUntil);
+
+        const timeDiff = untilDate - fromDate;
+        const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+        const location = document.getElementById(`location-${productId}`).value;
+        let dailyRate;
+
+        if (location === "homepage") {
+            dailyRate = 20;
+        } else if (location === "productpage") {
+            dailyRate = 15;
+        } else {
+            dailyRate = 10;
+        }
+
+        const totalPrice = daysDiff > 0 ? daysDiff * dailyRate : 0;
+        document.getElementById(`discount_amount-${productId}`).value = totalPrice;
+    } else {
+        document.getElementById(`discount_amount-${productId}`).value = '';
+    }
+}
+
+
+
+// this to the discount input
+const DiscountInput = document.getElementById('discount_amount');
+
+DiscountInput.addEventListener('input', function() {
+    // Use a regex to ensure input format of 0.xx
+    this.value = this.value.replace(/^(0\.\d{0,2})|^0\.|[^0-9.]/g, '$1');
+
+    // If the input is a valid number
+    let value = parseFloat(this.value);
+    if (!isNaN(value)) {
+        // Check if the value is less than the minimum
+        if (value < 0.01) {
+            this.value = '0.01'; // Set to minimum value
+        }
+        // Check if the value is greater than the maximum
+        else if (value > 0.99) {
+            this.value = '0.99'; // Set to maximum value
+        } else {
+            // Ensure value is displayed with two decimal places
+            this.value = value.toFixed(2);
+        }
+    }
+});
     </script>
 
 

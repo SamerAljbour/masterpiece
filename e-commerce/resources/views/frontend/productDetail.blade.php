@@ -62,7 +62,7 @@
 
                                     <div class="product-img-box col-md-4 col-sm-5">
                                         <div class="detail-img">
-                                            <img src="{{ Storage::url($product->image_url) }}" alt="" style="height: 244px !important;  width:100% !important">
+                                            <img src="{{ Storage::url($product->image_url) }}" alt="" style="max-height:391px !important; width:100% !important">
 
                                         </div>
                                         <div class="small-img">

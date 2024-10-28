@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdsController;
 use App\Http\Controllers\DiscountCouponController;
 use App\Models\DiscountCoupon;
 use App\Http\Controllers\CategoryController;
@@ -65,6 +66,12 @@ Route::middleware(['role:admin'])->group(function () {
 
 // Admin Middleware
 Route::middleware(['role:admin_and_seller'])->group(function () {
+    Route::get('/showAdsRequest', [AdsController::class, 'allAdsRequest'])->name('allAdsRequest');
+    Route::post('/storeAdRequest', [AdsController::class, 'storeAdRequest'])->name('storeAdRequest');
+    Route::get('/acceptAdRequest/{id}', [AdsController::class, 'acceptAdRequest'])->name('acceptAdRequest');
+    Route::get('/rejectAdRequest/{id}', [AdsController::class, 'rejectAdRequest'])->name('rejectAdRequest');
+    Route::delete('/deleteAdRequest/{id}', [AdsController::class, 'deleteAdRequest'])->name('deleteAdRequest');
+
     Route::put('/updateProfile', [UserController::class, 'updateProfile'])->name('updateProfile');
     Route::post('/notifications/{id}/mark-as-read', [SellerController::class, 'markAsRead'])->name('notifications.markAsRead');
 
