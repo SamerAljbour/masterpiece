@@ -6,14 +6,14 @@
                 <div id="sns_slideshows3">
                     <div id="slishow_wrap12" class="sns-slideshow owl-carousel owl-theme owl-loaded">
                         <div class="item">
-                            <img src="/assets/img/homebanner11.jpeg" style="height: 667px !important; width:100% !importent; object-fit: cover;"  width="1098px" height="543px" alt="No Products Found" class="no-products-image">                        </div>
+                            <img src="/assets/img/homebanner1.png" style="height: 667px !important; width:100% !importent; object-fit: cover;"  width="1098px" height="543px" alt="No Products Found" class="no-products-image">                        </div>
                             {{-- <img src="/assets/img/homebanner11.jpeg" style="height: 667px !important; width:100% !importent; object-fit: cover;"  width="1098px" height="543px" alt="No Products Found" class="no-products-image">                        </div> --}}
                         <div class="item">
-                        <img src="/assets/img/homebanner2.jpg" style="height: 667px !important; width:100% !importent; object-fit: cover;"  width="1098px" height="543px" >
+                        <img src="/assets/img/homebanner22.png" style="height: 667px !important; width:100% !importent; object-fit: cover;"  width="1098px" height="543px" >
 
                     </div>
                     <div class="item">
-                            <img src="/assets/img/homebanner3.jpg" style="height: 667px !important; width:100% !importent; object-fit: cover;"  width="1098px" height="543px" >
+                            <img src="/assets/img/homebanner33.png" style="height: 667px !important; width:100% !importent; object-fit: cover;"  width="1098px" height="543px" >
 
                         </div>
                     </div>
@@ -681,31 +681,31 @@
                                             <div id="slider123456">
                                                 <div class="item style1 banner5">
                                                     <a href="{{ route('productdetail' ,$ads [0]->product->id) }}">
-                                                        <img src="{{ Storage::url($ads[0]->product->image_url) }}" alt="">
+                                                        <img src="{{ Storage::url($ads[0]->product->image_url) }}" alt="" height="460px">
                                                     </a>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="banner-right col-md-6 col-sm-4">
-                                             <div class="banner6 banner5 dbn col-md-6 col-sm-6">
+                                        <div class="banner-right col-md-6 col-sm-4" >
+                                             <div class="banner6 banner5 dbn col-md-6 col-sm-6" style="width: 49% !important; margin-right:4px">
                                                 <a href="{{ route('productdetail' ,$ads [1]->product->id) }}">
-                                                    <img src="{{ Storage::url($ads[1]->product->image_url) }}" alt="">
+                                                    <img src="{{ Storage::url($ads[1]->product->image_url) }}" alt="" height="220px">
                                                 </a>
                                             </div>
                                              <div class="banner6 banner5 dbn col-md-6 col-sm-6">
                                                 <a href="{{ route('productdetail' ,$ads [2]->product->id) }}">
-                                                    <img src="{{ Storage::url($ads[2]->product->image_url) }}" alt="">
+                                                    <img src="{{ Storage::url($ads[2]->product->image_url) }}" alt="" height="220px">
                                                 </a>
                                             </div>
                                              <div class="banner6 pdno col-md-12 col-sm-12">
-                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12">
+                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12"style="width: 49% !important; margin-right:4px">
                                                     <a href="{{ route('productdetail' ,$ads [3]->product->id) }}">
-                                                        <img src="{{ Storage::url($ads[3]->product->image_url) }}" alt="">
+                                                        <img src="{{ Storage::url($ads[3]->product->image_url) }}" alt="" height="220px">
                                                     </a>
                                                 </div>
                                                 <div class="banner8 banner6  banner5 col-md-6 col-sm-12">
                                                     <a href="{{ route('productdetail' ,$ads [4]->product->id) }}">
-                                                        <img src="{{ Storage::url($ads[4]->product->image_url) }}" alt="">
+                                                        <img src="{{ Storage::url($ads[4]->product->image_url) }}" alt="" height="220px">
                                                     </a>
                                                 </div>
                                             </div>
