@@ -92,7 +92,7 @@
               class="btn btn-black btn-round ms-auto"
             >
               <i class="fas fa-money-bill"></i>
-              update discount
+              Update Discount
             </button>
         </div>
 

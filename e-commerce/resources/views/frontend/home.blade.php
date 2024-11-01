@@ -680,35 +680,79 @@
                                         <div class="slideshows col-md-6 col-sm-8">
                                             <div id="slider123456">
                                                 <div class="item style1 banner5">
+                                                    @if ($ads [0])
+
                                                     <a href="{{ route('productdetail' ,$ads [0]->product->id) }}">
                                                         <img src="{{ Storage::url($ads[0]->product->image_url) }}" alt="" height="460px">
                                                     </a>
+                                                    @else
+                                                    <a >
+                                                        <img src="/assets/img/adshere.png" alt="" height="460px">
+                                                    </a>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="banner-right col-md-6 col-sm-4" >
-                                             <div class="banner6 banner5 dbn col-md-6 col-sm-6" style="width: 49% !important; margin-right:4px">
-                                                <a href="{{ route('productdetail' ,$ads [1]->product->id) }}">
-                                                    <img src="{{ Storage::url($ads[1]->product->image_url) }}" alt="" height="220px">
-                                                </a>
+                                            <div class="banner6 pdno col-md-12 col-sm-12 "  style="display: flex; align-items: center;">
+                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px; ">
+                                                    @if (isset($ads[1]))
+
+                                                    <a href="{{ route('productdetail' ,$ads [1]->product->id) }}">
+                                                        <img src="{{ Storage::url($ads[1]->product->image_url) }}" alt="" >
+                                                    </a>
+                                                    @else
+                                                    <a >
+                                                        <img src="/assets/img/adshere.png" alt="" >
+                                                    </a>
+                                                    @endif
+
+                                                </div>
+                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px; ">
+                                                    @if (isset($ads[2]))
+
+                                                    <a href="{{ route('productdetail' ,$ads [2]->product->id) }}">
+                                                        <img src="{{ Storage::url($ads[2]->product->image_url) }}" alt="" >
+                                                    </a>
+                                                    @else
+                                                    <a >
+                                                        <img src="/assets/img/adshere.png" alt="" >
+                                                    </a>
+                                                    @endif
+
+                                                </div>
+
                                             </div>
-                                             <div class="banner6 banner5 dbn col-md-6 col-sm-6">
-                                                <a href="{{ route('productdetail' ,$ads [2]->product->id) }}">
-                                                    <img src="{{ Storage::url($ads[2]->product->image_url) }}" alt="" height="220px">
-                                                </a>
-                                            </div>
-                                             <div class="banner6 pdno col-md-12 col-sm-12">
-                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12"style="width: 49% !important; margin-right:4px">
+                                             <div class="banner6 pdno col-md-12 col-sm-12 "  style="display: flex; align-items: center;">
+                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px; ">
+                                                    @if (isset($ads[3]))
+
                                                     <a href="{{ route('productdetail' ,$ads [3]->product->id) }}">
-                                                        <img src="{{ Storage::url($ads[3]->product->image_url) }}" alt="" height="220px">
+                                                        <img src="{{ Storage::url($ads[3]->product->image_url) }}" alt="" >
                                                     </a>
+                                                    @else
+                                                    <a >
+                                                        <img src="/assets/img/adshere.png" alt="">
+                                                    </a>
+                                                    @endif
+
                                                 </div>
-                                                <div class="banner8 banner6  banner5 col-md-6 col-sm-12">
+                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px; ">
+                                                    @if (isset($ads[4]))
+
                                                     <a href="{{ route('productdetail' ,$ads [4]->product->id) }}">
-                                                        <img src="{{ Storage::url($ads[4]->product->image_url) }}" alt="" height="220px">
+                                                        <img src="{{ Storage::url($ads[4]->product->image_url) }}" alt="" >
                                                     </a>
+                                                    @else
+                                                    <a >
+                                                        <img src="/assets/img/adshere.png" alt="">
+                                                    </a>
+                                                    @endif
+
                                                 </div>
+
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>

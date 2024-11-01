@@ -216,6 +216,7 @@ margin-left: 30px!important;
                                {{Auth::user()->name}}
                             </h5>
                             <p class="mb-0 fs-4">{{ $sellerInfo->store_name }}</p>
+                            <p class="mb-0 fs-4">{{ $sellerInfo->store_description }}</p>
                         </div>
                     </div>
                 </div>

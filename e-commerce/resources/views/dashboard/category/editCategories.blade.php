@@ -49,8 +49,8 @@
 
               class="btn btn-black btn-round ms-auto"
             >
-              <i class="fa far fa-user"></i>
-              update category
+            <i class="fas fa-layer-group"></i>
+            Update Category
             </button>
         </div>
 

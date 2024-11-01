@@ -127,6 +127,9 @@ class AdsController extends Controller
         if ($ad->status == 'active') {
             return redirect()->back()->with('error', 'Already active');
         }
+        if ($ad->status == 'expired') {
+            return redirect()->back()->with('error', 'The Ad expired');
+        }
 
         // Get the ad's date range
         $adFrom = $ad->ad_from;
@@ -192,6 +195,10 @@ class AdsController extends Controller
     public function rejectAdRequest(string $requestId)
     {
         $ad = Ad::find($requestId);
+        if ($ad->status == 'expired') {
+            return redirect()->back()->with('error', 'The Ad expired');
+        }
+
         if ($ad) {
             $ad->status = 'rejected';
             $ad->save();

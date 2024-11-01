@@ -336,7 +336,7 @@
 
             <div class="form-group" id="btnLeft">
                 <button class="btn btn-black btn-round ms-auto">
-                    <i class="fa far fa-user"></i>
+                    <i class="fas fa-tag"></i>
                     Update Product
                 </button>
             </div>

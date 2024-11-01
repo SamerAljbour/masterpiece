@@ -122,7 +122,7 @@
             </div>
             <div class="form-group" style="width: 100%;" id="btnLeft">
                 <button class="btn btn-black btn-round ms-auto">
-                    <i class="fa far fa-user"></i>
+                    <i class="fas fa-tag"></i>
                     Create Product
                 </button>
             </div>

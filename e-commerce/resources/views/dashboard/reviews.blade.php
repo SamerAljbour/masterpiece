@@ -54,10 +54,7 @@
 
 
             </tbody>
-            @else
-            <p class="text-center  font-weight-bold my-4 p-3 border rounded bg-light">
-                No reviews yet
-            </p>
+
         @endif
           </table>
         </div>

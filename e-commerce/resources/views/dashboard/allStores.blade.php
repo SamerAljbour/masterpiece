@@ -8,8 +8,7 @@
         <div class="card card-profile">
           <div
             class="card-header"
-            style="background-image: url('{{ $seller->store_thumbnail? Storage::url( $seller->store_thumbnail) : 'assets/img/blogpost.jpg' }}')"
-          >
+            style="background-image: url('{{ $seller->store_thumbnail ? Storage::url($seller->store_thumbnail) : 'assets/img/blogpost.jpg' }}'); background-size: cover; background-position: center;"          >
             <div class="profile-picture">
               <div class="avatar avatar-xl">
                 <img
@@ -24,7 +23,7 @@
             <div class="user-profile text-center">
               <div class="name">{{ $seller->user->name }}</div>
               <div class="job">{{ $seller->store_name }}</div>
-              <div class="desc">{{ $seller->store_description }}</div>
+              <div class="desc">{{ Str::limit($seller->store_description, 150) }}</div>
               <div class="social-media">
 
 

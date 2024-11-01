@@ -40,8 +40,8 @@
                     href="{{ route('createProduct') }}"
                     class="btn btn-black btn-round ms-auto"
                   >
-                    <i class="fa far fa-user"></i>
-                    create products
+                  <i class="fas fa-tag"></i>
+                  Create Product
                   </a>
 
 
@@ -183,12 +183,12 @@
                                             <a href="{{ route('editProduct', $product->id) }}" class="btn btn-link btn-primary btn-md">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <form action="" method="POST">
+                                            {{-- <form action="" method="POST">
                                                 @csrf
                                                 <button type="submit" href="{{ route('editProduct', $product->id) }}" class="btn btn-link btn-primary btn-md">
                                                     <i class="fa fa-bullhorn"></i>
                                                 </button>
-                                            </form>
+                                            </form> --}}
                                             <form action="{{ route('deleteProduct', $product->id) }}" method="POST" style="display: inline;">
                                                 @csrf
                                                 <button type="submit" class="btn btn-link btn-danger btn-md">

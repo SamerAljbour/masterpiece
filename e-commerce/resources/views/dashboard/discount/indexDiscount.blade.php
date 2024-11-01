@@ -12,7 +12,7 @@
                 class="btn btn-black btn-round ms-auto"
               >
                 <i class="fas fa-money-bill"></i>
-                Add discount
+                Add Discount
               </a>
               @if(!$discounts->isEmpty())
 

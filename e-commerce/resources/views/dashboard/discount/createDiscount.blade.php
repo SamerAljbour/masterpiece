@@ -85,8 +85,8 @@
                 </label>
             </div> --}}
             <div class="form-group" id="btnLeft">
-                <button class="btn btn-black btn-round ms-auto">
-                    <i class="fa far fa-user"></i>
+                <button class="btn btn-black btn-round ms-auto ">
+                    <i class="fas fa-money-bill"></i>
                     Create Discount
                 </button>
             </div>
