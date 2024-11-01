@@ -114,40 +114,7 @@
 
             <div id="variantInputs" style="display:none">
                 <div class="variant-group">
-                    {{-- <div class="form-group" style="width: 100%;">
-                        <label for="size">Size</label>
-                        <select name="sizes[]" class="form-select" style="width: 100%;">
-                            <option value="">Select Size</option>
-                            <option value="S">Small</option>
-                            <option value="M">Medium</option>
-                            <option value="L">Large</option>
-                            <option value="XL">Extra Large</option>
-                        </select>
-                    </div>
-                    <div class="form-group" style="width: 100%;">
-                        <label for="color">Color</label>
-                        <select name="colors[]" class="form-select" style="width: 100%;" id="colorSelect">
-                            <option value="">Select Color</option>
-                            <option value="#ff0000">Red</option>
-                            <option value="#00ff00">Green</option>
-                            <option value="#0000ff">Blue</option>
-                            <option value="#ffff00">Yellow</option>
-                            <option value="#ff00ff">Magenta</option>
-                            <option value="#00ffff">Cyan</option>
-                            <option value="#000000">Black</option>
-                            <option value="#ffffff">White</option>
-                            <!-- Add more colors as needed -->
-                        </select>
-                    </div> --}}
-                    {{-- <div class="form-group" style="width: 100%;">
-                        <label for="variant_price">Variant Price</label>
-                        <input name="variant_prices[]" type="number" class="form-control" placeholder="Enter variant price" />
-                    </div>
-                    <div class="form-group" style="width: 100%;">
-                        <label for="variant_stock">Variant Stock</label>
-                        <input name="variant_stock[]" type="number" class="form-control" placeholder="Enter variant stock" />
-                    </div>
-                    <button type="button" class="btn btn-danger remove-variant-btn" onclick="removeVariant(this)">Remove</button> --}}
+                   {{-- here show the variant --}}
                 </div>
             </div>
             <div class="btn-container" id="addVariantButtonContainer" style="display: block;">

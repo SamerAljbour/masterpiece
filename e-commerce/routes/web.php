@@ -94,6 +94,7 @@ Route::middleware(['role:admin_and_seller'])->group(function () {
     Route::get('editProduct/{id}', [ProductController::class, 'edit'])->name('editProduct');
     Route::put('updateProduct/{id}', [ProductController::class, 'update'])->name('updateProduct');
     Route::post('deleteProduct/{id}', [ProductController::class, 'destroy'])->name('deleteProduct');
+    Route::post('deleteVariant/{id}', [ProductController::class, 'deleteVariant'])->name('deleteVariant');
     Route::delete('deleteProductImage/{productId}/{imageId}', [ProductController::class, 'deleteProductImage'])->name('deleteProductImage');
 
 
