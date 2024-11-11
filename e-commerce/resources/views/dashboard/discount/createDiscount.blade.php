@@ -18,10 +18,10 @@
             @if (Auth::user()->role_id == 3)
             <div class="form-group">
                 <label for="name">Append this discount to seller</label>
-               <select name="toSeller" class="form-select">
+               <select name="user_id" class="form-select">
                 <option value=""> Select Seller</option>
                 @foreach ($allSellers as $seller)
-                <option value="{{ $seller->id }}"> {{ $seller->user->name }}</option>
+                <option value="{{ $seller->id }}"> {{ $seller->name }}</option>
 
                 @endforeach
                </select>

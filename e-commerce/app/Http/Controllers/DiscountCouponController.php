@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DiscountCoupon;
 use App\Models\Seller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,7 +17,7 @@ class DiscountCouponController extends Controller
     {
         // Fetch all discount coupons with their associated seller
         if (Auth::user()->role_id == 2)
-            $discounts = DiscountCoupon::with('seller')->where('seller_id', Auth::user()->id)->get();
+            $discounts = DiscountCoupon::with('seller')->where('user_id', Auth::user()->id)->get();
         else {
             $discounts = DiscountCoupon::with('seller')->get();
         }
@@ -38,7 +39,7 @@ class DiscountCouponController extends Controller
      */
     public function create()
     {
-        $allSellers = Seller::with('user')->get();
+        $allSellers = User::where('role_id', 2)->get();
         return view('dashboard/discount/createDiscount', compact('allSellers'));
     }
 
@@ -56,24 +57,23 @@ class DiscountCouponController extends Controller
         ]);
 
         // Conditionally add validation rule for 'toSeller'
-        if (Auth::user()->role_id == 3) {
-            $validateData['toSeller'] = 'required';
-        }
+
 
         // Create a new DiscountCoupon instance
         $discount = new DiscountCoupon();
         $discount->code = $validateData['code'];
-        $discount->user_id = Auth::user()->id;
+        if (Auth::user()->role_id == 3) {
+            $validateData['user_id'] = 'required';
+            $discount->user_id = $request->input('user_id');
+        } else {
+            // dd(Auth::user()->id);
+            $discount->user_id = Auth::user()->id;
+        }
         $discount->discount_amount = $validateData['discount_amount']; // Use validated value
         $discount->with_on_sale = $request->input('with_on_sale', false); // Default to false if not provided
         $discount->valid_from = $validateData['valid_from']; // Use validated value
         $discount->valid_until = $validateData['valid_until']; // Use validated value
         $discount->is_active = 1; // means default is active
-
-        // Check if 'toSeller' is present in the request and assign it
-        if ($request->has('toSeller')) {
-            $discount->seller_id = $request->input('toSeller'); // Use the input from the request
-        }
 
         // Attempt to save the discount coupon
         try {

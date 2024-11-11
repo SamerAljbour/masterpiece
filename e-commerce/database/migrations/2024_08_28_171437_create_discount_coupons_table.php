@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('code')->unique(); // Unique coupon code
             $table->boolean('with_on_sale'); // this to specify if the discount copon can be used with product that have already onsale
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('seller_id')->constrained('sellers')->onDelete('cascade')->after('user_id'); // Add seller_id
 
             $table->decimal('discount_amount', 10, 2); // Discount amount
             // $table->enum('type', ['percentage', 'fixed']); // Discount type (percentage or fixed)
