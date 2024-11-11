@@ -240,7 +240,7 @@
                                                     <div class="prd">
                                                         <div class="item-img clearfix">
                                                             <a class="product-image have-additional" href="{{ route('productdetail', $item->id) }}" title="{{ $item->name }}">
-                                                                <span class="img-main" style="width:200px !important">
+                                                                <span class="img-main">
                                                                     <img alt="{{ $item->name }}" src="{{ Storage::url($item->image_url) }}" style="width: 200px !important; height:150px !important">
                                                                 </span>
                                                             </a>
@@ -254,9 +254,10 @@
                                                                 </div>
                                                                 <div class="item-price">
                                                                     <span class="price">
-                                                                        <span class="price1">{{ $item->price }} JOD</span>
                                                                         @if ($item->on_sale)
-                                                                            <span class="price2">{{ $item->price - ($item->price * $item->on_sale) }} JOD</span>
+                                                                        <span class="price2">{{ $item->price - ($item->price * $item->on_sale) }} JOD</span>
+                                                                        @else
+                                                                        <span class="price1">{{ $item->price }} JOD</span>
                                                                         @endif
                                                                     </span>
                                                                 </div>
@@ -453,7 +454,7 @@
                         </div>
                     </div>
                     <div id="sns_mainm" class="col-md-9">
-                        <div id="sns_description" class="description">
+                        {{-- <div id="sns_description" class="description">
                             <div class="sns_producttaps_wraps1">
                                 <h3 class="detail-none">Description
                                     <i class="fa fa-align-justify"></i>
@@ -462,8 +463,8 @@
                                    <!-- Nav tabs -->
                                    <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active style-detail"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Product Description</a></li>
-                                    {{-- <li role="presentation" class="style-detail"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Reviews</a></li> --}}
-                                    {{-- <li role="presentation" class="style-detail"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Product Tags</a></li> --}}
+                                    <li role="presentation" class="style-detail"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Reviews</a></li>
+                                    <li role="presentation" class="style-detail"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Product Tags</a></li>
                                 </ul>
 
 
@@ -476,12 +477,12 @@
                                             <p class="top">
                                                 {{ $product->description }}
                                             </p>
-                                            {{-- <p class="mid">
+                                            <p class="mid">
                                                 {{ $product->description }}
                                             </p>
                                             <p class="bot">
                                                 {{ $product->description }}
-                                            </p> --}}
+                                            </p>
                                         </div>
                                     </div>
 
@@ -498,7 +499,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
 
 
@@ -527,8 +528,8 @@
                                                         </div>
 
                                                         <a class="product-image have-additional" href="{{ route('productdetail', $relatedProduct->id) }}" title="{{ $product->name }}">
-                                                            <span class="img-main" style="height: 180px !important; object-fit:fill !important">
-                                                                <img alt="" src="{{ Storage::url($relatedProduct->image_url) }}" style="height: 180px !important; object-fit:fill !important">
+                                                            <span class="img-main" >
+                                                                <img alt="" src="{{ Storage::url($relatedProduct->image_url) }}" style="height: 35vh ;">
                                                             </span>
                                                         </a>
                                                     </div>
@@ -600,9 +601,7 @@
                                     <h3>Upsell products</h3>
                                 </div>
                                 <div class="products-grid">
-                                    <form class="top">
-                                        <input type="checkbox" name="vehicle" value="Bike">Check all products
-                                    </form>
+
                                     <div id="related_upsell1" class="item-row owl-carousel owl-theme"
                                         style="display: inline-block">
 
@@ -622,8 +621,8 @@
                                                         </div>
                                                         <a class="product-image have-additional" href="{{ route('productdetail'  ,$item->id) }}"
                                                             title="{{ $item->name }}">
-                                                            <span class="img-main" style="height: 180px !important; object-fit:fill !important">
-                                                                <img alt="" src="{{ Storage::url($item->image_url) }}" style="height: 180px !important; object-fit:fill !important">
+                                                            <span class="img-main" >
+                                                                <img alt="" src="{{ Storage::url($item->image_url) }}" style="height: 40vh ; ">
                                                             </span>
                                                         </a>
                                                     </div>
@@ -703,124 +702,127 @@
                                         </div>
                                     @endforeach
                                     </div>
+                                    <section id="review" style="margin: 7vh">
+                                        <div class="collateral-box">
+                                            <div class="form-add">
+                                                <h2>Write Your Own Review</h2>
+                                                <form id="review-form" action="{{ route('submitreview') }}" method="POST">
+                                                    @csrf
+                                                    <fieldset>
+                                                        <h3>
+                                                            You're reviewing:
+                                                            <span><b>{{ $product->name }}</b></span>
+                                                        </h3>
+                                                        <ul class="form-list">
+                                                            <li>
+                                                                <label class="required" for="review_field">
+                                                                    <em>*</em> Review
+                                                                </label>
+                                                                <div class="input-box">
+                                                                    <textarea id="review_field" name="comment" class="form-control" rows="3" placeholder="Write your review here..."></textarea>
+                                                                </div>
+                                                            </li>
+                                                            @if (Auth::user())
+
+                                                            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                                            @endif
+                                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                                            <li>
+                                                                <label class="required" for="rating_field">
+                                                                    <em>*</em> Your Rating
+                                                                </label>
+                                                                <div class="stars" id="rating-stars">
+                                                                    <i class="fa fa-star" data-value="1"></i>
+                                                                    <i class="fa fa-star" data-value="2"></i>
+                                                                    <i class="fa fa-star" data-value="3"></i>
+                                                                    <i class="fa fa-star" data-value="4"></i>
+                                                                    <i class="fa fa-star" data-value="5"></i>
+                                                                </div>
+                                                                <input type="hidden" id="rating-value" name="rating" value="1">
+                                                            </li>
+                                                        </ul>
+                                                        <div class="buttons-set">
+                                                            <button class="btn-custom btn-sm" type="submit" title="Submit Review">
+                                                                Submit Review
+                                                            </button>
+                                                        </div>
+                                                    </fieldset>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                       </section>
+                                       <div class="col-md-12  ">
+                                        <div class="page-header">
+                                            @if ( $reviews->count()  == 0)
+                                            <h1 class="commentTitle"><small class="pull-right ">0 comments</small> Comments </h1>
+                                            @elseif ( $reviews->count()  == 1)
+                                            <h1 class="commentTitle"><small class="pull-right clearfix">{{ $reviews->count() }} comment</small> Comments </h1>
+                                            @else
+                                            <h1 class="commentTitle"><small class="pull-right clearfix">{{ $reviews->count() }} comments</small> Comments </h1>
+                                            @endif
+                                        </div>
+                                         <div class="comments-list">
+                                            {{-- in productlist cont --}}
+                                            @foreach ($reviews as $review)
+
+                                            <div class="media">
+                                                <p class="pull-right clearfix"><small>{{ \Carbon\Carbon::parse($review->created_at)->format('d M Y')}} </small> </p>
+                                                <div class="photoAndName">
+
+                                                    <a class="media-left" href="#">
+                                                        <img width="50px"class="profilePhoto" src="{{ Storage::url($review->user->user_image) }}">
+                                                    </a>
+                                                    <h4 class="media-heading user_name">{{ $review->user->name }}</h4>
+                                                </div>
+                                                <div class="media-body">
+                                                    <div  class="col-md-12 ">
+                                                        <p >{{$review->comment}}</p>
+
+                                                    </div>
+                                                    <br>
+                                                    <div class="rating-box" >
+                                                        <div class="rating" style="width: {{ $review->rating * 20 }}%; "></div>
+                                                    </div>
+                                                    <div class="pull-right"  id="iconReview">
+
+                                                        <p >
+                                                            <form action="{{ route('deletereview' , $review->id) }}" method="POST">
+                                                                @csrf
+                                                                <input type="hidden" name="productId" value="{{ $product->id }}">
+                                                                <button type="submit"  style="background: none; border: none; cursor: pointer;" title="Delete">
+                                                                    <i class="fa fa-trash" id="iconsize" style="color:red; margin-bottom:4px"></i>
+                                                                </button>
+
+                                                            </form>
+                                                            <a href="" ><i class="fa fa-edit" id="iconsize"  style="color:blue"></i></a>
+                                                    </p>
+                                                    </div>
+
+
+                                                 </div>
+
+                                               </div>
+                                            @endforeach
+
+
+                                         </div>
+
+
+
+                                      </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-           <section id="review">
-            <div class="collateral-box">
-                <div class="form-add">
-                    <h2>Write Your Own Review</h2>
-                    <form id="review-form" action="{{ route('submitreview') }}" method="POST">
-                        @csrf
-                        <fieldset>
-                            <h3>
-                                You're reviewing:
-                                <span><b>{{ $product->name }}</b></span>
-                            </h3>
-                            <ul class="form-list">
-                                <li>
-                                    <label class="required" for="review_field">
-                                        <em>*</em> Review
-                                    </label>
-                                    <div class="input-box">
-                                        <textarea id="review_field" name="comment" class="form-control" rows="3" placeholder="Write your review here..."></textarea>
-                                    </div>
-                                </li>
-                                @if (Auth::user())
-
-                                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                @endif
-                                <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <li>
-                                    <label class="required" for="rating_field">
-                                        <em>*</em> Your Rating
-                                    </label>
-                                    <div class="stars" id="rating-stars">
-                                        <i class="fa fa-star" data-value="1"></i>
-                                        <i class="fa fa-star" data-value="2"></i>
-                                        <i class="fa fa-star" data-value="3"></i>
-                                        <i class="fa fa-star" data-value="4"></i>
-                                        <i class="fa fa-star" data-value="5"></i>
-                                    </div>
-                                    <input type="hidden" id="rating-value" name="rating" value="1">
-                                </li>
-                            </ul>
-                            <div class="buttons-set">
-                                <button class="btn-custom btn-sm" type="submit" title="Submit Review">
-                                    Submit Review
-                                </button>
-                            </div>
-                        </fieldset>
-                    </form>
-
-                </div>
-            </div>
-           </section>
 
 
 
-            <div class="col-md-12  ">
-                <div class="page-header">
-                    @if ( $reviews->count()  == 0)
-                    <h1 class="commentTitle"><small class="pull-right ">0 comments</small> Comments </h1>
-                    @elseif ( $reviews->count()  == 1)
-                    <h1 class="commentTitle"><small class="pull-right clearfix">{{ $reviews->count() }} comment</small> Comments </h1>
-                    @else
-                    <h1 class="commentTitle"><small class="pull-right clearfix">{{ $reviews->count() }} comments</small> Comments </h1>
-                    @endif
-                </div>
-                 <div class="comments-list">
-                    {{-- in productlist cont --}}
-                    @foreach ($reviews as $review)
-
-                    <div class="media">
-                        <p class="pull-right clearfix"><small>{{ \Carbon\Carbon::parse($review->created_at)->format('d M Y')}} </small> </p>
-                        <div class="photoAndName">
-
-                            <a class="media-left" href="#">
-                                <img width="50px"class="profilePhoto" src="{{ Storage::url($review->user->user_image) }}">
-                            </a>
-                            <h4 class="media-heading user_name">{{ $review->user->name }}</h4>
-                        </div>
-                        <div class="media-body">
-                            <div  class="col-md-12 ">
-                                <p >{{$review->comment}}</p>
-
-                            </div>
-                            <br>
-                            <div class="rating-box" >
-                                <div class="rating" style="width: {{ $review->rating * 20 }}%; "></div>
-                            </div>
-                            <div class="pull-right"  id="iconReview">
-
-                                <p >
-                                    <form action="{{ route('deletereview' , $review->id) }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="productId" value="{{ $product->id }}">
-                                        <button type="submit"  style="background: none; border: none; cursor: pointer;" title="Delete">
-                                            <i class="fa fa-trash" id="iconsize" style="color:red; margin-bottom:4px"></i>
-                                        </button>
-
-                                    </form>
-                                    <a href="" ><i class="fa fa-edit" id="iconsize"  style="color:blue"></i></a>
-                            </p>
-                            </div>
 
 
-                         </div>
-
-                       </div>
-                    @endforeach
-
-
-                 </div>
-
-
-
-              </div>
 
 
         </div>

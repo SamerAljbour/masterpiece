@@ -101,7 +101,7 @@
                                                                 title="{{ $product->name }}"
                                                                 href="{{ route('productdetail', $product->id) }}">
                                                                 <span class="img-main">
-                                                               <img src="{{ Storage::url($product->image_url) }}" width="100%" height="190px" style="object-fit:cover !important"  alt="">
+                                                               <img src="{{ Storage::url($product->image_url) }}" height="180px" style="object-fit:fill !important"  alt="">
                                                                 </span>
                                                              </a>
                                                          </div>
@@ -190,7 +190,7 @@
                                                                 title="{{ $product->name }}"
                                                                 href="{{ route('productdetail', $product->id) }}">
                                                                 <span class="img-main">
-                                                               <img src="{{ Storage::url($product->image_url) }}"  width="100%" height="190px" style="object-fit:cover !important"  alt="">
+                                                               <img src="{{ Storage::url($product->image_url) }}"   height="180px" style="object-fit:fill !important"  alt="">
                                                                 </span>
                                                              </a>
                                                          </div>
@@ -278,7 +278,7 @@
                                                                 title="{{ $product->name }}"
                                                                 href="{{ route('productdetail', $product->id) }}">
                                                                 <span class="img-main">
-                                                               <img src="{{ Storage::url($product->image_url) }}"  width="100%" height="190px" style="object-fit:cover !important" alt="">
+                                                               <img src="{{ Storage::url($product->image_url) }}"  height="180px" style="object-fit:cover !important"alt="">
                                                                 </span>
                                                              </a>
                                                          </div>
@@ -366,7 +366,7 @@
                                                                 title="{{ $product->name }}"
                                                                 href="{{ route('productdetail', $product->id) }}">
                                                                 <span class="img-main">
-                                                               <img src="{{ Storage::url($product->image_url) }}"  width="100%" height="190px" style="object-fit:cover !important" alt="">
+                                                               <img src="{{ Storage::url($product->image_url) }}"   height="180px" style="object-fit:cover !important" alt="">
                                                                 </span>
                                                              </a>
                                                          </div>
@@ -433,7 +433,7 @@
                                 </div>
 
                                 <div class="sns_banner">
-                                    <a href="#">
+                                    <a href="{{ route('productList') }}">
                                         <img src="images/banner11.jpg" alt="">
                                     </a>
                                     <div class="style-title">Explore Unique Items from</div>
@@ -677,24 +677,40 @@
                                          </div>
                                          </div>
                                     <div class="row">
-                                        <div class="slideshows col-md-6 col-sm-8 "  >
+                                        {{-- <div class="slideshows col-md-6 col-sm-8 "  >
                                             <div id="slider123456">
-                                                <div class="item style1 banner5">
+                                                <div class="item style1 banner5" style="    margin-top: 8vh;
+">                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px; ">
+
                                                     @if ($ads [0])
 
                                                     <a href="{{ route('productdetail' ,$ads [0]->product->id) }}">
-                                                        <img src="{{ Storage::url($ads[0]->product->image_url) }}" alt="" height="460px">
+                                                        <img src="{{ Storage::url($ads[0]->product->image_url) }}" alt="">
                                                     </a>
                                                     @else
                                                     <a >
-                                                        <img src="/assets/img/adshere.png" alt="" height="460px">
+                                                        <img src="/assets/img/adshere.png" alt="" style="max-height: 460px">
                                                     </a>
                                                     @endif
                                                 </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="banner-right col-md-6 col-sm-4" >
-                                            <div class="banner6 pdno col-md-12 col-sm-12 "  style="display: flex; align-items: center;">
+                                        </div> --}}
+                                        <div class="banner-right col-md-6 col-sm-4" style="padding: 0" >
+                                            <div class="banner6 pdno col-md-12 col-sm-12 "  style="display: flex; align-items: center;margin-top:6px">
+                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px; ">
+                                                    @if (isset($ads[0]) )
+
+                                                    <a href="{{ route('productdetail' ,$ads [0]->product->id) }}">
+                                                        <img src="{{ Storage::url($ads[0]->product->image_url) }}" alt="" >
+                                                    </a>
+                                                    @else
+                                                    <a >
+                                                        <img src="/assets/img/adshere.png" alt="" >
+                                                    </a>
+                                                    @endif
+
+                                                </div>
                                                 <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px; ">
                                                     @if (isset($ads[1]))
 
@@ -708,24 +724,24 @@
                                                     @endif
 
                                                 </div>
+
+                                            </div>
+                                             <div class="banner6 pdno col-md-12 col-sm-12 "  style="display: flex; align-items: center;margin-top:6px">
                                                 <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px; ">
-                                                    @if (isset($ads[2]))
+                                                    @if (isset($ads[2]) )
 
                                                     <a href="{{ route('productdetail' ,$ads [2]->product->id) }}">
                                                         <img src="{{ Storage::url($ads[2]->product->image_url) }}" alt="" >
                                                     </a>
                                                     @else
                                                     <a >
-                                                        <img src="/assets/img/adshere.png" alt="" >
+                                                        <img src="/assets/img/adshere.png" alt="">
                                                     </a>
                                                     @endif
 
                                                 </div>
-
-                                            </div>
-                                             <div class="banner6 pdno col-md-12 col-sm-12 "  style="display: flex; align-items: center;">
                                                 <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px; ">
-                                                    @if (isset($ads[3]))
+                                                    @if (isset($ads[3])  )
 
                                                     <a href="{{ route('productdetail' ,$ads [3]->product->id) }}">
                                                         <img src="{{ Storage::url($ads[3]->product->image_url) }}" alt="" >
@@ -737,11 +753,59 @@
                                                     @endif
 
                                                 </div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="banner-right col-md-6 col-sm-4" style="padding: 0" >
+                                            <div class="banner6 pdno col-md-12 col-sm-12 "  style="display: flex; align-items: center; margin-top:6px">
                                                 <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px; ">
                                                     @if (isset($ads[4]))
 
                                                     <a href="{{ route('productdetail' ,$ads [4]->product->id) }}">
                                                         <img src="{{ Storage::url($ads[4]->product->image_url) }}" alt="" >
+                                                    </a>
+                                                    @else
+                                                    <a >
+                                                        <img src="/assets/img/adshere.png" alt="" >
+                                                    </a>
+                                                    @endif
+
+                                                </div>
+                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px; ">
+                                                    @if (isset($ads[5])  )
+
+                                                    <a href="{{ route('productdetail' ,$ads [5]->product->id) }}">
+                                                        <img src="{{ Storage::url($ads[5]->product->image_url) }}" alt="" >
+                                                    </a>
+                                                    @else
+                                                    <a >
+                                                        <img src="/assets/img/adshere.png" alt="" >
+                                                    </a>
+                                                    @endif
+
+                                                </div>
+
+                                            </div>
+                                             <div class="banner6 pdno col-md-12 col-sm-12 "  style="display: flex; align-items: center;margin-top:6px">
+                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px; ">
+                                                    @if (isset($ads[6]))
+
+                                                    <a href="{{ route('productdetail' ,$ads [6]->product->id) }}">
+                                                        <img src="{{ Storage::url($ads[6]->product->image_url) }}" alt="" >
+                                                    </a>
+                                                    @else
+                                                    <a >
+                                                        <img src="/assets/img/adshere.png" alt="">
+                                                    </a>
+                                                    @endif
+
+                                                </div>
+                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px; ">
+                                                    @if (isset($ads[7])  )
+
+                                                    <a href="{{ route('productdetail' ,$ads [7]->product->id) }}">
+                                                        <img src="{{ Storage::url($ads[7]->product->image_url) }}" alt="" >
                                                     </a>
                                                     @else
                                                     <a >

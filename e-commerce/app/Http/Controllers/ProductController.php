@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ad;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\ProductPhoto;
@@ -344,17 +345,21 @@ class ProductController extends Controller
             return redirect()->back()->with('error', 'Product not found.');
         }
 
+        // Update the status of ads associated with the product
+        Ad::where('product_id', $id)->update(['status' => 'expired']);
+        // dd($test);
         // Soft-delete the product's related photos
         foreach ($product->photos as $photo) {
-            $photo->delete(); // This will soft-delete the photo due to SoftDeletes trait in the ProductPhoto model
+            $photo->delete(); // Soft-deletes due to SoftDeletes trait in the ProductPhoto model
         }
 
         // Soft-delete the product itself
-        $product->delete(); // This will soft-delete the product due to SoftDeletes trait in the Product model
+        $product->delete(); // Soft-deletes due to SoftDeletes trait in the Product model
 
         // Redirect to the list of products with a success message
         return redirect()->back()->with('success', 'Product soft-deleted successfully');
     }
+
     public function deleteVariant(string $id)
     {
         ProductVariantCombination::where("id", $id)->delete();

@@ -705,7 +705,7 @@
                                                                 <button type="submit" class="btn-remove"
                                                                         onclick="return confirm('Are you sure you would like to remove this item from the shopping cart?');"
                                                                         title="Remove This Item">
-                                                                    Remove This Item
+
                                                                 </button>
                                                             </form>
                                                             {{-- <a class="btn-edit" title="Edit item" href="#">Edit item</a> --}}

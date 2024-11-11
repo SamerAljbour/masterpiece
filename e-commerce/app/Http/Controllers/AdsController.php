@@ -54,7 +54,7 @@ class AdsController extends Controller
                 })
                 ->count();
 
-            if ($activeHomepageAds >= 5) {
+            if ($activeHomepageAds >= 8) {
                 return redirect()->back()->with('error', 'The maximum number of ads for the homepage location has been reached. Please choose a different date range.');
             } else {
                 $adRequest = new Ad();

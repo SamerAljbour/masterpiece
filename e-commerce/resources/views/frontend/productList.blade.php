@@ -199,11 +199,11 @@
 
                             <div class="toolbar clearfix">
                                 <div class="toolbar-inner">
-                                    <p class="view-mode">
+                                    {{-- <p class="view-mode">
                                         <label>View as</label>
                                         <a class="icon-grid" title="Grid" href="index3-listing-grid.html"></a>
                                         <strong class="icon-list" title="List"></strong>
-                                    </p>
+                                    </p> --}}
 
                                         {{-- <span>per page</span> --}}
                                     </div>

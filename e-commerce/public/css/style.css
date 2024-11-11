@@ -9798,6 +9798,7 @@ span:hover {
 }
 .mycart .content #cart-sidebar li {
     list-style: none;
+    text-align: left;
     margin-top: 0;
     padding-top: 0;
     margin-bottom: 20px;

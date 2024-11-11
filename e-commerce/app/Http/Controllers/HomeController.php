@@ -40,7 +40,7 @@ class HomeController extends Controller
 
 
         // Get products for each category and limit to 10
-        $categoryOne = Category::find(1);
+        $categoryOne = Category::find(6);
         $categoryOneProducts = $categoryOne->products()->limit(10)->get();
 
         $categoryTwo = Category::find(2);
@@ -49,11 +49,12 @@ class HomeController extends Controller
         $categoryThree = Category::find(3);
         $categoryThreeProducts = $categoryThree->products()->limit(10)->get();
 
-        $categoryFour = Category::find(4);
+        $categoryFour = Category::find(5);
         $categoryFourProducts = $categoryFour->products()->limit(10)->get();
 
         // Pass all variables to the view
         $ads = Ad::with('product')->where('location', 'homepage')->where('status', 'active')->get();
+        // dd($ads);
         if (Auth::user())
             return view('frontend/home', compact(
                 'categoryFour',
