@@ -677,7 +677,7 @@
                                          </div>
                                          </div>
                                     <div class="row">
-                                        <div class="slideshows col-md-6 col-sm-8">
+                                        <div class="slideshows col-md-6 col-sm-8 "  >
                                             <div id="slider123456">
                                                 <div class="item style1 banner5">
                                                     @if ($ads [0])

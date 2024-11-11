@@ -310,7 +310,7 @@
                     @endif
                 </li>
 
-                <li class="nav-item {{ request()->routeIs('alldiscountsAdmin') || request()->routeIs('allsellerdiscounts') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->routeIs('alldiscounts') || request()->routeIs('allsellerdiscounts') ? 'active' : '' }}">
                     @if (Auth::user()->role_id == 3)
                     <a href="{{ route('alldiscounts') }}">
                         <i class="fas fa-money-bill-wave"></i>
