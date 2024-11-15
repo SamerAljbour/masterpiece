@@ -486,7 +486,7 @@
     //     fillColor: "rgba(255, 165, 52, .14)",
     //   });
       $(document).ready(function () {
-        $("#basic-datatables").DataTable({});
+        // $("#basic-datatables").DataTable({});
 
         $("#multi-filter-select").DataTable({
           pageLength: 5,

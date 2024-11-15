@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ad;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Review;
@@ -12,7 +13,8 @@ class ProductListController extends Controller
     public function index(Request $request)
     {
         $categories = Category::withCount('products')->get();
-
+        $ads = Ad::with('product')->where('location', 'productlist')->where('status', 'active')->first();
+        // dd($ads);
         // Validate the request
         $request->validate([
             'categories' => 'array',
@@ -73,13 +75,14 @@ class ProductListController extends Controller
         $recommended = Product::withAvg('reviews', 'rating') // Calculate the average rating
             ->orderByDesc('reviews_avg_rating') // Order by average rating in descending order
             ->paginate(12);
-        return view('frontend.productList', compact('products', 'categories', 'recommended'));
+        return view('frontend.productList', compact('products', 'categories', 'recommended', 'ads'));
     }
 
 
     public function productDetails(string $id)
     {
         $product = Product::with(['photos', 'variants'])->where('id', $id)->first();
+        $ads = Ad::with('product')->where('location', 'productpage')->where('status', 'active')->first();
 
         $reviews = Review::with(['product', 'user'])->where('product_id', $id)->get();
         $relatedProducts = Product::with('category')
@@ -95,6 +98,6 @@ class ProductListController extends Controller
             ->inRandomOrder()
             ->paginate(8);
         // dd($product);
-        return view('frontend.productdetail', compact('onSale', 'product', 'reviews', 'relatedProducts', 'bestSales'));
+        return view('frontend.productdetail', compact('onSale', 'product', 'reviews', 'relatedProducts', 'bestSales', 'ads'));
     }
 }

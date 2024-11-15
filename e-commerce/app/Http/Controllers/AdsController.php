@@ -14,13 +14,12 @@ class AdsController extends Controller
         // Fetch ads based on the user role
         $adsRequest = Auth::user()->role_id == 2
             ? Ad::with(['user', 'product'])->get()
-            : Ad::all();
-
+            : Ad::with('product')->get();
         // Update each ad's activity status
         foreach ($adsRequest as $ad) {
             $ad->updateAdActivityAds();
         }
-
+        // dd($adsRequest);
         // Return the view with updated ads
         return view('dashboard.ads', compact('adsRequest'));
     }

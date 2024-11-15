@@ -98,9 +98,16 @@
                             </div>
                         </div>
                         <div class="block block_cat">
-                            <a class="banner5" href="#">
-                                <img src="images/banner_right.jpg" alt="">
+                            @if (isset($ads))
+
+                            <a class="banner5" href="{{ route('productdetail', $ads->product->id) }}">
+                                <img src="{{ Storage::url($ads->product->image_url) }}" alt="" >
                             </a>
+                            @else
+                            <a >
+                                <img src="/assets/img/adshere.png" alt="" >
+                            </a>
+                            @endif
                         </div>
 
 

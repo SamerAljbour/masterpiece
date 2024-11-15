@@ -363,12 +363,18 @@ margin-left: 30px!important;
                                             </div>
                                             <div class="modal-body">
                                                 <!-- Carousel for images -->
-                                                <div id="carousel-{{ $product->id }}" class="carousel slide" data-bs-ride="carousel">
-                                                    <div class="carousel-inner" style="height: 300px;"> <!-- Fixed height for the carousel -->
+                                                  <!-- Carousel for images -->
+                                                  <div id="carousel-{{ $product->id }}" class="carousel slide" data-bs-ride="carousel">
+                                                    <div class="carousel-inner" style=" width:100%"> <!-- Fixed height for the carousel -->
                                                         @foreach ($product->photos as $index => $photo)
                                                             <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                                                <img src="{{ Storage::url($photo->photo_url) }}" class="d-block w-100" alt="Image of {{ $product->name }}" style="height: 300px; object-fit: cover;">
-                                                            </div>
+                                                                <img
+                                                                src="{{ Storage::url($photo->photo_url) }}"
+                                                                class="product-image img-fluid w-100 "
+                                                                alt="Image of {{ $product->name }}"
+                                                                style="height: 90vh; width 300px !importent; "
+                                                            />
+                                                                                                                        </div>
                                                         @endforeach
                                                     </div>
 
@@ -387,10 +393,11 @@ margin-left: 30px!important;
                                                     </div>
                                                 </div>
 
-                                                <div class="mt-4">
-                                                    <span class="text-dark fs-3 fw-bold m-2">Product description: {{ $product->description }}</span><br> <!-- Increased font size -->
-                                                    <span class="text-dark fs-5 m-3"> Product Price: JOD {{ $product->price }}</span><br> <!-- Increased font size -->
-                                                    <span class="text-dark fs-5 m-3">Product :Rating: {{ $product->reviews->avg('rating') == 0 ? "0" : $product->reviews->avg('rating') }} of 5</span> <!-- Increased font size -->
+                                                <div class="mt-4 d-flex flex-column">
+                                                    <span class="text-dark fs-5  "> <span class="fw-bold">   Description:</span> {{ $product->description }}</span>
+                                                    <span class="text-dark fs-5 "> <span class="fw-bold">  Category:</span>  {{ $product->category->name}}</span>
+                                                    <span class="text-dark fs-5 "> <span class="fw-bold">  Price:</span> {{ $product->price }} JOD</span>
+                                                    <span class="text-dark fs-5 "> <span class="fw-bold">  Rating:</span>  {{ $product->reviews->avg('rating') == 0 ? "0" : $product->reviews->avg('rating') }} of 5</span>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -403,9 +410,10 @@ margin-left: 30px!important;
                             </div>
                         </form>
 
-                        <div class="card hover-img overflow-hidden rounded-2">
+
+                        <div class="card hover-img overflow-hidden rounded-2" style="height: 400px">
                             <div class="card-body p-0">
-                                <img src="{{ Storage::url($product->image_url) }}" alt class="img-fluid w-100 object-fit-cover" style="height: 220px" />
+                                <img src="{{ Storage::url($product->image_url) }}" alt class="product-image img-fluid w-100 " style="height: 280px" />
                                 <div class="p-4 d-flex align-items-center justify-content-between">
                                     <div>
                                         <h6 class="fw-semibold mb-0 fs-5">{{ $product->name }}</h6>

@@ -448,9 +448,16 @@
                         </div>
 
                         <div class="block block-banner banner5">
-                            <a href="#">
-                                <img src="images/blog-banner1.jpg" alt="">
+                            @if (isset($ads))
+
+                            <a class="banner5" href="{{ route('productdetail', $ads->product->id) }}">
+                                <img src="{{ Storage::url($ads->product->image_url) }}" alt="" >
                             </a>
+                            @else
+                            <a >
+                                <img src="/assets/img/adshere.png" alt="" >
+                            </a>
+                            @endif
                         </div>
                     </div>
                     <div id="sns_mainm" class="col-md-9">

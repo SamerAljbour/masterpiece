@@ -48,11 +48,11 @@
     <form action="{{ route('updateProduct', $product->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT') <!-- Add this line for the PUT method -->
+        <div id="centerTable" class="col-md-12">
         @if (Auth::user()->role_id  == 3)
 
 
 
-        <div id="centerTable" class="col-md-12">
             <div class="form-group">
                 <label for="name">Append this Product to </label>
                 <select name="toSeller"  class="form-select" style="width: 100%;">

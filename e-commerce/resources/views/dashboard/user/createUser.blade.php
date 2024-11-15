@@ -60,7 +60,7 @@
             </div>
 
             <div class="form-group">
-                <label for="defaultSelect">Default Select</label>
+                <label for="defaultSelect">Role</label>
                 <select
                 name="role_id"
                   class="form-select form-control"

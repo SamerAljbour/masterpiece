@@ -18,11 +18,7 @@
               <h4 class="card-title w-100"
               >{{ Auth::user()->role_id == 2 ? "My Ads Request" : "Ads Request" }}
             </h4>
-              <h4 class="card-title w-100 fs-5"
-              >
-               homepage ?/5 | Products ?/1 | Product Detail ? /1
 
-            </h4>
 
                   {{-- <a
                     href="{{ route('createProduct') }}"
