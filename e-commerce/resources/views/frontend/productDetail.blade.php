@@ -159,7 +159,7 @@
                                                                 onclick="var qty_el = document.getElementById('qty'); var qty = qty_el.value; if( !isNaN( qty ) && qty > 1 ) qty_el.value--;return false;"
                                                                 type="button"></button>
 
-                                                            <input id="qty" name="quantity" class="input-text qty" type="text" title="Qty" value="1" />
+                                                            <input id="qty" name="quantity" class="input-text qty" type="text" title="Qty" value="1"  />
 
                                                             <button class="qty-increase"
                                                                 onclick="var qty_el = document.getElementById('qty'); var qty = qty_el.value; if( !isNaN( qty )) qty_el.value++;return false;"
@@ -534,9 +534,9 @@
                                                             @endif
                                                         </div>
 
-                                                        <a class="product-image have-additional" href="{{ route('productdetail', $relatedProduct->id) }}" title="{{ $product->name }}">
-                                                            <span class="img-main" >
-                                                                <img alt="" src="{{ Storage::url($relatedProduct->image_url) }}" style="height: 35vh ;">
+                                                        <a class="product-image have-additional " style="display:flex" href="{{ route('productdetail', $relatedProduct->id) }}" title="{{ $product->name }}">
+                                                            <span class="img-main " >
+                                                                <img alt="" src="{{ Storage::url($relatedProduct->image_url) }}" style="height: 30vh ;">
                                                             </span>
                                                         </a>
                                                     </div>
@@ -626,10 +626,10 @@
                                                             <span class="ico-product ico-sale">Sale</span>
                                                             @endif
                                                         </div>
-                                                        <a class="product-image have-additional" href="{{ route('productdetail'  ,$item->id) }}"
+                                                        <a class="product-image have-additional" style="display:flex" href="{{ route('productdetail'  ,$item->id) }}"
                                                             title="{{ $item->name }}">
                                                             <span class="img-main" >
-                                                                <img alt="" src="{{ Storage::url($item->image_url) }}" style="height: 40vh ; ">
+                                                                <img alt="" src="{{ Storage::url($item->image_url) }}" style="height: 30vh ; ">
                                                             </span>
                                                         </a>
                                                     </div>

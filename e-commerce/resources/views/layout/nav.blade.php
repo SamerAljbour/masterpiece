@@ -140,7 +140,7 @@
                 <div id="sns_header_logo" class="col-md-2 col-sm-3 col-xs-12">
                     <h1 id="logo" class="responsv">
                         <a href="index3.html" title="Magento Commerce">
-                         <img alt="" src="images/logo.png">
+                         <img alt="" src="assets/img/logo.png">
                         </a>
                     </h1>
 

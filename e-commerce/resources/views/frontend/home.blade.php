@@ -6,14 +6,14 @@
                 <div id="sns_slideshows3">
                     <div id="slishow_wrap12" class="sns-slideshow owl-carousel owl-theme owl-loaded">
                         <div class="item">
-                            <img src="/assets/img/homebanner1.png" style="height: 667px !important; width:100% !importent; object-fit: cover;"  width="1098px" height="543px" alt="No Products Found" class="no-products-image">                        </div>
+                            <img src="/assets/img/homebanner1.png" style="height: 667px !important; width:100% ; object-fit: cover;"  width="1098px" height="543px" alt="No Products Found" class="no-products-image">                        </div>
                             {{-- <img src="/assets/img/homebanner11.jpeg" style="height: 667px !important; width:100% !importent; object-fit: cover;"  width="1098px" height="543px" alt="No Products Found" class="no-products-image">                        </div> --}}
                         <div class="item">
-                        <img src="/assets/img/homebanner22.png" style="height: 667px !important; width:100% !importent; object-fit: cover;"  width="1098px" height="543px" >
+                        <img src="/assets/img/homebanner22.png" style="height: 667px !important; width:100% ; object-fit: cover;"  width="1098px" height="543px" >
 
                     </div>
                     <div class="item">
-                            <img src="/assets/img/homebanner33.png" style="height: 667px !important; width:100% !importent; object-fit: cover;"  width="1098px" height="543px" >
+                            <img src="/assets/img/homebanner33.png" style="height: 667px !important; width:100% ; object-fit: cover;"  width="1098px" height="543px" >
 
                         </div>
                     </div>
@@ -67,8 +67,7 @@
                                   <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">{{ $categoryOne->name }}</a></li>
                                     <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">{{ $categoryTwo->name }}</a></li>
-                                    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">{{ $categoryThree->name }}</a></li>
-                                    <li role="presentation"><a href="#bedroom" aria-controls="bedroom" role="tab" data-toggle="tab">{{ $categoryFour->name }}</a></li>
+                                    <li role="presentation"><a href="{{ route('productList') }}"  role="tab" >More Categories</a></li>
                                   </ul>
 
                                   <!-- Tab panes -->
@@ -116,10 +115,13 @@
                                                                      <div class="price-box">
                                                                 <span class="regular-price">
                                                                     <span class="price">
-                                                                        <span class="price1"> {{ $product->price }} JOD</span>
                                                                         @if ($product->on_sale)
 
-                                                                        <span class="price2"> {{ $product->price -($product->price  *  $product->on_sale)}} JOD</span>
+                                                                        <span class="price1"> {{ $product->price -($product->price  *  $product->on_sale)}} JOD</span>
+                                                                        <span class="price2"> {{ $product->price }} JOD</span>
+                                                                        @else
+                                                                        <span class="price1"> {{ $product->price }} JOD</span>
+
                                                                         @endif
                                                                     </span>
                                                                 </span>
@@ -205,10 +207,13 @@
                                                                      <div class="price-box">
                                                                 <span class="regular-price">
                                                                     <span class="price">
-                                                                        <span class="price1"> {{ $product->price }} JOD</span>
                                                                         @if ($product->on_sale)
 
-                                                                        <span class="price2"> {{ $product->price -($product->price  *  $product->on_sale)}} JOD</span>
+                                                                        <span class="price1"> {{ $product->price -($product->price  *  $product->on_sale)}} JOD</span>
+                                                                        <span class="price2"> {{ $product->price }} JOD</span>
+                                                                        @else
+                                                                        <span class="price1"> {{ $product->price }} JOD</span>
+
                                                                         @endif
                                                                     </span>
                                                                 </span>
@@ -253,179 +258,7 @@
                                     </div>
 
 
-                                    <div role="tabpanel" class="tab-pane" id="messages">
-                                        <div class="products-grid row style_grid">
-                                            @foreach ($categoryThreeProducts as $product)
 
-
-                                            <div class="item col-lg-2d4 col-md-3 col-sm-4 col-xs-6 col-phone-12">
-                                                 <div class="item-inner">
-                                                     <div class="prd">
-                                                         <div class="item-img clearfix">
-                                                            @if ($product->created_at->diffInDays() < 3)
-                                                        <div class="ico-label">
-                                                            <span class="ico-product ico-new">New</span>
-                                                        </div>
-                                                    @endif
-                                                      @if ($product->on_sale)
-
-                                                    <div class="ico-label">
-                                                        <span class="ico-product ico-sale">Sale</span>
-                                                    </div>
-                                                    @endif
-
-                                                             <a class="product-image have-additional"
-                                                                title="{{ $product->name }}"
-                                                                href="{{ route('productdetail', $product->id) }}">
-                                                                <span class="img-main">
-                                                               <img src="{{ Storage::url($product->image_url) }}"  height="180px" style="object-fit:cover !important"alt="">
-                                                                </span>
-                                                             </a>
-                                                         </div>
-                                                         <div class="item-info">
-                                                             <div class="info-inner">
-                                                                 <div class="item-title">
-                                                                     <a title="{{ $product->name }}"
-                                                                        href="{{ route('productdetail', $product->id) }}">
-                                                                         {{ $product->name }} </a>
-                                                                 </div>
-                                                                 <div class="item-price">
-                                                                     <div class="price-box">
-                                                                <span class="regular-price">
-                                                                    <span class="price">
-                                                                        <span class="price1"> {{ $product->price }} JOD</span>
-                                                                        @if ($product->on_sale)
-
-                                                                        <span class="price2"> {{ $product->price -($product->price  *  $product->on_sale)}} JOD</span>
-                                                                        @endif
-                                                                    </span>
-                                                                </span>
-                                                                     </div>
-                                                                 </div>
-                                                             </div>
-                                                         </div>
-                                                         <div class="action-bot">
-                                                             <div class="wrap-addtocart">
-                                                                <form action="{{ route('storeToCart') }}" method="POST">
-                                                                    @csrf
-                                                                    <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="quantity">
-                                                                    @if (Auth::user())
-
-                                                                    <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
-                                                                    @endif                                                                    <input type="hidden" value="{{ $product->id }}" name="product_id">
-                                                                    <input type="hidden" value="{{ $product->price }}" name="price">
-                                                                    @if ($product->variants->isNotEmpty() && $product->variants->first())
-                                                                        <input type="hidden" value="{{ $product->variants->first()->id }}" name="variant_id">
-                                                                    @endif
-
-
-                                                                    <button type="submit" class="btn-cart"
-                                                                    title="Add to Cart">
-                                                                <i class="fa fa-shopping-cart"></i>
-                                                                <span>Add to Cart</span>
-                                                            </button>
-                                                                    </form>
-
-                                                             </div>
-                                                             <div class="actions">
-                                                                <p style="visibility: hidden">s</p>
-                                                             </div>
-                                                         </div>
-                                                     </div>
-                                                 </div>
-                                             </div>
- @endforeach
-
-
-
-
-                                        </div>
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane" id="bedroom">
-                                        <div class="products-grid row style_grid">
-                                            @foreach ($categoryFourProducts as $product)
-
-
-                                            <div class="item col-lg-2d4 col-md-3 col-sm-4 col-xs-6 col-phone-12">
-                                                 <div class="item-inner">
-                                                     <div class="prd">
-                                                         <div class="item-img clearfix">
-                                                            @if ($product->created_at->diffInDays() < 3)
-                                                            <div class="ico-label">
-                                                                <span class="ico-product ico-new">New</span>
-                                                            </div>
-                                                        @endif
-                                                          @if ($product->on_sale)
-
-                                                        <div class="ico-label">
-                                                            <span class="ico-product ico-sale">Sale</span>
-                                                        </div>
-                                                        @endif
-
-                                                             <a class="product-image have-additional"
-                                                                title="{{ $product->name }}"
-                                                                href="{{ route('productdetail', $product->id) }}">
-                                                                <span class="img-main">
-                                                               <img src="{{ Storage::url($product->image_url) }}"   height="180px" style="object-fit:cover !important" alt="">
-                                                                </span>
-                                                             </a>
-                                                         </div>
-                                                         <div class="item-info">
-                                                             <div class="info-inner">
-                                                                 <div class="item-title">
-                                                                     <a title="{{ $product->name }}"
-                                                                        href="{{ route('productdetail', $product->id) }}">
-                                                                         {{ $product->name }} </a>
-                                                                 </div>
-                                                                 <div class="item-price">
-                                                                     <div class="price-box">
-                                                                <span class="regular-price">
-                                                                    <span class="price">
-                                                                        <span class="price1"> {{ $product->price }} JOD</span>
-                                                                        @if ($product->on_sale)
-
-                                                                        <span class="price2"> {{ $product->price -($product->price  *  $product->on_sale)}} JOD</span>
-                                                                        @endif
-                                                                    </span>
-                                                                </span>
-                                                                     </div>
-                                                                 </div>
-                                                             </div>
-                                                         </div>
-                                                         <div class="action-bot">
-                                                             <div class="wrap-addtocart">
-                                                                <form action="{{ route('storeToCart') }}" method="POST">
-                                                                    @csrf
-                                                                    <input id="qty" class="input-text qty" type="hidden" title="Qty" value="1" name="quantity">
-                                                                    @if (Auth::user())
-
-                                                                    <input type="hidden" value="{{ Auth::user()->id }}"  name="cart_id">
-                                                                    @endif                                                                    <input type="hidden" value="{{ $product->id }}" name="product_id">
-                                                                    <input type="hidden" value="{{ $product->price }}" name="price">
-                                                                    @if ($product->variants->isNotEmpty() && $product->variants->first())
-                                                                        <input type="hidden" value="{{ $product->variants->first()->id }}" name="variant_id">
-                                                                    @endif
-
-
-                                                                    <button type="submit" class="btn-cart"
-                                                                    title="Add to Cart">
-                                                                <i class="fa fa-shopping-cart"></i>
-                                                                <span>Add to Cart</span>
-                                                            </button>
-                                                                    </form>
-
-                                                             </div>
-                                                             <div class="actions">
-                                                                <p style="visibility: hidden">s</p>
-                                                             </div>
-                                                         </div>
-                                                     </div>
-                                                 </div>
-                                             </div>
- @endforeach
-
-                                        </div>
-                                    </div>
                                   </div>
                                   <h3 class="bt-more">
                                     {{-- <span>Load more items</span> --}}
@@ -697,7 +530,7 @@
                                             </div>
                                         </div> --}}
                                         <div class="banner-right col-md-6 col-sm-4" style="padding: 0" >
-                                            <div class="banner6 pdno col-md-12 col-sm-12 "  style="display: flex; align-items: center;margin-top:6px">
+                                            <div class="banner6 pdno col-md-12 col-sm-12 "  style="display: flex; align-items: center;    justify-content: center ;margin-top:6px">
                                                 <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px; ">
                                                     @if (isset($ads[0]) )
 
@@ -711,11 +544,11 @@
                                                     @endif
 
                                                 </div>
-                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px; ">
+                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="display: flex; align-items: center;    justify-content: center ; width: 49% !important; margin-right:4px; ">
                                                     @if (isset($ads[1]))
 
                                                     <a href="{{ route('productdetail' ,$ads [1]->product->id) }}">
-                                                        <img src="{{ Storage::url($ads[1]->product->image_url) }}" alt="" >
+                                                        <img src="{{ Storage::url($ads[1]->product->image_url) }}" alt=""width="80%" style="    height: 42vh;" >
                                                     </a>
                                                     @else
                                                     <a >
@@ -726,12 +559,12 @@
                                                 </div>
 
                                             </div>
-                                             <div class="banner6 pdno col-md-12 col-sm-12 "  style="display: flex; align-items: center;margin-top:6px">
-                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px; ">
+                                             <div class="banner6 pdno col-md-12 col-sm-12 "  style="display: flex; align-items: center;    justify-content: center ;margin-top:6px">
+                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px;  ">
                                                     @if (isset($ads[2]) )
 
                                                     <a href="{{ route('productdetail' ,$ads [2]->product->id) }}">
-                                                        <img src="{{ Storage::url($ads[2]->product->image_url) }}" alt="" >
+                                                        <img src="{{ Storage::url($ads[2]->product->image_url) }}" alt=""width="80%" style="    height: 42vh;" >
                                                     </a>
                                                     @else
                                                     <a >
@@ -740,11 +573,11 @@
                                                     @endif
 
                                                 </div>
-                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px; ">
+                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style=" display: flex; align-items: center;    justify-content: center ;width: 49% !important; margin-right:4px; ">
                                                     @if (isset($ads[3])  )
 
                                                     <a href="{{ route('productdetail' ,$ads [3]->product->id) }}">
-                                                        <img src="{{ Storage::url($ads[3]->product->image_url) }}" alt="" >
+                                                        <img src="{{ Storage::url($ads[3]->product->image_url) }}" alt="" width="80%" style="    height: 42vh;" >
                                                     </a>
                                                     @else
                                                     <a >
@@ -758,12 +591,12 @@
 
                                         </div>
                                         <div class="banner-right col-md-6 col-sm-4" style="padding: 0" >
-                                            <div class="banner6 pdno col-md-12 col-sm-12 "  style="display: flex; align-items: center; margin-top:6px">
-                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px; ">
+                                            <div class="banner6 pdno col-md-12 col-sm-12 "  style="display: flex; align-items: center;    justify-content: center ; margin-top:6px">
+                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px;  ">
                                                     @if (isset($ads[4]))
 
                                                     <a href="{{ route('productdetail' ,$ads [4]->product->id) }}">
-                                                        <img src="{{ Storage::url($ads[4]->product->image_url) }}" alt="" >
+                                                        <img src="{{ Storage::url($ads[4]->product->image_url) }}" alt="" width="80%" style="    height: 42vh;">
                                                     </a>
                                                     @else
                                                     <a >
@@ -772,11 +605,11 @@
                                                     @endif
 
                                                 </div>
-                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px; ">
+                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style=" display: flex; align-items: center;    justify-content: center ;width: 49% !important; margin-right:4px;  ">
                                                     @if (isset($ads[5])  )
 
                                                     <a href="{{ route('productdetail' ,$ads [5]->product->id) }}">
-                                                        <img src="{{ Storage::url($ads[5]->product->image_url) }}" alt="" >
+                                                        <img src="{{ Storage::url($ads[5]->product->image_url) }}" alt=""width="80%" style="    height: 42vh;" >
                                                     </a>
                                                     @else
                                                     <a >
@@ -787,12 +620,12 @@
                                                 </div>
 
                                             </div>
-                                             <div class="banner6 pdno col-md-12 col-sm-12 "  style="display: flex; align-items: center;margin-top:6px">
-                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px; ">
+                                             <div class="banner6 pdno col-md-12 col-sm-12 "  style="display: flex; align-items: center;    justify-content: center ;;margin-top:6px">
+                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px;  ">
                                                     @if (isset($ads[6]))
 
                                                     <a href="{{ route('productdetail' ,$ads [6]->product->id) }}">
-                                                        <img src="{{ Storage::url($ads[6]->product->image_url) }}" alt="" >
+                                                        <img src="{{ Storage::url($ads[6]->product->image_url) }}" alt=""width="80%" style="    height: 42vh;">
                                                     </a>
                                                     @else
                                                     <a >
@@ -801,11 +634,11 @@
                                                     @endif
 
                                                 </div>
-                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="width: 49% !important; margin-right:4px; ">
+                                                <div class="banner7 banner6  banner5 col-md-6 col-sm-12  "style="display: flex; align-items: center;    justify-content: center ;width: 49% !important; margin-right:4px; ">
                                                     @if (isset($ads[7])  )
 
                                                     <a href="{{ route('productdetail' ,$ads [7]->product->id) }}">
-                                                        <img src="{{ Storage::url($ads[7]->product->image_url) }}" alt="" >
+                                                        <img src="{{ Storage::url($ads[7]->product->image_url) }}" alt="" width="80%" style="    height: 42vh;">
                                                     </a>
                                                     @else
                                                     <a >

@@ -44,33 +44,30 @@ class Ad extends Model
     /**
      * Scope to filter active ads
      */
-    public function scopeActive($query)
-    {
-        return $query->where('status', 'active');
-    }
+    // public function scopeActive($query)
+    // {
+    //     return $query->where('status', 'active');
+    // }
 
     /**
      * Scope to filter expired ads
      */
-    public function scopeExpired($query)
-    {
-        return $query->where('status', 'expired');
-    }
+    // public function scopeExpired($query)
+    // {
+    //     return $query->where('status', 'expired');
+    // }
 
     /**
      * Scope to filter rejected ads
      */
-    public function scopeRejected($query)
-    {
-        return $query->where('status', 'rejected');
-    }
+    // public function scopeRejected($query)
+    // {
+    //     return $query->where('status', 'rejected');
+    // }
     public function updateAdActivityAds()
     {
         // Get today's date
         $today = Carbon::today();
-
-        // Debugging: check today's date and ad's expiration date
-        // dd($today, $this->ad_to);
 
         // If the ad is currently active or was previously active
         if ($this->status === 'active' || ($this->status !== 'expired' && $today > $this->ad_to)) {

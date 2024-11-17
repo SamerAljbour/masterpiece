@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
 	<head>
-        <title>Shopping cart</title>
+        <title>Tnawwar</title>
         <base href="{{ url('/') }}/" target="_self">
 
         <!-- Fonts -->
@@ -20,7 +20,7 @@
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <!-- Favicon -->
-        <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
+        <link rel="shortcut icon" href="{{ asset('assets/img/logo.png') }}">
         <!-- META TAGS -->
         <meta name="viewport" content="width=device-width" />
     </head>
@@ -154,7 +154,7 @@
                     <div id="sns_header_logo" class="col-md-2 col-sm-3 col-xs-12">
                         <h1 id="logo" class="responsv">
                             <a href="index3.html" title="Magento Commerce">
-                             <img alt="" src="images/logo.png">
+                             <img alt="" src="assets/img/logo.png">
                             </a>
                         </h1>
 

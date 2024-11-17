@@ -201,6 +201,7 @@ onSaleInput.addEventListener('input', function() {
                     <option value="Green">Green</option>
                     <option value="Blue">Blue</option>
                     <option value="Yellow">Yellow</option>
+                    <option value="Grey">Grey</option>
                     <option value="Magenta">Magenta</option>
                     <option value="Cyan">Cyan</option>
                     <option value="Black">Black</option>
@@ -215,7 +216,6 @@ id="colorSelect">
                 <option value="small">Small</option>
                 <option value="medium">Medium</option>
                 <option value="large">Large</option>
-                <option value="custom">Custom Dimensions (Width x Depth x Height)</option>
             </select>
             </div>
 
@@ -253,7 +253,6 @@ id="colorSelect">
                 <label for="furnitureSize">Size</label>
             <select name="sizes[]" id="furnitureSize" class="form-select" id="colorSelect">
                 <option value="">Select Size</option>
-                 <option value="">Select Size</option>
                 <option value="standard">Standard</option>
                 <option value="large">Large</option>
                 <option value="compact">Compact</option>
@@ -355,9 +354,11 @@ id="colorSelect">
                 <label for="color">Processor</label>
                 <select name="processor[]" class="form-select" style="width: 100%;" id="colorSelect">
                  <option value="">Select processor </option>
+                <option value="intel_i3">Intel i3</option>
                 <option value="intel_i5">Intel i5</option>
                 <option value="intel_i7">Intel i7</option>
                 <option value="intel_i9">Intel i9</option>
+                <option value="amd_ryzen_3">AMD Ryzen 3</option>
                 <option value="amd_ryzen_5">AMD Ryzen 5</option>
                 <option value="amd_ryzen_7">AMD Ryzen 7</option>
 
@@ -397,6 +398,7 @@ id="colorSelect">
                 <option value="intel_i3">Intel i3</option>
                 <option value="intel_i5">Intel i5</option>
                 <option value="intel_i7">Intel i7</option>
+                <option value="amd_ryzen_3">AMD Ryzen 3</option>
                 <option value="amd_ryzen_5">AMD Ryzen 5</option>
                 <option value="amd_ryzen_7">AMD Ryzen 7</option>
 

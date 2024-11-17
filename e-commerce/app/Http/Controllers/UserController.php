@@ -112,10 +112,6 @@ class UserController extends Controller
     }
 
 
-    public function viewLogin()
-    {
-        return;
-    }
     public function login(Request $request)
     {
         // Validate the form data
@@ -142,7 +138,7 @@ class UserController extends Controller
                 }
 
                 // Log in the user
-                Auth::login($user);
+                // Auth::login($user);
 
                 // Redirect based on the user role
                 if ($user->role_id == 1) {

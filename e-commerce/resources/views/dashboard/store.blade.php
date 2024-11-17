@@ -602,10 +602,7 @@ margin-left: 30px!important;
                                                             </label>
                                                         </div> --}}
                                                         <div class="form-group" id="btnLeft">
-                                                            <button class="btn btn-black btn-round ms-auto">
-                                                                <i class="fa far fa-user"></i>
-                                                                submit ad
-                                                            </button>
+
                                                         </div>
                                                     </div>
 
@@ -613,7 +610,9 @@ margin-left: 30px!important;
 
                                             </div>
                                             <div class="modal-footer">
+
                                                 <button type="button" class="btn btn-danger rounded-5" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-success rounded-5" data-bs-dismiss="modal">Apply</button>
                                             </div>
                                         </div>
                                     </div>
@@ -624,7 +623,10 @@ margin-left: 30px!important;
 
                         <div class="card hover-img overflow-hidden rounded-2" style="height: 400px">
                             <div class="card-body p-0">
-                                <img src="{{ Storage::url($product->image_url) }}" alt class="product-image img-fluid w-100 " style="height: 280px" />
+                                <div class="d-flex justify-content-center">
+
+                                    <img src="{{ Storage::url($product->image_url) }}" alt class="product-image img-fluid  " style="height: 300px; "  />
+                                </div>
                                 <div class="p-4 d-flex align-items-center justify-content-between">
                                     <div>
                                         <h6 class="fw-semibold mb-0 fs-5">{{ $product->name }}</h6>

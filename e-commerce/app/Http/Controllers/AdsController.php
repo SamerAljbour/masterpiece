@@ -13,7 +13,7 @@ class AdsController extends Controller
     {
         // Fetch ads based on the user role
         $adsRequest = Auth::user()->role_id == 2
-            ? Ad::with(['user', 'product'])->get()
+            ? Ad::with(['user', 'product'])->where('user_id', Auth::user()->id)->get()
             : Ad::with('product')->get();
         // Update each ad's activity status
         foreach ($adsRequest as $ad) {
@@ -25,6 +25,7 @@ class AdsController extends Controller
     }
     public function storeAdRequest(Request $request)
     {
+
         $adData = $request->validate([
             'product_id' => 'required',
             'location' => 'required',
@@ -32,13 +33,11 @@ class AdsController extends Controller
             'ad_from' => 'required|date',
             'ad_to' => 'required|date|after_or_equal:ad_from',
         ]);
-
         // Set default ad_type to 'seller' if not provided
         $adData['ad_type'] = $request->input('ad_type', 'seller');
 
         // Check for existing active ads based on location restrictions
         $location = $adData['location'];
-
         if ($location === 'homepage') {
             // Check if there are already 5 active ads for the homepage
             $activeHomepageAds = Ad::where('location', 'homepage')
@@ -67,7 +66,7 @@ class AdsController extends Controller
                 $adRequest->save();
                 return redirect()->back()->with('success', 'Your ad request has been successfully submitted to the admin. Please be patient while we review it.');
             }
-        } elseif (in_array($location, ['productpage', 'productdetail'])) {
+        } elseif (in_array($location, ['productpage', 'productlist'])) {
             // Check if there is already 1 active ad for either productpage or productdetail
             $activeProductAds = Ad::where('location', $location)
                 ->where('status', 'active')
@@ -116,6 +115,7 @@ class AdsController extends Controller
     }
     public function acceptAdRequest(string $requestId)
     {
+
         // Find the ad by its ID
         $ad = Ad::find($requestId);
 
@@ -150,25 +150,25 @@ class AdsController extends Controller
                 })
                 ->count();
 
-            if ($activeHomepageAds >= 5) {
+            if ($activeHomepageAds >= 8) {
                 $ad->status = 'rejected';
                 $ad->save();
                 return redirect()->back()->with('error', 'The maximum number of ads for the homepage location has been reached for the selected date range.');
             }
         } elseif (in_array($location, ['productpage', 'productdetail'])) {
             // Check if there is already 1 active ad for the productpage or productdetail location within the date range
-            $activeProductAd = Ad::where('location', $location)
+            $activeProductAd =  Ad::where('location', $location)
                 ->where('status', 'active')
-                ->where(function ($query) use ($adFrom, $adTo) {
-                    $query->whereBetween('ad_from', [$adFrom, $adTo])
-                        ->orWhereBetween('ad_to', [$adFrom, $adTo])
-                        ->orWhere(function ($query) use ($adFrom, $adTo) {
-                            $query->where('ad_from', '<=', $adFrom)
-                                ->where('ad_to', '>=', $adTo);
+                ->where(function ($query) use ($ad) {
+                    $query->whereBetween('ad_from', [$ad['ad_from'], $ad['ad_to']])
+                        ->orWhereBetween('ad_to', [$ad['ad_from'], $ad['ad_to']])
+                        ->orWhere(function ($query) use ($ad) {
+                            $query->where('ad_from', '<=', $ad['ad_from'])
+                                ->where('ad_to', '>=', $ad['ad_to']);
                         });
                 })
                 ->exists();
-
+            // dd($activeProductAd);
             if ($activeProductAd) {
                 $ad->status = 'rejected';
                 $ad->save();

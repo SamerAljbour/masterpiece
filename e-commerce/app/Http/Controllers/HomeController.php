@@ -16,8 +16,8 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $topRated = Product::withAvg('reviews', 'rating') // Calculate the average rating
-            ->orderByDesc('reviews_avg_rating') // Order by average rating in descending order
+        $topRated = Product::withAvg('reviews', 'rating')
+            ->orderByDesc('reviews_avg_rating')
             ->paginate(3);
         // dd($topRated);
 
@@ -28,7 +28,7 @@ class HomeController extends Controller
         $onSale = Product::whereNotNull("on_sale")
             ->inRandomOrder()
             ->paginate(3);
-
+        // Featured
         $RandomProducts = Product::inRandomOrder()->paginate(3);
         // get cart Qua
         if (Auth::user()) {
@@ -40,16 +40,16 @@ class HomeController extends Controller
 
 
         // Get products for each category and limit to 10
-        $categoryOne = Category::find(6);
+        $categoryOne = Category::find(5); // 5
         $categoryOneProducts = $categoryOne->products()->limit(10)->get();
 
-        $categoryTwo = Category::find(2);
+        $categoryTwo = Category::find(1); //6
         $categoryTwoProducts = $categoryTwo->products()->limit(10)->get();
 
-        $categoryThree = Category::find(3);
+        $categoryThree = Category::find(6);
         $categoryThreeProducts = $categoryThree->products()->limit(10)->get();
 
-        $categoryFour = Category::find(5);
+        $categoryFour = Category::find(2);
         $categoryFourProducts = $categoryFour->products()->limit(10)->get();
 
         // Pass all variables to the view
@@ -85,7 +85,6 @@ class HomeController extends Controller
                 'topRated',
                 'bestSale',
                 'ads',
-
                 'onSale',
                 'RandomProducts'
             ));

@@ -14,10 +14,7 @@
                 <i class="fas fa-money-bill"></i>
                 Add Discount
               </a>
-              @if(!$discounts->isEmpty())
 
-
-              @endif
             </div>
           </div>
           <div class="card-body">

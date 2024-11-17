@@ -149,14 +149,6 @@ class SellerController extends Controller
         return view("dashboard.profile", compact("sellerInfo"));
     }
 
-
-    public function searchOnProduct(Request $request)
-    {
-        $sellerId = Auth::user()->id;
-
-
-        return view("dashboard.store", compact("products"));
-    }
     public function updateStoreInfo(Request $request)
     {
         // dd($request->all());

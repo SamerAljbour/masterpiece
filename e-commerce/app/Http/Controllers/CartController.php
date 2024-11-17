@@ -20,7 +20,6 @@ class CartController extends Controller
     public function storeToCart(Request $request)
     {
         try {
-
             if (!Auth::user()) {
                 return redirect()->back()->with('error', 'You need to create account or login to access this feature.');
             }
@@ -63,7 +62,7 @@ class CartController extends Controller
                 ->whereNull('cart_product.deleted_at') // Ensure that the product in cart is not soft-deleted
                 ->whereNull('products.deleted_at') // Ensure the product itself is not soft-deleted
                 ->first();
-
+            // dd($existingProduct);
             // Calculate total amount for the current product
             $productTotal = $price * $quantity;
 
@@ -87,7 +86,7 @@ class CartController extends Controller
                 ]);
 
                 // Update the cart's total by adjusting the amount for the updated product
-                $cart->total_amount -= $existingProduct->pivot->quantity * $price; // Remove old amount
+                // $cart->total_amount -= $existingProduct->pivot->quantity * $price; // Remove old amount
                 $cart->total_amount += $newProductTotal; // Add new amount
             } else {
                 // If the product is not found in the cart or was soft-deleted, attach it as a new product
@@ -118,6 +117,7 @@ class CartController extends Controller
 
     public function storeToCartQua(Request $request)
     {
+
         try {
             if (!Auth::user()) {
                 return redirect()->back()->with('error', 'You need to create account or login to access this feature.');
@@ -130,7 +130,11 @@ class CartController extends Controller
                 'quantity' => 'required|integer|min:1',
                 'price' => 'required|numeric|min:0',
             ]);
+            // dd($request->input('variant_id'));
+            if (!$request->has('variant_id') || $request->input('variant_id') == null) {
 
+                return redirect()->back()->with('error', 'Please select a variant before adding the product to your cart.');
+            }
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
@@ -296,15 +300,15 @@ class CartController extends Controller
         if ($cartProduct) {
             // Soft delete the pivot record
             $cartProduct->delete();  // This will set 'deleted_at' without detaching
+            // Recalculate the total amount for the cart
+            $totalAmount = $cart->products()->whereNull('cart_product.deleted_at')->get()->sum(function ($product) {
+                return $product->pivot->quantity * $product->price;
+            });
+
+            $cart->total_amount = $totalAmount;
+            $cart->save();
         }
 
-        // Recalculate the total amount for the cart
-        $totalAmount = $cart->products()->whereNull('cart_product.deleted_at')->get()->sum(function ($product) {
-            return $product->pivot->quantity * $product->price;
-        });
-
-        $cart->total_amount = $totalAmount;
-        $cart->save();
 
         // Get the cart data (excluding soft deleted products)
         $cartData = $cart->products()
@@ -370,6 +374,6 @@ class CartController extends Controller
             return redirect()->route('cart', Auth::user()->id)->with('error', "not found");
         }
         // dd($totalAmount); // the total wrong
-        return redirect()->route('cart', Auth::user()->id)->with('successapply', "Discount Applied");
+        return redirect()->route('cart', Auth::user()->id)->with('success', "Discount Applied");
     }
 }

@@ -11,7 +11,7 @@
 
     <link
   rel="icon"
-  href="{{ asset('assets/img/kaiadmin/favicon.ico') }}"
+  href="{{ asset('assets/img/logo.png') }}"
   type="image/x-icon"
 />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -241,10 +241,10 @@
         <div class="logo-header" data-background-color="dark">
             <a href="index.html" class="logo">
                 <img
-                    src="assets/img/kaiadmin/logo_light.svg"
+                    src="assets/img/logo.png"
                     alt="navbar brand"
                     class="navbar-brand"
-                    height="20"
+                    {{-- height="20" --}}
                 />
             </a>
             <div class="nav-toggle">
@@ -393,9 +393,9 @@
           <div class="main-header-logo">
             <!-- Logo Header -->
             <div class="logo-header" data-background-color="dark">
-              <a href="index.html" class="logo">
+              <a href="" class="logo">
                 <img
-                  src="assets/img/kaiadmin/logo_light.svg"
+                  src="assets/img/adshere.png"
                   alt="navbar brand"
                   class="navbar-brand"
                   height="20"
