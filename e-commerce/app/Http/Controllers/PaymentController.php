@@ -108,8 +108,8 @@ class PaymentController extends Controller
             ->whereNull('deleted_at')
             ->delete();
 
-        // Update the total amount in the cart
-        $cart->total_amount = $totalAmount;
+        // Update the total amount in the cart to 0 after payment
+        $cart->total_amount = 0;
         $cart->save();
 
         return redirect()->route('successPayment'); // Change to your success route

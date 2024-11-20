@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
     <head>
-        <title>Home Page3</title>
+        <title>Tnawwar</title>
         <base href="{{ url('/') }}/" target="_self">
 
         <!-- Fonts -->
@@ -18,7 +18,7 @@
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <!-- Favicon -->
-        <link rel="shortcut icon" href="images/favicon.ico">
+        <link rel="shortcut icon" href="assets/img/logo.png">
 
         <!-- META TAGS -->
         <meta name="viewport" content="width=device-width" />
@@ -139,7 +139,7 @@
             <div class="row">
                 <div id="sns_header_logo" class="col-md-2 col-sm-3 col-xs-12">
                     <h1 id="logo" class="responsv">
-                        <a href="index3.html" title="Magento Commerce">
+                        <a href="{{ route('home') }}" title="Magento Commerce">
                          <img alt="" src="assets/img/logo.png">
                         </a>
                     </h1>

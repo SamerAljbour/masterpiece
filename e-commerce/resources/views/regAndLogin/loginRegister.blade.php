@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMEN - Login/Register</title>
+    <title>Tnawwar - Login/Register</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
@@ -235,8 +235,8 @@
     <div class="auth-container">
         <div class="auth-box animate__animated animate__fadeInUp">
             <div class="auth-header">
-                <i class="fas fa-couch"></i>
-                <h2>Welcome to SIMEN</h2>
+                <img src="assets/img/logo.png" alt="">
+                <h2>Welcome to Tnawwar</h2>
             </div>
             <div class="auth-body">
                 <ul class="nav nav-pills" id="authTab" role="tablist">

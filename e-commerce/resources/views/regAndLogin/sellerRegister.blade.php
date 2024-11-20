@@ -270,7 +270,7 @@
     <div class="decoration decoration-1"></div>
     <div class="decoration decoration-2"></div>
     <div class="auth-header">
-        <h3><i class="fas fa-chart-line me-2"></i>KaiAdmin</h3>
+        <h3>Tnawwar</h3>
         <div class="auth-toggle">
             <button class="toggle-btn active" id="loginToggle">
                 <i class="fas fa-sign-in-alt me-2"></i>Login
